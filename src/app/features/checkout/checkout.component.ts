@@ -1,12 +1,175 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { CartService } from '../../core/services/cart.service';
+import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
+import emailjs from '@emailjs/browser';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, CurrencyArsPipe],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent {
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  public cartService = inject(CartService);
 
+  loading = false;
+  formSubmitted = false;
+
+  checkoutForm = this.fb.group({
+    nombre: ['', [Validators.required, Validators.minLength(3)]],
+    cuit: ['', [Validators.pattern('^[0-9]{2}-[0-9]{8}-[0-9]{1}$')]],
+    codigoArea: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[0-9]+$')]],
+    celular: ['', [Validators.required, Validators.minLength(5), Validators.pattern('^[0-9]+$')]],
+    email: ['', [Validators.required, Validators.email]]
+  });
+
+  onCuitInput(event: any): void {
+    let value = event.target.value.replace(/\D/g, ''); // Remover todo lo que no sea número
+    if (value.length > 11) value = value.substring(0, 11);
+
+    let formatted = '';
+    if (value.length > 0) {
+      formatted = value.substring(0, 2);
+      if (value.length > 2) {
+        formatted += '-' + value.substring(2, 10);
+        if (value.length > 10) {
+          formatted += '-' + value.substring(10, 11);
+        }
+      }
+    }
+
+    this.checkoutForm.patchValue({ cuit: formatted }, { emitEvent: false });
+  }
+
+  private generarHTMLCorreo(): string {
+    const items = this.cartService.cartItems();
+    const form = this.checkoutForm.value;
+
+    let html = `
+      <div style="font-family: Arial, sans-serif; color: #333; max-width: 700px; margin: auto; border: 1px solid #eee; padding: 20px;">
+        <h2 style="color: #2b5e2b; text-align: center;">Detalle de Pedido</h2>
+        <hr style="border: 0; border-top: 1px solid #eee;">
+        <p><strong>Cliente:</strong> ${form.nombre}</p>
+        <p><strong>CUIT:</strong> ${form.cuit || 'No informado'}</p>
+        <p><strong>Teléfono:</strong> (${form.codigoArea}) ${form.celular}</p>
+        <p><strong>Email:</strong> ${form.email}</p>
+        
+        <table width="100%" style="border-collapse: collapse; margin-top: 20px; font-size: 10px;">
+          <thead>
+            <tr style="background-color: #f8f9fa;">
+              <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Producto</th>
+              <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Unidad</th>
+              <th style="border: 1px solid #ddd; padding: 10px; text-align: center;">Cant.</th>
+              <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+
+    items.forEach(item => {
+      const priceUsd = item.price_usd || 0;
+      const subtotalItemUsd = priceUsd * item.quantity;
+      const unitsPerPack = item.units_per_pack || 1;
+      
+      html += `
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 10px;">
+            <strong style="color: #2b5e2b;">${item.productName}</strong><br>
+            <span style="font-size: 0.7em; color: #666;">PackX${unitsPerPack}u.</span><br>
+          </td>
+          <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">USD$${priceUsd.toFixed(2)}</td>
+          <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">${item.quantity}</td>
+          <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">USD$${subtotalItemUsd.toFixed(2)}</td>
+        </tr>
+      `;
+    });
+
+    html += `
+          </tbody>
+        </table>
+
+        <div style="margin-top: 30px; text-align: right; border-top: 2px solid #eee; padding-top: 15px;">
+          <div style="margin-bottom: 5px;">
+            <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL USD</span>
+            <span style="font-size: 22px; color: #28a745; font-weight: bold; margin-left: 10px;">USD $${this.cartService.totalUsd().toFixed(2)}</span>
+          </div>
+          <div style="margin-bottom: 5px;">
+            <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL ARS</span>
+            <span style="font-size: 18px; color: #2b5e2b; font-weight: bold; margin-left: 10px;">$${this.fmtNumber(this.cartService.subtotalArs())}</span>
+          </div>
+          <div style="margin-bottom: 5px; color: #888; font-size: 13px;">
+            Cotización aplicada: $${this.fmtNumber(this.cartService.dolarOficial())} ARS
+          </div>
+          <div style="color: #999; font-size: 11px; font-style: italic;">
+            IVA no incluido
+          </div>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 15px; background-color: #e9f7ef; border-radius: 4px; text-align: center;">
+          <p style="margin: 0; color: #1e7e34; font-weight: bold;">A la brevedad nos pondremos en contacto para coordinar el pago y envío. ¡Gracias!</p>
+        </div>
+      </div>
+    `;
+
+    return html;
+  }
+
+  confirmarPedido() {
+    this.formSubmitted = true;
+    
+    if (this.checkoutForm.invalid) {
+      this.checkoutForm.markAllAsTouched();
+      return;
+    }
+
+    if (this.cartService.isEmpty()) {
+      return;
+    }
+
+    this.loading = true;
+    const form = this.checkoutForm.value;
+    const mensajeHTML = this.generarHTMLCorreo();
+
+    const templateParams = {
+      to_name: form.nombre,
+      to_email: form.email,
+      name: form.nombre,
+      reply_to: form.email,
+      email: form.email,
+      telefono: `(${form.codigoArea}) ${form.celular}`,
+      order_id: `ORD-${Date.now().toString().slice(-6)}`,
+      mensaje_html: mensajeHTML
+    };
+
+    emailjs.send(
+      'service_q9ivf9b',
+      'template_imfgs1r',
+      templateParams,
+      'mh-L6Epb_NpRXUkMa'
+    )
+    .then(() => {
+      this.cartService.clear();
+      this.router.navigate(['/orden/exito']);
+    })
+    .catch((error) => {
+      console.error('Error EmailJS:', error);
+      this.router.navigate(['/orden/error']);
+    })
+    .finally(() => {
+      this.loading = false;
+    });
+  }
+
+  fmtNumber(n: number) {
+    return new Intl.NumberFormat('es-AR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(n || 0);
+  }
 }

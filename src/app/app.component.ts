@@ -16,3 +16,5 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 export class AppComponent {
   title = 'App';
 }
+
+

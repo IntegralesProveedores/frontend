@@ -1,0 +1,9 @@
+.order-status .card {
+  transition: none;
+}
+
+.order-status i {
+  opacity: 0.9;
+}
+
+

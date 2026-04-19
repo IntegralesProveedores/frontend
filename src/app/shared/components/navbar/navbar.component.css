@@ -1,68 +1,53 @@
-.navbar {
+/* Logo a la IZQUIERDA e independiente */
+.logo-floating-block {
+  position: fixed;
+  top: 10px;
+  left: 0; /* Brand a la derecha */
+  z-index: 9999;
+  width: 80px;
+  height: 80px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 48px;
-  height: 64px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-bg);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none !important;
+  pointer-events: auto; /* Asegura el clic */
 }
 
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: var(--color-text);
+.logo-img {
+  max-width: 60%;
+  max-height: 60%;
 }
 
-.brand-mark {
-  color: var(--color-accent);
-  font-size: 18px;
-  line-height: 1;
+.iso-text {
+  font-size: 0.5em;
+  color: #000;
+  font-family: 'Oswald';
+  margin-top: 5px;
 }
 
-.brand-name {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.navbar-nav {
-  display: flex;
-  gap: 32px;
-}
-
-.nav-link {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--color-text-muted);
-  transition: color 0.2s;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: var(--color-text);
-}
-
-.navbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+/* Carrito a la DERECHA e independiente */
+.cart-floating-block {
+  position: fixed;
+  top: 5px;
+  right: 10px; /* Cart a la izquierda */
+  z-index: 9999;
+  pointer-events: auto;
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0 24px;
-  }
-  .navbar-nav {
-    display: none;
-  }
+.logo-floating-block {
+  width: 50px;
+  height: 50px;
+  top: 0;
+
 }
+
+.iso-text {
+	display: none;
+}
+
+}
+
+

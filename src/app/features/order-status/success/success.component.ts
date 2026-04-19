@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-success',
+  selector: 'app-order-success',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, RouterModule],
   templateUrl: './success.component.html',
   styleUrl: './success.component.css'
 })
-export class SuccessComponent {
+export class SuccessComponent {}
 
-}
+

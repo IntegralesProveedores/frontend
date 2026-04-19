@@ -1,0 +1,15 @@
+.footer {
+	background: #EEE;
+}
+
+.footer h4 {
+  font-family: var(--font-heading);
+  letter-spacing: 1px;
+}
+
+.footer a:hover {
+  color: var(--color-primary) !important;
+  text-decoration: underline !important;
+}
+
+

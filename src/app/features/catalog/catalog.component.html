@@ -1,51 +1,44 @@
-<section class="catalog-page">
+<section class="catalog section-spacing">
+  <div class="container">
+    
+    <!-- Título 
+	<div class="catalog-header mb-5">
+      <h1 class="h2 mb-2">Nuestro Catálogo</h1>
+      <p class="text-muted small">Macetas biodegradables y soluciones para cultivos sostenibles.</p>
+    </div>
+	-->
 
-  <!-- HEADER -->
-  <div class="catalog-header">
-    <span class="catalog-label">Colección</span>
-    <h1 class="catalog-title">Macetas<br><em>Biodegradables</em></h1>
-    <p class="catalog-subtitle">
-      Soluciones sustentables para viveros, floricultura y producción agrícola.
-    </p>
-  </div>
+    <!-- Category Filter (Minimalist) 
+    <div class="categories-nav d-flex justify-content-center gap-4 mb-5">
+      <button 
+        class="cat-link" 
+        [class.active]="activeFilter() === 'todos'"
+        (click)="setFilter('todos')">
+        Todos
+      </button>
+      <button 
+        *ngFor="let cat of categories()"
+        class="cat-link" 
+        [class.active]="activeFilter() === cat.slug"
+        (click)="setFilter(cat.slug)">
+        {{ cat.name }}
+      </button>
+    </div>
+	-->
+    
+	<!-- Grid -->
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+      <div class="col" *ngFor="let product of filtered(); trackBy: trackById">
+        <app-product-card [product]="product" />
+      </div>
+    </div>
+    
+    <div *ngIf="loading()" class="py-5 text-center">
+      <app-loading-spinner />
+    </div>
 
-  <!-- FILTROS -->
-  <div class="catalog-filters" *ngIf="!loading() && categories().length > 0">
-    <button
-      class="filter-btn"
-      [class.active]="activeFilter() === 'todos'"
-      (click)="setFilter('todos')">
-      Todos
-    </button>
-    <button
-      class="filter-btn"
-      *ngFor="let cat of categories()"
-      [class.active]="activeFilter() === cat.slug"
-      (click)="setFilter(cat.slug)">
-      {{ cat.name }}
-    </button>
-  </div>
-
-  <!-- LOADING -->
-  <div class="catalog-loading" *ngIf="loading()">
-    <app-loading-spinner />
-  </div>
-
-  <!-- ERROR -->
-  <div class="catalog-error" *ngIf="error()">
-    <p>{{ error() }}</p>
-    <button (click)="ngOnInit()">Reintentar</button>
-  </div>
-
-  <!-- GRID -->
-  <div class="catalog-grid" *ngIf="!loading() && !error()">
-    <app-product-card
-      *ngFor="let product of filtered(); trackBy: trackById"
-      [product]="product" />
-
-    <div class="catalog-empty" *ngIf="filtered().length === 0">
-      <p>No hay productos en esta categoría.</p>
+    <div *ngIf="error()" class="alert alert-soft text-center py-4">
+      {{ error() }}
     </div>
   </div>
-
 </section>

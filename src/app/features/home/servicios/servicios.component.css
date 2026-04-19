@@ -1,0 +1,42 @@
+.servicio h5
+{
+  font-size: 1.1em;
+  font-weight: 900;
+
+}
+.servicio p
+{
+  font-size: 1em;
+  font-weight: 100;
+
+}
+
+.icono-detalle {
+  line-height: 1;
+  font-size: 3em;
+  	  text-shadow: 
+		-1px -1px 2px #FFF, /* borde oscuro (contraste tipo outline) */
+		0 0 6px rgba(255, 255, 255, 1); /* brillo suave */
+
+
+}
+
+
+@media (max-width: 768px) 
+{
+
+.servicio h5 {
+  font-size: 1.5em;
+}
+.servicio p {
+  font-size: 1.2em;
+}
+
+.icono-detalle {
+	font-size: 5rem;
+}
+
+
+}
+
+

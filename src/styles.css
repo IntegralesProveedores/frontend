@@ -1,78 +1,215 @@
-/* ===================================================
-   INTEGRALES — GLOBAL DESIGN SYSTEM
-   =================================================== */
+/* =============================================
+   INTEGRALES — GLOBAL STYLES
+   Bootstrap 5 base + custom design tokens
+   ============================================= */
 
-/* TOKENS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&family=Caveat:wght@400;600;700&display=swap');
+
+/* Bootstrap */
+
+/* =============================================
+   DESIGN TOKENS
+   ============================================= */
 :root {
-  --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body:    'DM Sans', sans-serif;
-  --font-mono:    'DM Mono', 'Courier New', monospace;
+  /* Colors */
+  --color-primary:       #2d5a27;
+  --color-primary-rgb:   45, 90, 39;
+  --color-accent:        #2d5a27;
+  --color-accent-soft:   rgba(45, 90, 39, 0.08);
+  --color-bg:            #ffffff;
+  --color-bg-soft:       #;
+  --color-text:          #1a1a1a;
+  --color-text-muted:    #6b7280;
+  --color-border:        #e5e7eb;
 
-  --color-bg:          #FFFFFF;
-  --color-surface:     #EDEAE3;
-  --color-border:      #D8D4CB;
-  --color-text:        #1A1814;
-  --color-text-muted:  #7A7469;
-  --color-accent:      #2D5A1B;
-  --color-accent-soft: rgba(45, 90, 27, 0.08);
-  --color-success:     #1E6B3A;
+  /* Bootstrap overrides */
+  --bs-primary:          #2d5a27;
+  --bs-primary-rgb:      45, 90, 39;
+  --bs-body-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --bs-border-radius:    0.75rem;
+  --bs-border-radius-lg: 1.25rem;
+  --bs-box-shadow:       0 4px 20px -5px rgba(0,0,0,0.08);
 
-  --radius: 2px;
-  --transition: 0.2s ease;
+  /* Shadows */
+  --ui-shadow-hover:     0 10px 30px -10px rgba(0,0,0,0.15);
+
+  /* Typography */
+  --font-display:        'Oswald', sans-serif;
+  --font-body:           'Inter', system-ui, sans-serif;
+  --font-heading:        'Oswald', sans-serif;
+  --font-mono:           'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing */
+  --section-spacing:     20px;
+
+  /* Transitions */
+  --transition-base:     all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Border radius */
+  --border-radius-base:  0.75rem;
 }
 
-/* RESET */
+/* =============================================
+   BASE
+   ============================================= */
 *, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-body);
-  background: var(--color-bg);
   color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =============================================
+   BOOTSTRAP OVERRIDES
+   ============================================= */
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  transition: var(--transition-base);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #1a3a16;
+  border-color: #1a3a16;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -5px rgba(45, 90, 39, 0.4);
+}
+
+.btn-success {
+  background-color: #1e7e34;
+  border-color: #1e7e34;
+  transition: var(--transition-base);
+}
+
+.btn-success:hover {
+  transform: translateY(-1px);
+}
+
+.btn-outline-dark {
+  transition: var(--transition-base);
+}
+
+.btn-outline-dark:hover {
+  transform: translateY(-1px);
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--bs-border-radius);
+  box-shadow: var(--bs-box-shadow);
+  transition: var(--transition-base);
+}
+
+.card:hover {
+  box-shadow: var(--ui-shadow-hover);
+}
+
+.form-control:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(45, 90, 39, 0.15);
+}
+
+.text-primary {
+  color: var(--color-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--color-primary) !important;
+}
+
+/* =============================================
+   UTILITY CLASSES
+   ============================================= */
+.bg-soft {
+  background-color: var(--color-bg-soft) !important;
+}
+
+.section-spacing {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+}
+
+.hover-elevate {
+  transition: var(--transition-base);
+}
+
+.hover-elevate:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--ui-shadow-hover);
+}
+
+.italic {
+  font-style: italic;
+}
+
+.x-small {
+  font-size: 0.75rem;
+}
+
+/* =============================================
+   TYPOGRAPHY
+   ============================================= */
+h1, h2, h3, .h1, .h2, .h3 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+}
+
+.lead {
+  font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* =============================================
+   SECTIONS
+   ============================================= */
+section {
+  padding: 0;
+}
+
+	@media (max-width: 768px) {
+		
+		section {
+			padding: 40px 0 0 0 !important;
+		}
+
+	}
+
+
+/* =============================================
+   NAVBAR SPACING (fixed navbar offset)
+   ============================================= */
+main {
   min-height: 100vh;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* =============================================
+   SCROLLBAR
+   ============================================= */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
+::-webkit-scrollbar-track {
+  background: var(--color-bg-soft);
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
 }
 
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--color-surface); }
-::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
-
-/* SELECTION */
-::selection {
-  background: var(--color-accent);
-  color: var(--color-bg);
-}
-
-/* FOCUS */
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
 }

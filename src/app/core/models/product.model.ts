@@ -10,6 +10,9 @@ export interface ProductVariant {
   id: string;
   sku: string;
   price_ars: number;
+  price_usd?: number;
+  cost_usd?: number;
+  markup_percentage?: number;
   stock: number;
   units_per_pack: number;
   weight_grams: number;
@@ -42,3 +45,5 @@ export interface Product {
   created_at: string;
   updated_at: string;
 }
+
+

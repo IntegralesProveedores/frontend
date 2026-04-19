@@ -1,193 +1,67 @@
-/* ===========================
-   PRODUCT CARD
-   =========================== */
-
-.product-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--color-bg);
+.product-card-wrapper {
   cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.25s ease;
-  position: relative;
+  transition: opacity 0.3s ease;
+  padding: 8px;
+  border-radius: var(--border-radius-base);
+}
+
+.product-card-wrapper:hover {
+  opacity: 0.9;
+  background: var(--color-bg-soft);
+}
+
+.product-image-box {
+  aspect-ratio: 1/1;
   overflow: hidden;
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-bg-soft);
 }
 
-.product-card:hover {
-  z-index: 2;
-  transform: scale(1.01);
+.product-image-box img {
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.product-card:hover .card-image img {
-  transform: scale(1.04);
+.product-card-wrapper:hover .product-image-box img {
+  transform: scale(1.05);
 }
 
-/* IMAGE */
-.card-image {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  background: var(--color-surface);
-  overflow: hidden;
-}
-
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-  display: block;
-}
-
-.card-image-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 64px;
-  font-weight: 800;
-  color: var(--color-border);
-  text-transform: uppercase;
-}
-
-/* BADGES */
-.card-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 2px;
-}
-
-.card-badge.in-stock {
-  background: var(--color-accent);
-  color: var(--color-bg);
-}
-
-.card-badge.out-of-stock {
-  background: var(--color-text-muted);
-  color: var(--color-bg);
-}
-
-/* BODY */
-.card-body {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 6px;
-}
-
-.card-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.card-sku {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.card-name {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--color-text);
-  margin: 0;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.card-description {
+.product-title {
   font-family: var(--font-body);
-  font-size: 13px;
-  color: var(--color-text-muted);
-  margin: 0;
-  line-height: 1.5;
-  flex: 1;
-}
-
-/* FOOTER */
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 12px;
-  padding-top: 16px;
-  border-top: 1px solid var(--color-border);
-}
-
-.card-price {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 700;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
   color: var(--color-text);
-  letter-spacing: -0.02em;
-}
-
-/* BUTTON */
-.card-btn {
-  position: relative;
-  overflow: hidden;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+  font-size: 1.4rem;
   text-transform: uppercase;
-  padding: 8px 16px;
-  background: var(--color-text);
-  color: var(--color-bg);
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  padding: 0;
+  margin: 0;
+  
 }
 
-.card-btn:hover:not(:disabled) {
-  background: var(--color-accent);
+.price-main {
+  color: var(--color-primary);
+  font-size: 1rem;
+  font-size:2em;
+  padding: 0;
+  margin: 0;
+  font-family: 'Oswald';
+  font-weight: 900;  
 }
 
-.card-btn:disabled {
-  background: var(--color-border);
-  color: var(--color-text-muted);
-  cursor: not-allowed;
+.price-details {
+  line-height: 1;
 }
 
-.btn-text-default,
-.btn-text-added {
-  display: block;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+.x-small {
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
 }
 
-.btn-text-added {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(100%);
-  opacity: 0;
+
+
+@media (max-width: 768px) {
+.price-main {
+  font-size: 1rem;
+}
 }
 
-.card-btn.added {
-  background: var(--color-success);
-}
-
-.card-btn.added .btn-text-default {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-.card-btn.added .btn-text-added {
-  transform: translateY(0);
-  opacity: 1;
-}

@@ -1,1 +1,149 @@
-<p>checkout works!</p>
+<section class="checkout-page section-spacing">
+  <div class="container">
+	<!--
+    <div class="checkout-header mb-5">
+      <h1 class="h2 mb-2">Finalizar Pedido</h1>
+      <p class="text-muted small">Completá tus datos para coordinar el pago y envío.</p>
+    </div>
+	-->
+    <div class="row g-5">
+      <!-- Formulario -->
+      <div class="col-md-6">
+        <div class="checkout-form-container">
+          <!--<h2 class="h5 mb-4 fw-bold">Información de Contacto</h2>-->
+          
+          <form [formGroup]="checkoutForm" (ngSubmit)="confirmarPedido()">
+            <div class="mb-2">
+              <input type="text" formControlName="nombre" class="form-control-minimal" 
+                     [class.is-invalid]="checkoutForm.get('nombre')?.invalid && (checkoutForm.get('nombre')?.touched || formSubmitted)"
+                     placeholder="Nombre o Razón Social">
+              <div class="validation-container">
+                <div class="text-danger x-small" *ngIf="checkoutForm.get('nombre')?.invalid && (checkoutForm.get('nombre')?.touched || formSubmitted)">
+                  <span *ngIf="checkoutForm.get('nombre')?.errors?.['required']">El nombre es obligatorio.</span>
+                  <span *ngIf="checkoutForm.get('nombre')?.errors?.['minlength']">Mínimo 3 caracteres.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <input type="email" formControlName="email" class="form-control-minimal" 
+                       [class.is-invalid]="checkoutForm.get('email')?.invalid && (checkoutForm.get('email')?.touched || formSubmitted)"
+                       placeholder="Email">
+                <div class="validation-container">
+                  <div class="text-danger x-small" *ngIf="checkoutForm.get('email')?.invalid && (checkoutForm.get('email')?.touched || formSubmitted)">
+                    <span *ngIf="checkoutForm.get('email')?.errors?.['required']">El email es obligatorio.</span>
+                    <span *ngIf="checkoutForm.get('email')?.errors?.['email']">Formato de email inválido.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <input type="text" formControlName="cuit" class="form-control-minimal" 
+                       [class.is-invalid]="checkoutForm.get('cuit')?.invalid && (checkoutForm.get('cuit')?.touched || formSubmitted)"
+                       (input)="onCuitInput($event)"
+                       placeholder="CUIT (xx-xxxxxxxx-x)">
+                <div class="validation-container">
+                  <div class="text-danger x-small" *ngIf="checkoutForm.get('cuit')?.invalid && (checkoutForm.get('cuit')?.touched || formSubmitted)">
+                    Formato: 11 números (xx-xxxxxxxx-x).
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <input type="text" formControlName="codigoArea" class="form-control-minimal" 
+                       [class.is-invalid]="checkoutForm.get('codigoArea')?.invalid && (checkoutForm.get('codigoArea')?.touched || formSubmitted)"
+                       placeholder="Cód. Área">
+                <div class="validation-container">
+                  <div class="text-danger x-small" *ngIf="checkoutForm.get('codigoArea')?.invalid && (checkoutForm.get('codigoArea')?.touched || formSubmitted)">
+                    <span *ngIf="checkoutForm.get('codigoArea')?.errors?.['required']">Requerido.</span>
+                    <span *ngIf="checkoutForm.get('codigoArea')?.errors?.['minlength']">Mín. 2 números.</span>
+                    <span *ngIf="checkoutForm.get('codigoArea')?.errors?.['pattern'] && !checkoutForm.get('codigoArea')?.errors?.['minlength']">Solo números.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <input type="text" formControlName="celular" class="form-control-minimal" 
+                       [class.is-invalid]="checkoutForm.get('celular')?.invalid && (checkoutForm.get('celular')?.touched || formSubmitted)"
+                       placeholder="Celular">
+                <div class="validation-container">
+                  <div class="text-danger x-small" *ngIf="checkoutForm.get('celular')?.invalid && (checkoutForm.get('celular')?.touched || formSubmitted)">
+                    <span *ngIf="checkoutForm.get('celular')?.errors?.['required']">Requerido.</span>
+                    <span *ngIf="checkoutForm.get('celular')?.errors?.['minlength']">Mín. 5 números.</span>
+                    <span *ngIf="checkoutForm.get('celular')?.errors?.['pattern'] && !checkoutForm.get('celular')?.errors?.['minlength']">Solo números.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+<div class="alert alert-warning d-flex align-items-center gap-3 mb-5" role="alert">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <div class="x-small mb-0">
+    Nos contactaremos para coordinar el pago y aplicar el costo de envío.
+  </div>
+</div>
+
+            <div class="checkout-actions">
+              <button type="submit" class="btn btn-success btn-lg w-100 py-3 mb-3" [disabled]="loading || checkoutForm.invalid">
+                <span *ngIf="!loading">CONFIRMAR PEDIDO</span>
+                <div *ngIf="loading" class="d-flex align-items-center justify-content-center">
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  <span>PROCESANDO...</span>
+                </div>
+              </button>
+              
+              <a routerLink="/cart" class="btn btn-link text-muted w-100 text-decoration-none text-center d-block">
+                &larr; Carrito
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Resumen Derecho -->
+      <div class="col-lg-5 offset-md-1">
+        <div class="order-summary-box">
+          <!--
+		  <h2 class="h5 mb-4 fw-bold">Tu Pedido</h2>
+          -->
+          <div class="checkout-items-list mb-4">
+            <div class="d-flex gap-3 py-1 border-bottom border-light align-items-center" *ngFor="let item of cartService.cartItems()">
+              <div class="checkout-img-box">
+                <img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
+              </div>
+              <div class="flex-grow-1">
+                <h4 class="x-small mb-1 fw-bold">{{ item.productName }}</h4>
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="x-small text-muted">Cant: {{ item.quantity }}</span>
+                  <div class="text-end">
+                    <div class="x-small text-success fw-bold">USD ${{ ((item.price_usd || 0) * item.quantity) | number:'1.2-2' }}</div>
+                    <div class="x-small">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-details">
+
+            <div class="d-flex justify-content-between mb-3 x-small text-muted pb-3">
+              <span>USD BNA Venta</span>
+              <span>${{ cartService.dolarOficial() | number:'1.2-2' }}</span>
+            </div>
+            
+            <div class="total-row d-flex justify-content-between align-items-start pt-3 border-top mt-2">
+              <span class="fw-bold h5 mb-0">TOTAL</span>
+              <div class="text-end">
+                <div class="h3 mb-1 fw-bold text-primary">USD $ {{ cartService.totalUsd() | number:'1.2-2' }}</div>
+                <div class="h5 mb-0 fw-bold">{{ cartService.subtotalArs() | currencyArs }}</div>
+                <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">IVA no incluido</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

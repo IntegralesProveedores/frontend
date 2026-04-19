@@ -7,8 +7,10 @@ export const cartNotEmptyGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   if (cart.isEmpty()) {
-    router.navigate(['/carrito']);
+    router.navigate(['/cart']);
     return false;
   }
   return true;
 };
+
+

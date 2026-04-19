@@ -11,3 +11,5 @@ import { CartIconComponent } from '../cart-icon/cart-icon.component';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {}
+
+

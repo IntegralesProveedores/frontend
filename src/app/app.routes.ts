@@ -1,37 +1,12 @@
 import { Routes } from '@angular/router';
 import { cartNotEmptyGuard } from './core/guards/cart-not-empty.guard';
-
-import { HomeComponent } from './components/home/home.component';
-import { ProductoListaComponent } from './components/catalogo/producto-lista/producto-lista.component';
-import { ProductoDetalleComponent } from './components/catalogo/producto-detalle/producto-detalle.component';
-import { CarritoComponent } from './components/catalogo/carrito/carrito.component';
-
+import { HomeComponent } from './features/home/home.component';
 
 export const routes: Routes = [
-// ---------------------------
-// RUTAS LEGACY (versión vieja)
-// ---------------------------
   { 
     path: '', 
-	component: HomeComponent 
+    component: HomeComponent 
   },
-  { 
-    path: 'catalogo', 
-	component: ProductoListaComponent 
-  },
-  { 
-    path: 'producto/:id', 
-	component: ProductoDetalleComponent 
-  },
-  { 
-    path: 'carrito', 
-	component: CarritoComponent
-  },
-  
-
-// ---------------------------
-// NUEVA VERSIÓN (v2)
-// ---------------------------  
   {
     path: 'productos',
     loadComponent: () =>
@@ -43,7 +18,7 @@ export const routes: Routes = [
       import('./features/product-detail/product-detail.component').then(m => m.ProductDetailComponent)
   },
   {
-    path: 'carrito-v2',
+    path: 'cart',
     loadComponent: () =>
       import('./features/cart/cart.component').then(m => m.CartComponent)
   },
@@ -73,3 +48,5 @@ export const routes: Routes = [
     redirectTo: 'productos'
   }
 ];
+
+

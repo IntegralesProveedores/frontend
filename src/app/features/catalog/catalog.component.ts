@@ -62,3 +62,5 @@ export class CatalogComponent implements OnInit {
     return p.id;
   }
 }
+
+

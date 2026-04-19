@@ -1,15 +1,12 @@
-<header class="navbar">
-  <a class="navbar-brand" routerLink="/productos">
-    <span class="brand-mark">●</span>
-    <span class="brand-name">Integrales</span>
-  </a>
+<!-- Contenedor del Carrito a la IZQUIERDA -->
+<div class="cart-floating-block">
+  <app-cart-icon />
+</div>
 
-  <nav class="navbar-nav">
-    <a class="nav-link" routerLink="/productos" routerLinkActive="active">Productos</a>
-    <a class="nav-link" routerLink="/nosotros" routerLinkActive="active">Nosotros</a>
-  </nav>
+<!-- Contenedor del Logo a la DERECHA -->
+<a [routerLink]="['/']" title="IntegralesArg" class="logo-floating-block">
+  <img src="assets/images/logo-00.png" class="logo-img" alt="IntegralesArg" />
+  <span class="iso-text">INTEGRALES</span>
+</a>
 
-  <div class="navbar-actions">
-    <app-cart-icon />
-  </div>
-</header>
+

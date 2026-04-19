@@ -1,0 +1,50 @@
+
+.bg-gradient {
+	background: linear-gradient(to bottom, #f7f8f0, #fff) !important;
+}
+
+.img-preview {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.producto-link a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.producto-link:hover .img-preview {
+  transform: scale(1.05);
+}
+
+.producto-link h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  	font-weight: 300;
+	padding: 0;
+	margin: 0;
+
+}
+
+.producto-link h5 {
+	font-size:2.5em;
+	padding: 0;
+	margin: 0;
+	color: #FFB300;
+	font-family: 'Oswald';
+	font-weight: 900;
+}
+
+@media (max-width: 768px) {
+  .img-preview {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+

@@ -3,37 +3,10 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-loading-spinner',
   standalone: true,
-  template: `
-    <div class="spinner-wrap">
-      <div class="spinner"></div>
-      <span class="spinner-label">Cargando</span>
-    </div>
-  `,
-  styles: [`
-    .spinner-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-    .spinner {
-      width: 36px;
-      height: 36px;
-      border: 2px solid var(--color-border);
-      border-top-color: var(--color-accent);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    .spinner-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-  `]
+  templateUrl: './loading-spinner.component.html',
+  styleUrl: './loading-spinner.component.css'
+
 })
 export class LoadingSpinnerComponent {}
+
+

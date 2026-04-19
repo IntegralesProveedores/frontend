@@ -1,0 +1,23 @@
+.contacto {
+	background: 
+		url('/assets/images/img-06.jpg') right bottom / 20% auto no-repeat,
+		linear-gradient(to bottom, #fff, #fff);
+}
+
+.contacto p {
+	line-height: .5;
+}
+
+
+@media (max-width: 768px) 
+{
+
+.contacto {
+	background-size: 40% auto;
+}
+
+
+
+}
+
+

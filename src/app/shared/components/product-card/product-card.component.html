@@ -1,43 +1,27 @@
-<article class="product-card" [routerLink]="['/productos', product.slug]">
-
-  <!-- IMAGE -->
-  <div class="card-image">
-    <img
-      *ngIf="mainImage"
-      [src]="mainImage"
-      [alt]="product.name"
-      loading="lazy" />
-    <div class="card-image-placeholder" *ngIf="!mainImage">
-      <span>{{ product.name[0] }}</span>
-    </div>
-
-    <span class="card-badge out-of-stock" *ngIf="!inStock">Sin stock</span>
-    <span class="card-badge in-stock" *ngIf="inStock && variant">
-      {{ variant!.units_per_pack }}u/pack
-    </span>
+<div class="product-card-wrapper h-100" [routerLink]="['/productos', product.slug]">
+  <div class="product-image-box mb-3">
+    <img [src]="product.images[0].url" [alt]="product.name" class="img-fluid w-100 h-100 object-fit-cover">
   </div>
+  
+  <div class="product-info">
+    <h3 class="product-title h6">{{ product.name }}</h3>
+    
+    <div class="product-prices">
+      <div class="price-main fw-bold">USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}</div>
+      <div class="price-details d-flex gap-2 mt-1">
+        <span class="price-usd small">
+		  {{ currentPricing().finalPriceArs | currencyArs }}
+        </span>
+        <!--
+		<span class="price-cost text-muted x-small">
+          (USD ${{ currentPricing().baseCost | number:'1.2-2' }})
+        </span>
+		-->
+      </div>
+      <div class="iva-legend text-muted mt-1" style="font-size: 0.7rem;">IVA no incluido</div>
 
-  <!-- BODY -->
-  <div class="card-body">
-    <div class="card-meta">
-      <span class="card-sku" *ngIf="variant">{{ variant!.sku }}</span>
-    </div>
-
-    <h3 class="card-name">{{ product.name }}</h3>
-    <p class="card-description">{{ product.description }}</p>
-
-    <div class="card-footer">
-      <span class="card-price">{{ price | currencyArs }}</span>
-
-      <button
-        class="card-btn"
-        [class.added]="added"
-        [disabled]="!inStock"
-        (click)="addToCart($event)">
-        <span class="btn-text-default">+ Carrito</span>
-        <span class="btn-text-added">✓ Agregado</span>
-      </button>
     </div>
   </div>
+</div>
 
-</article>
+

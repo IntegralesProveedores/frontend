@@ -1,1 +1,105 @@
-<p>cart works!</p>
+<section class="cart-page section-spacing">
+  <div class="container">
+    <!-- Título 
+	<div class="cart-header mb-5">
+      <h1 class="h2 mb-2">Tu Carrito</h1>
+      <p class="text-muted small" *ngIf="!isEmpty()">Revisá tus productos antes de finalizar la compra.</p>
+    </div>
+	-->
+	
+    <!-- Empty State -->
+    <div *ngIf="isEmpty()" class="empty-cart text-center py-5">
+      <p class="lead text-muted mb-4">No hay productos en tu carrito todavía.</p>
+      <a routerLink="/productos" class="btn btn-primary btn-lg px-5 py-3 shadow-sm">Catálogo</a>
+    </div>
+
+    <!-- Cart Content -->
+    <div class="row g-5" *ngIf="!isEmpty()">
+      <!-- Items List -->
+      <div class="col-lg-8">
+        <div class="cart-items-list">
+          <div class="cart-item-row py-2 border-bottom" *ngFor="let item of items()">
+            <div class="row align-items-center g-3">
+              <!-- Product Image & Info -->
+              <div class="col-4 col-md-5">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="cart-img-box">
+                    <img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
+                  </div>
+                  <div>
+                    <h4 class="h6 mb-1 fw-bold">
+						{{ item.productName }}
+						<!--
+						<span class="x-small text-muted mb-0">({{ item.sku }})</span>
+						-->
+					</h4>
+                    <p class="x-small text-success mb-0 fw-semibold">USD ${{ item.price_usd | number:'1.2-2' }}</p>
+                    <p class="x-small text-muted mb-0">{{ item.price_ars | currencyArs }}</p>
+				  </div>
+                </div>
+              </div>
+
+              <!-- Price & Quantity -->
+              <div class="col-7 col-md-6">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="qty-selector-minimal">
+                    <button class="qty-btn" (click)="decrement(item)">-</button>
+                    <span class="qty-value">{{ item.quantity }}</span>
+                    <button class="qty-btn" (click)="increment(item)">+</button>
+                  </div>
+                  <div class="item-total text-end">
+                    <div class="fw-bold">USD {{ ((item.price_usd || 0) * (item.quantity || 0)) | number:'1.2-2' }}</div>
+                    <div class="x-small text-muted">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="col-1 col-md-1 text-end">
+                <button (click)="remove(item.variantId)" class="btn-remove" title="Eliminar">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="col-lg-4">
+        <div class="order-summary-box p-4">
+          <h3 class="h5 mb-4 fw-bold">Resumen del Pedido</h3>
+          
+          <div class="summary-row d-flex justify-content-between mb-3 small text-muted">
+            <span>Subtotal USD</span>
+            <span>${{ totalUsd() | number:'1.2-2' }}</span>
+          </div>
+
+          
+          <div class="summary-row d-flex justify-content-between mb-3 small text-muted border-bottom pb-3">
+            <span>USD BNA Venta</span>
+            <span>${{ dolarOficial() | number:'1.2-2' }}</span>
+          </div>
+
+		  <div class="summary-row d-flex justify-content-between align-items-start pt-3 mt-2">
+            <span class="fw-bold h5 mb-0">TOTAL</span>
+            <div class="text-end">
+              <div class="h3 mb-1 fw-bold text-primary">USD $ {{ totalUsd() | number:'1.2-2' }}</div>
+              <div class="h5 mb-1 fw-bold text-dark">{{ totalArs() | currencyArs }}</div>
+              <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">IVA no incluido</div>
+            </div>
+          </div>
+		  
+          <div class="summary-actions mt-5">
+            <button (click)="goToCheckout()" class="btn btn-primary btn-lg w-100 py-3 mb-3">
+              Finalizar Compra
+            </button>
+            <a routerLink="/productos" class="btn btn-link text-muted w-100 text-decoration-none">
+              &larr; Catálogo
+            </a>
+          </div>
+        </div>
+      </div>
+	</div>
+  </div>
+</section>

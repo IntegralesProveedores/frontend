@@ -1,1 +1,112 @@
-<p>product-detail works!</p>
+<section class="product-detail section-spacing">
+  <div class="container">
+    <div class="row g-5">
+      <!-- Left: Images -->
+      <div class="col-md-6">
+        <div class="main-image-box mb-3">
+          <img [src]="mainImage" [alt]="product()?.name" class="img-fluid w-100 h-100 object-fit-cover">
+        </div>
+      </div>
+
+      <!-- Right: Info -->
+      <div class="col-md-5">
+        <div class="product-header mb-4">
+          <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb x-small text-uppercase">
+              <li class="breadcrumb-item"><a [routerLink]="['/productos']" class="text-muted">Productos</a></li>
+              <li class="breadcrumb-item active text-primary">{{ product()?.name }}</li>
+            </ol>
+          </nav>
+          <h1 class="h2 mb-2">{{ product()?.name }}</h1>
+          <p class="description text-muted small mb-0">{{ product()?.description }}</p>
+        </div>
+
+        <div class="mb-5 py-4 border-top border-bottom">
+          <div class="h2 mb-0 text-primary fw-bold">USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}</div>
+          <div class="d-flex gap-3 align-items-center mt-1">
+            <span class="text-muted fw-semibold">
+			  {{ currentPricing().finalPriceArs | currencyArs }}
+              
+            </span>
+            <!--
+			<span class="text-muted small">
+              (USD ${{ currentPricing().baseCost | number:'1.2-2' }} base)
+            </span>
+			-->
+          </div>
+		  <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">IVA no incluido</div>
+
+
+          <!-- Price breakdown for transparency 
+          <div class="price-breakdown bg-light p-3 rounded-3 x-small">
+            <div class="d-flex justify-content-between mb-1">
+              <span class="text-muted">Factor Descuento (volumen):</span>
+              <span class="fw-bold text-success">{{ currentPricing().discountFactor | number:'1.2-2' }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1">
+              <span class="text-muted">Rentabilidad (20%):</span>
+              <span>+USD ${{ currentPricing().breakdown.marginAmount | number:'1.2-2' }}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">IVA (21%):</span>
+              <span>+USD ${{ currentPricing().breakdown.ivaAmount | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          -->
+		
+		
+		</div>
+
+        <!-- Variants Selection -->
+        <div class="mb-4" *ngIf="product()?.variants?.length! > 1">
+          <label class="x-small text-uppercase fw-bold mb-3 d-block text-muted">Variante / Presentación</label>
+          <div class="d-flex flex-wrap gap-2">
+            <button 
+              *ngFor="let v of product()?.variants"
+              class="btn btn-outline-dark btn-sm variant-pill"
+              [class.active]="selectedVariant()?.id === v.id"
+              (click)="selectVariant(v)">
+              {{ v.sku }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Quantity & Stock -->
+        <div class="mb-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <label class="x-small text-uppercase fw-bold text-muted">Cantidad</label>
+            <span class="x-small text-muted" *ngIf="selectedVariant()">Stock: {{ selectedVariant()?.stock }}</span>
+          </div>
+          
+          <div class="qty-control-wrapper d-flex align-items-center gap-4">
+            <div class="qty-selector">
+              <button class="qty-btn" (click)="decrement()" [disabled]="quantity() <= 1">-</button>
+              <span class="qty-value">{{ quantity() }}</span>
+              <button class="qty-btn" (click)="increment()" [disabled]="quantity() >= maxQty">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="actions-wrapper">
+          <button class="btn btn-primary btn-lg w-100 py-3 mb-3" (click)="addToCart()" [disabled]="!inStock">
+            {{ added() ? '✓ Agregado' : (inStock ? 'Agregar al Carrito' : 'Sin Stock') }}
+          </button>
+          <p class="x-small text-center text-muted italic">
+            Factura A/C. Envíos gratis en C.A.B.A.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="related-products mt-5 pt-5 border-top" *ngIf="relatedProducts().length > 0">
+      <h3 class="h4 mb-4 fw-bold">Otros productos</h3>
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+        <div class="col" *ngFor="let p of relatedProducts()">
+          <app-product-card [product]="p" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
