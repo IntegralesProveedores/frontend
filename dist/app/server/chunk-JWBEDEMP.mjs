@@ -1,2 +1,0 @@
-import './polyfills.server.mjs';
-import{Qa as o,Ra as s,V as n,Za as c,ab as i}from"./chunk-6OJQON2Z.mjs";import"./chunk-VVCT4QZE.mjs";var m=(()=>{class e{static{this.\u0275fac=function(t){return new(t||e)}}static{this.\u0275cmp=n({type:e,selectors:[["app-success"]],standalone:!0,features:[i],decls:2,vars:0,template:function(t,r){t&1&&(o(0,"p"),c(1,"success works!"),s())}})}}return e})();export{m as SuccessComponent};

@@ -1,2 +1,0 @@
-import './polyfills.server.mjs';
-import{Qa as n,Ra as i,V as o,Za as a,ab as c}from"./chunk-6OJQON2Z.mjs";import"./chunk-VVCT4QZE.mjs";var m=(()=>{class e{static{this.\u0275fac=function(t){return new(t||e)}}static{this.\u0275cmp=o({type:e,selectors:[["app-checkout"]],standalone:!0,features:[c],decls:2,vars:0,template:function(t,p){t&1&&(n(0,"p"),a(1,"checkout works!"),i())}})}}return e})();export{m as CheckoutComponent};
