@@ -21,16 +21,17 @@
 }
 
 .iso-text {
-  font-size: 0.5em;
-  color: #000;
+  font-size: 0.8em;
+  color: var(--color-text);
   font-family: 'Oswald';
   margin-top: 5px;
 }
 
+
 /* Carrito a la DERECHA e independiente */
 .cart-floating-block {
   position: fixed;
-  top: 5px;
+  top: 15px;
   right: 10px; /* Cart a la izquierda */
   z-index: 9999;
   pointer-events: auto;
@@ -49,5 +50,3 @@
 }
 
 }
-
-

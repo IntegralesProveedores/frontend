@@ -1,8 +1,15 @@
+/* ─────────────────────────────────────────────────────────────
+   CONTACTO COMPONENT
+   Refactor: Semantic variables for theme support
+   ───────────────────────────────────────────────────────────── */
+
 .contacto {
 	background: 
-		url('/assets/images/img-06.jpg') right bottom / 20% auto no-repeat,
-		linear-gradient(to bottom, #fff, #fff);
+		url('/assets/images/img-06.webp') right bottom / 20% auto no-repeat,
+		linear-gradient(to bottom, var(--color-bg), var(--color-bg));
 }
+
+
 
 .contacto p {
 	line-height: .5;
@@ -19,5 +26,3 @@
 
 
 }
-
-

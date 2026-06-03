@@ -47,17 +47,19 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 1);
-  color: #000;
+  background-color: var(--color-surface);
+  color: var(--color-text);
   text-decoration: none;
   transition: all 0.3s;
   cursor: pointer;
+  box-shadow: var(--shadow-flat);
 }
 
-  .nav-link:hover, .nav-link:focus {
-    background: rgba(255, 255, 255, 1);
-  color: #095713;
-  }
+.nav-link:hover, .nav-link:focus {
+  background-color: var(--brand-primary);
+  color: #fff;
+}
+
 
   .nav-link i {
     font-size: 28px;
@@ -125,6 +127,3 @@
   }
 
 }
-
-
-

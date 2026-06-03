@@ -1,0 +1,723 @@
+[
+  {
+    "file": "apple-touch-icon.png",
+    "originalSize": 68175,
+    "optimizedSize": 14452,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "bandeja-semillera-00.jpg",
+    "originalSize": 91589,
+    "optimizedSize": 40672,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "bandeja-semillera-01.jpg",
+    "originalSize": 354832,
+    "optimizedSize": 151398,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "bandeja-semillera.jpg",
+    "originalSize": 45830,
+    "optimizedSize": 22344,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "banner\\ventajas\\flecha-01.png",
+    "originalSize": 2187,
+    "optimizedSize": 868,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\flecha-02.png",
+    "originalSize": 2366,
+    "optimizedSize": 976,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\flecha-03.png",
+    "originalSize": 2758,
+    "optimizedSize": 1460,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\flecha-04.png",
+    "originalSize": 2447,
+    "optimizedSize": 1018,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\flecha-05.png",
+    "originalSize": 2446,
+    "optimizedSize": 988,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\flecha-06.png",
+    "originalSize": 2620,
+    "optimizedSize": 1128,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\flecha-07.png",
+    "originalSize": 2327,
+    "optimizedSize": 1022,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\hoja-00.png",
+    "originalSize": 1497,
+    "optimizedSize": 104,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\hoja-01.png",
+    "originalSize": 4045,
+    "optimizedSize": 1598,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\hoja-02.png",
+    "originalSize": 2928,
+    "optimizedSize": 1126,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\hoja-03.png",
+    "originalSize": 2336,
+    "optimizedSize": 622,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\hoja-04.png",
+    "originalSize": 2876,
+    "optimizedSize": 1040,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\hoja-05.png",
+    "originalSize": 2926,
+    "optimizedSize": 1106,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\hoja-06.png",
+    "originalSize": 2803,
+    "optimizedSize": 1100,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "banner\\ventajas\\hoja-07.png",
+    "originalSize": 2857,
+    "optimizedSize": 1044,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "favicon-96x96.png",
+    "originalSize": 23163,
+    "optimizedSize": 6628,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "icon-location-01.jpg",
+    "originalSize": 74998,
+    "optimizedSize": 62858,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "icon-location-01.png",
+    "originalSize": 560800,
+    "optimizedSize": 62468,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "icon-location.png",
+    "originalSize": 56700,
+    "optimizedSize": 1130,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "img-00.jpg",
+    "originalSize": 229424,
+    "optimizedSize": 104520,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-01.jpg",
+    "originalSize": 231563,
+    "optimizedSize": 106156,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-03.jpg",
+    "originalSize": 161160,
+    "optimizedSize": 124568,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-03.png",
+    "originalSize": 2004182,
+    "optimizedSize": 170264,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "img-06-00.jpg",
+    "originalSize": 366935,
+    "optimizedSize": 23178,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-06-01.jpg",
+    "originalSize": 292933,
+    "optimizedSize": 23172,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-06-02.jpg",
+    "originalSize": 273587,
+    "optimizedSize": 24482,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-06-03.jpg",
+    "originalSize": 173850,
+    "optimizedSize": 17204,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-06-04.jpg",
+    "originalSize": 176449,
+    "optimizedSize": 16762,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-06.jpg",
+    "originalSize": 118065,
+    "optimizedSize": 80318,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-06.png",
+    "originalSize": 1443408,
+    "optimizedSize": 133336,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "img-07-01.jpg",
+    "originalSize": 105415,
+    "optimizedSize": 100872,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-07.jpg",
+    "originalSize": 105295,
+    "optimizedSize": 101340,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-11-01.jpg",
+    "originalSize": 203945,
+    "optimizedSize": 28434,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-14.jpg",
+    "originalSize": 150604,
+    "optimizedSize": 155784,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "img-19.jpg",
+    "originalSize": 266819,
+    "optimizedSize": 273074,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "logo-00.png",
+    "originalSize": 30191,
+    "optimizedSize": 17176,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "logo-01.png",
+    "originalSize": 20706,
+    "optimizedSize": 3390,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "logo-02.png",
+    "originalSize": 115196,
+    "optimizedSize": 26356,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "logo-03.png",
+    "originalSize": 16469,
+    "optimizedSize": 3686,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "maceta-cuadrada.jpg",
+    "originalSize": 279250,
+    "optimizedSize": 81480,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "maceta-floral-1l.jpg",
+    "originalSize": 9168,
+    "optimizedSize": 1424,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "maceta-floral.jpg",
+    "originalSize": 7164,
+    "optimizedSize": 1022,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "maceta-olivo-01.png",
+    "originalSize": 436020,
+    "optimizedSize": 34936,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "maceta-olivo.jpg",
+    "originalSize": 256743,
+    "optimizedSize": 112540,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "maceta-olivo.png",
+    "originalSize": 422635,
+    "optimizedSize": 34572,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "macetas-biodegradables-00-00.jpg",
+    "originalSize": 185879,
+    "optimizedSize": 78710,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "macetas-biodegradables-00-01.jpg",
+    "originalSize": 163932,
+    "optimizedSize": 58314,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "macetas-biodegradables-00-01.png",
+    "originalSize": 21336,
+    "optimizedSize": 14794,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "macetas-biodegradables-00.jpg",
+    "originalSize": 108253,
+    "optimizedSize": 81712,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "macetas-biodegradables-01.jpg",
+    "originalSize": 4393535,
+    "optimizedSize": 389842,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "macetas-biodegradables-02.jpg",
+    "originalSize": 256743,
+    "optimizedSize": 112540,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "macetas-biodegradables-03.jpg",
+    "originalSize": 272221,
+    "optimizedSize": 263186,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "macetas-biodegradables-04.jpg",
+    "originalSize": 122389,
+    "optimizedSize": 52894,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "macetas-biodegradables-05.jpg",
+    "originalSize": 89496,
+    "optimizedSize": 67694,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "macetas-biodegradables-06.jpg",
+    "originalSize": 279250,
+    "optimizedSize": 81480,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "mailing\\WhatsApp Image 2026-02-17 at 10.52.59 (1).jpeg",
+    "originalSize": 355140,
+    "optimizedSize": 172394,
+    "webpGenerated": true,
+    "format": "jpeg"
+  },
+  {
+    "file": "mailing\\WhatsApp Image 2026-02-17 at 10.52.59 (2).jpeg",
+    "originalSize": 420816,
+    "optimizedSize": 166120,
+    "webpGenerated": true,
+    "format": "jpeg"
+  },
+  {
+    "file": "mailing\\WhatsApp Image 2026-02-17 at 10.52.59.jpeg",
+    "originalSize": 371501,
+    "optimizedSize": 175794,
+    "webpGenerated": true,
+    "format": "jpeg"
+  },
+  {
+    "file": "mailing\\WhatsApp Image 2026-02-17 at 10.53.00.jpeg",
+    "originalSize": 435215,
+    "optimizedSize": 166122,
+    "webpGenerated": true,
+    "format": "jpeg"
+  },
+  {
+    "file": "mailing-bloque-01-b.jpg",
+    "originalSize": 306441,
+    "optimizedSize": 46162,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "mailing-bloque-01-c.jpg",
+    "originalSize": 301527,
+    "optimizedSize": 45932,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "mailing-bloque-01.jpg",
+    "originalSize": 260831,
+    "optimizedSize": 40690,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "mailing-bloque-01.png",
+    "originalSize": 402226,
+    "optimizedSize": 45454,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "mailing-bloque-02-problema-maceta-plastico.jpg",
+    "originalSize": 82964,
+    "optimizedSize": 19322,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "mailing-bloque-03-solucion-maceta-biodegradable.jpg",
+    "originalSize": 100255,
+    "optimizedSize": 28018,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "mensaje-difusion-00-FLYER-03-producto.jpg",
+    "originalSize": 84515,
+    "optimizedSize": 21646,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "preview.jpg",
+    "originalSize": 16929,
+    "optimizedSize": 11760,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-amaciguera-00.jpg",
+    "originalSize": 68706,
+    "optimizedSize": 65548,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-amaciguera-01.jpg",
+    "originalSize": 102346,
+    "optimizedSize": 70554,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-amaciguera-02.jpg",
+    "originalSize": 107661,
+    "optimizedSize": 72970,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-amaciguera-03.jpg",
+    "originalSize": 687339,
+    "optimizedSize": 718082,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-amaciguera-04.jpg",
+    "originalSize": 246811,
+    "optimizedSize": 228656,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-floral-00.jpg",
+    "originalSize": 89165,
+    "optimizedSize": 140574,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-floral-01.jpg",
+    "originalSize": 166366,
+    "optimizedSize": 159610,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-floral-02.jpg",
+    "originalSize": 166174,
+    "optimizedSize": 151930,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-floral11-00.jpg",
+    "originalSize": 90377,
+    "optimizedSize": 141774,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-floral11-01.jpg",
+    "originalSize": 173496,
+    "optimizedSize": 167316,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-floral11-02.jpg",
+    "originalSize": 165435,
+    "optimizedSize": 161276,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-floral11-03.jpg",
+    "originalSize": 199044,
+    "optimizedSize": 196514,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-olivo-00.jpg",
+    "originalSize": 252135,
+    "optimizedSize": 331150,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-olivo-01.jpg",
+    "originalSize": 158066,
+    "optimizedSize": 144160,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-olivo-02.jpg",
+    "originalSize": 120370,
+    "optimizedSize": 103608,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-olivo-03.jpg",
+    "originalSize": 148036,
+    "optimizedSize": 142918,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-olivo-04.jpg",
+    "originalSize": 366987,
+    "optimizedSize": 410520,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-olivo-05.jpg",
+    "originalSize": 227815,
+    "optimizedSize": 225316,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-semillera-00.jpg",
+    "originalSize": 67774,
+    "optimizedSize": 96196,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-semillera-01.jpg",
+    "originalSize": 175720,
+    "optimizedSize": 159056,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-semillera-02.jpg",
+    "originalSize": 192208,
+    "optimizedSize": 182990,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-todos-00.jpg",
+    "originalSize": 158487,
+    "optimizedSize": 147682,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-todos-01.jpg",
+    "originalSize": 168270,
+    "optimizedSize": 148014,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-todos-02.jpg",
+    "originalSize": 173754,
+    "optimizedSize": 157740,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-todos-03.jpg",
+    "originalSize": 674307,
+    "optimizedSize": 163810,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-todos-04-mailing.jpg",
+    "originalSize": 168024,
+    "optimizedSize": 26146,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-todos-04.jpg",
+    "originalSize": 290974,
+    "optimizedSize": 294448,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-todos-05.jpg",
+    "originalSize": 410277,
+    "optimizedSize": 452210,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-todos-06.jpg",
+    "originalSize": 2077140,
+    "optimizedSize": 300248,
+    "webpGenerated": true,
+    "format": "jpg"
+  },
+  {
+    "file": "producto-maceta-biodegradable-todos-06.png",
+    "originalSize": 4239338,
+    "optimizedSize": 432036,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "web-app-manifest-192x192.png",
+    "originalSize": 76000,
+    "optimizedSize": 15488,
+    "webpGenerated": true,
+    "format": "png"
+  },
+  {
+    "file": "web-app-manifest-512x512.png",
+    "originalSize": 379476,
+    "optimizedSize": 54102,
+    "webpGenerated": true,
+    "format": "png"
+  }
+]

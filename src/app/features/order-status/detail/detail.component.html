@@ -1,3 +1,26 @@
-<p>detail works!</p>
+<section class="order-detail section-padding min-vh-100 d-flex align-items-center">
+  <div class="container">
+    @if (notFound()) {
+      <div class="max-w-600 mx-auto">
+        <app-empty-state 
+          icon="fa-box-open"
+          title="Orden no encontrada"
+          message="No pudimos encontrar la información de la orden solicitada. Verificá que el link sea correcto o contactanos para más ayuda."
+          actionText="Volver al Catálogo"
+          actionLink="/productos"
+          secondaryActionText="Contactar Soporte"
+          secondaryActionLink="/#contacto"
+        />
+      </div>
+    } @else {
+      <!-- Future Order Detail Content -->
+      <h1 class="h3 fw-bold">Detalle de la Orden</h1>
+    }
+  </div>
+</section>
+
+<style>
+  .max-w-600 { max-width: 600px; }
+</style>
 
 

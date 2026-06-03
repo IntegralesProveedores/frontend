@@ -1,52 +1,39 @@
-.categories-nav {
-  overflow-x: auto;
-  white-space: nowrap;
-  padding-bottom: 1rem;
+/* ─────────────────────────────────────────────────────────────
+   CATALOG COMPONENT
+   Refactor: Typography contrast & theme awareness
+   ───────────────────────────────────────────────────────────── */
+.col {
+	margin-top: 0;
+	
 }
-
 .cat-link {
   background: none;
   border: none;
   font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
   position: relative;
   padding: 0.5rem 0;
   transition: color 0.3s;
   cursor: pointer;
 }
 
-.cat-link::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--color-primary);
-  transform: scaleX(0);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 .cat-link:hover {
-  color: var(--color-text);
+  color: var(--color-text-primary);
 }
 
 .cat-link.active {
   color: var(--color-primary);
 }
 
-.cat-link.active::after {
-  transform: scaleX(1);
-}
-
 .alert-soft {
   background-color: var(--color-bg-soft);
-  color: var(--color-text);
+  color: var(--color-text-primary);
   border: none;
   border-radius: var(--border-radius-base);
 }
+
 
 /* Hide scrollbar but allow scrolling */
 .categories-nav::-webkit-scrollbar {

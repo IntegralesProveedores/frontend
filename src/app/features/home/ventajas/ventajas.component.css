@@ -6,29 +6,47 @@
     transform: scale(1.1);
 }
 
+/* ─────────────────────────────────────────────────────────────
+   VENTAJAS COMPONENT
+   Refactor: Semantic variables for theme support
+   ───────────────────────────────────────────────────────────── */
+
 .ventajas {
-  background-color: #f7f8f0;
+  background-color: var(--color-bg-brand-soft);
   font-family: 'Caveat', cursive;
   font-size: 1.5em;
   font-weight: 600;
   line-height: 0.8;
+  color: var(--color-text);
+}
+
+
+
+
+
+
+
+
+
+
+.numero-circulo {
+  width: 30px;
+  height: 30px;
+  aspect-ratio: 1/1; 
+  border: 2px solid var(--color-text);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  color: var(--color-text);
 }
 
 .img-maceta {
   width: 250px;
 }
 
-.numero-circulo {
-  width: 30px;
-  height: 30px;
-  aspect-ratio: 1/1; /* garantiza círculo perfecto */
-  border: 2px solid black;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 10px;
-}
+
 
 .texto-ventaja {
 
@@ -39,43 +57,44 @@
   position: relative;
   padding: 40px 40px 50px;
   background-size: 40px auto, 60px auto !important;
+  
 }
 
 .ventaja-1 {
-  background: url("/assets/images/banner/ventajas/flecha-01.png") bottom right no-repeat,
-              url("/assets/images/banner/ventajas/hoja-01.png") top right no-repeat;
+  background: url("/assets/images/banner/ventajas/flecha-01.webp") bottom right no-repeat,
+              url("/assets/images/banner/ventajas/hoja-01.webp") top right no-repeat;
 }
 
 .ventaja-2 {
-  background: url("/assets/images/banner/ventajas/flecha-02.png") bottom center no-repeat,
-              url("/assets/images/banner/ventajas/hoja-02.png") top right no-repeat;
+  background: url("/assets/images/banner/ventajas/flecha-02.webp") bottom center no-repeat,
+              url("/assets/images/banner/ventajas/hoja-02.webp") top right no-repeat;
 }
 
 .ventaja-3 {
-  background: url("/assets/images/banner/ventajas/flecha-03.png") bottom left no-repeat,
-              url("/assets/images/banner/ventajas/hoja-03.png") bottom right no-repeat;
+  background: url("/assets/images/banner/ventajas/flecha-03.webp") bottom left no-repeat,
+              url("/assets/images/banner/ventajas/hoja-03.webp") bottom right no-repeat;
 }
 
 .ventaja-4 {
-  background: url("/assets/images/banner/ventajas/flecha-04.png") top left no-repeat,
-              url("/assets/images/banner/ventajas/hoja-04.png") bottom center no-repeat;
+  background: url("/assets/images/banner/ventajas/flecha-04.webp") top left no-repeat,
+              url("/assets/images/banner/ventajas/hoja-04.webp") bottom center no-repeat;
 }
 
 .ventaja-5 {
-  background: url("/assets/images/banner/ventajas/flecha-05.png") top left no-repeat,
-              url("/assets/images/banner/ventajas/hoja-00.png") top center no-repeat;
+  background: url("/assets/images/banner/ventajas/flecha-05.webp") top left no-repeat,
+              url("/assets/images/banner/ventajas/hoja-00.webp") top center no-repeat;
   padding: 0 40px;
 
 }
 
 .ventaja-6 {
-  background: url("/assets/images/banner/ventajas/flecha-06.png") top center no-repeat,
-              url("/assets/images/banner/ventajas/hoja-06.png") top left no-repeat;
+  background: url("/assets/images/banner/ventajas/flecha-06.webp") top center no-repeat,
+              url("/assets/images/banner/ventajas/hoja-06.webp") top left no-repeat;
 }
 
 .ventaja-7 {
-  background: url("/assets/images/banner/ventajas/flecha-07.png") center right no-repeat,
-              url("/assets/images/banner/ventajas/hoja-07.png") top left no-repeat;
+  background: url("/assets/images/banner/ventajas/flecha-07.webp") center right no-repeat,
+              url("/assets/images/banner/ventajas/hoja-07.webp") top left no-repeat;
 }
 
 
@@ -83,8 +102,9 @@
 {
 
 	.numero-circulo {
-	  border: 1px solid black;
+	  border: 1px solid var(--color-text);
 	}
+
 
 	.img-maceta {
 		min-width: 200px !important;
@@ -98,7 +118,3 @@
 	}
 
 }
-
-
-
-

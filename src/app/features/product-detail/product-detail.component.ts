@@ -5,14 +5,17 @@ import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
 import { PriceService } from '../../core/services/price.service';
 import { Product, ProductVariant } from '../../core/models/product.model';
+import { PaginatedResponse } from '../../core/models/api-response.model';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
+import { ProductDetailSkeletonComponent } from '../../shared/components/product-detail-skeleton/product-detail-skeleton.component';
+import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, CurrencyArsPipe, LoadingSpinnerComponent, ProductCardComponent],
+  imports: [CommonModule, RouterLink, CurrencyArsPipe, LoadingSpinnerComponent, ProductCardComponent, ProductDetailSkeletonComponent, ErrorStateComponent],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
@@ -100,8 +103,8 @@ export class ProductDetailComponent implements OnInit {
   }
 
   loadAllProducts(): void {
-    this.api.get<Product[]>('/products').subscribe({
-      next: data => this.allProducts.set(data),
+    this.api.get<PaginatedResponse<Product>>('/products').subscribe({
+      next: data => this.allProducts.set(data.items),
       error: err => console.error('Error loading related products', err)
     });
   }

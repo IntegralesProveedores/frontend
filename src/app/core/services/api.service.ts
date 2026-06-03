@@ -16,6 +16,10 @@ export class ApiService {
     return this.http.get<T>(`${this.base}${path}`, { params: httpParams });
   }
 
+  getSettings() {
+    return this.get<{ usd_exchange_rate: number, updated_at: string }>('/settings');
+  }
+
   post<T>(path: string, body: any) {
     return this.http.post<T>(`${this.base}${path}`, body);
   }

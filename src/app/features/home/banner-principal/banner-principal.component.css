@@ -1,12 +1,7 @@
-.banner-content  {
-  position: relative;
-  background: linear-gradient(
-      to top,
-      #f7f8f0 0%,
-      #ffffff00 50%,
-      #f7f8f0 120%
-    ),
-	url('/assets/images/producto-maceta-biodegradable-todos-03.jpg') no-repeat center / cover;
+.banner-content {
+    background: url('/assets/images/producto-maceta-biodegradable-todos-06.webp')
+                no-repeat right bottom;
+    background-size: 100% auto;
 }
 
 .banner-content h1,
@@ -34,10 +29,11 @@
 			color: #1b3d1b;
 			padding: 0 0.15em;
 			border-radius: 1em 2em 1em 2em;
-			font-weight: 600;
+			font-weight: 900;
 			font-size: 1.2em;
 			text-shadow: none;
 			background: #bfe6ba;
+			font-family: 'Caveat', cursive;
 		}
 
 	.banner-content a {
@@ -64,5 +60,3 @@
 	}
 
 }
-
-

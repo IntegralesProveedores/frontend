@@ -5,49 +5,64 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&family=Caveat:wght@400;600;700&display=swap');
 
-/* Bootstrap */
+/* Internal Modules */
+@import 'styles/tokens.css';
+@import 'styles/theme.css';
+@import 'styles/animations.css';
 
 /* =============================================
-   DESIGN TOKENS
+   DESIGN TOKENS MAPPING (Legacy Compatibility)
    ============================================= */
 :root {
-  /* Colors */
-  --color-primary:       #2d5a27;
-  --color-primary-rgb:   45, 90, 39;
-  --color-accent:        #2d5a27;
-  --color-accent-soft:   rgba(45, 90, 39, 0.08);
-  --color-bg:            #ffffff;
-  --color-bg-soft:       #;
-  --color-text:          #1a1a1a;
-  --color-text-muted:    #6b7280;
-  --color-border:        #e5e7eb;
+  /* Colors aliased to semantic tokens */
+  --color-primary:       var(--brand-primary);
+  --color-primary-rgb:   45, 90, 39; /* Keep RGB for transparency if needed */
+  --color-accent:        var(--brand-primary);
+  --color-accent-soft:   var(--brand-faded);
+  
+  --color-bg:            var(--color-bg-primary);
+  --color-bg-soft:       var(--color-bg-secondary);
+  --color-bg-tertiary:   var(--color-bg-tertiary);
+  --color-bg-brand-soft: var(--color-bg-brand-soft);
+  
+  --color-text:          var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted:    var(--color-text-muted);
+  --color-text-disabled: var(--color-text-disabled);
+  --color-text-dimmed:   var(--color-text-muted);
 
-  /* Bootstrap overrides */
-  --bs-primary:          #2d5a27;
+  
+  --color-border:        var(--color-border-primary);
+  --color-border-soft:   var(--color-border-secondary);
+
+  /* Bootstrap overrides using tokens */
+  --bs-primary:          var(--brand-primary);
   --bs-primary-rgb:      45, 90, 39;
-  --bs-body-font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  --bs-border-radius:    0.75rem;
+  --bs-body-font-family: var(--font-sans);
+  --bs-border-radius:    var(--radius-lg);
   --bs-border-radius-lg: 1.25rem;
-  --bs-box-shadow:       0 4px 20px -5px rgba(0,0,0,0.08);
+  --bs-box-shadow:       var(--shadow-card);
 
   /* Shadows */
-  --ui-shadow-hover:     0 10px 30px -10px rgba(0,0,0,0.15);
+  --ui-shadow-hover:     var(--shadow-luxe);
 
   /* Typography */
-  --font-display:        'Oswald', sans-serif;
-  --font-body:           'Inter', system-ui, sans-serif;
-  --font-heading:        'Oswald', sans-serif;
-  --font-mono:           'JetBrains Mono', 'Fira Code', monospace;
+  --font-display:        var(--font-heading);
+  --font-body:           var(--font-sans);
+  --font-heading:        var(--font-heading);
+  --font-mono:           var(--font-mono);
 
   /* Spacing */
-  --section-spacing:     20px;
+  --section-spacing:     var(--space-8);
 
   /* Transitions */
-  --transition-base:     all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base:     var(--t-base);
 
   /* Border radius */
-  --border-radius-base:  0.75rem;
+  --border-radius-base:  var(--radius-lg);
 }
+
+
 
 /* =============================================
    BASE

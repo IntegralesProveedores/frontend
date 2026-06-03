@@ -1,9 +1,35 @@
-.order-status .card {
-  transition: none;
+/* ─────────────────────────────────────────────────────────────
+   FAILURE PAGE COMPONENT
+   Refactor: Typography contrast & theme awareness
+   ───────────────────────────────────────────────────────────── */
+
+.failure-page {
+  background-color: var(--color-bg-primary);
+  display: flex;
+  align-items: center;
+  color: var(--color-text-secondary);
 }
 
-.order-status i {
-  opacity: 0.9;
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  border: 1px solid var(--color-border-primary);
+  color: #ef4444;
+}
+
+.failure-title {
+  color: var(--color-text-primary);
 }
 
 
+.text-error {
+  color: #ef4444;
+}
+
+.max-w-600 { max-width: 600px; }
+.max-w-300 { max-width: 300px; }

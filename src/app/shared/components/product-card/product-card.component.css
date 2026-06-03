@@ -1,52 +1,41 @@
+/* ─────────────────────────────────────────────────────────────
+   PRODUCT CARD COMPONENT
+   Refactor: Typography contrast & theme awareness
+   ───────────────────────────────────────────────────────────── */
+
 .product-card-wrapper {
   cursor: pointer;
   transition: opacity 0.3s ease;
   padding: 8px;
   border-radius: var(--border-radius-base);
-}
-
-.product-card-wrapper:hover {
-  opacity: 0.9;
-  background: var(--color-bg-soft);
-}
-
-.product-image-box {
-  aspect-ratio: 1/1;
-  overflow: hidden;
-  border-radius: var(--border-radius-base);
-  background-color: var(--color-bg-soft);
-}
-
-.product-image-box img {
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.product-card-wrapper:hover .product-image-box img {
-  transform: scale(1.05);
+  color: var(--color-text-secondary);
 }
 
 .product-title {
   font-family: var(--font-body);
   font-family: 'Oswald', sans-serif;
   font-weight: 300;
-  color: var(--color-text);
+  color: var(--color-text-primary);
   margin-bottom: 0.25rem;
   font-size: 1.4rem;
   text-transform: uppercase;
   padding: 0;
   margin: 0;
-  
+}
+
+.iva-legend {
+  color: var(--color-text-muted);
 }
 
 .price-main {
   color: var(--color-primary);
-  font-size: 1rem;
   font-size:2em;
   padding: 0;
   margin: 0;
   font-family: 'Oswald';
   font-weight: 900;  
 }
+
 
 .price-details {
   line-height: 1;
@@ -57,11 +46,8 @@
   letter-spacing: 0.02em;
 }
 
-
-
 @media (max-width: 768px) {
 .price-main {
   font-size: 1rem;
 }
 }
-

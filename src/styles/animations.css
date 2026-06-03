@@ -1,0 +1,66 @@
+/* =============================================
+   INTEGRALES — PREMIUM MOTION ENGINE
+   Polish Premium: Fluid & Natural
+   ============================================= */
+
+/* 1. Page Entry Animations (Apple-like) */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-reveal {
+  opacity: 0;
+  animation: reveal-up 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade {
+  opacity: 0;
+  animation: fade-in 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 2. List Stagger Helpers */
+.stagger-1 { animation-delay: 100ms; }
+.stagger-2 { animation-delay: 200ms; }
+.stagger-3 { animation-delay: 300ms; }
+.stagger-4 { animation-delay: 400ms; }
+
+/* 3. Micro-interactions */
+.hover-lift {
+  transition: var(--t-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.interactive-scale {
+  transition: var(--t-fast);
+}
+
+.interactive-scale:active {
+  transform: scale(0.96);
+}
+
+/* 4. Skeleton Loading (Natural Pulse) */
+@keyframes premium-pulse {
+  0% { opacity: 0.4; background-color: var(--color-bg-secondary); }
+  50% { opacity: 0.8; background-color: var(--color-bg-tertiary); }
+  100% { opacity: 0.4; background-color: var(--color-bg-secondary); }
+}
+
+.skeleton-loading {
+  animation: premium-pulse 1.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}

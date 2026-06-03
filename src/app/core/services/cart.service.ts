@@ -1,5 +1,6 @@
-import { Injectable, signal, computed, Inject, PLATFORM_ID, inject, effect, untracked } from '@angular/core';
+import { Injectable, signal, computed, PLATFORM_ID, inject, effect, untracked } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
 import { CartItem } from '../models/cart.model';
 import { ApiService } from './api.service';
 import { PriceService } from './price.service';
@@ -8,48 +9,53 @@ const CART_KEY = 'cart_items';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  private isBrowser: boolean;
-  private apiService = inject(ApiService);
-  private priceService = inject(PriceService);
+  // ─────────────────────────────────────────────────────────────
+  // DEPENDENCIAS
+  // ─────────────────────────────────────────────────────────────
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly apiService = inject(ApiService);
+  private readonly priceService = inject(PriceService);
   
-  // Signals para el estado del carrito y cotización
-  private items = signal<CartItem[]>([]);
-  private dolarVenta = signal<number>(0);
+  // ─────────────────────────────────────────────────────────────
+  // ESTADO (Signals)
+  // ─────────────────────────────────────────────────────────────
+  private readonly items = signal<CartItem[]>([]);
+  private readonly dolarVenta = signal<number>(0);
 
   // Readonly para consumo externo
   readonly cartItems = this.items.asReadonly();
   readonly dolarOficial = this.dolarVenta.asReadonly();
 
-  // Computed: Cálculos dinámicos reactivos
+  // ─────────────────────────────────────────────────────────────
+  // DERIVACIONES (Computed)
+  // ─────────────────────────────────────────────────────────────
   readonly itemCount = computed(() =>
     this.items().reduce((sum, i) => sum + i.quantity, 0)
   );
 
   readonly isEmpty = computed(() => this.items().length === 0);
 
-  // Cálculo de totales en USD
+  /** Total en USD sumando todos los items */
   readonly totalUsd = computed(() => {
     return this.items().reduce((sum, i) => sum + (i.price_usd || 0) * i.quantity, 0);
   });
 
-  // Cálculo de totales en ARS
+  /** Subtotal en ARS basado en el tipo de cambio oficial */
   readonly subtotalArs = computed(() => {
     return this.items().reduce((sum, i) => sum + (i.price_ars || 0) * i.quantity, 0);
   });
 
-  // Cálculo de volumen total en CC
+  /** Volumen total en CC para cotización de envíos */
   readonly totalVolumeCc = computed(() =>
     this.items().reduce((sum, i) => 
       sum + ((i.volume_cc || 0) * (i.units_per_pack || 1) * i.quantity), 0
     )
   );
 
-  constructor(@Inject(PLATFORM_ID) platformId: object) {
-    this.isBrowser = isPlatformBrowser(platformId);
-    
+  constructor() {
     if (this.isBrowser) {
       this.loadFromStorage();
-      this.obtenerDolarOficial();
+      this.refreshExchangeRate();
     }
 
     // Efecto para recalcular precios cuando cambia el dólar
@@ -63,7 +69,10 @@ export class CartService {
     }, { allowSignalWrites: true });
   }
 
-  // Métodos de acción
+  // ─────────────────────────────────────────────────────────────
+  // MÉTODOS PÚBLICOS
+  // ─────────────────────────────────────────────────────────────
+
   add(item: CartItem): void {
     const current = this.items();
     const existing = current.find(i => i.variantId === item.variantId);
@@ -103,7 +112,8 @@ export class CartService {
   }
 
   /**
-   * Obtiene la cantidad de una variante específica que ya está en el carrito
+   * Obtiene la cantidad de una variante específica en el carrito.
+   * Útil para mostrar feedback en botones de "Agregar".
    */
   getVariantQuantity(variantId: string | undefined): number {
     if (!variantId) return 0;
@@ -111,6 +121,13 @@ export class CartService {
     return item ? item.quantity : 0;
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // LÓGICA INTERNA
+  // ─────────────────────────────────────────────────────────────
+
+  /** 
+   * Aplica la lógica de precios actual (markup + cotización) a un item.
+   */
   private applyPricing(item: CartItem): CartItem {
     const pricing = this.priceService.calculatePrice(item.cost_usd, item.quantity, this.dolarVenta());
     return {
@@ -120,6 +137,9 @@ export class CartService {
     };
   }
 
+  /**
+   * Recalcula todos los precios en el carrito cuando cambia la cotización.
+   */
   private recalculateAllPrices(): void {
     const currentItems = this.items();
     if (currentItems.length === 0) return;
@@ -128,20 +148,26 @@ export class CartService {
     this.items.set(updatedItems);
   }
 
-  // Integración con DolarAPI (tal cual estaba)
-  private async obtenerDolarOficial() {
+  /**
+   * Obtiene el tipo de cambio oficial desde el backend (/settings).
+   * CUIDADO: F1 - No llamar directamente a APIs externas desde el frontend.
+   */
+  private async refreshExchangeRate() {
     try {
-      const res = await fetch('https://dolarapi.com/v1/dolares/oficial');
-      const data = await res.json();
-      if (data?.venta) {
-        this.dolarVenta.set(data.venta);
+      const settings = await firstValueFrom(this.apiService.getSettings());
+      if (settings?.usd_exchange_rate) {
+        this.dolarVenta.set(settings.usd_exchange_rate);
       }
     } catch (e) {
-      console.error('Error al obtener el dólar oficial de DolarAPI:', e);
+      console.error('Error al obtener configuración del backend:', e);
+      // Fallback o reintento podría ir aquí
     }
   }
 
-  // Persistencia
+  // ─────────────────────────────────────────────────────────────
+  // PERSISTENCIA
+  // ─────────────────────────────────────────────────────────────
+
   private saveToStorage(): void {
     if (this.isBrowser) {
       localStorage.setItem(CART_KEY, JSON.stringify(this.items()));
@@ -160,5 +186,4 @@ export class CartService {
     }
   }
 }
-
 

@@ -1,0 +1,117 @@
+/* =============================================
+   INTEGRALES — SEMANTIC TOKENS (SURGICAL PRECISION)
+   System: Pure Colors + High Density
+   ============================================= */
+
+:root {
+  /* --- 1. CORE PALETTE (Original Brand) --- */
+  --brand-primary:   #2d5a27;
+  --brand-secondary: #1a3a16;
+  --brand-faded:     rgba(45, 90, 39, 0.05);
+
+  /* Grays: Pure Obsidian Scale */
+  --gray-0:    #ffffff;
+  --gray-100:  #f5f5f5;
+  --gray-200:  #e5e5e5;
+  --gray-300:  #d4d4d4;
+  --gray-400:  #a3a3a3;
+  --gray-500:  #737373;
+  --gray-600:  #525252;
+  --gray-700:  #404040;
+  --gray-800:  #262626;
+  --gray-900:  #171717;
+  --gray-1000: #000000;
+
+  /* --- 2. TYPOGRAPHY (Original Legacy Specs) --- */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Oswald', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Standard Sizes */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  2rem;
+  --text-4xl:  2.5rem;
+  --text-5xl:  3.5rem;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* --- 3. COMPACT SPACING --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* --- 4. UNIFIED GEOMETRY --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* --- 5. UNIFIED SHADOWS --- */
+  --shadow-flat: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-card: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-luxe: 0 10px 30px rgba(0,0,0,0.1);
+  /* --- 6. TRANSITIONS & MOTION --- */
+
+  --t-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-base:   300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-slow:   500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* --- LIGHT THEME (Pure White) --- */
+:root {
+  color-scheme: light;
+  --color-bg-primary:     var(--gray-0);
+  --color-bg-secondary:   #fafafa;
+  --color-bg-tertiary:    #eeeeee;
+  --color-bg-brand-soft:  #f7f8f0;
+  
+  --color-text-primary:   #111111;
+  --color-text-secondary: #555555;
+  --color-text-muted:     var(--gray-500);
+  
+  --color-border-primary: rgba(0,0,0,0.1);
+  --color-border-secondary: rgba(0,0,0,0.05);
+  
+  --color-surface:        var(--gray-0);
+  --inner-glow:           inset 0 1px 0 rgba(255,255,255,1);
+}
+
+/* --- DARK THEME (Pure Black) --- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-bg-primary:     var(--gray-1000);
+    --color-bg-secondary:   #0d0d0d;
+    --color-bg-tertiary:    #1a1a1a;
+    --color-bg-brand-soft:  #151812;
+    
+    --color-text-primary:   #FFFFFF;
+    --color-text-secondary: #D1D5DB;
+    --color-text-muted:     #9CA3AF;
+    --color-text-disabled:  #6B7280;
+    
+    --color-border-primary: rgba(255,255,255,0.1);
+    --color-border-secondary: rgba(255,255,255,0.05);
+    
+    --color-surface:        #121212;
+    --inner-glow:           inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+}
+
+
+

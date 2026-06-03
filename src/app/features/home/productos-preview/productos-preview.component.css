@@ -1,8 +1,4 @@
 
-.bg-gradient {
-	background: linear-gradient(to bottom, #f7f8f0, #fff) !important;
-}
-
 .img-preview {
   width: 140px;
   height: 140px;
@@ -46,5 +42,3 @@
     height: 100px;
   }
 }
-
-

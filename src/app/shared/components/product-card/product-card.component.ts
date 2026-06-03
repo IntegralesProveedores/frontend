@@ -26,22 +26,23 @@ export class ProductCardComponent {
     const variant = this.variant;
     // Buscamos cuánto hay en el carrito para este producto
     const cartQty = this.cart.cartItems().find(i => i.variantId === variant?.id)?.quantity || 0;
-    // Si no hay nada, calculamos para 1. Si hay algo, para esa cantidad.
+    // Para el card, calculamos base 1 pero mostramos feedback si hay más
     const qtyToCalculate = Math.max(1, cartQty);
     
     return this.priceService.calculatePrice(
       variant?.cost_usd, 
-      qtyToCalculate, 
+      1, // Card siempre muestra precio unitario base
       this.cart.dolarOficial()
     );
   });
 
   get mainImage(): string {
-    return this.product.images?.[0]?.url ?? '';
+    const img = this.product.images?.[0]?.url;
+    return img || 'assets/images/placeholder.webp';
   }
 
   get variant(): ProductVariant | null {
-    return this.product.variants?.[0] ?? null;
+    return this.product.variants[0] ?? null;
   }
 
   get inStock(): boolean {
@@ -53,7 +54,13 @@ export class ProductCardComponent {
     event.stopPropagation();
     if (!this.variant || !this.inStock) return;
 
-    const pricing = this.currentPricing();
+    // Al agregar desde el card, usamos la cantidad actual en carrito + 1
+    const cartQty = this.cart.getVariantQuantity(this.variant.id);
+    const pricing = this.priceService.calculatePrice(
+      this.variant.cost_usd,
+      cartQty + 1,
+      this.cart.dolarOficial()
+    );
 
     this.cart.add({
       variantId: this.variant.id,
@@ -68,12 +75,10 @@ export class ProductCardComponent {
       imageUrl: this.mainImage,
       stock: this.variant.stock,
       units_per_pack: this.variant.units_per_pack,
-      volume_cc: this.variant.dimensions?.volume_cc
+      volume_cc: this.variant.dimensions?.volume_cc || (this.variant as any).volume_cc
     });
 
     this.added = true;
     setTimeout(() => this.added = false, 1800);
   }
 }
-
-

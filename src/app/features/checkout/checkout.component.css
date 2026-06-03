@@ -1,5 +1,38 @@
+/* ─────────────────────────────────────────────────────────────
+   CHECKOUT COMPONENT
+   Refactor: Typography contrast & theme awareness
+   ───────────────────────────────────────────────────────────── */
+
 .checkout-page {
   background-color: var(--color-bg);
+}
+
+.item-name {
+  color: var(--color-text-primary);
+}
+
+.price-ars {
+  color: var(--color-text-muted);
+}
+
+.summary-label {
+  color: var(--color-text-muted);
+}
+
+.summary-value {
+  color: var(--color-text-secondary);
+}
+
+.total-main {
+  color: var(--brand-primary);
+}
+
+.total-secondary {
+  color: var(--color-text-primary);
+}
+
+.iva-legend {
+  color: var(--color-text-muted);
 }
 
 .form-control-minimal {
@@ -9,17 +42,18 @@
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.5;
-  color: var(--color-text);
+  color: var(--color-text-primary);
   background-color: var(--color-bg-soft);
   background-clip: padding-box;
-  border: 1px solid #CCC;
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius-base);
   transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
+
 .form-control-minimal:focus {
   outline: none;
-  background-color: white;
+  background-color: var(--color-surface);
   border-color: var(--color-primary);
 }
 
@@ -41,9 +75,10 @@
   height: 50px;
   border-radius: 4px;
   overflow: hidden;
-  background-color: white;
+  background-color: var(--color-surface);
   flex-shrink: 0;
 }
+
 
 .checkout-img-box img {
   width: 100%;

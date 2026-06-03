@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
+import { environment } from '../../../environments/environment';
 import emailjs from '@emailjs/browser';
 
 @Component({
@@ -14,10 +15,16 @@ import emailjs from '@emailjs/browser';
   styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent {
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-  public cartService = inject(CartService);
+  // ─────────────────────────────────────────────────────────────
+  // DEPENDENCIAS
+  // ─────────────────────────────────────────────────────────────
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  public readonly cartService = inject(CartService);
 
+  // ─────────────────────────────────────────────────────────────
+  // ESTADO
+  // ─────────────────────────────────────────────────────────────
   loading = false;
   formSubmitted = false;
 
@@ -29,8 +36,15 @@ export class CheckoutComponent {
     email: ['', [Validators.required, Validators.email]]
   });
 
+  // ─────────────────────────────────────────────────────────────
+  // MANEJO DE FORMULARIO
+  // ─────────────────────────────────────────────────────────────
+
+  /** 
+   * Formatea el CUIT en tiempo real: xx-xxxxxxxx-x 
+   */
   onCuitInput(event: any): void {
-    let value = event.target.value.replace(/\D/g, ''); // Remover todo lo que no sea número
+    let value = event.target.value.replace(/\D/g, ''); 
     if (value.length > 11) value = value.substring(0, 11);
 
     let formatted = '';
@@ -47,6 +61,10 @@ export class CheckoutComponent {
     this.checkoutForm.patchValue({ cuit: formatted }, { emitEvent: false });
   }
 
+  /** 
+   * Genera el payload HTML para el correo de EmailJS.
+   * CUIDADO: Este flujo es temporal (FASE 3 lo reemplazará por backend).
+   */
   private generarHTMLCorreo(): string {
     const items = this.cartService.cartItems();
     const form = this.checkoutForm.value;
@@ -120,6 +138,10 @@ export class CheckoutComponent {
     return html;
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // ACCIONES
+  // ─────────────────────────────────────────────────────────────
+
   confirmarPedido() {
     this.formSubmitted = true;
     
@@ -147,11 +169,12 @@ export class CheckoutComponent {
       mensaje_html: mensajeHTML
     };
 
+    // F2: Uso de credenciales desde environment
     emailjs.send(
-      'service_q9ivf9b',
-      'template_imfgs1r',
+      environment.emailjs.serviceId,
+      environment.emailjs.templateId,
       templateParams,
-      'mh-L6Epb_NpRXUkMa'
+      environment.emailjs.publicKey
     )
     .then(() => {
       this.cartService.clear();
@@ -173,3 +196,4 @@ export class CheckoutComponent {
     }).format(n || 0);
   }
 }
+

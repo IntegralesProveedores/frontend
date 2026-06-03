@@ -1,0 +1,4594 @@
+[
+  {
+    "path": "frontend/src/assets/images/apple-touch-icon.avif",
+    "pathFromSrc": "assets/images/apple-touch-icon.avif",
+    "format": "avif",
+    "size": 8663,
+    "resolution": "180x180",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/apple-touch-icon.png",
+    "pathFromSrc": "assets/images/apple-touch-icon.png",
+    "format": "png",
+    "size": 68175,
+    "resolution": "180x180",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/apple-touch-icon.webp",
+    "pathFromSrc": "assets/images/apple-touch-icon.webp",
+    "format": "webp",
+    "size": 14452,
+    "resolution": "180x180",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-00-400.avif",
+    "pathFromSrc": "assets/images/bandeja-semillera-00-400.avif",
+    "format": "avif",
+    "size": 10899,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-00-400.webp",
+    "pathFromSrc": "assets/images/bandeja-semillera-00-400.webp",
+    "format": "webp",
+    "size": 17570,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-00.avif",
+    "pathFromSrc": "assets/images/bandeja-semillera-00.avif",
+    "format": "avif",
+    "size": 20390,
+    "resolution": "706x706",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-00.jpg",
+    "pathFromSrc": "assets/images/bandeja-semillera-00.jpg",
+    "format": "jpg",
+    "size": 91589,
+    "resolution": "706x706",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-00.webp",
+    "pathFromSrc": "assets/images/bandeja-semillera-00.webp",
+    "format": "webp",
+    "size": 40672,
+    "resolution": "706x706",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01-1200.avif",
+    "pathFromSrc": "assets/images/bandeja-semillera-01-1200.avif",
+    "format": "avif",
+    "size": 42414,
+    "resolution": "1200x675",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01-1200.webp",
+    "pathFromSrc": "assets/images/bandeja-semillera-01-1200.webp",
+    "format": "webp",
+    "size": 78390,
+    "resolution": "1200x675",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01-1600.avif",
+    "pathFromSrc": "assets/images/bandeja-semillera-01-1600.avif",
+    "format": "avif",
+    "size": 57667,
+    "resolution": "1600x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01-1600.webp",
+    "pathFromSrc": "assets/images/bandeja-semillera-01-1600.webp",
+    "format": "webp",
+    "size": 115746,
+    "resolution": "1600x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01-400.avif",
+    "pathFromSrc": "assets/images/bandeja-semillera-01-400.avif",
+    "format": "avif",
+    "size": 12940,
+    "resolution": "400x225",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01-400.webp",
+    "pathFromSrc": "assets/images/bandeja-semillera-01-400.webp",
+    "format": "webp",
+    "size": 18074,
+    "resolution": "400x225",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01-800.avif",
+    "pathFromSrc": "assets/images/bandeja-semillera-01-800.avif",
+    "format": "avif",
+    "size": 28341,
+    "resolution": "800x450",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01-800.webp",
+    "pathFromSrc": "assets/images/bandeja-semillera-01-800.webp",
+    "format": "webp",
+    "size": 46084,
+    "resolution": "800x450",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01.avif",
+    "pathFromSrc": "assets/images/bandeja-semillera-01.avif",
+    "format": "avif",
+    "size": 72040,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01.jpg",
+    "pathFromSrc": "assets/images/bandeja-semillera-01.jpg",
+    "format": "jpg",
+    "size": 354832,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-01.webp",
+    "pathFromSrc": "assets/images/bandeja-semillera-01.webp",
+    "format": "webp",
+    "size": 151398,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-400.avif",
+    "pathFromSrc": "assets/images/bandeja-semillera-400.avif",
+    "format": "avif",
+    "size": 9667,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera-400.webp",
+    "pathFromSrc": "assets/images/bandeja-semillera-400.webp",
+    "format": "webp",
+    "size": 17832,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera.avif",
+    "pathFromSrc": "assets/images/bandeja-semillera.avif",
+    "format": "avif",
+    "size": 12457,
+    "resolution": "449x449",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera.jpg",
+    "pathFromSrc": "assets/images/bandeja-semillera.jpg",
+    "format": "jpg",
+    "size": 45830,
+    "resolution": "449x449",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/bandeja-semillera.webp",
+    "pathFromSrc": "assets/images/bandeja-semillera.webp",
+    "format": "webp",
+    "size": 22344,
+    "resolution": "449x449",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-01.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-01.avif",
+    "format": "avif",
+    "size": 825,
+    "resolution": "61x61",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-01.png",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-01.png",
+    "format": "png",
+    "size": 2187,
+    "resolution": "61x61",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-01.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-01.webp",
+    "format": "webp",
+    "size": 868,
+    "resolution": "61x61",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-02.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-02.avif",
+    "format": "avif",
+    "size": 838,
+    "resolution": "70x83",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-02.png",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-02.png",
+    "format": "png",
+    "size": 2366,
+    "resolution": "70x83",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-02.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-02.webp",
+    "format": "webp",
+    "size": 976,
+    "resolution": "70x83",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-03.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-03.avif",
+    "format": "avif",
+    "size": 1074,
+    "resolution": "125x95",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-03.png",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-03.png",
+    "format": "png",
+    "size": 2758,
+    "resolution": "125x95",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-03.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-03.webp",
+    "format": "webp",
+    "size": 1460,
+    "resolution": "125x95",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-04.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-04.avif",
+    "format": "avif",
+    "size": 862,
+    "resolution": "96x75",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-04.png",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-04.png",
+    "format": "png",
+    "size": 2447,
+    "resolution": "96x75",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-04.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-04.webp",
+    "format": "webp",
+    "size": 1018,
+    "resolution": "96x75",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-05.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-05.avif",
+    "format": "avif",
+    "size": 867,
+    "resolution": "101x106",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-05.png",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-05.png",
+    "format": "png",
+    "size": 2446,
+    "resolution": "101x106",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-05.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-05.webp",
+    "format": "webp",
+    "size": 988,
+    "resolution": "101x106",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-06.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-06.avif",
+    "format": "avif",
+    "size": 911,
+    "resolution": "85x95",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-06.png",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-06.png",
+    "format": "png",
+    "size": 2620,
+    "resolution": "85x95",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-06.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-06.webp",
+    "format": "webp",
+    "size": 1128,
+    "resolution": "85x95",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-07.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-07.avif",
+    "format": "avif",
+    "size": 898,
+    "resolution": "108x71",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-07.png",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-07.png",
+    "format": "png",
+    "size": 2327,
+    "resolution": "108x71",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/flecha-07.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/flecha-07.webp",
+    "format": "webp",
+    "size": 1022,
+    "resolution": "108x71",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-00.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-00.avif",
+    "format": "avif",
+    "size": 454,
+    "resolution": "92x71",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-00.png",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-00.png",
+    "format": "png",
+    "size": 1497,
+    "resolution": "92x71",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-00.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-00.webp",
+    "format": "webp",
+    "size": 104,
+    "resolution": "92x71",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-01.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-01.avif",
+    "format": "avif",
+    "size": 1118,
+    "resolution": "116x118",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-01.png",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-01.png",
+    "format": "png",
+    "size": 4045,
+    "resolution": "116x118",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-01.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-01.webp",
+    "format": "webp",
+    "size": 1598,
+    "resolution": "116x118",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-02.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-02.avif",
+    "format": "avif",
+    "size": 885,
+    "resolution": "91x89",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-02.png",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-02.png",
+    "format": "png",
+    "size": 2928,
+    "resolution": "91x89",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-02.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-02.webp",
+    "format": "webp",
+    "size": 1126,
+    "resolution": "91x89",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-03.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-03.avif",
+    "format": "avif",
+    "size": 669,
+    "resolution": "49x81",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-03.png",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-03.png",
+    "format": "png",
+    "size": 2336,
+    "resolution": "49x81",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-03.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-03.webp",
+    "format": "webp",
+    "size": 622,
+    "resolution": "49x81",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-04.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-04.avif",
+    "format": "avif",
+    "size": 805,
+    "resolution": "129x112",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-04.png",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-04.png",
+    "format": "png",
+    "size": 2876,
+    "resolution": "129x112",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-04.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-04.webp",
+    "format": "webp",
+    "size": 1040,
+    "resolution": "129x112",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-05.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-05.avif",
+    "format": "avif",
+    "size": 818,
+    "resolution": "92x71",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-05.png",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-05.png",
+    "format": "png",
+    "size": 2926,
+    "resolution": "92x71",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-05.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-05.webp",
+    "format": "webp",
+    "size": 1106,
+    "resolution": "92x71",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-06.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-06.avif",
+    "format": "avif",
+    "size": 859,
+    "resolution": "108x85",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-06.png",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-06.png",
+    "format": "png",
+    "size": 2803,
+    "resolution": "108x85",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-06.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-06.webp",
+    "format": "webp",
+    "size": 1100,
+    "resolution": "108x85",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-07.avif",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-07.avif",
+    "format": "avif",
+    "size": 863,
+    "resolution": "73x91",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-07.png",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-07.png",
+    "format": "png",
+    "size": 2857,
+    "resolution": "73x91",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/banner/ventajas/hoja-07.webp",
+    "pathFromSrc": "assets/images/banner/ventajas/hoja-07.webp",
+    "format": "webp",
+    "size": 1044,
+    "resolution": "73x91",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/favicon-96x96.avif",
+    "pathFromSrc": "assets/images/favicon-96x96.avif",
+    "format": "avif",
+    "size": 4441,
+    "resolution": "96x96",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/favicon-96x96.png",
+    "pathFromSrc": "assets/images/favicon-96x96.png",
+    "format": "png",
+    "size": 23163,
+    "resolution": "96x96",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/favicon-96x96.webp",
+    "pathFromSrc": "assets/images/favicon-96x96.webp",
+    "format": "webp",
+    "size": 6628,
+    "resolution": "96x96",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/favicon.ico",
+    "pathFromSrc": "assets/images/favicon.ico",
+    "format": "ico",
+    "size": 15086,
+    "resolution": "N/A",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/favicon.svg",
+    "pathFromSrc": "assets/images/favicon.svg",
+    "format": "svg",
+    "size": 22363,
+    "resolution": "N/A",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/hoja.svg",
+    "pathFromSrc": "assets/images/hoja.svg",
+    "format": "svg",
+    "size": 156,
+    "resolution": "N/A",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01-1200.avif",
+    "pathFromSrc": "assets/images/icon-location-01-1200.avif",
+    "format": "avif",
+    "size": 31916,
+    "resolution": "1200x703",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01-1200.webp",
+    "pathFromSrc": "assets/images/icon-location-01-1200.webp",
+    "format": "webp",
+    "size": 56082,
+    "resolution": "1200x703",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01-400.avif",
+    "pathFromSrc": "assets/images/icon-location-01-400.avif",
+    "format": "avif",
+    "size": 7245,
+    "resolution": "400x234",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01-400.webp",
+    "pathFromSrc": "assets/images/icon-location-01-400.webp",
+    "format": "webp",
+    "size": 10792,
+    "resolution": "400x234",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01-800.avif",
+    "pathFromSrc": "assets/images/icon-location-01-800.avif",
+    "format": "avif",
+    "size": 20560,
+    "resolution": "800x469",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01-800.webp",
+    "pathFromSrc": "assets/images/icon-location-01-800.webp",
+    "format": "webp",
+    "size": 33230,
+    "resolution": "800x469",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01.avif",
+    "pathFromSrc": "assets/images/icon-location-01.avif",
+    "format": "avif",
+    "size": 36517,
+    "resolution": "1295x759",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01.jpg",
+    "pathFromSrc": "assets/images/icon-location-01.jpg",
+    "format": "jpg",
+    "size": 74998,
+    "resolution": "1295x759",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01.png",
+    "pathFromSrc": "assets/images/icon-location-01.png",
+    "format": "png",
+    "size": 560800,
+    "resolution": "1295x759",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location-01.webp",
+    "pathFromSrc": "assets/images/icon-location-01.webp",
+    "format": "webp",
+    "size": 62468,
+    "resolution": "1295x759",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location.avif",
+    "pathFromSrc": "assets/images/icon-location.avif",
+    "format": "avif",
+    "size": 986,
+    "resolution": "60x60",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location.png",
+    "pathFromSrc": "assets/images/icon-location.png",
+    "format": "png",
+    "size": 56700,
+    "resolution": "60x60",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/icon-location.webp",
+    "pathFromSrc": "assets/images/icon-location.webp",
+    "format": "webp",
+    "size": 1130,
+    "resolution": "60x60",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00-1200.avif",
+    "pathFromSrc": "assets/images/img-00-1200.avif",
+    "format": "avif",
+    "size": 29819,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00-1200.webp",
+    "pathFromSrc": "assets/images/img-00-1200.webp",
+    "format": "webp",
+    "size": 51078,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00-1600.avif",
+    "pathFromSrc": "assets/images/img-00-1600.avif",
+    "format": "avif",
+    "size": 43563,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00-1600.webp",
+    "pathFromSrc": "assets/images/img-00-1600.webp",
+    "format": "webp",
+    "size": 78036,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00-400.avif",
+    "pathFromSrc": "assets/images/img-00-400.avif",
+    "format": "avif",
+    "size": 6390,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00-400.webp",
+    "pathFromSrc": "assets/images/img-00-400.webp",
+    "format": "webp",
+    "size": 9802,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00-800.avif",
+    "pathFromSrc": "assets/images/img-00-800.avif",
+    "format": "avif",
+    "size": 16910,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00-800.webp",
+    "pathFromSrc": "assets/images/img-00-800.webp",
+    "format": "webp",
+    "size": 28228,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00.avif",
+    "pathFromSrc": "assets/images/img-00.avif",
+    "format": "avif",
+    "size": 57439,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00.jpg",
+    "pathFromSrc": "assets/images/img-00.jpg",
+    "format": "jpg",
+    "size": 229424,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-00.webp",
+    "pathFromSrc": "assets/images/img-00.webp",
+    "format": "webp",
+    "size": 104520,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01-1200.avif",
+    "pathFromSrc": "assets/images/img-01-1200.avif",
+    "format": "avif",
+    "size": 30454,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01-1200.webp",
+    "pathFromSrc": "assets/images/img-01-1200.webp",
+    "format": "webp",
+    "size": 53104,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01-1600.avif",
+    "pathFromSrc": "assets/images/img-01-1600.avif",
+    "format": "avif",
+    "size": 43727,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01-1600.webp",
+    "pathFromSrc": "assets/images/img-01-1600.webp",
+    "format": "webp",
+    "size": 79356,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01-400.avif",
+    "pathFromSrc": "assets/images/img-01-400.avif",
+    "format": "avif",
+    "size": 6468,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01-400.webp",
+    "pathFromSrc": "assets/images/img-01-400.webp",
+    "format": "webp",
+    "size": 9986,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01-800.avif",
+    "pathFromSrc": "assets/images/img-01-800.avif",
+    "format": "avif",
+    "size": 17045,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01-800.webp",
+    "pathFromSrc": "assets/images/img-01-800.webp",
+    "format": "webp",
+    "size": 28946,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01.avif",
+    "pathFromSrc": "assets/images/img-01.avif",
+    "format": "avif",
+    "size": 57217,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01.jpg",
+    "pathFromSrc": "assets/images/img-01.jpg",
+    "format": "jpg",
+    "size": 231563,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-01.webp",
+    "pathFromSrc": "assets/images/img-01.webp",
+    "format": "webp",
+    "size": 106156,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03-1200.avif",
+    "pathFromSrc": "assets/images/img-03-1200.avif",
+    "format": "avif",
+    "size": 68241,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03-1200.webp",
+    "pathFromSrc": "assets/images/img-03-1200.webp",
+    "format": "webp",
+    "size": 112242,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03-1600.avif",
+    "pathFromSrc": "assets/images/img-03-1600.avif",
+    "format": "avif",
+    "size": 93972,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03-1600.webp",
+    "pathFromSrc": "assets/images/img-03-1600.webp",
+    "format": "webp",
+    "size": 161336,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03-400.avif",
+    "pathFromSrc": "assets/images/img-03-400.avif",
+    "format": "avif",
+    "size": 17466,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03-400.webp",
+    "pathFromSrc": "assets/images/img-03-400.webp",
+    "format": "webp",
+    "size": 25092,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03-800.avif",
+    "pathFromSrc": "assets/images/img-03-800.avif",
+    "format": "avif",
+    "size": 41974,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03-800.webp",
+    "pathFromSrc": "assets/images/img-03-800.webp",
+    "format": "webp",
+    "size": 65786,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03.avif",
+    "pathFromSrc": "assets/images/img-03.avif",
+    "format": "avif",
+    "size": 105835,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03.jpg",
+    "pathFromSrc": "assets/images/img-03.jpg",
+    "format": "jpg",
+    "size": 161160,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03.png",
+    "pathFromSrc": "assets/images/img-03.png",
+    "format": "png",
+    "size": 2004182,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-03.webp",
+    "pathFromSrc": "assets/images/img-03.webp",
+    "format": "webp",
+    "size": 170264,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00-1200.avif",
+    "pathFromSrc": "assets/images/img-06-00-1200.avif",
+    "format": "avif",
+    "size": 5649,
+    "resolution": "1200x581",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00-1200.webp",
+    "pathFromSrc": "assets/images/img-06-00-1200.webp",
+    "format": "webp",
+    "size": 13416,
+    "resolution": "1200x581",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00-1600.avif",
+    "pathFromSrc": "assets/images/img-06-00-1600.avif",
+    "format": "avif",
+    "size": 7487,
+    "resolution": "1600x775",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00-1600.webp",
+    "pathFromSrc": "assets/images/img-06-00-1600.webp",
+    "format": "webp",
+    "size": 18778,
+    "resolution": "1600x775",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00-400.avif",
+    "pathFromSrc": "assets/images/img-06-00-400.avif",
+    "format": "avif",
+    "size": 2043,
+    "resolution": "400x194",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00-400.webp",
+    "pathFromSrc": "assets/images/img-06-00-400.webp",
+    "format": "webp",
+    "size": 3618,
+    "resolution": "400x194",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00-800.avif",
+    "pathFromSrc": "assets/images/img-06-00-800.avif",
+    "format": "avif",
+    "size": 3999,
+    "resolution": "800x388",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00-800.webp",
+    "pathFromSrc": "assets/images/img-06-00-800.webp",
+    "format": "webp",
+    "size": 8402,
+    "resolution": "800x388",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00.avif",
+    "pathFromSrc": "assets/images/img-06-00.avif",
+    "format": "avif",
+    "size": 8808,
+    "resolution": "1920x930",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00.jpg",
+    "pathFromSrc": "assets/images/img-06-00.jpg",
+    "format": "jpg",
+    "size": 366935,
+    "resolution": "1920x930",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-00.webp",
+    "pathFromSrc": "assets/images/img-06-00.webp",
+    "format": "webp",
+    "size": 23178,
+    "resolution": "1920x930",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01-1200.avif",
+    "pathFromSrc": "assets/images/img-06-01-1200.avif",
+    "format": "avif",
+    "size": 5687,
+    "resolution": "1200x581",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01-1200.webp",
+    "pathFromSrc": "assets/images/img-06-01-1200.webp",
+    "format": "webp",
+    "size": 13384,
+    "resolution": "1200x581",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01-1600.avif",
+    "pathFromSrc": "assets/images/img-06-01-1600.avif",
+    "format": "avif",
+    "size": 7455,
+    "resolution": "1600x775",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01-1600.webp",
+    "pathFromSrc": "assets/images/img-06-01-1600.webp",
+    "format": "webp",
+    "size": 18714,
+    "resolution": "1600x775",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01-400.avif",
+    "pathFromSrc": "assets/images/img-06-01-400.avif",
+    "format": "avif",
+    "size": 1953,
+    "resolution": "400x194",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01-400.webp",
+    "pathFromSrc": "assets/images/img-06-01-400.webp",
+    "format": "webp",
+    "size": 3644,
+    "resolution": "400x194",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01-800.avif",
+    "pathFromSrc": "assets/images/img-06-01-800.avif",
+    "format": "avif",
+    "size": 3973,
+    "resolution": "800x388",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01-800.webp",
+    "pathFromSrc": "assets/images/img-06-01-800.webp",
+    "format": "webp",
+    "size": 8316,
+    "resolution": "800x388",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01.avif",
+    "pathFromSrc": "assets/images/img-06-01.avif",
+    "format": "avif",
+    "size": 8930,
+    "resolution": "1920x930",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01.jpg",
+    "pathFromSrc": "assets/images/img-06-01.jpg",
+    "format": "jpg",
+    "size": 292933,
+    "resolution": "1920x930",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-01.webp",
+    "pathFromSrc": "assets/images/img-06-01.webp",
+    "format": "webp",
+    "size": 23172,
+    "resolution": "1920x930",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02-1200.avif",
+    "pathFromSrc": "assets/images/img-06-02-1200.avif",
+    "format": "avif",
+    "size": 5893,
+    "resolution": "1200x675",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02-1200.webp",
+    "pathFromSrc": "assets/images/img-06-02-1200.webp",
+    "format": "webp",
+    "size": 14050,
+    "resolution": "1200x675",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02-1600.avif",
+    "pathFromSrc": "assets/images/img-06-02-1600.avif",
+    "format": "avif",
+    "size": 7709,
+    "resolution": "1600x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02-1600.webp",
+    "pathFromSrc": "assets/images/img-06-02-1600.webp",
+    "format": "webp",
+    "size": 19674,
+    "resolution": "1600x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02-400.avif",
+    "pathFromSrc": "assets/images/img-06-02-400.avif",
+    "format": "avif",
+    "size": 2075,
+    "resolution": "400x225",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02-400.webp",
+    "pathFromSrc": "assets/images/img-06-02-400.webp",
+    "format": "webp",
+    "size": 3734,
+    "resolution": "400x225",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02-800.avif",
+    "pathFromSrc": "assets/images/img-06-02-800.avif",
+    "format": "avif",
+    "size": 4056,
+    "resolution": "800x450",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02-800.webp",
+    "pathFromSrc": "assets/images/img-06-02-800.webp",
+    "format": "webp",
+    "size": 8926,
+    "resolution": "800x450",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02.avif",
+    "pathFromSrc": "assets/images/img-06-02.avif",
+    "format": "avif",
+    "size": 9212,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02.jpg",
+    "pathFromSrc": "assets/images/img-06-02.jpg",
+    "format": "jpg",
+    "size": 273587,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-02.webp",
+    "pathFromSrc": "assets/images/img-06-02.webp",
+    "format": "webp",
+    "size": 24482,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03-1200.avif",
+    "pathFromSrc": "assets/images/img-06-03-1200.avif",
+    "format": "avif",
+    "size": 3387,
+    "resolution": "1200x675",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03-1200.webp",
+    "pathFromSrc": "assets/images/img-06-03-1200.webp",
+    "format": "webp",
+    "size": 9118,
+    "resolution": "1200x675",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03-1600.avif",
+    "pathFromSrc": "assets/images/img-06-03-1600.avif",
+    "format": "avif",
+    "size": 4346,
+    "resolution": "1600x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03-1600.webp",
+    "pathFromSrc": "assets/images/img-06-03-1600.webp",
+    "format": "webp",
+    "size": 13338,
+    "resolution": "1600x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03-400.avif",
+    "pathFromSrc": "assets/images/img-06-03-400.avif",
+    "format": "avif",
+    "size": 1505,
+    "resolution": "400x225",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03-400.webp",
+    "pathFromSrc": "assets/images/img-06-03-400.webp",
+    "format": "webp",
+    "size": 2618,
+    "resolution": "400x225",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03-800.avif",
+    "pathFromSrc": "assets/images/img-06-03-800.avif",
+    "format": "avif",
+    "size": 2527,
+    "resolution": "800x450",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03-800.webp",
+    "pathFromSrc": "assets/images/img-06-03-800.webp",
+    "format": "webp",
+    "size": 5592,
+    "resolution": "800x450",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03.avif",
+    "pathFromSrc": "assets/images/img-06-03.avif",
+    "format": "avif",
+    "size": 5087,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03.jpg",
+    "pathFromSrc": "assets/images/img-06-03.jpg",
+    "format": "jpg",
+    "size": 173850,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-03.webp",
+    "pathFromSrc": "assets/images/img-06-03.webp",
+    "format": "webp",
+    "size": 17204,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04-1200.avif",
+    "pathFromSrc": "assets/images/img-06-04-1200.avif",
+    "format": "avif",
+    "size": 3338,
+    "resolution": "1200x675",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04-1200.webp",
+    "pathFromSrc": "assets/images/img-06-04-1200.webp",
+    "format": "webp",
+    "size": 8898,
+    "resolution": "1200x675",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04-1600.avif",
+    "pathFromSrc": "assets/images/img-06-04-1600.avif",
+    "format": "avif",
+    "size": 4250,
+    "resolution": "1600x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04-1600.webp",
+    "pathFromSrc": "assets/images/img-06-04-1600.webp",
+    "format": "webp",
+    "size": 12966,
+    "resolution": "1600x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04-400.avif",
+    "pathFromSrc": "assets/images/img-06-04-400.avif",
+    "format": "avif",
+    "size": 1475,
+    "resolution": "400x225",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04-400.webp",
+    "pathFromSrc": "assets/images/img-06-04-400.webp",
+    "format": "webp",
+    "size": 2486,
+    "resolution": "400x225",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04-800.avif",
+    "pathFromSrc": "assets/images/img-06-04-800.avif",
+    "format": "avif",
+    "size": 2546,
+    "resolution": "800x450",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04-800.webp",
+    "pathFromSrc": "assets/images/img-06-04-800.webp",
+    "format": "webp",
+    "size": 5420,
+    "resolution": "800x450",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04.avif",
+    "pathFromSrc": "assets/images/img-06-04.avif",
+    "format": "avif",
+    "size": 5076,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04.jpg",
+    "pathFromSrc": "assets/images/img-06-04.jpg",
+    "format": "jpg",
+    "size": 176449,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-04.webp",
+    "pathFromSrc": "assets/images/img-06-04.webp",
+    "format": "webp",
+    "size": 16762,
+    "resolution": "1920x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-1200.avif",
+    "pathFromSrc": "assets/images/img-06-1200.avif",
+    "format": "avif",
+    "size": 70006,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-1200.webp",
+    "pathFromSrc": "assets/images/img-06-1200.webp",
+    "format": "webp",
+    "size": 109374,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-1600.avif",
+    "pathFromSrc": "assets/images/img-06-1600.avif",
+    "format": "avif",
+    "size": 94021,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-1600.webp",
+    "pathFromSrc": "assets/images/img-06-1600.webp",
+    "format": "webp",
+    "size": 154552,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-400.avif",
+    "pathFromSrc": "assets/images/img-06-400.avif",
+    "format": "avif",
+    "size": 20464,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-400.webp",
+    "pathFromSrc": "assets/images/img-06-400.webp",
+    "format": "webp",
+    "size": 27172,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-800.avif",
+    "pathFromSrc": "assets/images/img-06-800.avif",
+    "format": "avif",
+    "size": 44292,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06-800.webp",
+    "pathFromSrc": "assets/images/img-06-800.webp",
+    "format": "webp",
+    "size": 65642,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06.avif",
+    "pathFromSrc": "assets/images/img-06.avif",
+    "format": "avif",
+    "size": 87181,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06.jpg",
+    "pathFromSrc": "assets/images/img-06.jpg",
+    "format": "jpg",
+    "size": 118065,
+    "resolution": "1920x1920",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06.png",
+    "pathFromSrc": "assets/images/img-06.png",
+    "format": "png",
+    "size": 1443408,
+    "resolution": "1920x1920",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/img-06.webp",
+    "pathFromSrc": "assets/images/img-06.webp",
+    "format": "webp",
+    "size": 133336,
+    "resolution": "1920x1920",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01-1200.avif",
+    "pathFromSrc": "assets/images/img-07-01-1200.avif",
+    "format": "avif",
+    "size": 31096,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01-1200.webp",
+    "pathFromSrc": "assets/images/img-07-01-1200.webp",
+    "format": "webp",
+    "size": 52192,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01-1600.avif",
+    "pathFromSrc": "assets/images/img-07-01-1600.avif",
+    "format": "avif",
+    "size": 44959,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01-1600.webp",
+    "pathFromSrc": "assets/images/img-07-01-1600.webp",
+    "format": "webp",
+    "size": 79146,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01-400.avif",
+    "pathFromSrc": "assets/images/img-07-01-400.avif",
+    "format": "avif",
+    "size": 6075,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01-400.webp",
+    "pathFromSrc": "assets/images/img-07-01-400.webp",
+    "format": "webp",
+    "size": 8674,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01-800.avif",
+    "pathFromSrc": "assets/images/img-07-01-800.avif",
+    "format": "avif",
+    "size": 17653,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01-800.webp",
+    "pathFromSrc": "assets/images/img-07-01-800.webp",
+    "format": "webp",
+    "size": 27786,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01.avif",
+    "pathFromSrc": "assets/images/img-07-01.avif",
+    "format": "avif",
+    "size": 60156,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01.jpg",
+    "pathFromSrc": "assets/images/img-07-01.jpg",
+    "format": "jpg",
+    "size": 105415,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-01.webp",
+    "pathFromSrc": "assets/images/img-07-01.webp",
+    "format": "webp",
+    "size": 100872,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-1200.avif",
+    "pathFromSrc": "assets/images/img-07-1200.avif",
+    "format": "avif",
+    "size": 31200,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-1200.webp",
+    "pathFromSrc": "assets/images/img-07-1200.webp",
+    "format": "webp",
+    "size": 52538,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-1600.avif",
+    "pathFromSrc": "assets/images/img-07-1600.avif",
+    "format": "avif",
+    "size": 45211,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-1600.webp",
+    "pathFromSrc": "assets/images/img-07-1600.webp",
+    "format": "webp",
+    "size": 79744,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-400.avif",
+    "pathFromSrc": "assets/images/img-07-400.avif",
+    "format": "avif",
+    "size": 6083,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-400.webp",
+    "pathFromSrc": "assets/images/img-07-400.webp",
+    "format": "webp",
+    "size": 8706,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-800.avif",
+    "pathFromSrc": "assets/images/img-07-800.avif",
+    "format": "avif",
+    "size": 17687,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07-800.webp",
+    "pathFromSrc": "assets/images/img-07-800.webp",
+    "format": "webp",
+    "size": 27796,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07.avif",
+    "pathFromSrc": "assets/images/img-07.avif",
+    "format": "avif",
+    "size": 60458,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07.jpg",
+    "pathFromSrc": "assets/images/img-07.jpg",
+    "format": "jpg",
+    "size": 105295,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-07.webp",
+    "pathFromSrc": "assets/images/img-07.webp",
+    "format": "webp",
+    "size": 101340,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-11-01-400.avif",
+    "pathFromSrc": "assets/images/img-11-01-400.avif",
+    "format": "avif",
+    "size": 10353,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-11-01-400.webp",
+    "pathFromSrc": "assets/images/img-11-01-400.webp",
+    "format": "webp",
+    "size": 16630,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-11-01.avif",
+    "pathFromSrc": "assets/images/img-11-01.avif",
+    "format": "avif",
+    "size": 16694,
+    "resolution": "600x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-11-01.jpg",
+    "pathFromSrc": "assets/images/img-11-01.jpg",
+    "format": "jpg",
+    "size": 203945,
+    "resolution": "600x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-11-01.webp",
+    "pathFromSrc": "assets/images/img-11-01.webp",
+    "format": "webp",
+    "size": 28434,
+    "resolution": "600x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14-1200.avif",
+    "pathFromSrc": "assets/images/img-14-1200.avif",
+    "format": "avif",
+    "size": 55176,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14-1200.webp",
+    "pathFromSrc": "assets/images/img-14-1200.webp",
+    "format": "webp",
+    "size": 102594,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14-1600.avif",
+    "pathFromSrc": "assets/images/img-14-1600.avif",
+    "format": "avif",
+    "size": 79834,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14-1600.webp",
+    "pathFromSrc": "assets/images/img-14-1600.webp",
+    "format": "webp",
+    "size": 150200,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14-400.avif",
+    "pathFromSrc": "assets/images/img-14-400.avif",
+    "format": "avif",
+    "size": 10941,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14-400.webp",
+    "pathFromSrc": "assets/images/img-14-400.webp",
+    "format": "webp",
+    "size": 17302,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14-800.avif",
+    "pathFromSrc": "assets/images/img-14-800.avif",
+    "format": "avif",
+    "size": 31371,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14-800.webp",
+    "pathFromSrc": "assets/images/img-14-800.webp",
+    "format": "webp",
+    "size": 55648,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14.avif",
+    "pathFromSrc": "assets/images/img-14.avif",
+    "format": "avif",
+    "size": 89929,
+    "resolution": "1620x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14.jpg",
+    "pathFromSrc": "assets/images/img-14.jpg",
+    "format": "jpg",
+    "size": 150604,
+    "resolution": "1620x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-14.webp",
+    "pathFromSrc": "assets/images/img-14.webp",
+    "format": "webp",
+    "size": 155784,
+    "resolution": "1620x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19-1200.avif",
+    "pathFromSrc": "assets/images/img-19-1200.avif",
+    "format": "avif",
+    "size": 83457,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19-1200.webp",
+    "pathFromSrc": "assets/images/img-19-1200.webp",
+    "format": "webp",
+    "size": 148636,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19-1600.avif",
+    "pathFromSrc": "assets/images/img-19-1600.avif",
+    "format": "avif",
+    "size": 119220,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19-1600.webp",
+    "pathFromSrc": "assets/images/img-19-1600.webp",
+    "format": "webp",
+    "size": 216150,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19-400.avif",
+    "pathFromSrc": "assets/images/img-19-400.avif",
+    "format": "avif",
+    "size": 19257,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19-400.webp",
+    "pathFromSrc": "assets/images/img-19-400.webp",
+    "format": "webp",
+    "size": 28660,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19-800.avif",
+    "pathFromSrc": "assets/images/img-19-800.avif",
+    "format": "avif",
+    "size": 49689,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19-800.webp",
+    "pathFromSrc": "assets/images/img-19-800.webp",
+    "format": "webp",
+    "size": 82540,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19.avif",
+    "pathFromSrc": "assets/images/img-19.avif",
+    "format": "avif",
+    "size": 165531,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19.jpg",
+    "pathFromSrc": "assets/images/img-19.jpg",
+    "format": "jpg",
+    "size": 266819,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/img-19.webp",
+    "pathFromSrc": "assets/images/img-19.webp",
+    "format": "webp",
+    "size": 273074,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-00.avif",
+    "pathFromSrc": "assets/images/logo-00.avif",
+    "format": "avif",
+    "size": 11885,
+    "resolution": "394x379",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-00.png",
+    "pathFromSrc": "assets/images/logo-00.png",
+    "format": "png",
+    "size": 30191,
+    "resolution": "394x379",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-00.webp",
+    "pathFromSrc": "assets/images/logo-00.webp",
+    "format": "webp",
+    "size": 17176,
+    "resolution": "394x379",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-01.avif",
+    "pathFromSrc": "assets/images/logo-01.avif",
+    "format": "avif",
+    "size": 2700,
+    "resolution": "70x74",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-01.png",
+    "pathFromSrc": "assets/images/logo-01.png",
+    "format": "png",
+    "size": 20706,
+    "resolution": "70x74",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-01.webp",
+    "pathFromSrc": "assets/images/logo-01.webp",
+    "format": "webp",
+    "size": 3390,
+    "resolution": "70x74",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-02.avif",
+    "pathFromSrc": "assets/images/logo-02.avif",
+    "format": "avif",
+    "size": 13784,
+    "resolution": "318x318",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-02.png",
+    "pathFromSrc": "assets/images/logo-02.png",
+    "format": "png",
+    "size": 115196,
+    "resolution": "318x318",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-02.webp",
+    "pathFromSrc": "assets/images/logo-02.webp",
+    "format": "webp",
+    "size": 26356,
+    "resolution": "318x318",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-03.avif",
+    "pathFromSrc": "assets/images/logo-03.avif",
+    "format": "avif",
+    "size": 3362,
+    "resolution": "70x70",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-03.png",
+    "pathFromSrc": "assets/images/logo-03.png",
+    "format": "png",
+    "size": 16469,
+    "resolution": "70x70",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/logo-03.webp",
+    "pathFromSrc": "assets/images/logo-03.webp",
+    "format": "webp",
+    "size": 3686,
+    "resolution": "70x70",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-cuadrada-400.avif",
+    "pathFromSrc": "assets/images/maceta-cuadrada-400.avif",
+    "format": "avif",
+    "size": 27807,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-cuadrada-400.webp",
+    "pathFromSrc": "assets/images/maceta-cuadrada-400.webp",
+    "format": "webp",
+    "size": 42408,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-cuadrada.avif",
+    "pathFromSrc": "assets/images/maceta-cuadrada.avif",
+    "format": "avif",
+    "size": 54961,
+    "resolution": "613x613",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-cuadrada.jpg",
+    "pathFromSrc": "assets/images/maceta-cuadrada.jpg",
+    "format": "jpg",
+    "size": 279250,
+    "resolution": "613x613",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-cuadrada.webp",
+    "pathFromSrc": "assets/images/maceta-cuadrada.webp",
+    "format": "webp",
+    "size": 81480,
+    "resolution": "613x613",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-floral-1l.avif",
+    "pathFromSrc": "assets/images/maceta-floral-1l.avif",
+    "format": "avif",
+    "size": 955,
+    "resolution": "137x137",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-floral-1l.jpg",
+    "pathFromSrc": "assets/images/maceta-floral-1l.jpg",
+    "format": "jpg",
+    "size": 9168,
+    "resolution": "137x137",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-floral-1l.webp",
+    "pathFromSrc": "assets/images/maceta-floral-1l.webp",
+    "format": "webp",
+    "size": 1424,
+    "resolution": "137x137",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-floral.avif",
+    "pathFromSrc": "assets/images/maceta-floral.avif",
+    "format": "avif",
+    "size": 748,
+    "resolution": "137x137",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-floral.jpg",
+    "pathFromSrc": "assets/images/maceta-floral.jpg",
+    "format": "jpg",
+    "size": 7164,
+    "resolution": "137x137",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-floral.webp",
+    "pathFromSrc": "assets/images/maceta-floral.webp",
+    "format": "webp",
+    "size": 1022,
+    "resolution": "137x137",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo-01-400.avif",
+    "pathFromSrc": "assets/images/maceta-olivo-01-400.avif",
+    "format": "avif",
+    "size": 12875,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo-01-400.webp",
+    "pathFromSrc": "assets/images/maceta-olivo-01-400.webp",
+    "format": "webp",
+    "size": 19890,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo-01.avif",
+    "pathFromSrc": "assets/images/maceta-olivo-01.avif",
+    "format": "avif",
+    "size": 19959,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo-01.png",
+    "pathFromSrc": "assets/images/maceta-olivo-01.png",
+    "format": "png",
+    "size": 436020,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo-01.webp",
+    "pathFromSrc": "assets/images/maceta-olivo-01.webp",
+    "format": "webp",
+    "size": 34936,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo-400.avif",
+    "pathFromSrc": "assets/images/maceta-olivo-400.avif",
+    "format": "avif",
+    "size": 17821,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo-400.webp",
+    "pathFromSrc": "assets/images/maceta-olivo-400.webp",
+    "format": "webp",
+    "size": 28236,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo-800.avif",
+    "pathFromSrc": "assets/images/maceta-olivo-800.avif",
+    "format": "avif",
+    "size": 44091,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo-800.webp",
+    "pathFromSrc": "assets/images/maceta-olivo-800.webp",
+    "format": "webp",
+    "size": 74666,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo.avif",
+    "pathFromSrc": "assets/images/maceta-olivo.avif",
+    "format": "avif",
+    "size": 20250,
+    "resolution": "600x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo.jpg",
+    "pathFromSrc": "assets/images/maceta-olivo.jpg",
+    "format": "jpg",
+    "size": 256743,
+    "resolution": "1080x1080",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo.png",
+    "pathFromSrc": "assets/images/maceta-olivo.png",
+    "format": "png",
+    "size": 422635,
+    "resolution": "600x600",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/maceta-olivo.webp",
+    "pathFromSrc": "assets/images/maceta-olivo.webp",
+    "format": "webp",
+    "size": 34572,
+    "resolution": "600x600",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-00-400.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-00-400.avif",
+    "format": "avif",
+    "size": 13448,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-00-400.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-00-400.webp",
+    "format": "webp",
+    "size": 21134,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-00-800.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-00-800.avif",
+    "format": "avif",
+    "size": 33321,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-00-800.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-00-800.webp",
+    "format": "webp",
+    "size": 52588,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-00.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-00.avif",
+    "format": "avif",
+    "size": 47335,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-00.jpg",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-00.jpg",
+    "format": "jpg",
+    "size": 185879,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-00.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-00.webp",
+    "format": "webp",
+    "size": 78710,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-01-400.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-01-400.avif",
+    "format": "avif",
+    "size": 7281,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-01-400.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-01-400.webp",
+    "format": "webp",
+    "size": 10274,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-01-800.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-01-800.avif",
+    "format": "avif",
+    "size": 13561,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-01-800.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-01-800.webp",
+    "format": "webp",
+    "size": 21880,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-01.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-01.avif",
+    "format": "avif",
+    "size": 9135,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-01.jpg",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-01.jpg",
+    "format": "jpg",
+    "size": 163932,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-01.png",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-01.png",
+    "format": "png",
+    "size": 21336,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-01.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-01.webp",
+    "format": "webp",
+    "size": 14794,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-400.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-400.avif",
+    "format": "avif",
+    "size": 14366,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-400.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-400.webp",
+    "format": "webp",
+    "size": 22484,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-800.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-800.avif",
+    "format": "avif",
+    "size": 34870,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00-800.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00-800.webp",
+    "format": "webp",
+    "size": 54872,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00.avif",
+    "format": "avif",
+    "size": 48771,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00.jpg",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00.jpg",
+    "format": "jpg",
+    "size": 108253,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-00.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-00.webp",
+    "format": "webp",
+    "size": 81712,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01-1200.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01-1200.avif",
+    "format": "avif",
+    "size": 24820,
+    "resolution": "1200x1194",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01-1200.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01-1200.webp",
+    "format": "webp",
+    "size": 54554,
+    "resolution": "1200x1194",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01-1600.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01-1600.avif",
+    "format": "avif",
+    "size": 31200,
+    "resolution": "1600x1592",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01-1600.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01-1600.webp",
+    "format": "webp",
+    "size": 77770,
+    "resolution": "1600x1592",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01-400.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01-400.avif",
+    "format": "avif",
+    "size": 10480,
+    "resolution": "400x398",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01-400.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01-400.webp",
+    "format": "webp",
+    "size": 16444,
+    "resolution": "400x398",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01-800.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01-800.avif",
+    "format": "avif",
+    "size": 18084,
+    "resolution": "800x796",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01-800.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01-800.webp",
+    "format": "webp",
+    "size": 35150,
+    "resolution": "800x796",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01.avif",
+    "format": "avif",
+    "size": 104158,
+    "resolution": "5869x5838",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01.jpg",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01.jpg",
+    "format": "jpg",
+    "size": 4393535,
+    "resolution": "5869x5838",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-01.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-01.webp",
+    "format": "webp",
+    "size": 385822,
+    "resolution": "5869x5838",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-02-400.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-02-400.avif",
+    "format": "avif",
+    "size": 18208,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-02-400.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-02-400.webp",
+    "format": "webp",
+    "size": 28000,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-02-800.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-02-800.avif",
+    "format": "avif",
+    "size": 44091,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-02-800.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-02-800.webp",
+    "format": "webp",
+    "size": 74666,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-02.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-02.avif",
+    "format": "avif",
+    "size": 63126,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-02.jpg",
+    "pathFromSrc": "assets/images/macetas-biodegradables-02.jpg",
+    "format": "jpg",
+    "size": 256743,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-02.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-02.webp",
+    "format": "webp",
+    "size": 112540,
+    "resolution": "1080x1080",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-03-1200.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-03-1200.avif",
+    "format": "avif",
+    "size": 157872,
+    "resolution": "1200x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-03-1200.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-03-1200.webp",
+    "format": "webp",
+    "size": 238492,
+    "resolution": "1200x900",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-03-400.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-03-400.avif",
+    "format": "avif",
+    "size": 27435,
+    "resolution": "400x300",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-03-400.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-03-400.webp",
+    "format": "webp",
+    "size": 36614,
+    "resolution": "400x300",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-03-800.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-03-800.avif",
+    "format": "avif",
+    "size": 90378,
+    "resolution": "800x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-03-800.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-03-800.webp",
+    "format": "webp",
+    "size": 127164,
+    "resolution": "800x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-03.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-03.avif",
+    "format": "avif",
+    "size": 175966,
+    "resolution": "1280x960",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-03.jpg",
+    "pathFromSrc": "assets/images/macetas-biodegradables-03.jpg",
+    "format": "jpg",
+    "size": 272221,
+    "resolution": "1280x960",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-03.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-03.webp",
+    "format": "webp",
+    "size": 263186,
+    "resolution": "1280x960",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-04-400.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-04-400.avif",
+    "format": "avif",
+    "size": 8565,
+    "resolution": "400x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-04-400.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-04-400.webp",
+    "format": "webp",
+    "size": 13844,
+    "resolution": "400x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-04-800.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-04-800.avif",
+    "format": "avif",
+    "size": 23482,
+    "resolution": "800x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-04-800.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-04-800.webp",
+    "format": "webp",
+    "size": 40544,
+    "resolution": "800x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-04.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-04.avif",
+    "format": "avif",
+    "size": 29393,
+    "resolution": "960x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-04.jpg",
+    "pathFromSrc": "assets/images/macetas-biodegradables-04.jpg",
+    "format": "jpg",
+    "size": 122389,
+    "resolution": "960x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-04.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-04.webp",
+    "format": "webp",
+    "size": 52894,
+    "resolution": "960x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-05-400.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-05-400.avif",
+    "format": "avif",
+    "size": 14612,
+    "resolution": "400x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-05-400.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-05-400.webp",
+    "format": "webp",
+    "size": 25516,
+    "resolution": "400x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-05.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-05.avif",
+    "format": "avif",
+    "size": 37770,
+    "resolution": "768x1024",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-05.jpg",
+    "pathFromSrc": "assets/images/macetas-biodegradables-05.jpg",
+    "format": "jpg",
+    "size": 89496,
+    "resolution": "768x1024",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-05.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-05.webp",
+    "format": "webp",
+    "size": 67694,
+    "resolution": "768x1024",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-06-400.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-06-400.avif",
+    "format": "avif",
+    "size": 27807,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-06-400.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-06-400.webp",
+    "format": "webp",
+    "size": 42408,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-06.avif",
+    "pathFromSrc": "assets/images/macetas-biodegradables-06.avif",
+    "format": "avif",
+    "size": 54961,
+    "resolution": "613x613",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-06.jpg",
+    "pathFromSrc": "assets/images/macetas-biodegradables-06.jpg",
+    "format": "jpg",
+    "size": 279250,
+    "resolution": "613x613",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/macetas-biodegradables-06.webp",
+    "pathFromSrc": "assets/images/macetas-biodegradables-06.webp",
+    "format": "webp",
+    "size": 81480,
+    "resolution": "613x613",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1)-400.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1)-400.avif",
+    "format": "avif",
+    "size": 30066,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1)-400.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1)-400.webp",
+    "format": "webp",
+    "size": 42278,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1)-800.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1)-800.avif",
+    "format": "avif",
+    "size": 79812,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1)-800.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1)-800.webp",
+    "format": "webp",
+    "size": 123610,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1).avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1).avif",
+    "format": "avif",
+    "size": 106618,
+    "resolution": "1024x1024",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1).jpeg",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1).jpeg",
+    "format": "jpeg",
+    "size": 355140,
+    "resolution": "1024x1024",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1).webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (1).webp",
+    "format": "webp",
+    "size": 172394,
+    "resolution": "1024x1024",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2)-400.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2)-400.avif",
+    "format": "avif",
+    "size": 24238,
+    "resolution": "400x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2)-400.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2)-400.webp",
+    "format": "webp",
+    "size": 37452,
+    "resolution": "400x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2)-800.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2)-800.avif",
+    "format": "avif",
+    "size": 65396,
+    "resolution": "800x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2)-800.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2)-800.webp",
+    "format": "webp",
+    "size": 112702,
+    "resolution": "800x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2).avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2).avif",
+    "format": "avif",
+    "size": 91713,
+    "resolution": "1024x1536",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2).jpeg",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2).jpeg",
+    "format": "jpeg",
+    "size": 420816,
+    "resolution": "1024x1536",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2).webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59 (2).webp",
+    "format": "webp",
+    "size": 166120,
+    "resolution": "1024x1536",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-1200.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-1200.avif",
+    "format": "avif",
+    "size": 80612,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-1200.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-1200.webp",
+    "format": "webp",
+    "size": 122988,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-400.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-400.avif",
+    "format": "avif",
+    "size": 15214,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-400.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-400.webp",
+    "format": "webp",
+    "size": 20632,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-800.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-800.avif",
+    "format": "avif",
+    "size": 45609,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-800.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59-800.webp",
+    "format": "webp",
+    "size": 65710,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59.avif",
+    "format": "avif",
+    "size": 108716,
+    "resolution": "1536x1024",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59.jpeg",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59.jpeg",
+    "format": "jpeg",
+    "size": 371501,
+    "resolution": "1536x1024",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.52.59.webp",
+    "format": "webp",
+    "size": 175794,
+    "resolution": "1536x1024",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00-400.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00-400.avif",
+    "format": "avif",
+    "size": 25275,
+    "resolution": "400x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00-400.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00-400.webp",
+    "format": "webp",
+    "size": 39544,
+    "resolution": "400x600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00-800.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00-800.avif",
+    "format": "avif",
+    "size": 65015,
+    "resolution": "800x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00-800.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00-800.webp",
+    "format": "webp",
+    "size": 113080,
+    "resolution": "800x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00.avif",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00.avif",
+    "format": "avif",
+    "size": 88701,
+    "resolution": "1024x1536",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00.jpeg",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00.jpeg",
+    "format": "jpeg",
+    "size": 435215,
+    "resolution": "1024x1536",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00.webp",
+    "pathFromSrc": "assets/images/mailing/WhatsApp Image 2026-02-17 at 10.53.00.webp",
+    "format": "webp",
+    "size": 166122,
+    "resolution": "1024x1536",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-400.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-01-400.avif",
+    "format": "avif",
+    "size": 10934,
+    "resolution": "400x361",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-400.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-01-400.webp",
+    "format": "webp",
+    "size": 15460,
+    "resolution": "400x361",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-800.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-01-800.avif",
+    "format": "avif",
+    "size": 25753,
+    "resolution": "800x723",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-800.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-01-800.webp",
+    "format": "webp",
+    "size": 39456,
+    "resolution": "800x723",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-b-400.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-01-b-400.avif",
+    "format": "avif",
+    "size": 11017,
+    "resolution": "400x358",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-b-400.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-01-b-400.webp",
+    "format": "webp",
+    "size": 15366,
+    "resolution": "400x358",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-b-800.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-01-b-800.avif",
+    "format": "avif",
+    "size": 25640,
+    "resolution": "800x716",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-b-800.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-01-b-800.webp",
+    "format": "webp",
+    "size": 38978,
+    "resolution": "800x716",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-b.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-01-b.avif",
+    "format": "avif",
+    "size": 30542,
+    "resolution": "900x806",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-b.jpg",
+    "pathFromSrc": "assets/images/mailing-bloque-01-b.jpg",
+    "format": "jpg",
+    "size": 306441,
+    "resolution": "900x806",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-b.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-01-b.webp",
+    "format": "webp",
+    "size": 46162,
+    "resolution": "900x806",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-c-400.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-01-c-400.avif",
+    "format": "avif",
+    "size": 10860,
+    "resolution": "400x358",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-c-400.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-01-c-400.webp",
+    "format": "webp",
+    "size": 15164,
+    "resolution": "400x358",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-c-800.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-01-c-800.avif",
+    "format": "avif",
+    "size": 25526,
+    "resolution": "800x716",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-c-800.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-01-c-800.webp",
+    "format": "webp",
+    "size": 38676,
+    "resolution": "800x716",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-c.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-01-c.avif",
+    "format": "avif",
+    "size": 30400,
+    "resolution": "900x805",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-c.jpg",
+    "pathFromSrc": "assets/images/mailing-bloque-01-c.jpg",
+    "format": "jpg",
+    "size": 301527,
+    "resolution": "900x805",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01-c.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-01-c.webp",
+    "format": "webp",
+    "size": 45932,
+    "resolution": "900x805",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-01.avif",
+    "format": "avif",
+    "size": 30416,
+    "resolution": "890x804",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01.jpg",
+    "pathFromSrc": "assets/images/mailing-bloque-01.jpg",
+    "format": "jpg",
+    "size": 260831,
+    "resolution": "800x723",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01.png",
+    "pathFromSrc": "assets/images/mailing-bloque-01.png",
+    "format": "png",
+    "size": 402226,
+    "resolution": "890x804",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-01.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-01.webp",
+    "format": "webp",
+    "size": 45454,
+    "resolution": "890x804",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-02-problema-maceta-plastico.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-02-problema-maceta-plastico.avif",
+    "format": "avif",
+    "size": 12794,
+    "resolution": "300x300",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-02-problema-maceta-plastico.jpg",
+    "pathFromSrc": "assets/images/mailing-bloque-02-problema-maceta-plastico.jpg",
+    "format": "jpg",
+    "size": 82964,
+    "resolution": "300x300",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-02-problema-maceta-plastico.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-02-problema-maceta-plastico.webp",
+    "format": "webp",
+    "size": 19322,
+    "resolution": "300x300",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-03-solucion-maceta-biodegradable.avif",
+    "pathFromSrc": "assets/images/mailing-bloque-03-solucion-maceta-biodegradable.avif",
+    "format": "avif",
+    "size": 20192,
+    "resolution": "300x300",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-03-solucion-maceta-biodegradable.jpg",
+    "pathFromSrc": "assets/images/mailing-bloque-03-solucion-maceta-biodegradable.jpg",
+    "format": "jpg",
+    "size": 100255,
+    "resolution": "300x300",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mailing-bloque-03-solucion-maceta-biodegradable.webp",
+    "pathFromSrc": "assets/images/mailing-bloque-03-solucion-maceta-biodegradable.webp",
+    "format": "webp",
+    "size": 28018,
+    "resolution": "300x300",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mensaje-difusion-00-FLYER-03-producto-400.avif",
+    "pathFromSrc": "assets/images/mensaje-difusion-00-FLYER-03-producto-400.avif",
+    "format": "avif",
+    "size": 3870,
+    "resolution": "400x201",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mensaje-difusion-00-FLYER-03-producto-400.webp",
+    "pathFromSrc": "assets/images/mensaje-difusion-00-FLYER-03-producto-400.webp",
+    "format": "webp",
+    "size": 5466,
+    "resolution": "400x201",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mensaje-difusion-00-FLYER-03-producto-800.avif",
+    "pathFromSrc": "assets/images/mensaje-difusion-00-FLYER-03-producto-800.avif",
+    "format": "avif",
+    "size": 8847,
+    "resolution": "800x403",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mensaje-difusion-00-FLYER-03-producto-800.webp",
+    "pathFromSrc": "assets/images/mensaje-difusion-00-FLYER-03-producto-800.webp",
+    "format": "webp",
+    "size": 14002,
+    "resolution": "800x403",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mensaje-difusion-00-FLYER-03-producto.avif",
+    "pathFromSrc": "assets/images/mensaje-difusion-00-FLYER-03-producto.avif",
+    "format": "avif",
+    "size": 12043,
+    "resolution": "1144x576",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mensaje-difusion-00-FLYER-03-producto.jpg",
+    "pathFromSrc": "assets/images/mensaje-difusion-00-FLYER-03-producto.jpg",
+    "format": "jpg",
+    "size": 84515,
+    "resolution": "1144x576",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/mensaje-difusion-00-FLYER-03-producto.webp",
+    "pathFromSrc": "assets/images/mensaje-difusion-00-FLYER-03-producto.webp",
+    "format": "webp",
+    "size": 21646,
+    "resolution": "1144x576",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/preview-400.avif",
+    "pathFromSrc": "assets/images/preview-400.avif",
+    "format": "avif",
+    "size": 5170,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/preview-400.webp",
+    "pathFromSrc": "assets/images/preview-400.webp",
+    "format": "webp",
+    "size": 8808,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/preview.avif",
+    "pathFromSrc": "assets/images/preview.avif",
+    "format": "avif",
+    "size": 6547,
+    "resolution": "500x500",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/preview.jpg",
+    "pathFromSrc": "assets/images/preview.jpg",
+    "format": "jpg",
+    "size": 16929,
+    "resolution": "500x500",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/preview.webp",
+    "pathFromSrc": "assets/images/preview.webp",
+    "format": "webp",
+    "size": 11760,
+    "resolution": "500x500",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00-1200.avif",
+    "format": "avif",
+    "size": 18374,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00-1200.webp",
+    "format": "webp",
+    "size": 34776,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00-1600.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00-1600.avif",
+    "format": "avif",
+    "size": 27119,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00-1600.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00-1600.webp",
+    "format": "webp",
+    "size": 52360,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00-400.avif",
+    "format": "avif",
+    "size": 4059,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00-400.webp",
+    "format": "webp",
+    "size": 6930,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00-800.avif",
+    "format": "avif",
+    "size": 10705,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00-800.webp",
+    "format": "webp",
+    "size": 19168,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00.avif",
+    "format": "avif",
+    "size": 39474,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00.jpg",
+    "format": "jpg",
+    "size": 68706,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-00.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-00.webp",
+    "format": "webp",
+    "size": 65548,
+    "resolution": "1920x1920",
+    "usage": "Database"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01-1200.avif",
+    "format": "avif",
+    "size": 16861,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01-1200.webp",
+    "format": "webp",
+    "size": 33770,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01-1600.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01-1600.avif",
+    "format": "avif",
+    "size": 24163,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01-1600.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01-1600.webp",
+    "format": "webp",
+    "size": 51990,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01-400.avif",
+    "format": "avif",
+    "size": 4152,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01-400.webp",
+    "format": "webp",
+    "size": 6832,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01-800.avif",
+    "format": "avif",
+    "size": 10394,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01-800.webp",
+    "format": "webp",
+    "size": 18790,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01.avif",
+    "format": "avif",
+    "size": 37449,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01.jpg",
+    "format": "jpg",
+    "size": 102346,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-01.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-01.webp",
+    "format": "webp",
+    "size": 70554,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02-1200.avif",
+    "format": "avif",
+    "size": 17049,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02-1200.webp",
+    "format": "webp",
+    "size": 33656,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02-1600.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02-1600.avif",
+    "format": "avif",
+    "size": 24913,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02-1600.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02-1600.webp",
+    "format": "webp",
+    "size": 52748,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02-400.avif",
+    "format": "avif",
+    "size": 4687,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02-400.webp",
+    "format": "webp",
+    "size": 7308,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02-800.avif",
+    "format": "avif",
+    "size": 10837,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02-800.webp",
+    "format": "webp",
+    "size": 19100,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02.avif",
+    "format": "avif",
+    "size": 39352,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02.jpg",
+    "format": "jpg",
+    "size": 107661,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-02.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-02.webp",
+    "format": "webp",
+    "size": 72970,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03-1200.avif",
+    "format": "avif",
+    "size": 160500,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03-1200.webp",
+    "format": "webp",
+    "size": 200042,
+    "resolution": "1200x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03-1600.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03-1600.avif",
+    "format": "avif",
+    "size": 230454,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03-1600.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03-1600.webp",
+    "format": "webp",
+    "size": 312650,
+    "resolution": "1600x1067",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03-400.avif",
+    "format": "avif",
+    "size": 33391,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03-400.webp",
+    "format": "webp",
+    "size": 35656,
+    "resolution": "400x267",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03-800.avif",
+    "format": "avif",
+    "size": 95017,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03-800.webp",
+    "format": "webp",
+    "size": 106698,
+    "resolution": "800x533",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03.avif",
+    "format": "avif",
+    "size": 462301,
+    "resolution": "2880x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03.jpg",
+    "format": "jpg",
+    "size": 687339,
+    "resolution": "2880x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-03.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-03.webp",
+    "format": "webp",
+    "size": 673190,
+    "resolution": "2880x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04-1200.avif",
+    "format": "avif",
+    "size": 69453,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04-1200.webp",
+    "format": "webp",
+    "size": 115318,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04-1600.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04-1600.avif",
+    "format": "avif",
+    "size": 101171,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04-1600.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04-1600.webp",
+    "format": "webp",
+    "size": 176296,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04-400.avif",
+    "format": "avif",
+    "size": 13217,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04-400.webp",
+    "format": "webp",
+    "size": 18748,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04-800.avif",
+    "format": "avif",
+    "size": 38580,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04-800.webp",
+    "format": "webp",
+    "size": 60088,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04.avif",
+    "format": "avif",
+    "size": 144550,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04.jpg",
+    "format": "jpg",
+    "size": 246811,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-amaciguera-04.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-amaciguera-04.webp",
+    "format": "webp",
+    "size": 228656,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-00-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-00-1200.avif",
+    "format": "avif",
+    "size": 75882,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-00-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-00-1200.webp",
+    "format": "webp",
+    "size": 135836,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-00-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-00-400.avif",
+    "format": "avif",
+    "size": 13893,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-00-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-00-400.webp",
+    "format": "webp",
+    "size": 21098,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-00-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-00-800.avif",
+    "format": "avif",
+    "size": 45310,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-00-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-00-800.webp",
+    "format": "webp",
+    "size": 73330,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-00.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-00.avif",
+    "format": "avif",
+    "size": 74755,
+    "resolution": "1280x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-00.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-00.jpg",
+    "format": "jpg",
+    "size": 89165,
+    "resolution": "1280x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-00.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-00.webp",
+    "format": "webp",
+    "size": 140574,
+    "resolution": "1280x1280",
+    "usage": "Database"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01-1200.avif",
+    "format": "avif",
+    "size": 43420,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01-1200.webp",
+    "format": "webp",
+    "size": 73546,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01-1600.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01-1600.avif",
+    "format": "avif",
+    "size": 67316,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01-1600.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01-1600.webp",
+    "format": "webp",
+    "size": 120826,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01-400.avif",
+    "format": "avif",
+    "size": 6753,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01-400.webp",
+    "format": "webp",
+    "size": 9984,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01-800.avif",
+    "format": "avif",
+    "size": 21779,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01-800.webp",
+    "format": "webp",
+    "size": 35482,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01.avif",
+    "format": "avif",
+    "size": 90672,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01.jpg",
+    "format": "jpg",
+    "size": 166366,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-01.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-01.webp",
+    "format": "webp",
+    "size": 159610,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02-1200.avif",
+    "format": "avif",
+    "size": 43738,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02-1200.webp",
+    "format": "webp",
+    "size": 71926,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02-1600.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02-1600.avif",
+    "format": "avif",
+    "size": 66614,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02-1600.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02-1600.webp",
+    "format": "webp",
+    "size": 115002,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02-400.avif",
+    "format": "avif",
+    "size": 6960,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02-400.webp",
+    "format": "webp",
+    "size": 10348,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02-800.avif",
+    "format": "avif",
+    "size": 22689,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02-800.webp",
+    "format": "webp",
+    "size": 35506,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02.avif",
+    "format": "avif",
+    "size": 91477,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02.jpg",
+    "format": "jpg",
+    "size": 166174,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral-02.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral-02.webp",
+    "format": "webp",
+    "size": 151930,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-00-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-00-1200.avif",
+    "format": "avif",
+    "size": 84234,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-00-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-00-1200.webp",
+    "format": "webp",
+    "size": 138234,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-00-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-00-400.avif",
+    "format": "avif",
+    "size": 11745,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-00-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-00-400.webp",
+    "format": "webp",
+    "size": 17166,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-00-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-00-800.avif",
+    "format": "avif",
+    "size": 48020,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-00-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-00-800.webp",
+    "format": "webp",
+    "size": 71798,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-00.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-00.avif",
+    "format": "avif",
+    "size": 75770,
+    "resolution": "1280x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-00.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-00.jpg",
+    "format": "jpg",
+    "size": 90377,
+    "resolution": "1280x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-00.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-00.webp",
+    "format": "webp",
+    "size": 141774,
+    "resolution": "1280x1280",
+    "usage": "Database"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01-1200.avif",
+    "format": "avif",
+    "size": 47864,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01-1200.webp",
+    "format": "webp",
+    "size": 75116,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01-1600.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01-1600.avif",
+    "format": "avif",
+    "size": 77364,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01-1600.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01-1600.webp",
+    "format": "webp",
+    "size": 126540,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01-400.avif",
+    "format": "avif",
+    "size": 5186,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01-400.webp",
+    "format": "webp",
+    "size": 8060,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01-800.avif",
+    "format": "avif",
+    "size": 21551,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01-800.webp",
+    "format": "webp",
+    "size": 33186,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01.avif",
+    "format": "avif",
+    "size": 106360,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01.jpg",
+    "format": "jpg",
+    "size": 173496,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-01.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-01.webp",
+    "format": "webp",
+    "size": 167316,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02-1200.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02-1200.avif",
+    "format": "avif",
+    "size": 44595,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02-1200.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02-1200.webp",
+    "format": "webp",
+    "size": 70884,
+    "resolution": "1200x1200",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02-1600.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02-1600.webp",
+    "format": "webp",
+    "size": 119854,
+    "resolution": "1600x1600",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02-400.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02-400.avif",
+    "format": "avif",
+    "size": 5110,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02-400.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02-400.webp",
+    "format": "webp",
+    "size": 7794,
+    "resolution": "400x400",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02-800.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02-800.avif",
+    "format": "avif",
+    "size": 19617,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02-800.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02-800.webp",
+    "format": "webp",
+    "size": 31474,
+    "resolution": "800x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02.avif",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02.avif",
+    "format": "avif",
+    "size": 96734,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02.jpg",
+    "format": "jpg",
+    "size": 165435,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-02.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-02.webp",
+    "format": "webp",
+    "size": 161276,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-03.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-03.jpg",
+    "format": "jpg",
+    "size": 199044,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-floral11-03.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-floral11-03.webp",
+    "format": "webp",
+    "size": 196514,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-00.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-00.jpg",
+    "format": "jpg",
+    "size": 252135,
+    "resolution": "2592x2592",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-00.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-00.webp",
+    "format": "webp",
+    "size": 309444,
+    "resolution": "2592x2592",
+    "usage": "Database"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-01.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-01.jpg",
+    "format": "jpg",
+    "size": 158066,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-01.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-01.webp",
+    "format": "webp",
+    "size": 144160,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-02.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-02.jpg",
+    "format": "jpg",
+    "size": 120370,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-02.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-02.webp",
+    "format": "webp",
+    "size": 103608,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-03.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-03.jpg",
+    "format": "jpg",
+    "size": 148036,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-03.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-03.webp",
+    "format": "webp",
+    "size": 142918,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-04.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-04.jpg",
+    "format": "jpg",
+    "size": 366987,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-04.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-04.webp",
+    "format": "webp",
+    "size": 410520,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-05.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-05.jpg",
+    "format": "jpg",
+    "size": 227815,
+    "resolution": "1920x1919",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-olivo-05.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-olivo-05.webp",
+    "format": "webp",
+    "size": 225316,
+    "resolution": "1920x1919",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-semillera-00.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-semillera-00.jpg",
+    "format": "jpg",
+    "size": 67774,
+    "resolution": "1232x1232",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-semillera-00.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-semillera-00.webp",
+    "format": "webp",
+    "size": 96196,
+    "resolution": "1232x1232",
+    "usage": "Database"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-semillera-01.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-semillera-01.jpg",
+    "format": "jpg",
+    "size": 175720,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-semillera-01.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-semillera-01.webp",
+    "format": "webp",
+    "size": 159056,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-semillera-02.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-semillera-02.jpg",
+    "format": "jpg",
+    "size": 192208,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-semillera-02.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-semillera-02.webp",
+    "format": "webp",
+    "size": 182990,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-00.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-00.jpg",
+    "format": "jpg",
+    "size": 158487,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-00.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-00.webp",
+    "format": "webp",
+    "size": 147682,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-01.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-01.jpg",
+    "format": "jpg",
+    "size": 168270,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-01.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-01.webp",
+    "format": "webp",
+    "size": 148014,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-02.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-02.jpg",
+    "format": "jpg",
+    "size": 173754,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-02.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-02.webp",
+    "format": "webp",
+    "size": 157740,
+    "resolution": "1920x1920",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-03.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-03.jpg",
+    "format": "jpg",
+    "size": 674307,
+    "resolution": "1920x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-03.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-03.webp",
+    "format": "webp",
+    "size": 163810,
+    "resolution": "1920x800",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-04-mailing.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-04-mailing.jpg",
+    "format": "jpg",
+    "size": 168024,
+    "resolution": "800x325",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-04-mailing.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-04-mailing.webp",
+    "format": "webp",
+    "size": 26146,
+    "resolution": "800x325",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-04.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-04.jpg",
+    "format": "jpg",
+    "size": 290974,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-04.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-04.webp",
+    "format": "webp",
+    "size": 294448,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-05.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-05.jpg",
+    "format": "jpg",
+    "size": 410277,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-05.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-05.webp",
+    "format": "webp",
+    "size": 452210,
+    "resolution": "1920x1280",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-06.jpg",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-06.jpg",
+    "format": "jpg",
+    "size": 2077140,
+    "resolution": "1920x1280",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-06.png",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-06.png",
+    "format": "png",
+    "size": 4239338,
+    "resolution": "1920x1280",
+    "usage": "Codebase (as .webp)"
+  },
+  {
+    "path": "frontend/src/assets/images/producto-maceta-biodegradable-todos-06.webp",
+    "pathFromSrc": "assets/images/producto-maceta-biodegradable-todos-06.webp",
+    "format": "webp",
+    "size": 432036,
+    "resolution": "1920x1280",
+    "usage": "Codebase"
+  },
+  {
+    "path": "frontend/src/assets/images/shape-1.svg",
+    "pathFromSrc": "assets/images/shape-1.svg",
+    "format": "svg",
+    "size": 197,
+    "resolution": "N/A",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/shape-2.svg",
+    "pathFromSrc": "assets/images/shape-2.svg",
+    "format": "svg",
+    "size": 184,
+    "resolution": "N/A",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/shape-3.svg",
+    "pathFromSrc": "assets/images/shape-3.svg",
+    "format": "svg",
+    "size": 203,
+    "resolution": "N/A",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/shape-4.svg",
+    "pathFromSrc": "assets/images/shape-4.svg",
+    "format": "svg",
+    "size": 188,
+    "resolution": "N/A",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/shape-5.svg",
+    "pathFromSrc": "assets/images/shape-5.svg",
+    "format": "svg",
+    "size": 198,
+    "resolution": "N/A",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/shape-6.svg",
+    "pathFromSrc": "assets/images/shape-6.svg",
+    "format": "svg",
+    "size": 201,
+    "resolution": "N/A",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/shape-7.svg",
+    "pathFromSrc": "assets/images/shape-7.svg",
+    "format": "svg",
+    "size": 188,
+    "resolution": "N/A",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/web-app-manifest-192x192.png",
+    "pathFromSrc": "assets/images/web-app-manifest-192x192.png",
+    "format": "png",
+    "size": 76000,
+    "resolution": "192x192",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/web-app-manifest-192x192.webp",
+    "pathFromSrc": "assets/images/web-app-manifest-192x192.webp",
+    "format": "webp",
+    "size": 15488,
+    "resolution": "192x192",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/web-app-manifest-512x512.png",
+    "pathFromSrc": "assets/images/web-app-manifest-512x512.png",
+    "format": "png",
+    "size": 379476,
+    "resolution": "512x512",
+    "usage": "Unused"
+  },
+  {
+    "path": "frontend/src/assets/images/web-app-manifest-512x512.webp",
+    "pathFromSrc": "assets/images/web-app-manifest-512x512.webp",
+    "format": "webp",
+    "size": 54102,
+    "resolution": "512x512",
+    "usage": "Unused"
+  }
+]

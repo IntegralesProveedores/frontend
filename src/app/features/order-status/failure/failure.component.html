@@ -1,16 +1,21 @@
-<section class="order-status py-5 min-vh-100 d-flex align-items-center bg-soft">
-  <div class="container text-center">
-    <div class="card p-5 mx-auto bg-white shadow-sm border-0 rounded-4" style="max-width: 500px;">
-      <i class="fas fa-exclamation-circle text-danger mb-4" style="font-size: 4.5rem;"></i>
-      <h1 class="h2 mb-3 fw-bold">Hubo un problema</h1>
-      <p class="mb-5 lead text-muted">No pudimos procesar tu pedido en este momento. Por favor, reintentá o contactanos directamente por WhatsApp.</p>
-      
-      <div class="d-grid gap-3">
-        <a routerLink="/checkout" class="btn btn-primary py-3">Reintentar Pedido</a>
-        <a routerLink="/" class="btn btn-outline-dark py-3">Volver al Inicio</a>
+<section class="failure-page section-editorial min-vh-100 animate-fade">
+  <div class="container-premium text-center">
+    
+    <div class="failure-header animate-reveal mb-12">
+      <div class="icon-circle surface-secondary mx-auto mb-8">
+        <i class="fa-solid fa-triangle-exclamation text-error"></i>
       </div>
+      <h1 class="text-editorial-md mb-4 failure-title">Hubo un problema.</h1>
+      <p class="text-secondary max-w-600 mx-auto">
+
+        No pudimos procesar tu pedido en este momento. Por favor, reintentá o contactanos directamente por WhatsApp para asistencia inmediata.
+      </p>
     </div>
+
+    <div class="failure-actions animate-reveal d-flex flex-column gap-4 max-w-300 mx-auto">
+      <button routerLink="/checkout" class="button-primary">Reintentar Pedido</button>
+      <button routerLink="/" class="button-ghost">Volver al Inicio</button>
+    </div>
+
   </div>
 </section>
-
-

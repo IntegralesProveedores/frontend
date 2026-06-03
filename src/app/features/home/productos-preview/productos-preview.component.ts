@@ -1,8 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../core/services/api.service';
 import { Product } from '../../../core/models/product.model';
+import { PaginatedResponse } from '../../../core/models/api-response.model';
 
 @Component({
   selector: 'app-productos-preview',
@@ -12,19 +13,30 @@ import { Product } from '../../../core/models/product.model';
   styleUrl: './productos-preview.component.css'
 })
 export class ProductosPreviewComponent implements OnInit {
+  // ─────────────────────────────────────────────────────────────
+  // DEPENDENCIAS
+  // ─────────────────────────────────────────────────────────────
+  private readonly api = inject(ApiService);
+
+  // ─────────────────────────────────────────────────────────────
+  // ESTADO (Signals)
+  // ─────────────────────────────────────────────────────────────
   productos = signal<Product[]>([]);
   loading = signal(true);
-
-  constructor(private api: ApiService) {}
 
   ngOnInit(): void {
     this.loadProducts();
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // ACCIONES
+  // ─────────────────────────────────────────────────────────────
+
   loadProducts(): void {
-    this.api.get<Product[]>('/products').subscribe({
+    this.loading.set(true);
+    this.api.get<PaginatedResponse<Product>>('/products').subscribe({
       next: (data) => {
-        this.productos.set(data);
+        this.productos.set(data.items);
         this.loading.set(false);
       },
       error: (err) => {
@@ -34,7 +46,10 @@ export class ProductosPreviewComponent implements OnInit {
     });
   }
 
-  // Helper para obtener medidas de forma segura
+  /**
+   * Obtiene medidas formateadas del producto (usando la primera variante).
+   * CUIDADO: Esta es una simplificación visual para la home.
+   */
   getMeasurements(p: Product): string {
     const v = p.variants?.[0];
     if (!v || !v.dimensions) return '';
@@ -44,5 +59,4 @@ export class ProductosPreviewComponent implements OnInit {
     return '';
   }
 }
-
 

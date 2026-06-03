@@ -1,44 +1,25 @@
 <section class="catalog section-spacing">
-  <div class="container">
-    
-    <!-- Título 
-	<div class="catalog-header mb-5">
-      <h1 class="h2 mb-2">Nuestro Catálogo</h1>
-      <p class="text-muted small">Macetas biodegradables y soluciones para cultivos sostenibles.</p>
-    </div>
-	-->
-
-    <!-- Category Filter (Minimalist) 
-    <div class="categories-nav d-flex justify-content-center gap-4 mb-5">
-      <button 
-        class="cat-link" 
-        [class.active]="activeFilter() === 'todos'"
-        (click)="setFilter('todos')">
-        Todos
-      </button>
-      <button 
-        *ngFor="let cat of categories()"
-        class="cat-link" 
-        [class.active]="activeFilter() === cat.slug"
-        (click)="setFilter(cat.slug)">
-        {{ cat.name }}
-      </button>
-    </div>
-	-->
-    
-	<!-- Grid -->
+  <div class="container">    
+    <!-- Grid -->
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
-      <div class="col" *ngFor="let product of filtered(); trackBy: trackById">
-        <app-product-card [product]="product" />
-      </div>
+
+      @for (product of filtered(); track product.id) {
+        <div class="col">
+          <app-product-card [product]="product" />
+        </div>
+      }
     </div>
     
-    <div *ngIf="loading()" class="py-5 text-center">
-      <app-loading-spinner />
-    </div>
+    @if (loading()) {
+      <div class="py-5 text-center">
+        <app-loading-spinner />
+      </div>
+    }
 
-    <div *ngIf="error()" class="alert alert-soft text-center py-4">
-      {{ error() }}
-    </div>
+    @if (error()) {
+      <div class="alert alert-soft text-center py-4">
+        {{ error() }}
+      </div>
+    }
   </div>
 </section>

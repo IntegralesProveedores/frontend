@@ -1,39 +1,38 @@
-<section class="success-page section-spacing min-vh-100 d-flex align-items-center">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8 text-center">
-        <div class="success-icon-box mb-4">
-          <i class="fa-solid fa-circle-check text-primary"></i>
+<section class="success-page section-editorial min-vh-100 animate-fade">
+  <div class="container-premium text-center">
+    
+    <div class="success-header animate-reveal mb-12">
+      <div class="icon-circle surface-secondary mx-auto mb-8">
+        <i class="fa-solid fa-circle-check text-success"></i>
+      </div>
+      <h1 class="text-editorial-md mb-4 success-title">¡Pedido Confirmado!</h1>
+      <p class="text-secondary max-w-600 mx-auto">
+
+        Recibirás un correo electrónico con el detalle de tu compra. Protocolo de validación técnica iniciado.
+      </p>
+    </div>
+
+    <div class="next-steps-canvas surface-secondary animate-reveal mb-12 text-start max-w-600 mx-auto">
+      <h3 class="text-sm font-bold uppercase tracking-wide mb-8 px-4">Próximos Pasos</h3>
+      <div class="steps-list">
+        <div class="step-item mb-6 d-flex gap-4">
+          <span class="step-badge">1</span>
+          <p class="text-sm text-secondary mb-0">Revisá tu bandeja de entrada (y spam) para confirmar el mail de Integrales.</p>
         </div>
-        
-        <h1 class="h2 mb-3 fw-bold">¡Pedido Confirmado!</h1>
-        <p class="text-muted mb-3">
-          Recibirás un correo electrónico con el detalle de tu compra.
-        </p>
-        
-        <div class="next-steps-box p-3 bg-soft rounded-4 mb-5 text-start">
-          <ul class="list-unstyled mb-0 small text-muted">
-            <li class="mb-3 d-flex gap-3">
-              <span class="step-num">1</span>
-              <span>Revisá tu bandeja de entrada (y spam) para confirmar el mail de Integrales.</span>
-            </li>
-            <li class="mb-3 d-flex gap-3">
-              <span class="step-num">2</span>
-              <span>Nuestro equipo te contactará vía WhatsApp o Teléfono para coordinar el pago.</span>
-            </li>
-            <li class="d-flex gap-3">
-              <span class="step-num">3</span>
-              <span>Una vez acreditado, procederemos con el despacho de tu pedido.</span>
-            </li>
-          </ul>
+        <div class="step-item mb-6 d-flex gap-4">
+          <span class="step-badge">2</span>
+          <p class="text-sm text-secondary mb-0">Nuestro equipo te contactará vía WhatsApp o Teléfono para coordinar el pago.</p>
         </div>
-        
-        <div class="actions">
-          <a routerLink="/productos" class="btn btn-primary btn-lg px-5 py-3 shadow-sm">
-            Catálogo
-          </a>
+        <div class="step-item d-flex gap-4">
+          <span class="step-badge">3</span>
+          <p class="text-sm text-secondary mb-0">Una vez acreditado, procederemos con el despacho express de tu pedido.</p>
         </div>
       </div>
     </div>
+
+    <div class="success-actions animate-reveal">
+      <button routerLink="/productos" class="button-primary">Volver al Catálogo</button>
+    </div>
+
   </div>
 </section>

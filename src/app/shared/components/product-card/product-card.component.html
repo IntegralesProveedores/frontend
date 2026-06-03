@@ -1,6 +1,6 @@
 <div class="product-card-wrapper h-100" [routerLink]="['/productos', product.slug]">
   <div class="product-image-box mb-3">
-    <img [src]="product.images[0].url" [alt]="product.name" class="img-fluid w-100 h-100 object-fit-cover">
+    <img [src]="mainImage" [alt]="product.name" class="img-fluid w-100 h-100 object-fit-cover">
   </div>
   
   <div class="product-info">
@@ -9,19 +9,12 @@
     <div class="product-prices">
       <div class="price-main fw-bold">USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}</div>
       <div class="price-details d-flex gap-2 mt-1">
-        <span class="price-usd small">
+        <span class="price-usd small text-secondary">
 		  {{ currentPricing().finalPriceArs | currencyArs }}
         </span>
-        <!--
-		<span class="price-cost text-muted x-small">
-          (USD ${{ currentPricing().baseCost | number:'1.2-2' }})
-        </span>
-		-->
       </div>
       <div class="iva-legend text-muted mt-1" style="font-size: 0.7rem;">IVA no incluido</div>
-
     </div>
   </div>
+
 </div>
-
-
