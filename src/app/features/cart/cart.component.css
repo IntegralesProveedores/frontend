@@ -80,3 +80,15 @@
 	border: 0;
 	color: #EE4B2B;
 }
+
+
+
+
+
+
+@media (max-width: 768px) 
+{
+	.cart-img-box img {
+		display: none;
+	}
+}
