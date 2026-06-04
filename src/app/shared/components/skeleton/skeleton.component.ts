@@ -24,31 +24,12 @@ import { CommonModule } from '@angular/common';
     .skeleton-base {
       width: 100%;
       height: 100%;
-      background-color: var(--color-bg-tertiary);
-      background-image: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.05) 20%,
-        rgba(255, 255, 255, 0.1) 50%,
-        rgba(255, 255, 255, 0.05) 80%,
-        rgba(255, 255, 255, 0) 100%
-      );
+      background-color: var(--skeleton-bg);
+      background-image: var(--skeleton-shimmer);
       background-size: 200% 100%;
       display: block;
       position: relative;
       overflow: hidden;
-    }
-
-    /* Light mode specific adjustment if needed */
-    :root[data-theme='light'] .skeleton-base {
-       background-image: linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0) 0,
-        rgba(0, 0, 0, 0.03) 20%,
-        rgba(0, 0, 0, 0.05) 50%,
-        rgba(0, 0, 0, 0.03) 80%,
-        rgba(0, 0, 0, 0) 100%
-      );
     }
 
     .circle {

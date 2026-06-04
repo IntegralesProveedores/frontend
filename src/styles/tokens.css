@@ -89,6 +89,10 @@
   
   --color-surface:        var(--gray-0);
   --inner-glow:           inset 0 1px 0 rgba(255,255,255,1);
+
+  /* Skeleton Tokens */
+  --skeleton-bg:          #e5e5e5;
+  --skeleton-shimmer:     linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
 }
 
 /* --- DARK THEME (Pure Black) --- */
@@ -110,6 +114,10 @@
     
     --color-surface:        #121212;
     --inner-glow:           inset 0 1px 0 rgba(255,255,255,0.05);
+
+    /* Skeleton Tokens */
+    --skeleton-bg:          #1a1a1a;
+    --skeleton-shimmer:     linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 100%);
   }
 }
 
