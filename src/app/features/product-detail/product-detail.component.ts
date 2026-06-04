@@ -7,15 +7,15 @@ import { PriceService } from '../../core/services/price.service';
 import { Product, ProductVariant } from '../../core/models/product.model';
 import { PaginatedResponse } from '../../core/models/api-response.model';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
-import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 import { ProductDetailSkeletonComponent } from '../../shared/components/product-detail-skeleton/product-detail-skeleton.component';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
+import { ProgressiveImageComponent } from '../../shared/components/progressive-image/progressive-image.component';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, CurrencyArsPipe, LoadingSpinnerComponent, ProductCardComponent, ProductDetailSkeletonComponent, ErrorStateComponent],
+  imports: [CommonModule, RouterLink, CurrencyArsPipe, ProductCardComponent, ProductDetailSkeletonComponent, ErrorStateComponent, ProgressiveImageComponent],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })

@@ -2,19 +2,20 @@
   <div class="container">    
     <!-- Grid -->
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
-
-      @for (product of filtered(); track product.id) {
-        <div class="col">
-          <app-product-card [product]="product" />
-        </div>
+      @if (loading()) {
+        @for (i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+          <div class="col">
+            <app-product-card-skeleton />
+          </div>
+        }
+      } @else {
+        @for (product of filtered(); track product.id) {
+          <div class="col">
+            <app-product-card [product]="product" />
+          </div>
+        }
       }
     </div>
-    
-    @if (loading()) {
-      <div class="py-5 text-center">
-        <app-loading-spinner />
-      </div>
-    }
 
     @if (error()) {
       <div class="alert alert-soft text-center py-4">

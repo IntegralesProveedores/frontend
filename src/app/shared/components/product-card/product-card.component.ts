@@ -5,11 +5,12 @@ import { Product, ProductVariant } from '../../../core/models/product.model';
 import { CartService } from '../../../core/services/cart.service';
 import { PriceService } from '../../../core/services/price.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
+import { ProgressiveImageComponent } from '../progressive-image/progressive-image.component';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, RouterModule, CurrencyArsPipe],
+  imports: [CommonModule, RouterModule, CurrencyArsPipe, ProgressiveImageComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })

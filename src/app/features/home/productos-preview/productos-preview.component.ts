@@ -4,11 +4,13 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../core/services/api.service';
 import { Product } from '../../../core/models/product.model';
 import { PaginatedResponse } from '../../../core/models/api-response.model';
+import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
+import { ProgressiveImageComponent } from '../../../shared/components/progressive-image/progressive-image.component';
 
 @Component({
   selector: 'app-productos-preview',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SkeletonComponent, ProgressiveImageComponent],
   templateUrl: './productos-preview.component.html',
   styleUrl: './productos-preview.component.css'
 })

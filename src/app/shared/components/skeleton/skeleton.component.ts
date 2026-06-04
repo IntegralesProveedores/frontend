@@ -15,31 +15,57 @@ import { CommonModule } from '@angular/common';
     ></div>
   `,
   styles: [`
-    .skeleton-base {
-      background-color: var(--color-bg-tertiary);
-      background: linear-gradient(
-        90deg, 
-        rgba(150, 150, 150, 0.05) 25%, 
-        rgba(150, 150, 150, 0.1) 37%, 
-        rgba(150, 150, 150, 0.05) 63%
-      );
-      background-size: 400% 100%;
+    :host {
       display: inline-block;
       width: 100%;
+      vertical-align: middle;
     }
 
+    .skeleton-base {
+      width: 100%;
+      height: 100%;
+      background-color: var(--color-bg-tertiary);
+      background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.05) 20%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 80%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      background-size: 200% 100%;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Light mode specific adjustment if needed */
+    :root[data-theme='light'] .skeleton-base {
+       background-image: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0) 0,
+        rgba(0, 0, 0, 0.03) 20%,
+        rgba(0, 0, 0, 0.05) 50%,
+        rgba(0, 0, 0, 0.03) 80%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    }
 
     .circle {
       border-radius: 50% !important;
     }
 
     .animate-shimmer {
-      animation: shimmer 1.4s ease infinite;
+      animation: shimmer 1.5s infinite linear;
     }
 
     @keyframes shimmer {
-      0% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% {
+        background-position: 200% 0;
+      }
+      100% {
+        background-position: -200% 0;
+      }
     }
   `]
 })

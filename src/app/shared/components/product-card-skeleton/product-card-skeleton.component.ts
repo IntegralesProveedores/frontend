@@ -7,30 +7,32 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
   standalone: true,
   imports: [CommonModule, SkeletonComponent],
   template: `
-    <div class="card-skeleton">
-      <!-- Image area 1:1 -->
-      <app-skeleton height="0" [style.padding-bottom.%]="100" radius="var(--int-radius-lg)" class="d-block mb-3" />
+    <div class="card-skeleton h-100">
+      <!-- Image area -->
+      <div class="mb-3">
+        <app-skeleton height="200px" radius="var(--radius-md)" class="d-block" />
+      </div>
       
-      <!-- Content area left-aligned -->
-      <div class="px-2">
-        <!-- Category -->
-        <app-skeleton width="30%" height="0.625rem" class="d-block mb-2" />
+      <!-- Content area -->
+      <div class="product-info">
         <!-- Title -->
-        <app-skeleton width="90%" height="0.875rem" class="d-block mb-2" />
-        <app-skeleton width="60%" height="0.875rem" class="d-block mb-4" />
+        <app-skeleton width="85%" height="1.125rem" class="d-block mb-3" />
         
-        <!-- Price -->
-        <div class="d-flex align-items-baseline gap-2">
-          <app-skeleton width="40%" height="1.25rem" />
-          <app-skeleton width="20%" height="0.75rem" />
-        </div>
+        <!-- Price main -->
+        <app-skeleton width="50%" height="1.25rem" class="d-block mb-2" />
+        
+        <!-- Price detail -->
+        <app-skeleton width="40%" height="0.875rem" class="d-block mb-2" />
+        
+        <!-- IVA legend -->
+        <app-skeleton width="30%" height="0.7rem" class="d-block" />
       </div>
     </div>
   `,
   styles: [`
     .card-skeleton {
-      height: 100%;
-      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
   `]
 })

@@ -4,7 +4,75 @@
 </div>
 
 <!-- Contenedor del Logo a la DERECHA -->
-<a [routerLink]="['/']" title="IntegralesArg" class="logo-floating-block">
+
+<a
+class="logo-floating-block"
+routerLink="/"
+fragment="home"
+aria-label="Ir al inicio">
+
   <img src="/assets/images/logo-00.webp" class="logo-img" alt="IntegralesArg" />
   <span class="iso-text">INTEGRALES</span>
 </a>
+
+<!-- NAV -->
+<nav class="nav-bar nav-bar-vertical">
+  <ul class="nav">
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        routerLink="/"
+        fragment="ventajas"
+        aria-label="Ver ventajas">
+        <i class="bi bi-info-circle"></i>
+        <span class="nav-text">Ventajas</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        routerLink="/"
+        fragment="servicios"
+        aria-label="Información de envíos">
+        <i class="bi bi-truck"></i>
+        <span class="nav-text">Envíos</span>
+      </a>
+    </li>
+
+    <li class="nav-item nav-item-home">
+      <a
+        class="nav-link"
+        routerLink="/"
+        fragment="home"
+        aria-label="Ir al inicio">
+        <img src="/assets/images/logo-00.webp" alt="IntegralesArg" />
+        <span class="nav-text">Home</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        routerLink="/"
+        fragment="contacto"
+        aria-label="Contactar por WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+        <span class="nav-text">Contacto</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        routerLink="/catalogo"
+        class="nav-link"
+        aria-label="Ir a la tienda">
+        <!--<i class="fa fa-shopping-cart"></i>-->
+        <i class="bi bi-shop"></i>
+        <span class="nav-text">Tienda</span>
+      </a>
+    </li>
+
+  </ul>
+</nav>

@@ -6,14 +6,13 @@ import { Product } from '../../core/models/product.model';
 import { PaginatedResponse } from '../../core/models/api-response.model';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
-import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProductCardComponent, ProductCardSkeletonComponent, LoadingSpinnerComponent, ErrorStateComponent, EmptyStateComponent],
+  imports: [CommonModule, RouterModule, ProductCardComponent, ProductCardSkeletonComponent, ErrorStateComponent, EmptyStateComponent],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css'
 })

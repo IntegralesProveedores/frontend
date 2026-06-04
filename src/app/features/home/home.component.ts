@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
-import { NavBarComponent } from '../home/nav-bar/nav-bar.component';
-import { BannerPrincipalComponent } from '../home/banner-principal/banner-principal.component';
-import { VentajasComponent } from '../home/ventajas/ventajas.component';
-import { ProductosPreviewComponent } from '../home/productos-preview/productos-preview.component';
-import { ServiciosComponent } from '../home/servicios/servicios.component';
-import { ContactoComponent } from '../home/contacto/contacto.component';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { BannerPrincipalComponent } from './banner-principal/banner-principal.component';
+import { VentajasComponent } from './ventajas/ventajas.component';
+import { ProductosPreviewComponent } from './productos-preview/productos-preview.component';
+import { ServiciosComponent } from './servicios/servicios.component';
+import { ContactoComponent } from './contacto/contacto.component';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +16,7 @@ import { ContactoComponent } from '../home/contacto/contacto.component';
   imports: [
     CommonModule,
     RouterModule,
-    NavBarComponent,
+    NavbarComponent,
     BannerPrincipalComponent,
     VentajasComponent,
     ProductosPreviewComponent,

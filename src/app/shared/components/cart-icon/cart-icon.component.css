@@ -8,14 +8,18 @@
 
 .icon-relative {
   position: relative;
-  font-size: var(--text-base);
-  color: var(--color-primary);
+  color: #FFD700;
+  font-size: 30px;
 
+  text-shadow:
+    0 0 2px rgba(0,0,0,.9),
+    0 0 4px rgba(0,0,0,.8),
+    0 0 8px rgba(0,0,0,.6);
 }
 
 .count-badge {
   position: absolute;
-  top: -5px;
+  top: 0;
   right: -5px;
   padding: 0 4px;
   background: var(--color-primary);

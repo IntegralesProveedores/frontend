@@ -7,70 +7,58 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
   standalone: true,
   imports: [CommonModule, SkeletonComponent],
   template: `
-    <div class="row g-5 align-items-start animate-fade">
-      <!-- Left: Gallery Skeleton -->
-      <div class="col-lg-6">
-        <app-skeleton height="0" [style.padding-bottom.%]="100" radius="var(--int-radius-lg)" class="d-block mb-4" />
-        <div class="d-flex gap-3">
-          @for (i of [1,2,3]; track i) {
-            <app-skeleton width="80px" height="80px" radius="var(--int-radius-md)" />
-          }
-        </div>
+    <div class="row g-5">
+      <!-- Left: Image Skeleton -->
+      <div class="col-md-6">
+        <app-skeleton height="500px" radius="var(--radius-md)" class="d-block mb-3" />
       </div>
 
       <!-- Right: Info Skeleton -->
-      <div class="col-lg-5 offset-lg-1">
-        <app-skeleton width="25%" height="0.625rem" class="d-block mb-4" />
-        <app-skeleton width="80%" height="2.5rem" class="d-block mb-4" />
-        <app-skeleton width="100%" height="1rem" class="d-block mb-2" />
-        <app-skeleton width="100%" height="1rem" class="d-block mb-2" />
-        <app-skeleton width="60%" height="1rem" class="d-block mb-5" />
+      <div class="col-md-5">
+        <div class="product-header mb-4">
+          <!-- Breadcrumb -->
+          <app-skeleton width="40%" height="0.75rem" class="d-block mb-3" />
+          <!-- Title -->
+          <app-skeleton width="80%" height="2rem" class="d-block mb-3" />
+          <!-- Description -->
+          <app-skeleton width="100%" height="0.875rem" class="d-block mb-2" />
+          <app-skeleton width="90%" height="0.875rem" class="d-block" />
+        </div>
 
-        <!-- Pricing Card Skeleton -->
-        <div class="p-6 bg-off-white rounded-lg mb-5 border-subtle">
-          <div class="d-flex justify-content-between align-items-end">
-            <div class="w-100">
-              <app-skeleton width="20%" height="0.625rem" class="d-block mb-2" />
-              <app-skeleton width="50%" height="2.25rem" />
-            </div>
-            <app-skeleton width="80px" height="1.5rem" radius="var(--int-radius-xs)" />
+        <div class="mb-5 py-4 border-top border-bottom">
+          <!-- Price Main -->
+          <app-skeleton width="45%" height="2rem" class="d-block mb-2" />
+          <!-- Price Detail -->
+          <app-skeleton width="35%" height="1.125rem" class="d-block mb-2" />
+          <!-- IVA Legend -->
+          <app-skeleton width="20%" height="0.8rem" class="d-block" />
+        </div>
+
+        <!-- Variants Skeleton -->
+        <div class="mb-4">
+          <app-skeleton width="30%" height="0.75rem" class="d-block mb-3" />
+          <div class="d-flex gap-2">
+            @for (i of [1,2,3]; track i) {
+              <app-skeleton width="80px" height="2.25rem" radius="var(--radius-sm)" />
+            }
           </div>
         </div>
 
-        <!-- Variants -->
-        <app-skeleton width="30%" height="0.625rem" class="d-block mb-3" />
-        <div class="d-flex gap-2 mb-5">
-          @for (i of [1,2,3]; track i) {
-            <app-skeleton width="100px" height="2.25rem" radius="var(--int-radius-full)" />
-          }
+        <!-- Quantity Skeleton -->
+        <div class="mb-5">
+          <app-skeleton width="20%" height="0.75rem" class="d-block mb-3" />
+          <app-skeleton width="140px" height="2.5rem" radius="var(--radius-sm)" />
         </div>
 
-        <!-- Quantity -->
-        <app-skeleton width="20%" height="0.625rem" class="d-block mb-3" />
-        <app-skeleton width="140px" height="2.5rem" radius="var(--int-radius-full)" class="d-block mb-5" />
-
-        <!-- CTA -->
-        <app-skeleton width="100%" height="3.5rem" radius="var(--int-radius-md)" class="d-block mb-5" />
-        
-        <div class="d-flex justify-content-center gap-5">
-          <div class="d-flex flex-column align-items-center gap-2">
-            <app-skeleton width="32px" height="32px" radius="50%" />
-            <app-skeleton width="60px" height="0.5rem" />
-          </div>
-          <div class="d-flex flex-column align-items-center gap-2">
-            <app-skeleton width="32px" height="32px" radius="50%" />
-            <app-skeleton width="60px" height="0.5rem" />
-          </div>
+        <!-- CTA Skeleton -->
+        <div class="actions-wrapper">
+          <app-skeleton width="100%" height="3.5rem" radius="var(--radius-sm)" class="d-block mb-3" />
+          <app-skeleton width="60%" height="0.75rem" class="d-block mx-auto" />
         </div>
       </div>
     </div>
   `,
-  styles: [`
-    .bg-off-white { background-color: var(--int-color-off-white); }
-    .border-subtle { border: 1px solid var(--int-border-subtle); }
-    .rounded-lg { border-radius: var(--int-radius-lg); }
-    .p-6 { padding: var(--int-space-6); }
-  `]
+  styles: []
 })
 
 export class ProductDetailSkeletonComponent {}
