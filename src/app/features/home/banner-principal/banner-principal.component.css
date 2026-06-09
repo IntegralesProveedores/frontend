@@ -28,13 +28,13 @@
 	}
 		
 		.banner-content p span {
-			color: #1b3d1b;
-			padding: 0 0.15em;
+			color: #fff;
+			padding: 0 0.4em;
 			border-radius: 1em 2em 1em 2em;
 			font-weight: 900;
 			font-size: 1.2em;
 			text-shadow: none;
-			background: #bfe6ba;
+			background: var(--color-accent);
 			font-family: 'Caveat', cursive;
 		}
 

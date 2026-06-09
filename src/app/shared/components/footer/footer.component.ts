@@ -2,6 +2,7 @@ import { Component, signal, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { SessionContextService } from '../../../core/services/session-context.service';
 
 @Component({
   selector: 'app-footer',
@@ -12,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class FooterComponent {
   private readonly platformId = inject(PLATFORM_ID);
+  public readonly session = inject(SessionContextService);
   email = signal('');
 
   // ─────────────────────────────────────────────────────────────

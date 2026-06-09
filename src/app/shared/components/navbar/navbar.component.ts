@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CartIconComponent } from '../cart-icon/cart-icon.component';
+import { SessionContextService } from '../../../core/services/session-context.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,7 @@ import { CartIconComponent } from '../cart-icon/cart-icon.component';
 })
 export class NavbarComponent {
   private readonly platformId = inject(PLATFORM_ID);
+  public readonly session = inject(SessionContextService);
 
   // ─────────────────────────────────────────────────────────────
   // ACCIONES

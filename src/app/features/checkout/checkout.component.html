@@ -4,20 +4,21 @@
       <!-- Formulario -->
       <div class="col-md-6">
         <div class="checkout-form-container">
-          <form [formGroup]="checkoutForm" (ngSubmit)="confirmarPedido()">
+          <form #checkoutForm="ngForm" (ngSubmit)="confirmarPedido(checkoutForm.valid)">
+            
             <div class="mb-2">
-              <input type="text" formControlName="nombre" class="form-control-minimal" 
-                     [class.is-invalid]="checkoutForm.get('nombre')?.invalid && (checkoutForm.get('nombre')?.touched || formSubmitted)"
+              <input type="text" name="nombre" [(ngModel)]="customer.nombre" 
+                     class="form-control-minimal" 
+                     required minlength="3"
+                     #nombre="ngModel"
+                     [disabled]="session.isAuthenticated()"
+                     [class.is-invalid]="nombre.invalid && (nombre.touched || formSubmitted)"
                      placeholder="Nombre o Razón Social">
               <div class="validation-container">
-                @if (checkoutForm.get('nombre')?.invalid && (checkoutForm.get('nombre')?.touched || formSubmitted)) {
+                @if (nombre.invalid && (nombre.touched || formSubmitted)) {
                   <div class="text-danger x-small">
-                    @if (checkoutForm.get('nombre')?.errors?.['required']) {
-                      <span>El nombre es obligatorio.</span>
-                    }
-                    @if (checkoutForm.get('nombre')?.errors?.['minlength']) {
-                      <span>Mínimo 3 caracteres.</span>
-                    }
+                    @if (nombre.errors?.['required']) { <span>El nombre es obligatorio.</span> }
+                    @if (nombre.errors?.['minlength']) { <span>Mínimo 3 caracteres.</span> }
                   </div>
                 }
               </div>
@@ -25,29 +26,33 @@
 
             <div class="row">
               <div class="col-md-6">
-                <input type="email" formControlName="email" class="form-control-minimal" 
-                       [class.is-invalid]="checkoutForm.get('email')?.invalid && (checkoutForm.get('email')?.touched || formSubmitted)"
+                <input type="email" name="email" [(ngModel)]="customer.email" 
+                       class="form-control-minimal" 
+                       required email
+                       #email="ngModel"
+                       [disabled]="session.isAuthenticated()"
+                       [class.is-invalid]="email.invalid && (email.touched || formSubmitted)"
                        placeholder="Email">
                 <div class="validation-container">
-                  @if (checkoutForm.get('email')?.invalid && (checkoutForm.get('email')?.touched || formSubmitted)) {
+                  @if (email.invalid && (email.touched || formSubmitted)) {
                     <div class="text-danger x-small">
-                      @if (checkoutForm.get('email')?.errors?.['required']) {
-                        <span>El email es obligatorio.</span>
-                      }
-                      @if (checkoutForm.get('email')?.errors?.['email']) {
-                        <span>Formato de email inválido.</span>
-                      }
+                      @if (email.errors?.['required']) { <span>El email es obligatorio.</span> }
+                      @if (email.errors?.['email']) { <span>Formato de email inválido.</span> }
                     </div>
                   }
                 </div>
               </div>
               <div class="col-md-6">
-                <input type="text" formControlName="cuit" class="form-control-minimal" 
-                       [class.is-invalid]="checkoutForm.get('cuit')?.invalid && (checkoutForm.get('cuit')?.touched || formSubmitted)"
+                <input type="text" name="cuit" [(ngModel)]="customer.cuit" 
+                       class="form-control-minimal" 
+                       pattern="^[0-9]{2}-[0-9]{8}-[0-9]{1}$"
+                       #cuit="ngModel"
+                       [disabled]="session.isAuthenticated()"
+                       [class.is-invalid]="cuit.invalid && (cuit.touched || formSubmitted)"
                        (input)="onCuitInput($event)"
                        placeholder="CUIT (xx-xxxxxxxx-x)">
                 <div class="validation-container">
-                  @if (checkoutForm.get('cuit')?.invalid && (checkoutForm.get('cuit')?.touched || formSubmitted)) {
+                  @if (cuit.invalid && (cuit.touched || formSubmitted)) {
                     <div class="text-danger x-small">
                       Formato: 11 números (xx-xxxxxxxx-x).
                     </div>
@@ -58,41 +63,37 @@
 
             <div class="row">
               <div class="col-md-4">
-                <input type="text" formControlName="codigoArea" class="form-control-minimal" 
-                       [class.is-invalid]="checkoutForm.get('codigoArea')?.invalid && (checkoutForm.get('codigoArea')?.touched || formSubmitted)"
+                <input type="text" name="codigoArea" [(ngModel)]="customer.codigoArea" 
+                       class="form-control-minimal" 
+                       required minlength="2" pattern="^[0-9]+$"
+                       #codigoArea="ngModel"
+                       [disabled]="session.isAuthenticated()"
+                       [class.is-invalid]="codigoArea.invalid && (codigoArea.touched || formSubmitted)"
                        placeholder="Cód. Área">
                 <div class="validation-container">
-                  @if (checkoutForm.get('codigoArea')?.invalid && (checkoutForm.get('codigoArea')?.touched || formSubmitted)) {
+                  @if (codigoArea.invalid && (codigoArea.touched || formSubmitted)) {
                     <div class="text-danger x-small">
-                      @if (checkoutForm.get('codigoArea')?.errors?.['required']) {
-                        <span>Requerido.</span>
-                      }
-                      @if (checkoutForm.get('codigoArea')?.errors?.['minlength']) {
-                        <span>Mín. 2 números.</span>
-                      }
-                      @if (checkoutForm.get('codigoArea')?.errors?.['pattern'] && !checkoutForm.get('codigoArea')?.errors?.['minlength']) {
-                        <span>Solo números.</span>
-                      }
+                      @if (codigoArea.errors?.['required']) { <span>Requerido.</span> }
+                      @if (codigoArea.errors?.['minlength']) { <span>Mín. 2 números.</span> }
+                      @if (codigoArea.errors?.['pattern']) { <span>Solo números.</span> }
                     </div>
                   }
                 </div>
               </div>
               <div class="col-md-8">
-                <input type="text" formControlName="celular" class="form-control-minimal" 
-                       [class.is-invalid]="checkoutForm.get('celular')?.invalid && (checkoutForm.get('celular')?.touched || formSubmitted)"
+                <input type="text" name="celular" [(ngModel)]="customer.celular" 
+                       class="form-control-minimal" 
+                       required minlength="5" pattern="^[0-9]+$"
+                       #celular="ngModel"
+                       [disabled]="session.isAuthenticated()"
+                       [class.is-invalid]="celular.invalid && (celular.touched || formSubmitted)"
                        placeholder="Celular">
                 <div class="validation-container">
-                  @if (checkoutForm.get('celular')?.invalid && (checkoutForm.get('celular')?.touched || formSubmitted)) {
+                  @if (celular.invalid && (celular.touched || formSubmitted)) {
                     <div class="text-danger x-small">
-                      @if (checkoutForm.get('celular')?.errors?.['required']) {
-                        <span>Requerido.</span>
-                      }
-                      @if (checkoutForm.get('celular')?.errors?.['minlength']) {
-                        <span>Mín. 5 números.</span>
-                      }
-                      @if (checkoutForm.get('celular')?.errors?.['pattern'] && !checkoutForm.get('celular')?.errors?.['minlength']) {
-                        <span>Solo números.</span>
-                      }
+                      @if (celular.errors?.['required']) { <span>Requerido.</span> }
+                      @if (celular.errors?.['minlength']) { <span>Mín. 5 números.</span> }
+                      @if (celular.errors?.['pattern']) { <span>Solo números.</span> }
                     </div>
                   }
                 </div>

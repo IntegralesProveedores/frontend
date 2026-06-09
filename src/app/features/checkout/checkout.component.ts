@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, effect, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
+import { SessionContextService } from '../../core/services/session-context.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { environment } from '../../../environments/environment';
 import emailjs from '@emailjs/browser';
@@ -10,17 +11,17 @@ import emailjs from '@emailjs/browser';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, CurrencyArsPipe],
+  imports: [CommonModule, FormsModule, RouterModule, CurrencyArsPipe],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────
   // DEPENDENCIAS
   // ─────────────────────────────────────────────────────────────
-  private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   public readonly cartService = inject(CartService);
+  public readonly session = inject(SessionContextService);
 
   // ─────────────────────────────────────────────────────────────
   // ESTADO
@@ -28,13 +29,36 @@ export class CheckoutComponent {
   loading = false;
   formSubmitted = false;
 
-  checkoutForm = this.fb.group({
-    nombre: ['', [Validators.required, Validators.minLength(3)]],
-    cuit: ['', [Validators.pattern('^[0-9]{2}-[0-9]{8}-[0-9]{1}$')]],
-    codigoArea: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[0-9]+$')]],
-    celular: ['', [Validators.required, Validators.minLength(5), Validators.pattern('^[0-9]+$')]],
-    email: ['', [Validators.required, Validators.email]]
-  });
+  /** Objeto local de datos del cliente vinculado mediante ngModel */
+  customer = {
+    nombre: '',
+    email: '',
+    cuit: '',
+    codigoArea: '',
+    celular: ''
+  };
+
+  constructor() {
+    // Reactividad: si el usuario se loguea/cambia, inyectamos sus datos automáticamente
+    effect(() => {
+      const user = this.session.currentUser();
+      if (user) {
+        this.customer = {
+          nombre: user.fullName,
+          email: user.email,
+          cuit: user.taxId,
+          codigoArea: user.phone.areaCode,
+          celular: user.phone.number
+        };
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    if (this.cartService.isEmpty()) {
+      this.router.navigate(['/cart']);
+    }
+  }
 
   // ─────────────────────────────────────────────────────────────
   // MANEJO DE FORMULARIO
@@ -57,8 +81,7 @@ export class CheckoutComponent {
         }
       }
     }
-
-    this.checkoutForm.patchValue({ cuit: formatted }, { emitEvent: false });
+    this.customer.cuit = formatted;
   }
 
   /** 
@@ -67,16 +90,16 @@ export class CheckoutComponent {
    */
   private generarHTMLCorreo(): string {
     const items = this.cartService.cartItems();
-    const form = this.checkoutForm.value;
+    const c = this.customer;
 
     let html = `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 700px; margin: auto; border: 1px solid #eee; padding: 20px;">
         <h2 style="color: #2b5e2b; text-align: center;">Detalle de Pedido</h2>
         <hr style="border: 0; border-top: 1px solid #eee;">
-        <p><strong>Cliente:</strong> ${form.nombre}</p>
-        <p><strong>CUIT:</strong> ${form.cuit || 'No informado'}</p>
-        <p><strong>Teléfono:</strong> (${form.codigoArea}) ${form.celular}</p>
-        <p><strong>Email:</strong> ${form.email}</p>
+        <p><strong>Cliente:</strong> ${c.nombre}</p>
+        <p><strong>CUIT:</strong> ${c.cuit || 'No informado'}</p>
+        <p><strong>Teléfono:</strong> (${c.codigoArea}) ${c.celular}</p>
+        <p><strong>Email:</strong> ${c.email}</p>
         
         <table width="100%" style="border-collapse: collapse; margin-top: 20px; font-size: 10px;">
           <thead>
@@ -142,34 +165,28 @@ export class CheckoutComponent {
   // ACCIONES
   // ─────────────────────────────────────────────────────────────
 
-  confirmarPedido() {
+  confirmarPedido(isValid: boolean | null) {
     this.formSubmitted = true;
     
-    if (this.checkoutForm.invalid) {
-      this.checkoutForm.markAllAsTouched();
-      return;
-    }
-
-    if (this.cartService.isEmpty()) {
+    if (!isValid || this.cartService.isEmpty()) {
       return;
     }
 
     this.loading = true;
-    const form = this.checkoutForm.value;
+    const c = this.customer;
     const mensajeHTML = this.generarHTMLCorreo();
 
     const templateParams = {
-      to_name: form.nombre,
-      to_email: form.email,
-      name: form.nombre,
-      reply_to: form.email,
-      email: form.email,
-      telefono: `(${form.codigoArea}) ${form.celular}`,
+      to_name: c.nombre,
+      to_email: c.email,
+      name: c.nombre,
+      reply_to: c.email,
+      email: c.email,
+      telefono: `(${c.codigoArea}) ${c.celular}`,
       order_id: `ORD-${Date.now().toString().slice(-6)}`,
       mensaje_html: mensajeHTML
     };
 
-    // F2: Uso de credenciales desde environment
     emailjs.send(
       environment.emailjs.serviceId,
       environment.emailjs.templateId,
@@ -196,4 +213,3 @@ export class CheckoutComponent {
     }).format(n || 0);
   }
 }
-

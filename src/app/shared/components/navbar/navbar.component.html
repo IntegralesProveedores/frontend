@@ -11,8 +11,13 @@ routerLink="/"
 fragment="home"
 aria-label="Ir al inicio">
 
-  <img src="/assets/images/logo-00.webp" class="logo-img" alt="IntegralesArg" />
-  <span class="iso-text">INTEGRALES</span>
+  @if (session.isBrotalia()) {
+    <img src="/assets/images/brotalia-iso-00.png" class="logo-img" alt="Brotalia" />
+    <span class="iso-text">BROTALIA</span>
+  } @else {
+    <img src="/assets/images/integrales-logo-00.webp" class="logo-img" alt="IntegralesArg" />
+    <span class="iso-text">INTEGRALES</span>
+  }
 </a>
 
 <!-- NAV -->
@@ -47,10 +52,15 @@ aria-label="Ir al inicio">
         routerLink="/"
         fragment="home"
         aria-label="Ir al inicio">
-        <img src="/assets/images/logo-00.webp" alt="IntegralesArg" />
+        @if (session.isBrotalia()) {
+          <img src="/assets/images/brotalia-iso-00.png" alt="Brotalia" />
+        } @else {
+          <img src="/assets/images/integrales-logo-00.webp" alt="IntegralesArg" />
+        }
         <span class="nav-text">Home</span>
       </a>
     </li>
+
 
     <li class="nav-item">
       <a

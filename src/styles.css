@@ -14,18 +14,21 @@
    DESIGN TOKENS MAPPING (Legacy Compatibility)
    ============================================= */
 :root {
-  /* Colors aliased to semantic tokens */
-  --color-primary:       var(--brand-primary);
-  --color-primary-rgb:   45, 90, 39; /* Keep RGB for transparency if needed */
+  /* Dynamic Theme Variables - Mapping to tokens for Dark Mode support */
+  --color-bg:            var(--color-bg-primary);
+  --color-text:          var(--color-text-primary);
+  --color-title:         var(--color-text-primary);
   --color-accent:        var(--brand-primary);
+
+  /* Colors aliased to semantic tokens */
+  --color-primary:       var(--color-accent);
+  --color-primary-rgb:   45, 90, 39; /* Keep RGB for transparency if needed */
   --color-accent-soft:   var(--brand-faded);
   
-  --color-bg:            var(--color-bg-primary);
   --color-bg-soft:       var(--color-bg-secondary);
   --color-bg-tertiary:   var(--color-bg-tertiary);
   --color-bg-brand-soft: var(--color-bg-brand-soft);
   
-  --color-text:          var(--color-text-primary);
   --color-text-secondary: var(--color-text-secondary);
   --color-text-muted:    var(--color-text-muted);
   --color-text-disabled: var(--color-text-disabled);
@@ -36,7 +39,7 @@
   --color-border-soft:   var(--color-border-secondary);
 
   /* Bootstrap overrides using tokens */
-  --bs-primary:          var(--brand-primary);
+  --bs-primary:          var(--color-accent);
   --bs-primary-rgb:      45, 90, 39;
   --bs-body-font-family: var(--font-sans);
   --bs-border-radius:    var(--radius-lg);
@@ -60,6 +63,26 @@
 
   /* Border radius */
   --border-radius-base:  var(--radius-lg);
+}
+
+/* BROTALIA THEME OVERRIDES (LIGHT MODE) */
+body.theme-brotalia {
+  --color-bg:            #fdf7e7;
+  --color-text:          #2b3033;
+  --color-title:         #2e5a36;
+  --color-accent:        #e07b39;
+  
+  --bs-primary:          var(--color-accent);
+}
+
+/* BROTALIA THEME OVERRIDES (DARK MODE) */
+@media (prefers-color-scheme: dark) {
+  body.theme-brotalia {
+    --color-bg:            #1a1a0e;
+    --color-text:          #e8e0d0;
+    --color-title:         #7db87f;
+    --color-accent:        #e07b39;
+  }
 }
 
 
