@@ -1,25 +1,24 @@
+@if (session.isBrotalia()) {
+
 <section id="home" class="d-flex align-items-center min-vh-100 banner-content">
   <div class="container">
     <div class="row">
       <div class="col-md-8 offset-md-4 text-center">
-        @if (session.isBrotalia()) {
-          <h1>Macetas</h1>
-		  <p class="mb-4">
-            <span>Biodegradables</span>
-          </p>
-        } @else {
+
           <h1>Macetas Biodegradables</h1>
           <p class="mb-4">
             <span>Mayoristas</span> para
             <span>Distribuidoras</span> y
             <span>Revendedores</span><br>
           </p>
-        }
-        
-        <a routerLink="/productos" class="btn btn-primary btn-lg px-5 py-3 shadow-sm">
-           CATÁLOGO
-        </a>
+		  <a routerLink="/productos" class="btn btn-primary btn-lg px-5 py-3 shadow-sm">
+             CATÁLOGO
+          </a>
        </div>
     </div>
   </div>
 </section>
+} @else {
+
+
+}
