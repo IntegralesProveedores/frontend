@@ -12,10 +12,10 @@
     <h3 class="product-title h6">{{ product.name }}</h3>
     
     <div class="product-prices">
-      <div class="price-main fw-bold">USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}</div>
+      <div class="price-main fw-bold">USD ${{ variant?.price_usd | number:'1.2-2' }}</div>
       <div class="price-details d-flex gap-2 mt-1">
         <span class="price-usd small text-secondary">
-		  {{ currentPricing().finalPriceArs | currencyArs }}
+		  {{ (variant?.price_ars || 0) | currencyArs }}
         </span>
       </div>
       <div class="iva-legend text-muted mt-1" style="font-size: 0.7rem;">IVA no incluido</div>

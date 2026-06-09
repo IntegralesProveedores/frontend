@@ -1,9 +1,8 @@
-import { Component, OnInit, signal, computed, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, signal, computed, inject, PLATFORM_ID, effect } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
-import { PriceService } from '../../core/services/price.service';
 import { Product, ProductVariant } from '../../core/models/product.model';
 import { PaginatedResponse } from '../../core/models/api-response.model';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
@@ -11,6 +10,7 @@ import { ProductCardComponent } from '../../shared/components/product-card/produ
 import { ProductDetailSkeletonComponent } from '../../shared/components/product-detail-skeleton/product-detail-skeleton.component';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
 import { ProgressiveImageComponent } from '../../shared/components/progressive-image/progressive-image.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -30,26 +30,21 @@ export class ProductDetailComponent implements OnInit {
   quantity = signal(1);
   added = signal(false);
 
+  // Precios dinámicos devueltos por el backend
+  dynamicPriceArs = signal<number>(0);
+  dynamicPriceUsd = signal<number>(0);
+
   private api = inject(ApiService);
   private cart = inject(CartService);
-  private priceService = inject(PriceService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 
-  // Computed para el cálculo de precio dinámico (bulk pricing + markup + iva)
-  currentPricing = computed(() => {
-    const v = this.selectedVariant();
-    // Sumamos la cantidad elegida actualmente + lo que ya esté en el carrito
-    const cartQty = this.cart.cartItems().find(i => i.variantId === v?.id)?.quantity || 0;
-    const totalQty = Math.max(1, this.quantity() + cartQty);
-    
-    return this.priceService.calculatePrice(
-      v?.cost_usd, 
-      totalQty, 
-      this.cart.dolarOficial()
-    );
-  });
+  // Mantenemos la estructura para minimizar cambios en el HTML
+  currentPricing = computed(() => ({
+    finalPriceArs: this.dynamicPriceArs(),
+    finalPriceUsd: this.dynamicPriceUsd()
+  }));
 
   relatedProducts = computed(() => {
     const current = this.product();
@@ -72,7 +67,18 @@ export class ProductDetailComponent implements OnInit {
     return this.selectedVariant()?.stock ?? 1;
   }
 
-  constructor() {}
+  constructor() {
+    // Efecto para actualizar el precio cuando cambia la variante o la cantidad
+    effect(() => {
+      const v = this.selectedVariant();
+      const q = this.quantity();
+      const p = this.product();
+      
+      if (v && p) {
+        this.updateDynamicPrice(p.slug, v.id, q);
+      }
+    }, { allowSignalWrites: true });
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -82,12 +88,41 @@ export class ProductDetailComponent implements OnInit {
     this.loadAllProducts();
   }
 
+  /**
+   * Obtiene el precio actualizado desde el backend considerando descuentos por volumen.
+   */
+  async updateDynamicPrice(slug: string, variantId: string, qty: number) {
+    try {
+      // Sumamos lo que ya esté en el carrito para aplicar el tramo de descuento correcto
+      const cartQty = this.cart.cartItems().find(i => i.variantId === variantId)?.quantity || 0;
+      const totalQty = Math.max(1, qty + cartQty);
+
+      const data = await firstValueFrom(
+        this.api.get<Product>(`/products/${slug}`, { quantity: totalQty.toString() })
+      );
+      const variant = data.variants?.find(v => v.id === variantId);
+      
+      if (variant) {
+        this.dynamicPriceArs.set(variant.price_ars || 0);
+        this.dynamicPriceUsd.set(variant.price_usd || 0);
+      }
+
+    } catch (e) {
+      console.error('Error al actualizar precio dinámico:', e);
+    }
+  }
+
   loadProduct(slug: string): void {
     this.loading.set(true);
     this.api.get<Product>(`/products/${slug}`).subscribe({
       next: data => {
         this.product.set(data);
-        this.selectedVariant.set(data.variants?.[0] ?? null);
+        const firstVariant = data.variants?.[0] ?? null;
+        this.selectedVariant.set(firstVariant);
+        if (firstVariant) {
+          this.dynamicPriceArs.set(firstVariant.price_ars || 0);
+          this.dynamicPriceUsd.set(firstVariant.price_usd || 0);
+        }
         this.selectedImageIndex.set(0);
         this.quantity.set(1);
         this.loading.set(false);
@@ -136,16 +171,14 @@ export class ProductDetailComponent implements OnInit {
     const v = this.selectedVariant();
     if (!p || !v || !this.inStock) return;
 
-    const pricing = this.currentPricing();
-
     this.cart.add({
       variantId: v.id,
       productId: p.id,
       productName: p.name,
       slug: p.slug,
       sku: v.sku,
-      price_ars: pricing.finalPriceArs,
-      price_usd: pricing.finalPriceUsd,
+      price_ars: this.dynamicPriceArs(),
+      price_usd: this.dynamicPriceUsd(),
       cost_usd: v.cost_usd,
       quantity: this.quantity(),
       imageUrl: p.images?.[0]?.url ?? '',

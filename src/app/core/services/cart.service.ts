@@ -3,7 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { CartItem } from '../models/cart.model';
 import { ApiService } from './api.service';
-import { PriceService } from './price.service';
+import { Product } from '../models/product.model';
 
 const CART_KEY = 'cart_items';
 
@@ -14,7 +14,6 @@ export class CartService {
   // ─────────────────────────────────────────────────────────────
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly apiService = inject(ApiService);
-  private readonly priceService = inject(PriceService);
   
   // ─────────────────────────────────────────────────────────────
   // ESTADO (Signals)
@@ -73,17 +72,22 @@ export class CartService {
   // MÉTODOS PÚBLICOS
   // ─────────────────────────────────────────────────────────────
 
-  add(item: CartItem): void {
+  async add(item: CartItem): Promise<void> {
     const current = this.items();
     const existing = current.find(i => i.variantId === item.variantId);
+    const newQuantity = existing ? existing.quantity + item.quantity : item.quantity;
+
+    // Obtener precio actualizado del backend para la cantidad total
+    const updatedPricing = await this.fetchPriceFromBackend(item.slug, item.variantId, newQuantity);
 
     if (existing) {
-      this.updateQuantity(existing.variantId, existing.quantity + item.quantity);
+      this.items.set(current.map(i => 
+        i.variantId === item.variantId ? { ...i, ...updatedPricing, quantity: newQuantity } : i
+      ));
     } else {
-      const newItem = this.applyPricing(item);
-      this.items.set([...current, newItem]);
-      this.saveToStorage();
+      this.items.set([...current, { ...item, ...updatedPricing, quantity: newQuantity }]);
     }
+    this.saveToStorage();
   }
 
   remove(variantId: string): void {
@@ -91,15 +95,20 @@ export class CartService {
     this.saveToStorage();
   }
 
-  updateQuantity(variantId: string, quantity: number): void {
+  async updateQuantity(variantId: string, quantity: number): Promise<void> {
     if (quantity <= 0) {
       this.remove(variantId);
       return;
     }
     
+    const item = this.items().find(i => i.variantId === variantId);
+    if (!item) return;
+
+    const updatedPricing = await this.fetchPriceFromBackend(item.slug, variantId, quantity);
+
     this.items.set(this.items().map(i => {
       if (i.variantId === variantId) {
-        return this.applyPricing({ ...i, quantity });
+        return { ...i, ...updatedPricing, quantity };
       }
       return i;
     }));
@@ -125,27 +134,48 @@ export class CartService {
   // LÓGICA INTERNA
   // ─────────────────────────────────────────────────────────────
 
-  /** 
-   * Aplica la lógica de precios actual (markup + cotización) a un item.
+  /**
+   * Consulta al backend el precio actualizado de una variante según la cantidad.
    */
-  private applyPricing(item: CartItem): CartItem {
-    const pricing = this.priceService.calculatePrice(item.cost_usd, item.quantity, this.dolarVenta());
-    return {
-      ...item,
-      price_ars: pricing.finalPriceArs,
-      price_usd: pricing.finalPriceUsd
-    };
+  private async fetchPriceFromBackend(slug: string, variantId: string, quantity: number) {
+    try {
+      const product = await firstValueFrom(
+        this.apiService.get<Product>(`/products/${slug}`, { quantity: quantity.toString() })
+      );
+      const variant = product.variants?.find(v => v.id === variantId);
+      
+      if (!variant) throw new Error('Variant not found in backend response');
+
+      return {
+        price_ars: variant.price_ars,
+        price_usd: variant.price_usd
+      };
+    } catch (e) {
+      console.error('Error al obtener precio del backend:', e);
+      // En caso de error, devolvemos los valores actuales como fallback
+      const current = this.items().find(i => i.variantId === variantId);
+      return {
+        price_ars: current?.price_ars || 0,
+        price_usd: current?.price_usd || 0
+      };
+    }
   }
 
   /**
    * Recalcula todos los precios en el carrito cuando cambia la cotización.
    */
-  private recalculateAllPrices(): void {
+  private async recalculateAllPrices(): Promise<void> {
     const currentItems = this.items();
     if (currentItems.length === 0) return;
 
-    const updatedItems = currentItems.map(item => this.applyPricing(item));
-    this.items.set(updatedItems);
+    const updates = await Promise.all(
+      currentItems.map(async item => {
+        const pricing = await this.fetchPriceFromBackend(item.slug, item.variantId, item.quantity);
+        return { ...item, ...pricing };
+      })
+    );
+
+    this.items.set(updates);
   }
 
   /**
@@ -160,7 +190,6 @@ export class CartService {
       }
     } catch (e) {
       console.error('Error al obtener configuración del backend:', e);
-      // Fallback o reintento podría ir aquí
     }
   }
 
