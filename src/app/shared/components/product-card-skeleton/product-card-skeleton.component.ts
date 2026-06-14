@@ -9,7 +9,7 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
   template: `
     <div class="card-skeleton h-100">
       <!-- Image area -->
-      <div class="mb-3">
+      <div class="mb-3 mt-3">
         <app-skeleton height="200px" radius="var(--radius-md)" class="d-block" />
       </div>
       

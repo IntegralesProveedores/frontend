@@ -3,7 +3,7 @@
     <!-- Grid -->
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
       @if (loading()) {
-        @for (i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+        @for (i of [1,2,3,4,5]; track i) {
           <div class="col">
             <app-product-card-skeleton />
           </div>
