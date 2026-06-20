@@ -6,7 +6,7 @@ import { CartService } from '../../core/services/cart.service';
 import { SessionContextService } from '../../core/services/session-context.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { environment } from '../../../environments/environment';
-import emailjs from '@emailjs/browser';
+import * as emailjs from '@emailjs/browser';
 
 @Component({
   selector: 'app-checkout',
@@ -148,7 +148,7 @@ export class CheckoutComponent implements OnInit {
             Cotización aplicada: $${this.fmtNumber(this.cartService.dolarOficial())} ARS
           </div>
           <div style="color: #999; font-size: 11px; font-style: italic;">
-            IVA no incluido
+            IVA incluido
           </div>
         </div>
         

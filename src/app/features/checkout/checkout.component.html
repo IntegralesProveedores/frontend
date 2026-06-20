@@ -139,7 +139,7 @@
                 <div class="flex-grow-1">
                   <h4 class="x-small mb-1 fw-bold item-name">{{ item.productName }}</h4>
                   <div class="d-flex justify-content-between align-items-start">
-                    <span class="x-small summary-label">Cant: {{ item.quantity }}</span>
+                    <span class="x-small summary-label">Pack x{{ item.units_per_pack }}u  Cant: {{ item.quantity }}</span>
                     <div class="text-end">
                       <div class="x-small text-success fw-bold">USD ${{ ((item.price_usd || 0) * item.quantity) | number:'1.2-2' }}</div>
                       <div class="x-small price-ars">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
