@@ -26,8 +26,12 @@ export class ProductCardComponent {
   }
 
   get variant(): ProductVariant | null {
-    return this.product.variants[0] ?? null;
-  }
+	  const master = this.product.units_per_pack_master;
+	  if (master) {
+		return this.product.variants.find(v => v.units_per_pack === master) ?? this.product.variants[0] ?? null;
+	  }
+	  return this.product.variants[0] ?? null;
+	}
 
   get inStock(): boolean {
     return (this.variant?.stock ?? 0) > 0;

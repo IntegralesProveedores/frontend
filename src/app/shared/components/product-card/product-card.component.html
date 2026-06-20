@@ -18,7 +18,7 @@
 		  {{ (variant?.price_ars || 0) | currencyArs }}
         </span>
       </div>
-      <div class="iva-legend text-muted mt-1" style="font-size: 0.7rem;">IVA no incluido</div>
+	  <div class="text-muted mt-1" style="font-size: 0.7rem;">{{ variant?.units_per_pack }}u | IVA incluido</div>
     </div>
   </div>
 

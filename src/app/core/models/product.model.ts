@@ -6,6 +6,7 @@ export interface ProductDimensions {
   volume_cc: number | null;
 }
 
+/** Representa una variante de presentación comercial de un producto */
 export interface ProductVariant {
   id: string;
   sku: string;
@@ -15,8 +16,10 @@ export interface ProductVariant {
   markup_percentage?: number;
   stock: number;
   units_per_pack: number;
-  weight_grams: number;
+  weight_grams?: number;
   dimensions: ProductDimensions;
+  vat_included?: boolean;
+  vat_label?: string;
 }
 
 export interface ProductImage {
@@ -32,18 +35,21 @@ export interface ProductCategory {
   parent_id: string | null;
 }
 
+/** Representa la entidad de Producto comercial global */
 export interface Product {
   id: string;
   name: string;
   slug: string;
   description: string;
   active: boolean;
+  cost_usd?: number;
+  units_per_pack_master?: number;
   category: ProductCategory | null;
   categories: ProductCategory[];
   variants: ProductVariant[];
   images: ProductImage[];
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 
