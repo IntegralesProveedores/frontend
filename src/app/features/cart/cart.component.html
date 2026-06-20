@@ -24,7 +24,7 @@
                         <img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
                       </div>
                       <div>
-                        <h4 class="h6 mb-1 fw-bold item-name">
+                        <h4 class="h6 mb-1 fw-bold item-name text-uppercase">
                           {{ item.productName }}
                         </h4>
                         <p class="x-small text-success mb-0 fw-semibold">USD ${{ item.price_usd | number:'1.2-2' }}</p>
@@ -92,7 +92,7 @@
             
             <div class="summary-actions mt-5">
               <button (click)="goToCheckout()" class="btn btn-primary btn-lg w-100 py-3 mb-3">
-                Finalizar Compra
+                COMPRAR
               </button>
               <a routerLink="/productos" class="btn btn-link text-muted w-100 text-decoration-none">
                 &larr; Catálogo

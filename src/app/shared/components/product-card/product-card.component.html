@@ -9,7 +9,7 @@
   </div>
   
   <div class="product-info">
-    <h3 class="product-title h6">{{ product.name }}</h3>
+    <h3 class="price-main fw-light text-uppercase">{{ product.name }}</h3>
     
     <div class="product-prices">
       <!--
@@ -20,11 +20,11 @@
         </span>
       </div>
 	  -->
-	  <div class="text-muted mt-1" style="font-size: 0.7rem;">
-	    @if (product.diameter_cm) { {{ product.diameter_cm }} × }{{ product.height_cm }}cm (h)
-	    @if (product.volume_cc) { · {{ product.volume_cc }} cm³ }
+	  <div class="text-muted mt-1">
+	    @if (product.diameter_cm) { {{ product.diameter_cm }} × }{{ product.height_cm }}cm (h) <br />
+	    @if (product.volume_cc) { {{ product.volume_cc }} cm³ }
 	  </div>
-	  <div class="text-muted mt-1" style="font-size: 0.7rem;"><!--{{ variant?.units_per_pack }}u. | -->IVA incluido</div>
+	  <div class="text-muted mt-1 italic" style="font-size: 0.7rem;"><!--{{ variant?.units_per_pack }}u. | -->IVA incluido</div>
     </div>
   </div>
 

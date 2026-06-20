@@ -25,22 +25,15 @@
                 <li class="breadcrumb-item active text-primary">{{ product()?.name }}</li>
               </ol>
             </nav>
-            <h1 class="h2 mb-2 product-title">{{ product()?.name }}</h1>
-
-
-<p class="description text-secondary small mb-0">{{ product()?.description }}</p>
+            <h1 class="h2 mb-2 product-title text-uppercase">{{ product()?.name }}</h1>
+			<p class="description text-secondary small mb-0">{{ product()?.description }}</p>
             <div class="text-muted mt-2" style="font-size: 0.8rem;">
               @if (product()?.diameter_cm) { {{ product()?.diameter_cm }} × }
               @if (product()?.height_cm) { {{ product()?.height_cm }} cm (h) }
               @if (product()?.volume_cc) { · {{ product()?.volume_cc }} cm³ }
             </div>
-
-
-
-
           </div>
-
-          <div class="mb-5 py-4 border-top border-bottom">
+          <div class="mb-3 py-4 border-top border-bottom">
             <div class="h2 mb-0 text-primary fw-bold">USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}</div>
             <div class="d-flex gap-3 align-items-center mt-1">
               <span class="text-secondary fw-semibold">
@@ -51,8 +44,9 @@
           </div>
 
           <!-- Variants Selection -->
-          @if (product()?.variants?.length! > 1) {
-            <div class="mb-4">
+          @if (product()?.variants && product()!.variants.length > 0) {
+
+            <div class="mb-3">
               <label class="x-small text-uppercase fw-bold mb-3 d-block text-muted">Presentación</label>
               <div class="d-flex flex-wrap gap-2">
                 @for (v of product()?.variants; track v.id) {
@@ -60,7 +54,7 @@
                     class="btn btn-outline-dark btn-sm variant-pill"
                     [class.active]="selectedVariant()?.id === v.id"
                     (click)="selectVariant(v)">
-                    {{ v.units_per_pack }}u
+                    {{ v.units_per_pack }}u.
                   </button>
                 }
               </div>
@@ -68,7 +62,7 @@
           }
 		  
           <!-- Quantity & Stock -->
-          <div class="mb-5">
+          <div class="mb-3">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <label class="x-small text-uppercase fw-bold text-muted">Cantidad</label>
               @if (selectedVariant()) {
@@ -77,20 +71,20 @@
             </div>
 
             
-            <div class="qty-control-wrapper d-flex align-items-center gap-4">
+			<div class="qty-control-wrapper d-flex align-items-center gap-4">
               <div class="qty-selector">
                 <button class="qty-btn" (click)="decrement()" [disabled]="quantity() <= 1">-</button>
                 <span class="qty-value">{{ quantity() }}</span>
                 <button class="qty-btn" (click)="increment()" [disabled]="quantity() >= maxQty">+</button>
               </div>
+              <button class="btn btn-primary btn-lg flex-grow-1 py-3" (click)="addToCart()" [disabled]="!inStock">
+                {{ added() ? '✓ Agregado' : (inStock ? 'AGREGAR' : 'Sin Stock') }}
+              </button>
             </div>
           </div>
 
           <!-- CTA -->
           <div class="actions-wrapper">
-            <button class="btn btn-primary btn-lg w-100 py-3 mb-3" (click)="addToCart()" [disabled]="!inStock">
-              {{ added() ? '✓ Agregado' : (inStock ? 'Agregar al Carrito' : 'Sin Stock') }}
-            </button>
             <p class="x-small text-center text-muted italic">
               Factura A/C. Envíos gratis en C.A.B.A.
             </p>

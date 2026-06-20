@@ -99,18 +99,18 @@
                 </div>
               </div>
             </div>
-
+			<!--
             <div class="alert alert-warning bg-transparent d-flex align-items-center gap-3 mb-5" role="alert">
               <i class="fa-solid fa-triangle-exclamation"></i>
               <div class="x-small mb-0">
                 Nos contactaremos para coordinar el pago y aplicar el costo de envío.
               </div>
             </div>
-
+			-->
             <div class="checkout-actions">
               <button type="submit" class="btn btn-success btn-lg w-100 py-3 mb-3" [disabled]="loading || checkoutForm.invalid">
                 @if (!loading) {
-                  <span>CONFIRMAR PEDIDO</span>
+                  <span>COMPRAR</span>
                 } @else {
                   <div class="d-flex align-items-center justify-content-center">
                     <span class="spinner-border spinner-border-sm me-2"></span>
@@ -137,7 +137,7 @@
                   <img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
                 </div>
                 <div class="flex-grow-1">
-                  <h4 class="x-small mb-1 fw-bold item-name">{{ item.productName }}</h4>
+                  <h4 class="x-small mb-1 fw-bold item-name text-uppercase">{{ item.productName }}</h4>
                   <div class="d-flex justify-content-between align-items-start">
                     <span class="x-small summary-label">Pack x{{ item.units_per_pack }}u.<br />Cant: {{ item.quantity }}</span>
                     <div class="text-end">
