@@ -45,6 +45,9 @@
                       <div class="item-total text-end">
                         <div class="fw-bold item-name">USD {{ ((item.price_usd || 0) * (item.quantity || 0)) | number:'1.2-2' }}</div>
                         <div class="x-small price-ars">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
+						<div class="x-small text-muted">{{ ((item.units_per_pack || 0) * item.quantity) | number:'1.0-0' }}u.</div>
+
+
                       </div>
                     </div>
                   </div>

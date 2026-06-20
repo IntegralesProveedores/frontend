@@ -12,13 +12,19 @@
     <h3 class="product-title h6">{{ product.name }}</h3>
     
     <div class="product-prices">
-      <div class="price-main fw-bold">USD ${{ variant?.price_usd | number:'1.2-2' }}</div>
+      <!--
+	  <div class="price-main fw-bold">USD ${{ variant?.price_usd | number:'1.2-2' }}</div>
       <div class="price-details d-flex gap-2 mt-1">
-        <span class="price-usd small text-secondary">
+		<span class="price-usd small text-secondary">
 		  {{ (variant?.price_ars || 0) | currencyArs }}
         </span>
       </div>
-	  <div class="text-muted mt-1" style="font-size: 0.7rem;">{{ variant?.units_per_pack }}u | IVA incluido</div>
+	  -->
+	  <div class="text-muted mt-1" style="font-size: 0.7rem;">
+	    @if (product.diameter_cm) { {{ product.diameter_cm }} × }{{ product.height_cm }}cm (h)
+	    @if (product.volume_cc) { · {{ product.volume_cc }} cm³ }
+	  </div>
+	  <div class="text-muted mt-1" style="font-size: 0.7rem;"><!--{{ variant?.units_per_pack }}u. | -->IVA incluido</div>
     </div>
   </div>
 

@@ -50,6 +50,9 @@ export interface Product {
   images: ProductImage[];
   created_at?: string;
   updated_at?: string;
+  diameter_cm?: number | null;
+  height_cm?: number | null;
+  volume_cc?: number | null;
 }
 
 
