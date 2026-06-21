@@ -124,11 +124,11 @@
 		display: none;
 	}
 		.nav-item-home img{
-			width: 60px;
+			width: 100px;
 			position: absolute;
-			filter: drop-shadow(0 0 2px rgba(0,0,0,.8))
-					  drop-shadow(0 0 6px rgba(0,0,0,.6))
-					  drop-shadow(0 0 12px rgba(0,0,0,.4));
+			filter: drop-shadow(0 0 2px rgba(255,255,255,.8))
+					  drop-shadow(0 0 6px rgba(255,255,255,.6))
+					  drop-shadow(0 0 12px rgba(255,255,255,.4));
 		}
 
 .nav-link {
