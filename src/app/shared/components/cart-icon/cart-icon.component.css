@@ -33,3 +33,23 @@
   align-items: center;
   justify-content: center;
 }
+
+
+@media (max-width: 1000px) {
+.cart-trigger-premium {
+
+}
+
+.icon-relative {
+
+  font-size: 40px;
+}
+
+.count-badge {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+}
+
+

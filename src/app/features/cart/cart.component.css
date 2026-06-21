@@ -86,8 +86,12 @@
 
 
 
-@media (max-width: 768px) 
+@media (max-width: 1000px) 
 {
+		
+	.cart-page {
+		margin-top: 10px;
+	}
 	.cart-img-box img {
 		display: none;
 	}

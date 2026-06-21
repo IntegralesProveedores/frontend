@@ -104,7 +104,7 @@
   border-color: #dc3545;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1000px) {
   .order-summary-box {
     position: static;
     margin-top: 2rem;
