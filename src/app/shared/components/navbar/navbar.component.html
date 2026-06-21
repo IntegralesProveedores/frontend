@@ -2,86 +2,53 @@
 <div class="cart-floating-block">
   <app-cart-icon />
 </div>
-
 <!-- Contenedor del Logo a la DERECHA -->
-
-<a
-class="logo-floating-block"
-routerLink="/"
-fragment="home"
-aria-label="Ir al inicio">
-
+<a class="logo-floating-block" routerLink="/" fragment="home" aria-label="Ir al inicio">
   @if (session.isBrotalia()) {
-    <img src="/assets/images/brotalia-iso-00.png" class="logo-img" alt="Brotalia" style="width: 100px; height: 100px; max-width: none; max-height: none" />
+    <img src="/assets/images/brotalia-iso-00.png" class="logo-img dark-hide" alt="Brotalia" style="width: 100px; height: 100px; max-width: none; max-height: none" />
+    <img src="/assets/images/brotalia-iso-00-white.png" class="logo-img dark-show" alt="Brotalia" style="width: 100px; height: 100px; max-width: none; max-height: none" />
   } @else {
     <img src="/assets/images/integrales-logo-00.webp" class="logo-img" alt="IntegralesArg" />
     <span class="iso-text">INTEGRALES</span>
   }
 </a>
-
 <!-- NAV -->
 <nav class="nav-bar nav-bar-vertical">
   <ul class="nav">
-
     <li class="nav-item">
-      <a
-        class="nav-link"
-        routerLink="/"
-        fragment="ventajas"
-        aria-label="Ver ventajas">
+      <a class="nav-link" routerLink="/" fragment="ventajas" aria-label="Ver ventajas">
         <i class="bi bi-info-circle"></i>
         <span class="nav-text">Ventajas</span>
       </a>
     </li>
-
     <li class="nav-item">
-      <a
-        class="nav-link"
-        routerLink="/"
-        fragment="servicios"
-        aria-label="Información de envíos">
+      <a class="nav-link" routerLink="/" fragment="servicios" aria-label="Información de envíos">
         <i class="bi bi-truck"></i>
         <span class="nav-text">Envíos</span>
       </a>
     </li>
-
     <li class="nav-item nav-item-home">
-      <a
-        class="nav-link"
-        routerLink="/"
-        fragment="home"
-        aria-label="Ir al inicio">
+      <a class="nav-link" routerLink="/" fragment="home" aria-label="Ir al inicio">
         @if (session.isBrotalia()) {
-          <img src="/assets/images/brotalia-iso-00.png" alt="Brotalia" />
+          <img src="/assets/images/brotalia-iso-00.png" class="dark-hide" alt="Brotalia" />
+          <img src="/assets/images/brotalia-iso-00-white.png" class="dark-show" alt="Brotalia" />
         } @else {
           <img src="/assets/images/integrales-logo-00.webp" alt="IntegralesArg" />
         }
         <span class="nav-text">Home</span>
       </a>
     </li>
-
-
     <li class="nav-item">
-      <a
-        class="nav-link"
-        routerLink="/"
-        fragment="contacto"
-        aria-label="Contactar por WhatsApp">
+      <a class="nav-link" routerLink="/" fragment="contacto" aria-label="Contactar por WhatsApp">
         <i class="bi bi-whatsapp"></i>
         <span class="nav-text">Contacto</span>
       </a>
     </li>
-
     <li class="nav-item">
-      <a
-        routerLink="/catalogo"
-        class="nav-link"
-        aria-label="Ir a la tienda">
-        <!--<i class="fa fa-shopping-cart"></i>-->
+      <a routerLink="/catalogo" class="nav-link" aria-label="Ir a la tienda">
         <i class="bi bi-shop"></i>
         <span class="nav-text">Tienda</span>
       </a>
     </li>
-
   </ul>
 </nav>
