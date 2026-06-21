@@ -291,3 +291,13 @@
     display: none !important;
   }
 }
+
+
+
+.dark-show { display: none; }
+.dark-hide { display: block; }
+
+@media (prefers-color-scheme: dark) {
+  .dark-hide { display: none; }
+  .dark-show { display: block; }
+}
