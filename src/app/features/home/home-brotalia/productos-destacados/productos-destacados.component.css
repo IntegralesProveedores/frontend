@@ -1,0 +1,113 @@
+.productos-bento {
+  background: var(--color-bg);
+}
+
+.productos-inner {
+  --c-soft: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
+  padding: 5rem 6vw;
+}
+
+.bento-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.bento-header h2 {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-title);
+  font-size: 2rem;
+  margin: 0;
+}
+
+.bento-link {
+  color: var(--color-accent);
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 160px;
+  gap: 1.25rem;
+}
+
+.bento-item {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  background: var(--c-soft);
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.bento-item--featured {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.bento-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+::ng-deep .bento-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.bento-item:hover ::ng-deep .bento-img {
+  transform: scale(1.08);
+}
+
+.bento-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.15) 70%, transparent);
+  color: #fff;
+}
+
+.bento-info h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 300;
+  margin: 0;
+}
+
+.bento-skeleton {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: var(--c-soft);
+}
+
+@media (max-width: 768px) {
+  .productos-inner {
+    padding: 0 1.1rem 3rem;
+  }
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 140px;
+  }
+  .bento-item--featured {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+}

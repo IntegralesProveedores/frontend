@@ -8,6 +8,11 @@ export const routes: Routes = [
     component: HomeComponent 
   },
   {
+    path: 'brotalia',
+    loadComponent: () =>
+      import('./features/home/home-brotalia/home-brotalia.component').then(m => m.HomeBrotaliaComponent)
+  },
+  {
     path: 'productos',
     loadComponent: () =>
       import('./features/catalog/catalog.component').then(m => m.CatalogComponent)
@@ -48,5 +53,3 @@ export const routes: Routes = [
     redirectTo: 'productos'
   }
 ];
-
-

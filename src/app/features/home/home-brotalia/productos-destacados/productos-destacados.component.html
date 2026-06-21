@@ -1,0 +1,36 @@
+<section id="productos" class="productos-bento">
+  <div class="productos-inner">
+    <div class="bento-header">
+      <h2>Nuestros Productos</h2>
+      <a routerLink="/productos" class="bento-link">Ver catálogo completo <i class="bi bi-arrow-right"></i></a>
+    </div>
+    @if (loading()) {
+      <div class="bento-grid">
+        @for (i of [1,2,3,4,5]; track i) {
+          <div class="bento-skeleton" [class.bento-item--featured]="i === 1">
+            <app-skeleton width="100%" height="100%" />
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="bento-grid">
+        @for (p of productos(); track p.id; let i = $index) {
+          <a [routerLink]="['/productos', p.slug]" class="bento-item" [class.bento-item--featured]="i === 0">
+            @if (p.images && p.images.length > 0) {
+              <div class="bento-img-wrap">
+                <app-progressive-img
+                  [src]="p.images[0].url"
+                  [alt]="p.name"
+                  imgClass="bento-img"
+                />
+              </div>
+            }
+            <div class="bento-info">
+              <h3>{{ p.name }}</h3>
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</section>

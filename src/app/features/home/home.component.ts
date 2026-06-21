@@ -1,35 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
-import { BannerPrincipalComponent } from './banner-principal/banner-principal.component';
-import { VentajasComponent } from './ventajas/ventajas.component';
-import { ProductosPreviewComponent } from './productos-preview/productos-preview.component';
-import { ServiciosComponent } from './servicios/servicios.component';
-import { ContactoComponent } from './contacto/contacto.component';
+import { SessionContextService } from '../../core/services/session-context.service';
+import { HomeIntegralesComponent } from './home-integrales/home-integrales.component';
+import { HomeBrotaliaComponent } from './home-brotalia/home-brotalia.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
+  imports: [CommonModule, HomeIntegralesComponent, HomeBrotaliaComponent],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-  imports: [
-    CommonModule,
-    RouterModule,
-    NavbarComponent,
-    BannerPrincipalComponent,
-    VentajasComponent,
-    ProductosPreviewComponent,
-    ServiciosComponent,
-    ContactoComponent,
-  ]
+  styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
-
-  constructor() {  }
-
-  ngOnInit(): void {
-
-  }
-
+export class HomeComponent {
+  session = inject(SessionContextService);
 }

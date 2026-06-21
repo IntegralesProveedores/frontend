@@ -1,11 +1,11 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ApiService } from '../../../core/services/api.service';
-import { Product } from '../../../core/models/product.model';
-import { PaginatedResponse } from '../../../core/models/api-response.model';
-import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
-import { ProgressiveImageComponent } from '../../../shared/components/progressive-image/progressive-image.component';
+import { ApiService } from '../../../../core/services/api.service';
+import { Product } from '../../../../core/models/product.model';
+import { PaginatedResponse } from '../../../../core/models/api-response.model';
+import { SkeletonComponent } from '../../../../shared/components/skeleton/skeleton.component';
+import { ProgressiveImageComponent } from '../../../../shared/components/progressive-image/progressive-image.component';
 
 @Component({
   selector: 'app-productos-preview',
@@ -37,11 +37,16 @@ export class ProductosPreviewComponent implements OnInit {
   loadProducts(): void {
     this.loading.set(true);
     this.api.get<PaginatedResponse<Product>>('/products').subscribe({
-      next: (data) => {
+      // ─────────────────────────────────────────────────────────────
+      // QUÉ HACE: Manejo de respuesta de listado de productos
+      // POR QUÉ:  Tipado explícito para cumplir con strict compiler y firma de error RxJS
+      // CUIDADO:  Usa any en err de forma nativa por firma de callback de error de RxJS
+      // ─────────────────────────────────────────────────────────────
+      next: (data: PaginatedResponse<Product>) => {
         this.productos.set(data.items);
         this.loading.set(false);
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al cargar productos preview:', err);
         this.loading.set(false);
       }

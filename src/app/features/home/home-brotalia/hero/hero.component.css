@@ -1,0 +1,146 @@
+.brotalia-hero {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.hero-panel {
+  position: relative;
+}
+
+.hero-panel--text {
+  flex: 0 0 46%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 4rem 5vw 4rem 6vw;
+  background: var(--color-accent);
+  color: #fff;
+  z-index: 2;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
+}
+
+.hero-panel--image {
+  flex: 1;
+  background-image: url('/assets/images/background-01.jpg');
+  background-size: cover;
+  background-position: center;
+  margin-left: -8%;
+  position: relative;
+}
+
+.hero-panel--image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.35));
+}
+
+.hero-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.hero-title {
+  font-family: 'Caveat', cursive;
+  font-size: 5.5rem;
+  line-height: 0.85;
+  font-weight: 700;
+  margin: 0;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+  max-width: 320px;
+  margin: 0;
+}
+
+.hero-tags {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.hero-tag {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  background: var(--color-bg);
+  color: var(--color-accent);
+  font-weight: 700;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  transition: transform 0.25s ease;
+}
+
+.hero-cta:hover {
+  transform: translateX(4px);
+  color: var(--color-accent);
+}
+
+.hero-badge {
+  position: absolute;
+  right: 8%;
+  bottom: 10%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hero-badge strong {
+  font-size: 1.8rem;
+  font-family: 'Oswald', sans-serif;
+  color: var(--color-accent);
+}
+
+.hero-badge span {
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+@media (max-width: 768px) {
+  .brotalia-hero {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .hero-panel--text {
+    flex: none;
+    clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+    padding: 3rem 1.5rem 4rem;
+  }
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  .hero-panel--image {
+    margin-left: 0;
+    height: 50vh;
+  }
+  .hero-badge {
+    left: 1.5rem;
+    right: 1.5rem;
+    bottom: -1.5rem;
+  }
+}
