@@ -82,6 +82,14 @@ body.theme-brotalia {
     --color-text:          #e8e0d0;
     --color-title:         #7db87f;
     --color-accent:        #e07b39;
+	
+	  /* BROTALIA THEME OVERRIDES (LIGHT MODE) */
+	  --color-bg:            #fdf7e7;
+	  --color-text:          #2b3033;
+	  --color-title:         #2e5a36;
+	  --color-accent:        #e07b39;
+	  	
+	
   }
 }
 
