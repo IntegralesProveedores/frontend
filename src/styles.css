@@ -75,7 +75,7 @@ body.theme-brotalia {
   --bs-primary:          var(--color-accent);
 }
 
-/* BROTALIA THEME OVERRIDES (DARK MODE) */
+/* BROTALIA THEME OVERRIDES (DARK MODE) 
 @media (prefers-color-scheme: dark) {
   body.theme-brotalia {
     --color-bg:            #1a1a0e;
@@ -83,16 +83,10 @@ body.theme-brotalia {
     --color-title:         #7db87f;
     --color-accent:        #e07b39;
 	
-	  /* BROTALIA THEME OVERRIDES (LIGHT MODE) */
-	  --color-bg:            #fdf7e7;
-	  --color-text:          #2b3033;
-	  --color-title:         #2e5a36;
-	  --color-accent:        #e07b39;
-	  	
 	
   }
 }
-
+*/
 
 
 /* =============================================

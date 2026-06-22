@@ -1,4 +1,4 @@
-/* LOGO */
+/* ICON LOGO */
 .logo-floating-block {
   position: fixed;
   top: 10px;
@@ -28,7 +28,7 @@
 }
 
 
-/* CARRITO */
+/* ICON CARRITO */
 .cart-floating-block {
   position: fixed;
   top: 10px;
@@ -97,17 +97,16 @@
 	
 }
 
-/* Theme support for glass container */
+/* Theme support for glass container 
 @media (prefers-color-scheme: dark) {
   .nav {
-    /**/
 	background: rgba(18, 18, 18, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4);
 	
   }
 }
-
+*/
 .nav-bar-vertical .nav {
   flex-direction: column;
 }
@@ -205,13 +204,14 @@
   z-index: 10000;
 }
 
-/* Dark mode tooltip adjustment */
+/* Dark mode tooltip adjustment 
 @media (prefers-color-scheme: dark) {
   .nav-text {
     background: var(--gray-100);
     color: var(--gray-900);
   }
 }
+*/
 
 .nav-bar-vertical .nav-text {
   left: 60px;
@@ -235,6 +235,15 @@
   transform: translateX(-50%) translateY(0); /* For horizontal */
 }
 
+.dark-show { display: none; }
+.dark-hide { display: block; }
+
+/* Logo BROTALIA
+@media (prefers-color-scheme: dark) {
+  .dark-hide { display: none; }
+  .dark-show { display: block; }
+}
+*/
 
 /* =============================================
    MOBILE (Fixed Dock)
@@ -293,11 +302,3 @@
 }
 
 
-
-.dark-show { display: none; }
-.dark-hide { display: block; }
-
-@media (prefers-color-scheme: dark) {
-  .dark-hide { display: none; }
-  .dark-show { display: block; }
-}
