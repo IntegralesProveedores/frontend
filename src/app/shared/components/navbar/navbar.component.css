@@ -125,9 +125,12 @@
 		.nav-item-home img{
 			width: 60px;
 			position: absolute;
-			filter: drop-shadow(0 0 2px rgba(0,0,0,.8))
-					  drop-shadow(0 0 6px rgba(0,0,0,.6))
-					  drop-shadow(0 0 12px rgba(0,0,0,.4));
+			filter: drop-shadow(0 0 2px rgba(255,255,255,.8))
+					  drop-shadow(0 0 6px rgba(255,255,255,.6))
+					  drop-shadow(0 0 12px rgba(255,255,255,.4));
+		}
+		.nav-item-home img.dark-hide, .nav-item-home img.dark-show {
+			width: 150px;
 		}
 
 .nav-link {
@@ -306,7 +309,7 @@ background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
 
   @media (prefers-color-scheme: dark) {
     .nav {
-      background: rgba(23, 23, 23, 0.85);
+
     }
   }
 
