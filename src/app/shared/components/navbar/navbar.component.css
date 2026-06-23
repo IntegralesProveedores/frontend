@@ -238,6 +238,40 @@
 .dark-show { display: none; }
 .dark-hide { display: block; }
 
+
+
+
+.nav-bar {
+top: auto !important;
+bottom: 0 !important;
+left: 0 !important;
+right: 0 !important;
+width: 100% !important;
+transform: none !important;
+padding: 20px 10px; /* Added bottom padding for safe areas */
+background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
+}
+
+  .nav {
+    flex-direction: row !important;
+    justify-content: space-around;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 30px;
+    padding: 0;
+    background: rgba(var(--gray-0-rgb, 255, 255, 255), 0.85);
+  }
+
+
+
+
+
+
+
+
+
+
+
 /* Logo BROTALIA
 @media (prefers-color-scheme: dark) {
   .dark-hide { display: none; }

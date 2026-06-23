@@ -1,9 +1,8 @@
 import { Injectable, signal, computed, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-/** 
+/**
  * Tipos de inquilinos soportados por la plataforma.
- * 'integrales' es el tenant por defecto.
  */
 export type TenantId = 'integrales' | 'brotalia';
 
@@ -18,7 +17,7 @@ export interface UserContext {
     areaCode: string;
     number: string;
   };
-  taxId: string; // CUIT/CUIL
+  taxId: string;
   taxCondition: string;
 }
 
@@ -28,56 +27,66 @@ export class SessionContextService {
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
   // ─────────────────────────────────────────────────────────────
-  // ESTADO (Signals)
+  // ESTADO
   // ─────────────────────────────────────────────────────────────
-  
-  /** ID de la tienda actual resuelto por el Hostname */
-  readonly tenantId = signal<TenantId>('integrales');
-  
-  /** Tipo de cliente actual (afecta markups en backend) */
+
+  /** NULL hasta resolver el dominio */
+  readonly tenantId = signal<TenantId | null>(null);
+
+  /** Indica que el tenant ya fue resuelto */
+  readonly tenantResolved = signal(false);
+
+  /** Tipo de cliente actual */
   readonly customerType = signal<CustomerType>('minorista');
-  
-  /** Usuario actualmente logueado (null si es invitado) */
+
+  /** Usuario actual */
   readonly currentUser = signal<UserContext | null>(null);
 
   // ─────────────────────────────────────────────────────────────
-  // DERIVACIONES (Computed)
+  // COMPUTED
   // ─────────────────────────────────────────────────────────────
-  
+
   readonly isAuthenticated = computed(() => this.currentUser() !== null);
-  
-  readonly isBrotalia = computed(() => this.tenantId() === 'brotalia');
+
+  readonly isBrotalia = computed(
+    () => this.tenantId() === 'brotalia'
+  );
 
   constructor() {
     this.resolveTenant();
-    // Simulación de login de mayorista para testing de inyección en checkout
-    // Comentar esta línea para probar flujo anónimo
     // this.mockMayoristaLogin();
   }
 
   /**
-   * Resuelve el tenant basándose en el dominio actual.
-   * SSR-Safe: Solo intenta acceder a window/document si está en el browser.
+   * Resuelve tenant según hostname.
    */
   private resolveTenant(): void {
     if (this.isBrowser) {
-      const hostname = window.location.hostname;
+      const hostname = window.location.hostname.toLowerCase();
+
       if (hostname.includes('brotalia')) {
         this.tenantId.set('brotalia');
+
         document.body.classList.add('theme-brotalia');
         document.title = 'Brotalia';
       } else {
         this.tenantId.set('integrales');
+
         document.title = 'Integrales Proveedores';
       }
+    } else {
+      this.tenantId.set('integrales');
     }
+
+    this.tenantResolved.set(true);
   }
 
   /**
-   * Simula la carga de datos de un cliente mayorista desde Supabase Auth.
+   * Simulación de cliente mayorista.
    */
   private mockMayoristaLogin(): void {
     this.customerType.set('mayorista');
+
     this.currentUser.set({
       fullName: 'Distribuidora Patagonia S.A.',
       email: 'ventas@patagonia.com',

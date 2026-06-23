@@ -1,5 +1,9 @@
-@if (session.isBrotalia()) {
-  <app-home-brotalia />
-} @else {
-  <app-home-integrales />
+@if (session.tenantResolved()) {
+
+  @if (session.isBrotalia()) {
+    <app-home-brotalia />
+  } @else {
+    <app-home-integrales />
+  }
+
 }

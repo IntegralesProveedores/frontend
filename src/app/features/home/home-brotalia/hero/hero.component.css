@@ -17,7 +17,7 @@
   justify-content: center;
   gap: 1.25rem;
   padding: 4rem 5vw 4rem 6vw;
-  background: var(--color-accent);
+  background: var(--color-bg);
   color: #fff;
   z-index: 2;
   clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
@@ -81,7 +81,8 @@
   align-items: center;
   gap: 0.5rem;
   width: fit-content;
-  background: var(--color-bg);
+  background: #fff;
+  border: 2px solid var(--color-accent);
   color: var(--color-accent);
   font-weight: 700;
   padding: 0.85rem 1.6rem;
@@ -93,7 +94,8 @@
 
 .hero-cta:hover {
   transform: translateX(4px);
-  color: var(--color-accent);
+  color: #fff;
+  background: var(--color-accent);
 }
 
 .hero-badge {
