@@ -1,9 +1,4 @@
-/* ─────────────────────────────────────────────────────────────
-   CART COMPONENT
-   Refactor: Typography contrast & theme awareness
-   ───────────────────────────────────────────────────────────── */
-
-.cart-page {
+﻿.cart-page {
   background-color: var(--color-bg);
   color: var(--color-text-secondary);
 }
@@ -96,3 +91,4 @@
 		display: none;
 	}
 }
+

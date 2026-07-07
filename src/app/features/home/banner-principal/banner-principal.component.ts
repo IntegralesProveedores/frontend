@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SessionContextService } from '../../../../core/services/session-context.service';
+import { SessionContextService } from '../../../core/services/session-context.service';
 
 @Component({
   selector: 'app-banner-principal',

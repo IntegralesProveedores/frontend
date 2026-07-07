@@ -1,7 +1,6 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { CartSkeletonComponent } from '../../shared/components/cart-skeleton/cart-skeleton.component';
@@ -10,7 +9,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state/empty-s
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, CurrencyArsPipe, CartSkeletonComponent, EmptyStateComponent],
+  imports: [CommonModule, RouterModule, CurrencyArsPipe, CartSkeletonComponent, EmptyStateComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })

@@ -1,7 +1,6 @@
 export const environment = {
   production: false,
-  apiIntegrales: 'http://localhost:8787',
-  apiBrotalia: 'http://localhost:8787',
+  apiUrl: 'http://localhost:8787',
   emailjs: {
     serviceId: 'service_q9ivf9b',
     templateId: 'template_imfgs1r',

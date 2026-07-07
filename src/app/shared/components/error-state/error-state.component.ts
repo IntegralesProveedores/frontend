@@ -8,7 +8,7 @@ import { EmptyStateComponent } from '../empty-state/empty-state.component';
   imports: [CommonModule, EmptyStateComponent],
   template: `
     <app-empty-state 
-      icon="fa-triangle-exclamation"
+      icon="bi-exclamation-triangle-fill"
       variant="error"
       [title]="title"
       [message]="message"

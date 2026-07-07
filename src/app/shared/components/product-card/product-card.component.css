@@ -1,9 +1,4 @@
-/* ─────────────────────────────────────────────────────────────
-   PRODUCT CARD COMPONENT
-   Refactor: Typography contrast & theme awareness
-   ───────────────────────────────────────────────────────────── */
-
-.product-card-wrapper {
+﻿.product-card-wrapper {
   cursor: pointer;
   transition: opacity 0.3s ease;
   padding: 8px;
@@ -51,3 +46,4 @@
   font-size: 1rem;
 }
 }
+

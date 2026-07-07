@@ -51,7 +51,7 @@
               <div class="d-flex flex-wrap gap-2">
                 @for (v of product()?.variants; track v.id) {
                   <button
-                    class="btn btn-outline-dark btn-sm variant-pill"
+                    class="btn btn-outline-secondary btn-sm variant-pill"
                     [class.active]="selectedVariant()?.id === v.id"
                     (click)="selectVariant(v)">
                     {{ v.units_per_pack }}u.

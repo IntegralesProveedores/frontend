@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
     <div class="empty-state-canvas animate-fade" [class.surface-secondary]="withBackground">
       <div class="empty-icon-box mb-8">
         <div class="icon-circle mx-auto" [class.error-variant]="variant === 'error'">
-          <i class="fa-solid {{ icon }}"></i>
+          <i class="bi {{ icon }}"></i>
         </div>
       </div>
       
@@ -51,8 +51,8 @@ import { RouterModule } from '@angular/router';
     .icon-circle {
       width: 64px;
       height: 64px;
-      background-color: var(--color-brand-faded);
-      color: var(--color-brand-primary);
+      background-color: var(--color-accent-soft);
+      color: var(--color-primary);
       border-radius: var(--radius-full);
       display: flex;
       align-items: center;
@@ -86,7 +86,7 @@ import { RouterModule } from '@angular/router';
   `]
 })
 export class EmptyStateComponent {
-  @Input() icon: string = 'fa-folder-open';
+  @Input() icon: string = 'bi-folder2-open';
   @Input() title: string = 'No encontramos resultados';
   @Input() message: string = 'Parece que no hay información disponible en este momento.';
   @Input() variant: 'default' | 'error' = 'default';

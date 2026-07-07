@@ -1,137 +1,84 @@
-/* ICON LOGO */
 .logo-floating-block {
   position: fixed;
   top: 10px;
-  left: 0; /* Brand a la derecha */
+  left: 0;
   z-index: 9999;
   width: 80px;
   height: 80px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
   text-decoration: none !important;
-  pointer-events: auto; /* Asegura el clic */
+  pointer-events: auto;
 }
 
 .logo-img {
-  max-width: 60%;
-  max-height: 60%;
+  width: 100px;
+  height: 100px;
+  max-width: none;
+  max-height: none;
 }
 
-.iso-text {
-  font-size: 0.8em;
-  color: var(--color-text);
-  font-family: 'Oswald';
-  margin-top: 5px;
-}
-
-
-/* ICON CARRITO */
 .cart-floating-block {
   position: fixed;
   top: 10px;
-  right: 15px; /* Cart a la izquierda */
+  right: 15px;
   z-index: 9999;
   pointer-events: auto;
 }
 
-@media (max-width: 1000px) {
-.logo-floating-block {
-  width: 50px;
-  height: 50px;
-  top: 0;
-  display: none
-}
-
-.iso-text {
-	display: none;
-}
-
-}
-
-
-
-/* NAV BAR (2025/2026 PREMIUM DESIGN) */
-
 .nav-bar {
   position: fixed;
   z-index: 9999;
-  padding: 0;
-  margin: 0;
-  pointer-events: none; /* Let clicks pass through empty space */
-}
-
-.nav-bar-vertical {
-  top: 50%;
-  left: 15px;
-  transform: translateY(-50%);
-}
-
-.nav-bar-horizontal {
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+  pointer-events: none;
+  top: auto !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  transform: none !important;
+  padding: 20px 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.05), transparent);
 }
 
 .nav {
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row !important;
+  justify-content: space-around;
   align-items: center;
   gap: 12px;
-  pointer-events: auto; /* Re-enable for the list itself */
-  
-  /* Glass Island Container */
-  background: rgba(var(--gray-0-rgb, 255, 255, 255), 0.7);
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0;
+  pointer-events: auto;
+  background: rgba(var(--gray-0-rgb), 0.85);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 40px;
-  box-shadow: 
+  border-radius: 30px;
+  box-shadow:
     0 4px 24px -1px rgba(0, 0, 0, 0.1),
     0 0 1px 0 rgba(0, 0, 0, 0.1);
-	
-}
-
-/* Theme support for glass container 
-@media (prefers-color-scheme: dark) {
-  .nav {
-	background: rgba(18, 18, 18, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4);
-	
-  }
-}
-*/
-.nav-bar-vertical .nav {
-  flex-direction: column;
-}
-
-.nav-bar-horizontal .nav {
-  flex-direction: row;
 }
 
 .nav-item {
   position: relative;
   margin: 0;
 }
-	.nav-item-home {
-		display: none;
-	}
-		.nav-item-home img{
-			width: 60px;
-			position: absolute;
-			filter: drop-shadow(0 0 2px rgba(255,255,255,.8))
-					  drop-shadow(0 0 6px rgba(255,255,255,.6))
-					  drop-shadow(0 0 12px rgba(255,255,255,.4));
-		}
-		.nav-item-home img.dark-hide, .nav-item-home img.dark-show {
-			width: 100px;
-		}
+
+.nav-item-home {
+  display: none;
+}
+
+.nav-item-home img {
+  width: 100px;
+  position: absolute;
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.8))
+    drop-shadow(0 0 6px rgba(255, 255, 255, 0.6))
+    drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
+}
 
 .nav-link {
   display: flex;
@@ -143,7 +90,7 @@
   background: transparent;
   color: var(--color-text-secondary);
   text-decoration: none;
-  transition: 
+  transition:
     background-color var(--t-fast),
     color var(--t-fast),
     transform var(--t-fast),
@@ -152,8 +99,7 @@
   outline: none;
 }
 
-/* Hover & Active States */
-.nav-link:hover, 
+.nav-link:hover,
 .nav-link:focus-visible {
   background-color: var(--color-accent);
   color: #fff;
@@ -165,7 +111,6 @@
   transform: scale(0.95);
 }
 
-/* Accessibility: Focus Ring */
 .nav-link:focus-visible {
   box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
 }
@@ -179,138 +124,40 @@
   transform: translateY(-1px);
 }
 
-/* Floating Labels (Modern Tooltips) */
 .nav-text {
   position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  
   padding: 6px 14px;
   border-radius: 12px;
-  
   font-family: 'Caveat', cursive;
   font-size: 22px;
   font-weight: 600;
   line-height: 1;
-
   background: var(--gray-900);
   color: #fff;
   box-shadow: var(--shadow-luxe);
-  
-  transition: 
+  transition:
     opacity var(--t-fast),
     visibility var(--t-fast),
     transform var(--t-fast);
-  
   z-index: 10000;
-}
-
-/* Dark mode tooltip adjustment 
-@media (prefers-color-scheme: dark) {
-  .nav-text {
-    background: var(--gray-100);
-    color: var(--gray-900);
-  }
-}
-*/
-
-.nav-bar-vertical .nav-text {
-  left: 60px;
-  top: 50%;
-  transform: translateY(-50%) translateX(-10px);
-}
-
-.nav-bar-horizontal .nav-text {
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-10px);
 }
 
 .nav-item:hover .nav-text {
   opacity: 1;
   visibility: visible;
-  transform: translateY(-50%) translateX(0); /* For vertical */
+  transform: translateX(-50%) translateY(0);
 }
 
-.nav-bar-horizontal .nav-item:hover .nav-text {
-  transform: translateX(-50%) translateY(0); /* For horizontal */
-}
-
-.dark-show { display: none; }
-.dark-hide { display: block; }
-
-
-
-
-.nav-bar {
-top: auto !important;
-bottom: 0 !important;
-left: 0 !important;
-right: 0 !important;
-width: 100% !important;
-transform: none !important;
-padding: 20px 10px; /* Added bottom padding for safe areas */
-background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
-}
-
-  .nav {
-    flex-direction: row !important;
-    justify-content: space-around;
-    max-width: 500px;
-    margin: 0 auto;
-    border-radius: 30px;
-    padding: 0;
-    background: rgba(var(--gray-0-rgb, 255, 255, 255), 0.85);
-  }
-
-
-
-
-
-
-
-
-
-
-
-/* Logo BROTALIA
-@media (prefers-color-scheme: dark) {
-  .dark-hide { display: none; }
-  .dark-show { display: block; }
-}
-*/
-
-/* =============================================
-   MOBILE (Fixed Dock)
-   ============================================= */
 @media (max-width: 1000px) {
-  .nav-bar {
-    top: auto !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    transform: none !important;
-    padding: 20px 10px; /* Added bottom padding for safe areas */
-    background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
-  }
-
-  .nav {
-    flex-direction: row !important;
-    justify-content: space-around;
-    max-width: 500px;
-    margin: 0 auto;
-    border-radius: 30px;
-    padding: 0;
-    background: rgba(var(--gray-0-rgb, 255, 255, 255), 0.85);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .nav {
-
-    }
+  .logo-floating-block {
+    display: none;
   }
 
   .nav-item {
@@ -319,15 +166,15 @@ background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
     justify-content: center;
   }
 
-	.nav-item-home {
-		display: block;
-	    width: auto;
-	}
-	  
-	  .nav-item-home .nav-link {
-			width: auto;
-			background: none;	
-	  }
+  .nav-item-home {
+    display: block;
+    width: auto;
+  }
+
+  .nav-item-home .nav-link {
+    width: auto;
+    background: none;
+  }
 
   .nav-link i {
     font-size: 22px;
@@ -337,5 +184,3 @@ background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
     display: none !important;
   }
 }
-
-

@@ -22,6 +22,26 @@ export interface ProductVariant {
   vat_label?: string;
 }
 
+export interface PricingTax {
+  name: string;
+  percentage: number;
+  is_computable: boolean;
+  is_active: boolean;
+}
+
+export interface VolumeDiscount {
+  min: number;
+  factor: number;
+}
+
+export interface PricingConfig {
+  exchange_rate: number;
+  embalaje_cost: number;
+  taxes: PricingTax[];
+  volume_discounts: VolumeDiscount[];
+  markup: number;
+}
+
 export interface ProductImage {
   id: string;
   url: string;
@@ -53,6 +73,7 @@ export interface Product {
   diameter_cm?: number | null;
   height_cm?: number | null;
   volume_cc?: number | null;
+  pricing_config?: PricingConfig;
 }
 
 

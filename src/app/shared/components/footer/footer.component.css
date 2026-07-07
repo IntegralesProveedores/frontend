@@ -1,9 +1,4 @@
-/* ─────────────────────────────────────────────────────────────
-   FOOTER COMPONENT
-   Refactor: Semantic variables for theme support
-   ───────────────────────────────────────────────────────────── */
-
-.footer {
+﻿.footer {
   background-color: var(--color-bg-tertiary);
   color: var(--color-text-secondary);
   border-top: 1px solid var(--color-border);
@@ -45,3 +40,4 @@
   opacity: 0.9;
   transform: translateY(-1px);
 }
+

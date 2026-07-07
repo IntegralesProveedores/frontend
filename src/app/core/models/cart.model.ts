@@ -7,10 +7,12 @@ export interface CartItem {
   price_ars: number;
   price_usd?: number;
   cost_usd?: number;
+  cost_usd_master?: number;
   quantity: number;
   imageUrl: string;
   stock: number;
   units_per_pack?: number;
+  units_per_pack_master?: number;
   volume_cc?: number | null;
 }
 

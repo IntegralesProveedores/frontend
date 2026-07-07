@@ -1,9 +1,4 @@
-/* ─────────────────────────────────────────────────────────────
-   CHECKOUT COMPONENT
-   Refactor: Typography contrast & theme awareness
-   ───────────────────────────────────────────────────────────── */
-
-.checkout-page {
+﻿.checkout-page {
   background-color: var(--color-bg);
 }
 
@@ -24,7 +19,7 @@
 }
 
 .total-main {
-  color: var(--brand-primary);
+  color: var(--color-primary);
 }
 
 .total-secondary {
@@ -110,3 +105,4 @@
     margin-top: 2rem;
   }
 }
+

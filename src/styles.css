@@ -1,98 +1,10 @@
-/* =============================================
-   INTEGRALES — GLOBAL STYLES
-   Bootstrap 5 base + custom design tokens
-   ============================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&family=Caveat:wght@400;600;700&display=swap');
-
-/* Internal Modules */
 @import 'styles/tokens.css';
-@import 'styles/theme.css';
+@import 'styles/components.css';
 @import 'styles/animations.css';
 
-/* =============================================
-   DESIGN TOKENS MAPPING (Legacy Compatibility)
-   ============================================= */
-:root {
-  /* Dynamic Theme Variables - Mapping to tokens for Dark Mode support */
-  --color-bg:            var(--color-bg-primary);
-  --color-text:          var(--color-text-primary);
-  --color-title:         var(--color-text-primary);
-  --color-accent:        var(--brand-primary);
-
-  /* Colors aliased to semantic tokens */
-  --color-primary:       var(--color-accent);
-  --color-primary-rgb:   45, 90, 39; /* Keep RGB for transparency if needed */
-  --color-accent-soft:   var(--brand-faded);
-  
-  --color-bg-soft:       var(--color-bg-secondary);
-  --color-bg-tertiary:   var(--color-bg-tertiary);
-  --color-bg-brand-soft: var(--color-bg-brand-soft);
-  
-  --color-text-secondary: var(--color-text-secondary);
-  --color-text-muted:    var(--color-text-muted);
-  --color-text-disabled: var(--color-text-disabled);
-  --color-text-dimmed:   var(--color-text-muted);
-
-  
-  --color-border:        var(--color-border-primary);
-  --color-border-soft:   var(--color-border-secondary);
-
-  /* Bootstrap overrides using tokens */
-  --bs-primary:          var(--color-accent);
-  --bs-primary-rgb:      45, 90, 39;
-  --bs-body-font-family: var(--font-sans);
-  --bs-border-radius:    var(--radius-lg);
-  --bs-border-radius-lg: 1.25rem;
-  --bs-box-shadow:       var(--shadow-card);
-
-  /* Shadows */
-  --ui-shadow-hover:     var(--shadow-luxe);
-
-  /* Typography */
-  --font-display:        var(--font-heading);
-  --font-body:           var(--font-sans);
-  --font-heading:        var(--font-heading);
-  --font-mono:           var(--font-mono);
-
-  /* Spacing */
-  --section-spacing:     var(--space-8);
-
-  /* Transitions */
-  --transition-base:     var(--t-base);
-
-  /* Border radius */
-  --border-radius-base:  var(--radius-lg);
-}
-
-/* BROTALIA THEME OVERRIDES (LIGHT MODE) */
-body.theme-brotalia {
-  --color-bg:            #fdf7e7;
-  --color-text:          #2b3033;
-  --color-title:         #2e5a36;
-  --color-accent:        #e07b39;
-  
-  --bs-primary:          var(--color-accent);
-}
-
-/* BROTALIA THEME OVERRIDES (DARK MODE) 
-@media (prefers-color-scheme: dark) {
-  body.theme-brotalia {
-    --color-bg:            #1a1a0e;
-    --color-text:          #e8e0d0;
-    --color-title:         #7db87f;
-    --color-accent:        #e07b39;
-	
-	
-  }
-}
-*/
-
-
-/* =============================================
-   BASE
-   ============================================= */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -108,9 +20,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* =============================================
-   BOOTSTRAP OVERRIDES
-   ============================================= */
 .btn-primary {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
@@ -120,10 +29,10 @@ body {
 
 .btn-primary:hover,
 .btn-primary:focus {
-  background-color: #1a3a16;
-  border-color: #1a3a16;
+  background-color: #c7672c;
+  border-color: #c7672c;
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px -5px rgba(45, 90, 39, 0.4);
+  box-shadow: 0 6px 20px -5px rgba(224, 123, 57, 0.4);
 }
 
 .btn-success {
@@ -132,16 +41,13 @@ body {
   transition: var(--transition-base);
 }
 
-.btn-success:hover {
+.btn-success:hover,
+.btn-outline-secondary:hover {
   transform: translateY(-1px);
 }
 
-.btn-outline-dark {
+.btn-outline-secondary {
   transition: var(--transition-base);
-}
-
-.btn-outline-dark:hover {
-  transform: translateY(-1px);
 }
 
 .card {
@@ -157,7 +63,7 @@ body {
 
 .form-control:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 0.2rem rgba(45, 90, 39, 0.15);
+  box-shadow: 0 0 0 0.2rem rgba(224, 123, 57, 0.15);
 }
 
 .text-primary {
@@ -168,9 +74,6 @@ body {
   background-color: var(--color-primary) !important;
 }
 
-/* =============================================
-   UTILITY CLASSES
-   ============================================= */
 .bg-soft {
   background-color: var(--color-bg-soft) !important;
 }
@@ -197,12 +100,14 @@ body {
   font-size: 0.75rem;
 }
 
-/* =============================================
-   TYPOGRAPHY
-   ============================================= */
-h1, h2, h3, .h1, .h2, .h3 {
+h1,
+h2,
+h3,
+.h1,
+.h2,
+.h3 {
   font-family: var(--font-heading);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .lead {
@@ -211,32 +116,14 @@ h1, h2, h3, .h1, .h2, .h3 {
   line-height: 1.7;
 }
 
-/* =============================================
-   SECTIONS
-   ============================================= */
 section {
   padding: 0;
 }
 
-	@media (max-width: 768px) {
-		
-		section {
-			/*padding: 40px 0 0 0 !important;*/
-		}
-
-	}
-
-
-/* =============================================
-   NAVBAR SPACING (fixed navbar offset)
-   ============================================= */
 main {
   min-height: 100vh;
 }
 
-/* =============================================
-   SCROLLBAR
-   ============================================= */
 ::-webkit-scrollbar {
   width: 6px;
 }

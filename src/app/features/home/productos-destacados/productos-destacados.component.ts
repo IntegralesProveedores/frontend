@@ -1,11 +1,11 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ApiService } from '../../../../core/services/api.service';
-import { Product } from '../../../../core/models/product.model';
-import { PaginatedResponse } from '../../../../core/models/api-response.model';
-import { SkeletonComponent } from '../../../../shared/components/skeleton/skeleton.component';
-import { ProgressiveImageComponent } from '../../../../shared/components/progressive-image/progressive-image.component';
+import { ApiService } from '../../../core/services/api.service';
+import { Product } from '../../../core/models/product.model';
+import { PaginatedResponse } from '../../../core/models/api-response.model';
+import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
+import { ProgressiveImageComponent } from '../../../shared/components/progressive-image/progressive-image.component';
 
 @Component({
   selector: 'app-productos-destacados',

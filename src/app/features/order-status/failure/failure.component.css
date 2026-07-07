@@ -1,9 +1,4 @@
-/* ─────────────────────────────────────────────────────────────
-   FAILURE PAGE COMPONENT
-   Refactor: Typography contrast & theme awareness
-   ───────────────────────────────────────────────────────────── */
-
-.failure-page {
+﻿.failure-page {
   background-color: var(--color-bg-primary);
   display: flex;
   align-items: center;
@@ -33,3 +28,4 @@
 
 .max-w-600 { max-width: 600px; }
 .max-w-300 { max-width: 300px; }
+

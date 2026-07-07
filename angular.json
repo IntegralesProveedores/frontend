@@ -26,7 +26,7 @@
 			  { "glob": "**/*", "input": "public", "output": "/" }
             ],
             "styles": [
-              "src/styles.css"
+              "./src/styles.css"
             ],
             "scripts": [],
             "server": "src/main.server.ts",
@@ -96,7 +96,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "./src/styles.css"
             ],
             "scripts": []
           }

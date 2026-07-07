@@ -1,39 +1,11 @@
 <footer class="footer mb-5 py-5 mt-auto">
   <div class="container">
-    <!-- Newsletter Section 
-    <div class="row mb-5 pb-4 border-bottom border-secondary border-opacity-10 align-items-center">
-      <div class="col-lg-6 mb-3 mb-lg-0">
-        <h4 class="h5 mb-2 text-uppercase fw-bold">Suscribite a nuestro Newsletter</h4>
-        <p class="small text-secondary mb-0">Recibí ofertas exclusivas y novedades en tu email.</p>
-      </div>
-      <div class="col-lg-6">
-        <form (submit)="subscribe(); $event.preventDefault()" class="d-flex gap-2">
-          <input 
-            type="email" 
-            [(ngModel)]="email" 
-            name="email"
-            class="form-control form-control-lg border-0 shadow-sm" 
-            placeholder="Tu correo electrónico" 
-            required
-          >
-          <button type="submit" class="btn btn-primary btn-lg px-4 text-uppercase fw-bold">
-            Suscribirme
-          </button>
-        </form>
-      </div>
-    </div>
-	-->
-
     <div class="row g-4">
       <div class="col-md-4">
-        @if (session.isBrotalia()) {
-          <h4 class="h5 mb-3 text-uppercase fw-bold">BROTALIA</h4>
-        } @else {
-          <h4 class="h5 mb-3 text-uppercase fw-bold">INTEGRALES</h4>
-        }
-          <p class="small text-secondary">Soluciones sustentables para un futuro más verde. Proveedores de productos biodegradables de alta calidad.</p>
-
+        <h4 class="h5 mb-3 text-uppercase fw-bold">BROTALIA</h4>
+        <p class="small text-secondary">Soluciones sustentables para un futuro mas verde. Proveedores de productos biodegradables de alta calidad.</p>
       </div>
+
       <div class="col-md-4">
         <h4 class="h5 mb-3 text-uppercase fw-bold">Explorar</h4>
         <ul class="list-unstyled small">
@@ -41,43 +13,25 @@
           <li class="mb-2"><a routerLink="/productos" class="text-decoration-none text-secondary">Productos</a></li>
         </ul>
       </div>
+
       <div class="col-md-4">
         <h4 class="h5 mb-3 text-uppercase fw-bold">Contacto</h4>
-        @if (session.isBrotalia()) {
-          <p class="small text-secondary mb-1">
-            <i class="bi bi-send text-success fs-5"></i>
-             info&#64;brotalia.com.ar
-          </p>
-          <p>
-            <a href="https://wa.me/5491130226565" target="_blank" class="text-decoration-none small text-secondary">
-              <i class="bi bi-whatsapp text-success fs-5"></i>
-               +54 9 11 3022 6565
-            </a>
-          </p>
-        } @else {
-          <p class="small text-secondary mb-1">
-            <i class="bi bi-send text-success fs-5"></i>
-             info&#64;integrales.ar
-          </p>
-          <p>
-            <a href="https://wa.me/5491130226565" target="_blank" class="text-decoration-none small text-secondary">
-              <i class="bi bi-whatsapp text-success fs-5"></i>
-               +54 9 11 3022 6565
-            </a>
-          </p>
-        }
+        <p class="small text-secondary mb-1">
+          <i class="bi bi-send text-success fs-5"></i>
+          info&#64;brotalia.com.ar
+        </p>
         <p>
-          <a href="https://www.instagram.com/integrales.ar/" target="_blank" class="text-decoration-none small text-secondary" title="Instagram">
-            <i class="bi bi-instagram text-success fs-5"></i>
-			 &#64;integrales.ar
+          <a href="https://wa.me/5491130226565" target="_blank" class="text-decoration-none small text-secondary">
+            <i class="bi bi-whatsapp text-success fs-5"></i>
+            +54 9 11 3022 6565
           </a>
         </p>
       </div>
     </div>
+
     <hr class="my-5 opacity-10">
     <div class="text-center">
-      <p class="small text-muted mb-0">&copy; 2026 {{ session.isBrotalia() ? 'Brotalia' : 'Integrales' }}. Todos los derechos reservados.</p>
+      <p class="small text-muted mb-0">&copy; 2026 Brotalia. Todos los derechos reservados.</p>
     </div>
-
   </div>
 </footer>

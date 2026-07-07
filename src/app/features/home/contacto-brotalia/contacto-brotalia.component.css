@@ -1,13 +1,13 @@
 .contacto-split {
   --c-secondary: rgba(255, 255, 255, 0.75);
-  --g-dark: color-mix(in srgb, var(--color-accent) 65%, black 35%);
+  --g-deep: color-mix(in srgb, var(--color-accent) 65%, black 35%);
   --g-light: color-mix(in srgb, var(--color-accent) 55%, white 45%);
   position: relative;
   min-height: 80vh;
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: linear-gradient(45deg, var(--g-dark) 0%, var(--g-light) 50%, var(--g-dark) 100%);
+  background: linear-gradient(45deg, var(--g-deep) 0%, var(--g-light) 50%, var(--g-deep) 100%);
 }
 
 .contacto-split::before {

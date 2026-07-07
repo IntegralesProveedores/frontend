@@ -1,18 +1,11 @@
-<!-- Contenedor del Carrito a la IZQUIERDA -->
 <div class="cart-floating-block">
   <app-cart-icon />
 </div>
-<!-- Contenedor del Logo a la DERECHA -->
+
 <a class="logo-floating-block" routerLink="/" fragment="home" aria-label="Ir al inicio">
-  @if (session.isBrotalia()) {
-    <img src="/assets/images/brotalia-iso-00.png" class="logo-img dark-hide" alt="Brotalia" style="width: 100px; height: 100px; max-width: none; max-height: none" />
-    <img src="/assets/images/brotalia-iso-00-white.png" class="logo-img dark-show" alt="Brotalia" style="width: 100px; height: 100px; max-width: none; max-height: none" />
-  } @else {
-    <img src="/assets/images/integrales-logo-00.webp" class="logo-img" alt="IntegralesArg" />
-    <span class="iso-text">INTEGRALES</span>
-  }
+  <img src="/assets/images/brotalia-iso-00.png" class="logo-img" alt="Brotalia" />
 </a>
-<!-- NAV -->
+
 <nav class="nav-bar nav-bar-horizontal">
   <ul class="nav">
     <li class="nav-item">
@@ -22,19 +15,14 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/" fragment="servicios" aria-label="Información de envíos">
+      <a class="nav-link" routerLink="/" fragment="servicios" aria-label="Informacion de envios">
         <i class="bi bi-truck"></i>
-        <span class="nav-text">Envíos</span>
+        <span class="nav-text">Envios</span>
       </a>
     </li>
     <li class="nav-item nav-item-home">
       <a class="nav-link" routerLink="/" fragment="home" aria-label="Ir al inicio">
-        @if (session.isBrotalia()) {
-          <img src="/assets/images/brotalia-iso-00.png" class="dark-hide" alt="Brotalia" />
-          <img src="/assets/images/brotalia-iso-00-white.png" class="dark-show" alt="Brotalia" />
-        } @else {
-          <img src="/assets/images/integrales-logo-00.webp" alt="IntegralesArg" />
-        }
+        <img src="/assets/images/brotalia-iso-00.png" alt="Brotalia" />
         <span class="nav-text">Home</span>
       </a>
     </li>
@@ -45,7 +33,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a routerLink="/catalogo" class="nav-link" aria-label="Ir a la tienda">
+      <a routerLink="/productos" class="nav-link" aria-label="Ir a la tienda">
         <i class="bi bi-shop"></i>
         <span class="nav-text">Tienda</span>
       </a>

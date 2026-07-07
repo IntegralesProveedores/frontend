@@ -1,16 +1,33 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SessionContextService } from '../../core/services/session-context.service';
-import { HomeIntegralesComponent } from './home-integrales/home-integrales.component';
-import { HomeBrotaliaComponent } from './home-brotalia/home-brotalia.component';
+import { RouterModule } from '@angular/router';
+
+import { BannerPrincipalComponent } from './banner-principal/banner-principal.component';
+import { HeroComponent } from './hero/hero.component';
+import { BeneficiosComponent } from './beneficios/beneficios.component';
+import { ProductosDestacadosComponent } from './productos-destacados/productos-destacados.component';
+import { VentajasComponent } from './ventajas/ventajas.component';
+import { ComoFuncionaComponent } from './como-funciona/como-funciona.component';
+import { EnviosPagosComponent } from './envios-pagos/envios-pagos.component';
+import { ContactoBrotaliaComponent } from './contacto-brotalia/contacto-brotalia.component';
+
+
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HomeIntegralesComponent, HomeBrotaliaComponent],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  imports: [
+    CommonModule,
+    RouterModule,
+	BannerPrincipalComponent,
+    HeroComponent,
+    BeneficiosComponent,
+    ProductosDestacadosComponent,
+	VentajasComponent,
+    ComoFuncionaComponent,
+    EnviosPagosComponent,
+    ContactoBrotaliaComponent
+  ],
+  templateUrl: './home.component.html'
 })
-export class HomeComponent {
-  session = inject(SessionContextService);
-}
+export class HomeComponent {}

@@ -10,7 +10,8 @@ import { ProductCardComponent } from '../../shared/components/product-card/produ
 import { ProductDetailSkeletonComponent } from '../../shared/components/product-detail-skeleton/product-detail-skeleton.component';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
 import { ProgressiveImageComponent } from '../../shared/components/progressive-image/progressive-image.component';
-import { firstValueFrom } from 'rxjs';
+import { PricingConfigService } from '../../core/services/pricing-config.service';
+import { calculateLocalPrice } from '../../core/lib/pricing.util';
 
 @Component({
   selector: 'app-product-detail',
@@ -36,9 +37,11 @@ export class ProductDetailComponent implements OnInit {
 
   private api = inject(ApiService);
   private cart = inject(CartService);
+  private pricingConfigService = inject(PricingConfigService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
+  private priceDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   // Mantenemos la estructura para minimizar cambios en el HTML
   currentPricing = computed(() => ({
@@ -75,7 +78,7 @@ export class ProductDetailComponent implements OnInit {
       const p = this.product();
       
       if (v && p) {
-        this.updateDynamicPrice(p.slug, v.id, q);
+        this.scheduleDynamicPriceUpdate(v.id, q);
       }
     }, { allowSignalWrites: true });
   }
@@ -91,25 +94,35 @@ export class ProductDetailComponent implements OnInit {
   /**
    * Obtiene el precio actualizado desde el backend considerando descuentos por volumen.
    */
-  async updateDynamicPrice(slug: string, variantId: string, qty: number) {
-    try {
-      // Sumamos lo que ya esté en el carrito para aplicar el tramo de descuento correcto
-      const cartQty = this.cart.cartItems().find(i => i.variantId === variantId)?.quantity || 0;
-      const totalQty = Math.max(1, qty + cartQty);
-
-      const data = await firstValueFrom(
-        this.api.get<Product>(`/products/${slug}`, { quantity: totalQty.toString() })
-      );
-      const variant = data.variants?.find(v => v.id === variantId);
-      
-      if (variant) {
-        this.dynamicPriceArs.set(variant.price_ars || 0);
-        this.dynamicPriceUsd.set(variant.price_usd || 0);
-      }
-
-    } catch (e) {
-      console.error('Error al actualizar precio dinámico:', e);
+  private scheduleDynamicPriceUpdate(variantId: string, qty: number): void {
+    if (this.priceDebounceTimer) {
+      clearTimeout(this.priceDebounceTimer);
     }
+
+    this.priceDebounceTimer = setTimeout(() => {
+      this.updateDynamicPrice(variantId, qty);
+    }, 350);
+  }
+
+  updateDynamicPrice(variantId: string, qty: number): void {
+    const p = this.product();
+    const v = this.selectedVariant();
+    if (!p || !v || v.id !== variantId) return;
+
+    const cartQty = this.cart.cartItems().find(i => i.variantId === variantId)?.quantity || 0;
+    const totalQty = Math.max(1, qty + cartQty);
+    const config = this.pricingConfigService.pricingConfig() ?? p.pricing_config;
+
+    const result = calculateLocalPrice(
+      Number(p.cost_usd) || 0,
+      Number(p.units_per_pack_master) || 1,
+      Number(v.units_per_pack) || 1,
+      totalQty,
+      config
+    );
+
+    this.dynamicPriceArs.set(result.price_ars);
+    this.dynamicPriceUsd.set(result.price_usd);
   }
 
   loadProduct(slug: string): void {
@@ -117,6 +130,7 @@ export class ProductDetailComponent implements OnInit {
     this.api.get<Product>(`/products/${slug}`).subscribe({
       next: data => {
         this.product.set(data);
+        this.pricingConfigService.setPricingConfig(data.pricing_config);
         const firstVariant = data.variants?.[0] ?? null;
         this.selectedVariant.set(firstVariant);
         if (firstVariant) {
@@ -139,7 +153,10 @@ export class ProductDetailComponent implements OnInit {
 
   loadAllProducts(): void {
     this.api.get<PaginatedResponse<Product>>('/products').subscribe({
-      next: data => this.allProducts.set(data.items),
+      next: data => {
+        this.allProducts.set(data.items);
+        this.pricingConfigService.setPricingConfig(data.items?.[0]?.pricing_config);
+      },
       error: err => console.error('Error loading related products', err)
     });
   }
@@ -180,10 +197,12 @@ export class ProductDetailComponent implements OnInit {
       price_ars: this.dynamicPriceArs(),
       price_usd: this.dynamicPriceUsd(),
       cost_usd: v.cost_usd,
+      cost_usd_master: p.cost_usd,
       quantity: this.quantity(),
       imageUrl: p.images?.[0]?.url ?? '',
       stock: v.stock,
       units_per_pack: v.units_per_pack,
+      units_per_pack_master: p.units_per_pack_master,
       volume_cc: v.dimensions?.volume_cc
     });
 

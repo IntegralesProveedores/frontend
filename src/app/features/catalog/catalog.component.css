@@ -1,8 +1,4 @@
-/* ─────────────────────────────────────────────────────────────
-   CATALOG COMPONENT
-   Refactor: Typography contrast & theme awareness
-   ───────────────────────────────────────────────────────────── */
-.col {
+﻿.col {
 	margin-top: 0;
 	
 }
@@ -43,3 +39,4 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
