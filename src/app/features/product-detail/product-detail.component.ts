@@ -37,7 +37,7 @@ export class ProductDetailComponent implements OnInit {
 
   private api = inject(ApiService);
   private cart = inject(CartService);
-  private pricingConfigService = inject(PricingConfigService);
+  public pricingConfigService = inject(PricingConfigService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);

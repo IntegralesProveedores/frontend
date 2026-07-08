@@ -40,7 +40,7 @@
                 {{ currentPricing().finalPriceArs | currencyArs }}
               </span>
             </div>
-            <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">IVA incluido</div>
+            <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
           </div>
 
           <!-- Variants Selection -->

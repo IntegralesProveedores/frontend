@@ -8,6 +8,12 @@ export class PricingConfigService {
   private readonly config = signal<PricingConfig | null>(null);
   readonly pricingConfig = this.config.asReadonly();
   readonly hasPricingConfig = computed(() => this.config() !== null);
+  readonly vatLabel = computed(() => {
+    const taxes = this.config()?.taxes ?? [];
+    const iva = taxes.find(t => t.name.toUpperCase() === 'IVA' && t.is_active);
+
+    return iva && iva.is_computable ? 'IVA Incluido' : 'IVA no incluido';
+  });
 
   constructor() {
     if (typeof window !== 'undefined') {

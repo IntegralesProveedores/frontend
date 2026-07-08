@@ -24,7 +24,7 @@
 	    @if (product.diameter_cm) { {{ product.diameter_cm }} × }{{ product.height_cm }}cm (h) <br />
 	    @if (product.volume_cc) { {{ product.volume_cc }} cm³ }
 	  </div>
-	  <div class="text-muted mt-1 italic" style="font-size: 0.7rem;"><!--{{ variant?.units_per_pack }}u. | -->IVA incluido</div>
+	  <div class="text-muted mt-1 italic" style="font-size: 0.7rem;"><!--{{ variant?.units_per_pack }}u. | -->{{ pricingConfigService.vatLabel() }}</div>
     </div>
   </div>
 

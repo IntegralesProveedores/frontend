@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { SessionContextService } from '../../core/services/session-context.service';
+import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { environment } from '../../../environments/environment';
 import * as emailjs from '@emailjs/browser';
@@ -22,6 +23,7 @@ export class CheckoutComponent implements OnInit {
   private readonly router = inject(Router);
   public readonly cartService = inject(CartService);
   public readonly session = inject(SessionContextService);
+  public readonly pricingConfigService = inject(PricingConfigService);
 
   // ─────────────────────────────────────────────────────────────
   // ESTADO
@@ -148,7 +150,7 @@ export class CheckoutComponent implements OnInit {
             Cotización aplicada: $${this.fmtNumber(this.cartService.dolarOficial())} ARS
           </div>
           <div style="color: #999; font-size: 11px; font-style: italic;">
-            IVA incluido
+            ${this.pricingConfigService.vatLabel()}
           </div>
         </div>
         

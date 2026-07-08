@@ -2,6 +2,7 @@ import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
+import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { CartSkeletonComponent } from '../../shared/components/cart-skeleton/cart-skeleton.component';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
@@ -18,6 +19,7 @@ export class CartComponent {
   // DEPENDENCIAS
   // ─────────────────────────────────────────────────────────────
   public readonly cartService = inject(CartService);
+  public readonly pricingConfigService = inject(PricingConfigService);
   private readonly router = inject(Router);
 
   // ─────────────────────────────────────────────────────────────

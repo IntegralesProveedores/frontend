@@ -2,6 +2,7 @@ import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Product, ProductVariant } from '../../../core/models/product.model';
+import { PricingConfigService } from '../../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
 import { ProgressiveImageComponent } from '../progressive-image/progressive-image.component';
 
@@ -14,6 +15,7 @@ import { ProgressiveImageComponent } from '../progressive-image/progressive-imag
 })
 export class ProductCardComponent {
   @Input({ required: true }) product!: Product;
+  public readonly pricingConfigService = inject(PricingConfigService);
 
   get mainImage(): string {
     const img = this.product.images?.[0]?.url;
