@@ -2,12 +2,31 @@ import { Component, inject, effect, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
 import { SessionContextService } from '../../core/services/session-context.service';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { environment } from '../../../environments/environment';
 import * as emailjs from '@emailjs/browser';
+
+type ValidatedOrder = {
+  items: Array<{
+    sku: string;
+    product_name: string;
+    quantity: number;
+    units_per_pack: number;
+    price_usd: number;
+    subtotal_usd: number;
+    price_ars: number;
+    subtotal_ars: number;
+  }>;
+  total_ars: number;
+  total_usd: number;
+  exchange_rate: number;
+  order_ref: string;
+};
 
 @Component({
   selector: 'app-checkout',
@@ -17,21 +36,15 @@ import * as emailjs from '@emailjs/browser';
   styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent implements OnInit {
-  // ─────────────────────────────────────────────────────────────
-  // DEPENDENCIAS
-  // ─────────────────────────────────────────────────────────────
   private readonly router = inject(Router);
+  private readonly api = inject(ApiService);
   public readonly cartService = inject(CartService);
   public readonly session = inject(SessionContextService);
   public readonly pricingConfigService = inject(PricingConfigService);
 
-  // ─────────────────────────────────────────────────────────────
-  // ESTADO
-  // ─────────────────────────────────────────────────────────────
   loading = false;
   formSubmitted = false;
 
-  /** Objeto local de datos del cliente vinculado mediante ngModel */
   customer = {
     nombre: '',
     email: '',
@@ -41,7 +54,6 @@ export class CheckoutComponent implements OnInit {
   };
 
   constructor() {
-    // Reactividad: si el usuario se loguea/cambia, inyectamos sus datos automáticamente
     effect(() => {
       const user = this.session.currentUser();
       if (user) {
@@ -62,15 +74,8 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
-  // ─────────────────────────────────────────────────────────────
-  // MANEJO DE FORMULARIO
-  // ─────────────────────────────────────────────────────────────
-
-  /** 
-   * Formatea el CUIT en tiempo real: xx-xxxxxxxx-x 
-   */
   onCuitInput(event: any): void {
-    let value = event.target.value.replace(/\D/g, ''); 
+    let value = event.target.value.replace(/\D/g, '');
     if (value.length > 11) value = value.substring(0, 11);
 
     let formatted = '';
@@ -86,22 +91,30 @@ export class CheckoutComponent implements OnInit {
     this.customer.cuit = formatted;
   }
 
-  /** 
-   * Genera el payload HTML para el correo de EmailJS.
-   * CUIDADO: Este flujo es temporal (FASE 3 lo reemplazará por backend).
-   */
-  private generarHTMLCorreo(): string {
-    const items = this.cartService.cartItems();
+  private escapeHtml(value: string | null | undefined): string {
+    if (value === null || value === undefined) {
+      return '';
+    }
+
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  private generarHTMLCorreo(order: ValidatedOrder): string {
     const c = this.customer;
 
     let html = `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 700px; margin: auto; border: 1px solid #eee; padding: 20px;">
         <h2 style="color: #2b5e2b; text-align: center;">Detalle de Pedido</h2>
         <hr style="border: 0; border-top: 1px solid #eee;">
-        <p><strong>Cliente:</strong> ${c.nombre}</p>
-        <p><strong>CUIT:</strong> ${c.cuit || 'No informado'}</p>
-        <p><strong>Teléfono:</strong> (${c.codigoArea}) ${c.celular}</p>
-        <p><strong>Email:</strong> ${c.email}</p>
+        <p><strong>Cliente:</strong> ${this.escapeHtml(c.nombre)}</p>
+        <p><strong>CUIT:</strong> ${this.escapeHtml(c.cuit) || 'No informado'}</p>
+        <p><strong>Teléfono:</strong> (${this.escapeHtml(c.codigoArea)}) ${this.escapeHtml(c.celular)}</p>
+        <p><strong>Email:</strong> ${this.escapeHtml(c.email)}</p>
         
         <table width="100%" style="border-collapse: collapse; margin-top: 20px; font-size: 10px;">
           <thead>
@@ -115,16 +128,17 @@ export class CheckoutComponent implements OnInit {
           <tbody>
     `;
 
-    items.forEach(item => {
+    order.items.forEach(item => {
       const priceUsd = item.price_usd || 0;
-      const subtotalItemUsd = priceUsd * item.quantity;
+      const subtotalItemUsd = item.subtotal_usd || (priceUsd * item.quantity);
       const unitsPerPack = item.units_per_pack || 1;
-      
+
       html += `
         <tr>
           <td style="border: 1px solid #ddd; padding: 10px;">
-            <strong style="color: #2b5e2b;">${item.productName}</strong><br>
+            <strong style="color: #2b5e2b;">${this.escapeHtml(item.product_name)}</strong><br>
             <span style="font-size: 0.7em; color: #666;">PackX${unitsPerPack}u.</span><br>
+            <span style="font-size: 0.7em; color: #888;">SKU: ${this.escapeHtml(item.sku)}</span>
           </td>
           <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">USD$${priceUsd.toFixed(2)}</td>
           <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">${item.quantity}</td>
@@ -140,14 +154,14 @@ export class CheckoutComponent implements OnInit {
         <div style="margin-top: 30px; text-align: right; border-top: 2px solid #eee; padding-top: 15px;">
           <div style="margin-bottom: 5px;">
             <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL USD</span>
-            <span style="font-size: 22px; color: #28a745; font-weight: bold; margin-left: 10px;">USD $${this.cartService.totalUsd().toFixed(2)}</span>
+            <span style="font-size: 22px; color: #28a745; font-weight: bold; margin-left: 10px;">USD $${order.total_usd.toFixed(2)}</span>
           </div>
           <div style="margin-bottom: 5px;">
             <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL ARS</span>
-            <span style="font-size: 18px; color: #2b5e2b; font-weight: bold; margin-left: 10px;">$${this.fmtNumber(this.cartService.subtotalArs())}</span>
+            <span style="font-size: 18px; color: #2b5e2b; font-weight: bold; margin-left: 10px;">$${this.fmtNumber(order.total_ars)}</span>
           </div>
           <div style="margin-bottom: 5px; color: #888; font-size: 13px;">
-            Cotización aplicada: $${this.fmtNumber(this.cartService.dolarOficial())} ARS
+            Cotización aplicada: $${this.fmtNumber(order.exchange_rate)} ARS
           </div>
           <div style="color: #999; font-size: 11px; font-style: italic;">
             ${this.pricingConfigService.vatLabel()}
@@ -163,49 +177,64 @@ export class CheckoutComponent implements OnInit {
     return html;
   }
 
-  // ─────────────────────────────────────────────────────────────
-  // ACCIONES
-  // ─────────────────────────────────────────────────────────────
-
-  confirmarPedido(isValid: boolean | null) {
+  async confirmarPedido(isValid: boolean | null) {
     this.formSubmitted = true;
-    
+
     if (!isValid || this.cartService.isEmpty()) {
       return;
     }
 
     this.loading = true;
     const c = this.customer;
-    const mensajeHTML = this.generarHTMLCorreo();
+    const cartItems = this.cartService.cartItems();
 
-    const templateParams = {
-      to_name: c.nombre,
-      to_email: c.email,
-      name: c.nombre,
-      reply_to: c.email,
-      email: c.email,
-      telefono: `(${c.codigoArea}) ${c.celular}`,
-      order_id: `ORD-${Date.now().toString().slice(-6)}`,
-      mensaje_html: mensajeHTML
-    };
+    try {
+      const payload = {
+        items: cartItems.map(i => ({
+          variant_id: i.variantId,
+          quantity: i.quantity
+        })),
+        customer: {
+          nombre: c.nombre,
+          email: c.email,
+          cuit: c.cuit,
+          codigoArea: c.codigoArea,
+          celular: c.celular
+        }
+      };
 
-    emailjs.send(
-      environment.emailjs.serviceId,
-      environment.emailjs.templateId,
-      templateParams,
-      environment.emailjs.publicKey
-    )
-    .then(() => {
+      const order = await firstValueFrom(
+        this.api.post<ValidatedOrder>('/orders', payload)
+      );
+
+      const mensajeHTML = this.generarHTMLCorreo(order);
+
+      const templateParams = {
+        to_name: c.nombre,
+        to_email: c.email,
+        name: c.nombre,
+        reply_to: c.email,
+        email: c.email,
+        telefono: `(${c.codigoArea}) ${c.celular}`,
+        order_id: order.order_ref,
+        mensaje_html: mensajeHTML
+      };
+
+      await emailjs.send(
+        environment.emailjs.serviceId,
+        environment.emailjs.templateId,
+        templateParams,
+        environment.emailjs.publicKey
+      );
+
       this.cartService.clear();
       this.router.navigate(['/orden/exito']);
-    })
-    .catch((error) => {
-      console.error('Error EmailJS:', error);
+    } catch (error) {
+      console.error('Error en checkout:', error);
       this.router.navigate(['/orden/error']);
-    })
-    .finally(() => {
+    } finally {
       this.loading = false;
-    });
+    }
   }
 
   fmtNumber(n: number) {
