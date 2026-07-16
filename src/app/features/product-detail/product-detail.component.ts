@@ -57,6 +57,19 @@ export class ProductDetailComponent implements OnInit {
       .slice(0, 4);
   });
 
+	hasCurrentProductInCart = computed(() => {
+	  const variant = this.selectedVariant();
+
+	  if (!variant) {
+		return false;
+	  }
+
+	  return this.cart
+		.cartItems()
+		.some(item => item.variantId === variant.id);
+	});
+
+
   get mainImage(): string {
     const imgs = this.product()?.images ?? [];
     return imgs[this.selectedImageIndex()]?.url ?? '';

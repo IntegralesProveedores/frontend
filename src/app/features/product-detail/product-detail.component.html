@@ -1,110 +1,156 @@
 <section class="product-detail section-spacing">
-  <div class="container">
-    @if (loading()) {
-      <app-product-detail-skeleton />
-    } @else {
-      <div class="row g-5">
-        <!-- Left: Images -->
-        <div class="col-md-6">
-          <div class="main-image-box mb-3">
-            <app-progressive-img 
-              [src]="mainImage" 
-              [alt]="product()?.name || ''" 
-              radius="var(--radius-md)"
-              imgClass="img-fluid w-100 h-100 object-fit-cover"
-            />
-          </div>
-        </div>
-
-        <!-- Right: Info -->
-        <div class="col-md-5">
-          <div class="product-header mb-4">
-            <nav aria-label="breadcrumb" class="mb-3">
-              <ol class="breadcrumb x-small text-uppercase">
-                <li class="breadcrumb-item"><a [routerLink]="['/productos']" class="text-secondary">Productos</a></li>
-                <li class="breadcrumb-item active text-primary">{{ product()?.name }}</li>
-              </ol>
-            </nav>
-            <h1 class="h2 mb-2 product-title text-uppercase">{{ product()?.name }}</h1>
-			<p class="description text-secondary small mb-0">{{ product()?.description }}</p>
-            <div class="text-muted mt-2" style="font-size: 0.8rem;">
-              @if (product()?.diameter_cm) { {{ product()?.diameter_cm }} × }
-              @if (product()?.height_cm) { {{ product()?.height_cm }} cm (h) }
-              @if (product()?.volume_cc) { · {{ product()?.volume_cc }} cm³ }
-            </div>
-          </div>
-          <div class="mb-3 py-4 border-top border-bottom">
-            <div class="h2 mb-0 text-primary fw-bold">USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}</div>
-            <div class="d-flex gap-3 align-items-center mt-1">
-              <span class="text-secondary fw-semibold">
-                {{ currentPricing().finalPriceArs | currencyArs }}
-              </span>
-            </div>
-            <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
-          </div>
-
-          <!-- Variants Selection -->
-          @if (product()?.variants && product()!.variants.length > 0) {
-
-            <div class="mb-3">
-              <label class="x-small text-uppercase fw-bold mb-3 d-block text-muted">Presentación</label>
-              <div class="d-flex flex-wrap gap-2">
-                @for (v of product()?.variants; track v.id) {
-                  <button
-                    class="btn btn-outline-secondary btn-sm variant-pill"
-                    [class.active]="selectedVariant()?.id === v.id"
-                    (click)="selectVariant(v)">
-                    {{ v.units_per_pack }}u.
-                  </button>
-                }
-              </div>
-            </div>
-          }
-		  
-          <!-- Quantity & Stock -->
-          <div class="mb-3">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <label class="x-small text-uppercase fw-bold text-muted">Cantidad</label>
-              @if (selectedVariant()) {
-                <span class="x-small text-muted">Stock: {{ selectedVariant()?.stock }}</span>
-              }
-            </div>
-
-            
-			<div class="qty-control-wrapper d-flex align-items-center gap-4">
-              <div class="qty-selector">
-                <button class="qty-btn" (click)="decrement()" [disabled]="quantity() <= 1">-</button>
-                <span class="qty-value">{{ quantity() }}</span>
-                <button class="qty-btn" (click)="increment()" [disabled]="quantity() >= maxQty">+</button>
-              </div>
-              <button class="btn btn-primary btn-lg flex-grow-1 py-3" (click)="addToCart()" [disabled]="!inStock">
-                {{ added() ? '✓ Agregado' : (inStock ? 'AGREGAR' : 'Sin Stock') }}
-              </button>
-            </div>
-          </div>
-
-          <!-- CTA -->
-          <div class="actions-wrapper">
-            <p class="x-small text-center text-muted italic">
-              Factura A/C. Envíos gratis en C.A.B.A.
-            </p>
-          </div>
-        </div>
-      </div>
-    }
-
-    <!-- Related Products -->
-    @if (!loading() && relatedProducts().length > 0) {
-      <div class="related-products mt-5 pt-5 border-top">
-        <h3 class="h4 mb-4 fw-bold">Otros productos</h3>
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
-          @for (p of relatedProducts(); track p.id) {
-            <div class="col">
-              <app-product-card [product]="p" />
-            </div>
-          }
-        </div>
-      </div>
-    }
-  </div>
+	<div class="container">
+		@if (loading()) {
+		<app-product-detail-skeleton />
+		} @else {
+		<div class="product-grid">
+			
+			<!-- Col: Images -->
+			<div class="product-image">
+				<div class="main-image-box mb-3">
+					<app-progressive-img 
+					[src]="mainImage" 
+					[alt]="product()?.name || ''" 
+					radius="var(--radius-md)"
+					imgClass="img-fluid w-100 h-100 object-fit-cover"
+					/>
+				</div>
+			</div>
+			
+			<!-- Col: Info -->
+			<div class="product-info">
+				
+				<nav aria-label="breadcrumb" class="product-breadcrumb">
+					<ol class="breadcrumb x-small text-uppercase">
+						<li class="breadcrumb-item">
+							<a [routerLink]="['/productos']" class="text-secondary">Productos</a>
+						</li>
+						<li class="breadcrumb-item active text-primary">
+							{{ product()?.name }}
+						</li>
+					</ol>
+				</nav>
+				
+				<div class="product-header">
+					<!-- Columna izquierda: Información -->
+					<div class="product-data">
+						<h1 class="h2 mb-2 product-title text-uppercase">
+							{{ product()?.name }}
+						</h1>
+						<p class="description text-secondary small mb-0">
+							{{ product()?.description }}
+						</p>
+						<div class="text-muted mt-2" style="font-size: 0.8rem;">
+							@if (product()?.diameter_cm) { {{ product()?.diameter_cm }} × }
+							@if (product()?.height_cm) { {{ product()?.height_cm }} cm (h) }
+							@if (product()?.volume_cc) { · {{ product()?.volume_cc }} cm³ }
+						</div>
+					</div>
+					
+					<!-- Columna derecha: Precio -->
+					<div class="product-price">
+						<div class="h2 mb-0 text-primary fw-bold">
+							USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}
+						</div>
+						<div class="mt-1">
+							<span class="text-secondary fw-semibold">
+							{{ currentPricing().finalPriceArs | currencyArs }}
+							</span>
+						</div>
+						<div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">
+							{{ pricingConfigService.vatLabel() }}
+						</div>
+					</div>
+				</div>
+				
+				<!-- Col: Botones -->
+				<div class="product-buy">
+					<div class="row border-top">
+						<!-- Variants Selection -->
+						@if (product()?.variants && product()!.variants.length > 0) {
+						<div class="mb-3">
+							<label class="x-small text-uppercase fw-bold mb-3 d-block text-muted pt-2">Presentación</label>
+							<div class="d-flex flex-wrap gap-2">
+								@for (v of product()?.variants; track v.id) {
+								<button
+								class="btn btn-outline-secondary btn-sm variant-pill"
+								[class.active]="selectedVariant()?.id === v.id"
+								(click)="selectVariant(v)">
+								{{ v.units_per_pack }}u.
+								</button>
+								}
+							</div>
+						</div>
+						}
+						<!-- Quantity & Stock -->
+						<div class="mb-3">
+							<div class="d-flex justify-content-between align-items-center mb-3">
+								<label class="x-small text-uppercase fw-bold text-muted">
+								Cantidad
+								</label>
+								@if (selectedVariant()) {
+								<span class="x-small text-muted">
+								Stock: {{ selectedVariant()?.stock }}
+								</span>
+								}
+							</div>
+							<div class="qty-control-wrapper">
+								<div class="qty-selector">
+									<button
+									class="qty-btn"
+									(click)="decrement()"
+									[disabled]="quantity() <= 1">
+									-
+									</button>
+									<span class="qty-value">
+									{{ quantity() }}
+									</span>
+									<button
+									class="qty-btn"
+									(click)="increment()"
+									[disabled]="quantity() >= maxQty">
+									+
+									</button>
+								</div>
+								<button
+								class="btn btn-action"
+								(click)="addToCart()"
+								[disabled]="!inStock">
+								{{ added() ? 'Agregado' : (inStock ? 'AGREGAR' : 'Sin Stock') }}
+								</button>
+								@if (hasCurrentProductInCart()) {
+								<a
+									routerLink="/cart"
+									class="btn btn-action btn-action-secondary">
+								COMPRAR
+								</a>
+								}
+							</div>
+						</div>
+						<!-- CTA -->
+						<div class="actions-wrapper">
+							<p class="x-small text-center text-muted italic">
+								Factura A/C. Envíos gratis en C.A.B.A.
+							</p>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+		}
+		<!-- Related Products -->
+		@if (!loading() && relatedProducts().length > 0) {
+		<div class="related-products mt-2 pt-2 border-top">
+			<h3 class="h4 mb-4 fw-bold">Otros productos</h3>
+			<div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+				@for (p of relatedProducts(); track p.id) {
+				<div class="col">
+					<app-product-card [product]="p" />
+				</div>
+				}
+			</div>
+		</div>
+		}
+	</div>
 </section>
