@@ -9,7 +9,7 @@
           </div>
         }
       } @else {
-        @for (product of filtered(); track product.id) {
+        @for (product of products(); track product.id) {
           <div class="col">
             <app-product-card [product]="product" />
           </div>

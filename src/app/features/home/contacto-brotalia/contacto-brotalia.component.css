@@ -2,12 +2,24 @@
   --c-secondary: rgba(255, 255, 255, 0.75);
   --g-deep: color-mix(in srgb, var(--color-accent) 65%, black 35%);
   --g-light: color-mix(in srgb, var(--color-accent) 55%, white 45%);
+
   position: relative;
   min-height: 80vh;
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: linear-gradient(45deg, var(--g-deep) 0%, var(--g-light) 50%, var(--g-deep) 100%);
+
+  background-image:
+	  linear-gradient(
+		to bottom,
+		var(--color-bg) 0%,
+		transparent 35%
+	  ),
+	  url('/assets/images/producto-maceta-biodegradable-todos-06.webp');
+
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, center bottom;
+  background-size: cover, cover;
 }
 
 .contacto-split::before {

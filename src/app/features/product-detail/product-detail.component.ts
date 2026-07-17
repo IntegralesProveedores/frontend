@@ -1,6 +1,7 @@
-import { Component, OnInit, signal, computed, inject, PLATFORM_ID, effect } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Component, OnInit, signal, computed, inject, PLATFORM_ID, effect, Renderer2 } from '@angular/core';
+import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
 import { Product, ProductVariant } from '../../core/models/product.model';
@@ -12,6 +13,34 @@ import { ErrorStateComponent } from '../../shared/components/error-state/error-s
 import { ProgressiveImageComponent } from '../../shared/components/progressive-image/progressive-image.component';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { calculateLocalPrice } from '../../core/lib/pricing.util';
+
+interface ProductJsonLd {
+  '@context': string;
+  '@type': 'Product';
+  name: string;
+  description: string;
+  image?: string;
+  sku?: string;
+  brand: {
+    '@type': 'Brand';
+    name: string;
+  };
+  offers:
+    | {
+        '@type': 'Offer';
+        priceCurrency: 'ARS';
+        price: number;
+        availability: string;
+      }
+    | {
+        '@type': 'AggregateOffer';
+        priceCurrency: 'ARS';
+        lowPrice: number;
+        highPrice: number;
+        offerCount: number;
+        availability: string;
+      };
+}
 
 @Component({
   selector: 'app-product-detail',
@@ -39,7 +68,10 @@ export class ProductDetailComponent implements OnInit {
   private cart = inject(CartService);
   public pricingConfigService = inject(PricingConfigService);
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  private titleService = inject(Title);
+  private metaService = inject(Meta);
+  private document = inject(DOCUMENT);
+  private renderer = inject(Renderer2);
   private platformId = inject(PLATFORM_ID);
   private priceDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -138,11 +170,91 @@ export class ProductDetailComponent implements OnInit {
     this.dynamicPriceUsd.set(result.price_usd);
   }
 
+  private updateProductStructuredData(data: Product, metaDescription: string, absoluteImageUrl: string): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const scriptId = 'product-jsonld';
+    const existingScript = this.document.getElementById(scriptId);
+    if (existingScript?.parentNode) {
+      existingScript.parentNode.removeChild(existingScript);
+    }
+
+    const variants = data.variants ?? [];
+    const offerCount = variants.length;
+    if (offerCount === 0) return;
+
+    const stockAvailable = variants.some(v => (Number(v.stock) || 0) > 0);
+    const availability = stockAvailable
+      ? 'https://schema.org/InStock'
+      : 'https://schema.org/OutOfStock';
+
+    const baseSchema: ProductJsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: data.name,
+      description: metaDescription,
+      sku: variants[0]?.sku,
+      brand: {
+        '@type': 'Brand',
+        name: 'Brotalia'
+      },
+      offers: offerCount === 1
+        ? {
+            '@type': 'Offer',
+            priceCurrency: 'ARS',
+            price: Number(variants[0]?.price_ars) || 0,
+            availability
+          }
+        : {
+            '@type': 'AggregateOffer',
+            priceCurrency: 'ARS',
+            lowPrice: Math.min(...variants.map(v => Number(v.price_ars) || 0)),
+            highPrice: Math.max(...variants.map(v => Number(v.price_ars) || 0)),
+            offerCount,
+            availability
+          }
+    };
+
+    if (absoluteImageUrl) {
+      baseSchema.image = absoluteImageUrl;
+    }
+
+    const script = this.renderer.createElement('script');
+    this.renderer.setAttribute(script, 'type', 'application/ld+json');
+    this.renderer.setAttribute(script, 'id', scriptId);
+    this.renderer.appendChild(script, this.renderer.createText(JSON.stringify(baseSchema)));
+    this.renderer.appendChild(this.document.head, script);
+  }
+
   loadProduct(slug: string): void {
     this.loading.set(true);
     this.api.get<Product>(`/products/${slug}`).subscribe({
       next: data => {
         this.product.set(data);
+        const pageTitle = `${data.name} | Brotalia`;
+        const fallbackDescription = `${data.name} - Maceta biodegradable. Comprá online con envío en toda Argentina.`;
+        const rawDescription = typeof data.description === 'string' ? data.description.trim() : '';
+        const metaDescription = rawDescription.length > 0 ? rawDescription : fallbackDescription;
+        const imageUrl = data.images?.[0]?.url ?? '';
+        const absoluteImageUrl = imageUrl
+          ? (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')
+            ? imageUrl
+            : `https://brotalia.com.ar${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`)
+          : '';
+
+        this.titleService.setTitle(pageTitle);
+        this.metaService.updateTag({ name: 'description', content: metaDescription });
+        this.metaService.updateTag({ property: 'og:title', content: pageTitle });
+        this.metaService.updateTag({ property: 'og:description', content: metaDescription });
+        this.metaService.updateTag({ property: 'og:url', content: `https://brotalia.com.ar/productos/${slug}` });
+        this.metaService.updateTag({ name: 'twitter:title', content: pageTitle });
+        this.metaService.updateTag({ name: 'twitter:description', content: metaDescription });
+        if (absoluteImageUrl) {
+          this.metaService.updateTag({ property: 'og:image', content: absoluteImageUrl });
+          this.metaService.updateTag({ name: 'twitter:image', content: absoluteImageUrl });
+        }
+        this.updateProductStructuredData(data, metaDescription, absoluteImageUrl);
+
         this.pricingConfigService.setPricingConfig(data.pricing_config);
         const firstVariant = data.variants?.[0] ?? null;
         this.selectedVariant.set(firstVariant);
@@ -179,21 +291,12 @@ export class ProductDetailComponent implements OnInit {
     this.quantity.set(1);
   }
 
-  selectImage(index: number): void {
-    this.selectedImageIndex.set(index);
-  }
-
   decrement(): void {
     if (this.quantity() > 1) this.quantity.update(q => q - 1);
   }
 
   increment(): void {
     if (this.quantity() < this.maxQty) this.quantity.update(q => q + 1);
-  }
-
-  setQuantity(value: number): void {
-    const clamped = Math.max(1, Math.min(value, this.maxQty));
-    this.quantity.set(clamped);
   }
 
   addToCart(): void {
@@ -221,10 +324,6 @@ export class ProductDetailComponent implements OnInit {
 
     this.added.set(true);
     setTimeout(() => this.added.set(false), 2000);
-  }
-
-  goToCart(): void {
-    this.router.navigate(['/cart']);
   }
 }
 

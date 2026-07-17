@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { BannerPrincipalComponent } from './banner-principal/banner-principal.component';
 import { HeroComponent } from './hero/hero.component';
 import { BeneficiosComponent } from './beneficios/beneficios.component';
 import { ProductosDestacadosComponent } from './productos-destacados/productos-destacados.component';
@@ -19,7 +18,6 @@ import { ContactoBrotaliaComponent } from './contacto-brotalia/contacto-brotalia
   imports: [
     CommonModule,
     RouterModule,
-	BannerPrincipalComponent,
     HeroComponent,
     BeneficiosComponent,
     ProductosDestacadosComponent,

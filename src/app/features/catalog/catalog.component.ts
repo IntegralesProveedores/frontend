@@ -1,6 +1,7 @@
-import { Component, OnInit, signal, computed, inject } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 import { ApiService } from '../../core/services/api.service';
 import { Product } from '../../core/models/product.model';
 import { PaginatedResponse } from '../../core/models/api-response.model';
@@ -19,35 +20,15 @@ export class CatalogComponent implements OnInit {
   // DEPENDENCIAS
   // ─────────────────────────────────────────────────────────────
   private readonly api = inject(ApiService);
+  private readonly titleService = inject(Title);
+  private readonly metaService = inject(Meta);
 
   // ─────────────────────────────────────────────────────────────
   // ESTADO (Signals)
   // ─────────────────────────────────────────────────────────────
   products = signal<Product[]>([]);
-  pagination = signal<PaginatedResponse<Product>['pagination'] | null>(null);
   loading = signal(true);
   error = signal<string | null>(null);
-  activeFilter = signal<string>('todos');
-
-  // ─────────────────────────────────────────────────────────────
-  // DERIVACIONES (Computed)
-  // ─────────────────────────────────────────────────────────────
-  
-  /** Extrae categorías únicas de los productos cargados para los filtros */
-  categories = computed(() => {
-    const all = this.products().flatMap(p => p.categories);
-    const unique = new Map(all.map(c => [c.id, c]));
-    return Array.from(unique.values());
-  });
-
-  /** Filtra los productos en memoria según la categoría activa */
-  filtered = computed(() => {
-    const f = this.activeFilter();
-    if (f === 'todos') return this.products();
-    return this.products().filter(p =>
-      p.categories?.some(c => c.slug === f)
-    );
-  });
 
   ngOnInit(): void {
     this.loadProducts();
@@ -64,10 +45,14 @@ export class CatalogComponent implements OnInit {
   loadProducts(): void {
     this.loading.set(true);
     this.error.set(null);
+    this.titleService.setTitle('Catálogo de Macetas Biodegradables | Brotalia');
+    this.metaService.updateTag({
+      name: 'description',
+      content: 'Explorá nuestro catálogo completo de macetas biodegradables mayoristas y minoristas. Envíos a todo el país.'
+    });
     this.api.get<PaginatedResponse<Product>>('/products').subscribe({
       next: data => {
         this.products.set(data.items);
-        this.pagination.set(data.pagination);
         this.loading.set(false);
       },
       error: () => {
@@ -75,10 +60,6 @@ export class CatalogComponent implements OnInit {
         this.loading.set(false);
       }
     });
-  }
-
-  setFilter(slug: string): void {
-    this.activeFilter.set(slug);
   }
 }
 

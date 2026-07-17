@@ -4,7 +4,7 @@
     @if (isEmpty()) {
       <div class="empty-cart text-center py-5">
         <p class="lead text-muted mb-4">No hay productos en tu carrito todavía.</p>
-        <a routerLink="/productos" class="btn btn-primary btn-lg px-5 py-3 shadow-sm">CATÁLOGO</a>
+        <a routerLink="/productos" class="btn-pill-outline btn-pill-outline--accent btn-action btn-lg px-5 py-3 shadow-sm">&larr; CATÁLOGO</a>
       </div>
     }
 
@@ -21,7 +21,9 @@
                   <div class="col-4 col-md-5">
                     <div class="d-flex align-items-center gap-3">
                       <div class="cart-img-box">
-                        <img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
+						<a [routerLink]="['/productos', item.slug]">
+							<img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
+						</a>
                       </div>
                       <div>
                         <h4 class="h6 mb-1 fw-bold item-name text-uppercase">
@@ -38,9 +40,9 @@
                   <div class="col-7 col-md-6">
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="qty-selector-minimal">
-                        <button class="qty-btn" (click)="decrement(item)">-</button>
+                        <button class="btn-app-qty btn-app-qty--sm" (click)="decrement(item)">-</button>
                         <span class="qty-value">{{ item.quantity }}</span>
-                        <button class="qty-btn" (click)="increment(item)">+</button>
+                        <button class="btn-app-qty btn-app-qty--sm" (click)="increment(item)">+</button>
                       </div>
                       <div class="item-total text-end">
                         <div class="fw-bold item-name">USD {{ ((item.price_usd || 0) * (item.quantity || 0)) | number:'1.2-2' }}</div>
@@ -55,7 +57,7 @@
 
                   <!-- Actions -->
                   <div class="col-1 col-md-1 text-end">
-                    <button (click)="remove(item.variantId)" class="btn-remove" title="Eliminar">
+                    <button (click)="remove(item.variantId)" class="btn-app-icon-remove" title="Eliminar">
                       <i class="bi bi-trash3"></i>
                     </button>
                   </div>
@@ -90,13 +92,16 @@
             </div>
 
             
-            <div class="summary-actions mt-5">
-              <button (click)="goToCheckout()" class="btn btn-primary btn-lg w-100 py-3 mb-3">
+            <div class="summary-actions mt-2">
+
+              <button (click)="goToCheckout()" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3">
                 COMPRAR
               </button>
-              <a routerLink="/productos" class="btn btn-link text-muted w-100 text-decoration-none">
-                &larr; Catálogo
+			  
+              <a routerLink="/productos" class="btn btn-pill-outline btn-pill-outline--accent py-3 w-100">
+                &larr; CATÁLOGO
               </a>
+
             </div>
           </div>
         </div>

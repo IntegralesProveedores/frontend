@@ -2,34 +2,6 @@
   background-color: var(--color-bg);
 }
 
-.item-name {
-  color: var(--color-text-primary);
-}
-
-.price-ars {
-  color: var(--color-text-muted);
-}
-
-.summary-label {
-  color: var(--color-text-muted);
-}
-
-.summary-value {
-  color: var(--color-text-secondary);
-}
-
-.total-main {
-  color: var(--color-primary);
-}
-
-.total-secondary {
-  color: var(--color-text-primary);
-}
-
-.iva-legend {
-  color: var(--color-text-muted);
-}
-
 .form-control-minimal {
   display: block;
   width: 100%;

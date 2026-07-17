@@ -1,0 +1,16 @@
+# Brotalia
+
+> Brotalia fabrica y vende macetas biodegradables mayoristas y minoristas en Argentina. Los productos se transforman en abono natural, eliminan el estrés de trasplante y no generan residuos plásticos.
+
+Brotalia ofrece una línea de macetas 100% biodegradables (Almaciguera, Floral, Floral 11, Olivo, Semillera) fabricadas para viveros, distribuidoras y revendedores, con envíos a todo el país y compra online.
+
+## Catálogo
+- [Catálogo completo](https://brotalia.com.ar/productos)
+
+## Contacto
+- WhatsApp: +54 9 11 3022-6565
+- Email: info@brotalia.com.ar
+- Dirección: Portela 875, CABA
+
+## Sitemap
+- [Sitemap XML](https://api.brotalia.com.ar/sitemap.xml)

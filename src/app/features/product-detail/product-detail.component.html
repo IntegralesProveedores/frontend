@@ -73,7 +73,7 @@
 							<div class="d-flex flex-wrap gap-2">
 								@for (v of product()?.variants; track v.id) {
 								<button
-								class="btn btn-outline-secondary btn-sm variant-pill"
+								class="btn-app-variant-pill variant-pill"
 								[class.active]="selectedVariant()?.id === v.id"
 								(click)="selectVariant(v)">
 								{{ v.units_per_pack }}u.
@@ -97,7 +97,7 @@
 							<div class="qty-control-wrapper">
 								<div class="qty-selector">
 									<button
-									class="qty-btn"
+									class="btn-app-qty"
 									(click)="decrement()"
 									[disabled]="quantity() <= 1">
 									-
@@ -106,14 +106,14 @@
 									{{ quantity() }}
 									</span>
 									<button
-									class="qty-btn"
+									class="btn-app-qty"
 									(click)="increment()"
 									[disabled]="quantity() >= maxQty">
 									+
 									</button>
 								</div>
 								<button
-								class="btn btn-action"
+								class="btn-pill-outline btn-pill-outline--accent btn-action"
 								(click)="addToCart()"
 								[disabled]="!inStock">
 								{{ added() ? 'Agregado' : (inStock ? 'AGREGAR' : 'Sin Stock') }}
@@ -121,7 +121,7 @@
 								@if (hasCurrentProductInCart()) {
 								<a
 									routerLink="/cart"
-									class="btn btn-action btn-action-secondary">
+									class="btn-pill-outline btn-pill-outline--secondary btn-action btn-action-secondary">
 								COMPRAR
 								</a>
 								}

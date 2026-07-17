@@ -7,14 +7,6 @@
 	max-width: 100px;
 }
 
-.item-name {
-  color: var(--color-text-primary);
-}
-
-.price-ars {
-  color: var(--color-text-muted);
-}
-
 .qty-selector-minimal {
   display: flex;
   align-items: center;
@@ -24,19 +16,6 @@
   background-color: var(--color-surface);
 }
 
-.qty-btn {
-  background: transparent;
-  border: none;
-  width: 28px;
-  height: 28px;
-  font-size: 1rem;
-  color: var(--color-text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s;
-}
-
 .qty-value {
   padding: 0 1rem;
   font-weight: 500;
@@ -44,36 +23,6 @@
   text-align: center;
   font-size: 0.9rem;
   color: var(--color-text-primary);
-}
-
-.summary-title {
-  color: var(--color-text-primary);
-}
-
-.summary-label {
-  color: var(--color-text-muted);
-}
-
-.summary-value {
-  color: var(--color-text-secondary);
-}
-
-.total-main {
-  color: var(--color-primary);
-}
-
-.total-secondary {
-  color: var(--color-text-primary);
-}
-
-.iva-legend {
-  color: var(--color-text-muted);
-}
-
-.btn-remove {
-	background: transparent;
-	border: 0;
-	color: #EE4B2B;
 }
 
 

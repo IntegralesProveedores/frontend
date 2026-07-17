@@ -142,12 +142,6 @@ export class CartService {
     this.saveToStorage();
   }
 
-  getVariantQuantity(variantId: string | undefined): number {
-    if (!variantId) return 0;
-    const item = this.items().find(i => i.variantId === variantId);
-    return item ? item.quantity : 0;
-  }
-
   private async recalculateAllPrices(): Promise<void> {
     const currentItems = this.items();
     if (currentItems.length === 0) return;

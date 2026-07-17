@@ -108,7 +108,7 @@
             </div>
 			-->
             <div class="checkout-actions">
-              <button type="submit" class="btn btn-success btn-lg w-100 py-3 mb-3" [disabled]="loading || checkoutForm.invalid">
+              <button type="submit" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3" [disabled]="loading || checkoutForm.invalid">
                 @if (!loading) {
                   <span>COMPRAR</span>
                 } @else {
@@ -119,7 +119,7 @@
                 }
               </button>
               
-              <a routerLink="/cart" class="btn btn-link text-muted w-100 text-decoration-none text-center d-block">
+              <a routerLink="/cart" class="btn-app-link-muted w-100 text-center d-block">
                 &larr; Carrito
               </a>
             </div>

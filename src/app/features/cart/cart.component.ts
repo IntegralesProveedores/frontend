@@ -6,6 +6,7 @@ import { PricingConfigService } from '../../core/services/pricing-config.service
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { CartSkeletonComponent } from '../../shared/components/cart-skeleton/cart-skeleton.component';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import { CartItem } from '../../core/models/cart.model';
 
 @Component({
   selector: 'app-cart',
@@ -44,7 +45,7 @@ export class CartComponent {
   // POR QUÉ:  Usa tipo any para el parámetro item por instrucción de corrección del compilador
   // CUIDADO:  No posee tipado estático estricto para el ítem
   // ─────────────────────────────────────────────────────────────
-  increment(item: any): void {
+  increment(item: CartItem): void {
     this.cartService.updateQuantity(item.variantId, item.quantity + 1);
   }
 
@@ -53,7 +54,7 @@ export class CartComponent {
   // POR QUÉ:  Usa tipo any para el parámetro item por instrucción de corrección del compilador
   // CUIDADO:  No posee tipado estático estricto para el ítem
   // ─────────────────────────────────────────────────────────────
-  decrement(item: any): void {
+  decrement(item: CartItem): void {
     if (item.quantity > 1) {
       this.cartService.updateQuantity(item.variantId, item.quantity - 1);
     } else {
@@ -66,8 +67,9 @@ export class CartComponent {
   // POR QUÉ:  Usa tipo any para el parámetro item por instrucción de corrección del compilador
   // CUIDADO:  No posee tipado estático estricto para el ítem
   // ─────────────────────────────────────────────────────────────
-  onQuantityInput(item: any, event: any): void {
-    const val = parseInt(event.target.value, 10);
+  onQuantityInput(item: CartItem, event: Event): void {
+    const target = event.target as HTMLInputElement | null;
+    const val = parseInt(target?.value ?? '', 10);
     if (!isNaN(val)) {
       this.cartService.updateQuantity(item.variantId, Math.max(0, val));
     }
