@@ -1,9 +1,7 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ApiService } from '../../../core/services/api.service';
-import { Product } from '../../../core/models/product.model';
-import { PaginatedResponse } from '../../../core/models/api-response.model';
+import { ProductsService } from '../../../core/services/products.service';
 import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 import { ProgressiveImageComponent } from '../../../shared/components/progressive-image/progressive-image.component';
 
@@ -15,25 +13,19 @@ import { ProgressiveImageComponent } from '../../../shared/components/progressiv
   styleUrl: './productos-destacados.component.css'
 })
 export class ProductosDestacadosComponent implements OnInit {
-  private readonly api = inject(ApiService);
+  private readonly productsService = inject(ProductsService);
 
-  productos = signal<Product[]>([]);
-  loading = signal(true);
+  productos = this.productsService.products;
+  loading = this.productsService.loading;
 
   ngOnInit(): void {
     this.loadProducts();
   }
 
   loadProducts(): void {
-    this.loading.set(true);
-    this.api.get<PaginatedResponse<Product>>('/products').subscribe({
-      next: (data: PaginatedResponse<Product>) => {
-        this.productos.set(data.items);
-        this.loading.set(false);
-      },
+    this.productsService.getProducts().subscribe({
       error: (err: any) => {
         console.error('Error al cargar productos destacados:', err);
-        this.loading.set(false);
       }
     });
   }

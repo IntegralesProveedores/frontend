@@ -1,15 +1,17 @@
 .logo-floating-block {
   position: fixed;
   top: 10px;
-  left: 0;
+  left: 0; /* Brand a la derecha */
   z-index: 9999;
   width: 80px;
   height: 80px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   text-decoration: none !important;
-  pointer-events: auto;
+  pointer-events: auto; /* Asegura el clic */
 }
 
 .logo-img {
@@ -104,7 +106,6 @@
   background-color: var(--color-accent);
   color: #fff;
   transform: scale(1.1);
-  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.2);
 }
 
 .nav-link:active {
@@ -116,7 +117,7 @@
 }
 
 .nav-link i {
-  font-size: 20px;
+  font-size: 30px;
   transition: transform var(--t-fast);
 }
 
@@ -126,7 +127,7 @@
 
 .nav-text {
   position: absolute;
-  top: 60px;
+  top: -50px;
   left: 50%;
   transform: translateX(-50%) translateY(-10px);
   white-space: nowrap;
@@ -174,10 +175,6 @@
   .nav-item-home .nav-link {
     width: auto;
     background: none;
-  }
-
-  .nav-link i {
-    font-size: 22px;
   }
 
   .nav-text {

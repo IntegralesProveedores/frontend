@@ -5,9 +5,12 @@ import { Router, RouterModule } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
+import { ProductsService } from '../../core/services/products.service';
 import { SessionContextService } from '../../core/services/session-context.service';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
+import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
+import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
 import { environment } from '../../../environments/environment';
 import * as emailjs from '@emailjs/browser';
 
@@ -31,7 +34,7 @@ type ValidatedOrder = {
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, CurrencyArsPipe],
+  imports: [CommonModule, FormsModule, RouterModule, CurrencyArsPipe, ProductCardComponent, ProductCardSkeletonComponent],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -39,8 +42,12 @@ export class CheckoutComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly api = inject(ApiService);
   public readonly cartService = inject(CartService);
+  private readonly productsService = inject(ProductsService);
   public readonly session = inject(SessionContextService);
   public readonly pricingConfigService = inject(PricingConfigService);
+
+  products = this.productsService.products;
+  productsLoading = this.productsService.loading;
 
   loading = false;
   formSubmitted = false;
@@ -69,8 +76,12 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.productsService.getProducts().subscribe({
+      error: error => console.error('Error al cargar otros productos:', error)
+    });
+
     if (this.cartService.isEmpty()) {
-      this.router.navigate(['/cart']);
+      this.router.navigate(['/carrito']);
     }
   }
 

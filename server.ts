@@ -14,6 +14,19 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
+  server.get('/sitemap.xml', async (_req, res, next) => {
+    try {
+      const response = await fetch('https://api.brotalia.com.ar/sitemap.xml');
+      if (!response.ok) {
+        res.status(response.status).send('Sitemap unavailable');
+        return;
+      }
+      res.type('application/xml').set('Cache-Control', 'public, max-age=3600').send(await response.text());
+    } catch (error) {
+      next(error);
+    }
+  });
+
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 

@@ -137,6 +137,67 @@ export class CartService {
     this.priceRefreshTimers.set(variantId, timer);
   }
 
+  async changeVariant(
+    fromVariantId: string,
+    toVariant: {
+      variantId: string;
+      sku: string;
+      stock: number;
+      units_per_pack: number;
+      cost_usd?: number;
+    }
+  ): Promise<void> {
+    if (fromVariantId === toVariant.variantId) return;
+
+    for (const variantId of [fromVariantId, toVariant.variantId]) {
+      const timer = this.priceRefreshTimers.get(variantId);
+      if (timer) clearTimeout(timer);
+      this.priceRefreshTimers.delete(variantId);
+      this.priceRefreshSeq.set(variantId, (this.priceRefreshSeq.get(variantId) ?? 0) + 1);
+    }
+
+    const current = this.items();
+    const source = current.find(item => item.variantId === fromVariantId);
+    if (!source) return;
+
+    const destination = current.find(item => item.variantId === toVariant.variantId);
+    const config = this.pricingConfigService.pricingConfig();
+    const quantity = destination ? destination.quantity + source.quantity : source.quantity;
+    const pricingBase = destination ?? source;
+    const updatedPricing = config && pricingBase.cost_usd_master && pricingBase.units_per_pack_master && toVariant.units_per_pack
+      ? calculateLocalPrice(
+          Number(pricingBase.cost_usd_master) || 0,
+          Number(pricingBase.units_per_pack_master) || 1,
+          Number(toVariant.units_per_pack) || 1,
+          quantity,
+          config
+        )
+      : { price_ars: pricingBase.price_ars, price_usd: pricingBase.price_usd };
+
+    if (destination) {
+      this.items.set(current
+        .filter(item => item.variantId !== fromVariantId)
+        .map(item => item.variantId === toVariant.variantId
+          ? { ...item, quantity, ...updatedPricing }
+          : item));
+    } else {
+      this.items.set(current.map(item => item.variantId === fromVariantId
+        ? {
+            ...item,
+            variantId: toVariant.variantId,
+            sku: toVariant.sku,
+            stock: toVariant.stock,
+            units_per_pack: toVariant.units_per_pack,
+            cost_usd: toVariant.cost_usd ?? item.cost_usd,
+            quantity,
+            ...updatedPricing
+          }
+        : item));
+    }
+
+    this.saveToStorage();
+  }
+
   clear(): void {
     this.items.set([]);
     this.saveToStorage();

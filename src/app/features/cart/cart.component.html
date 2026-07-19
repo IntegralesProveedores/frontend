@@ -4,7 +4,9 @@
     @if (isEmpty()) {
       <div class="empty-cart text-center py-5">
         <p class="lead text-muted mb-4">No hay productos en tu carrito todavía.</p>
-        <a routerLink="/productos" class="btn-pill-outline btn-pill-outline--accent btn-action btn-lg px-5 py-3 shadow-sm">&larr; CATÁLOGO</a>
+        <a routerLink="/productos" class="btn-pill-outline btn-pill-outline--accent btn-action btn-lg px-5 py-3 shadow-sm">
+           &larr; TIENDA &nbsp; <i class="bi bi-shop"></i>
+		</a>
       </div>
     }
 
@@ -21,14 +23,16 @@
                   <div class="col-4 col-md-5">
                     <div class="d-flex align-items-center gap-3">
                       <div class="cart-img-box">
-						<a [routerLink]="['/productos', item.slug]">
+						<a [routerLink]="['/productos', item.slug, item.units_per_pack]">
 							<img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
 						</a>
                       </div>
                       <div>
-                        <h4 class="h6 mb-1 fw-bold item-name text-uppercase">
-                          {{ item.productName }}
-                        </h4>
+                        <a [routerLink]="['/productos', item.slug, item.units_per_pack]" class="text-decoration-none">
+							<h4 class="h6 mb-1 fw-bold item-name text-uppercase">
+								{{ item.productName }}
+							</h4>
+						</a>
                         <p class="x-small text-success mb-0 fw-semibold">USD ${{ item.price_usd | number:'1.2-2' }}</p>
                         <p class="x-small price-ars mb-0">{{ item.price_ars | currencyArs }}</p>
                         <p class="x-small text-muted mb-0">Pack x{{ item.units_per_pack }}u</p>
@@ -53,7 +57,6 @@
                       </div>
                     </div>
                   </div>
-
 
                   <!-- Actions -->
                   <div class="col-1 col-md-1 text-end">
@@ -95,11 +98,12 @@
             <div class="summary-actions mt-2">
 
               <button (click)="goToCheckout()" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3">
-                COMPRAR
+					COMPRAR &nbsp; 
+                    <i class="bi bi-credit-card-2-back"></i>
               </button>
 			  
               <a routerLink="/productos" class="btn btn-pill-outline btn-pill-outline--accent py-3 w-100">
-                &larr; CATÁLOGO
+                &larr; TIENDA &nbsp; <i class="bi bi-shop"></i>
               </a>
 
             </div>
@@ -107,5 +111,26 @@
         </div>
       </div>
     }
+
+    <div class="related-products mt-5 pt-4 border-top">
+      <h3 class="h4 mb-4 fw-bold">Otros productos</h3>
+      @if (productsLoading()) {
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+          @for (i of [1,2,3,4,5]; track i) {
+            <div class="col">
+              <app-product-card-skeleton />
+            </div>
+          }
+        </div>
+      } @else if (products().length > 0) {
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+          @for (p of products(); track p.id) {
+            <div class="col">
+              <app-product-card [product]="p" />
+            </div>
+          }
+        </div>
+      }
+    </div>
   </div>
 </section>

@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: 'productos',
     loadComponent: () =>
-      import('./features/catalog/catalog.component').then(m => m.CatalogComponent)
+      import('./features/product-list/product-list.component').then(m => m.ProductListComponent)
   },
   {
     path: 'productos/:slug',
@@ -18,12 +18,17 @@ export const routes: Routes = [
       import('./features/product-detail/product-detail.component').then(m => m.ProductDetailComponent)
   },
   {
-    path: 'cart',
+    path: 'productos/:slug/:variant',
+    loadComponent: () =>
+      import('./features/product-detail/product-detail.component').then(m => m.ProductDetailComponent)
+  },
+  {
+    path: 'carrito',
     loadComponent: () =>
       import('./features/cart/cart.component').then(m => m.CartComponent)
   },
   {
-    path: 'checkout',
+    path: 'finalizar-compra',
     canActivate: [cartNotEmptyGuard],
     loadComponent: () =>
       import('./features/checkout/checkout.component').then(m => m.CheckoutComponent)

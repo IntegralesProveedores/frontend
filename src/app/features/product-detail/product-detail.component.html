@@ -10,7 +10,7 @@
 				<div class="main-image-box mb-3">
 					<app-progressive-img 
 					[src]="mainImage" 
-					[alt]="product()?.name || ''" 
+					[alt]="'Maceta biodegradable ' + (product()?.name || '')" 
 					radius="var(--radius-md)"
 					imgClass="img-fluid w-100 h-100 object-fit-cover"
 					/>
@@ -23,7 +23,10 @@
 				<nav aria-label="breadcrumb" class="product-breadcrumb">
 					<ol class="breadcrumb x-small text-uppercase">
 						<li class="breadcrumb-item">
-							<a [routerLink]="['/productos']" class="text-secondary">Productos</a>
+							<a [routerLink]="['/productos']" class="text-secondary text-decoration-none">Productos</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a [routerLink]="['/productos']" class="text-secondary text-decoration-none">Maceta Biodegradable</a>
 						</li>
 						<li class="breadcrumb-item active text-primary">
 							{{ product()?.name }}
@@ -37,9 +40,6 @@
 						<h1 class="h2 mb-2 product-title text-uppercase">
 							{{ product()?.name }}
 						</h1>
-						<p class="description text-secondary small mb-0">
-							{{ product()?.description }}
-						</p>
 						<div class="text-muted mt-2" style="font-size: 0.8rem;">
 							@if (product()?.diameter_cm) { {{ product()?.diameter_cm }} × }
 							@if (product()?.height_cm) { {{ product()?.height_cm }} cm (h) }
@@ -48,7 +48,7 @@
 					</div>
 					
 					<!-- Columna derecha: Precio -->
-					<div class="product-price">
+					<div class="product-price text-start">
 						<div class="h2 mb-0 text-primary fw-bold">
 							USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}
 						</div>
@@ -64,11 +64,16 @@
 				</div>
 				
 				<!-- Col: Botones -->
-				<div class="product-buy">
-					<div class="row border-top">
+				<div class="product-buy mt-2">
+					<div class="row">
+					
+						<p class="description text-secondary small">
+							{{ product()?.description }}
+						</p>
+
 						<!-- Variants Selection -->
 						@if (product()?.variants && product()!.variants.length > 0) {
-						<div class="mb-3">
+						<div class="mb-3 border-top">
 							<label class="x-small text-uppercase fw-bold mb-3 d-block text-muted pt-2">Presentación</label>
 							<div class="d-flex flex-wrap gap-2">
 								@for (v of product()?.variants; track v.id) {
@@ -120,9 +125,11 @@
 								</button>
 								@if (hasCurrentProductInCart()) {
 								<a
-									routerLink="/cart"
+																routerLink="/carrito"
 									class="btn-pill-outline btn-pill-outline--secondary btn-action btn-action-secondary">
-								COMPRAR
+								
+								COMPRAR &nbsp; <i class="bi bi-credit-card-2-back"></i>
+								
 								</a>
 								}
 							</div>

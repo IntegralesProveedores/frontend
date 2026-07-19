@@ -7,32 +7,29 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
   standalone: true,
   imports: [CommonModule, SkeletonComponent],
   template: `
-    <div class="card-skeleton h-100">
-      <!-- Image area -->
-      <div class="mb-3 mt-3">
-        <app-skeleton height="200px" radius="var(--radius-md)" class="d-block" />
+    <div class="product-card-wrapper h-100">
+      <div class="product-image-box mb-3">
+        <app-skeleton width="100%" height="100%" radius="var(--radius-md)" />
       </div>
-      
-      <!-- Content area -->
+
       <div class="product-info">
-        <!-- Title -->
-        <app-skeleton width="85%" height="1.125rem" class="d-block mb-3" />
-        
-        <!-- Price main -->
-        <app-skeleton width="50%" height="1.25rem" class="d-block mb-2" />
-        
-        <!-- Price detail -->
-        <app-skeleton width="40%" height="0.875rem" class="d-block mb-2" />
-        
-        <!-- IVA legend -->
-        <app-skeleton width="30%" height="0.7rem" class="d-block" />
+        <app-skeleton width="85%" height="2.25rem" class="d-block mb-2" />
+        <app-skeleton width="65%" height="1.8rem" class="d-block mb-2" />
+        <app-skeleton width="35%" height="0.7rem" class="d-block" />
       </div>
     </div>
   `,
   styles: [`
-    .card-skeleton {
-      display: flex;
-      flex-direction: column;
+    .product-card-wrapper {
+      padding: 8px;
+      border-radius: var(--border-radius-base);
+    }
+
+    .product-image-box {
+      aspect-ratio: 1 / 1;
+      background-color: var(--color-bg-soft);
+      border-radius: var(--border-radius-base);
+      overflow: hidden;
     }
   `]
 })

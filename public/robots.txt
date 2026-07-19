@@ -25,4 +25,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://api.brotalia.com.ar/sitemap.xml
+Sitemap: https://brotalia.com.ar/sitemap.xml

@@ -1,27 +1,34 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
+import { ProductsService } from '../../core/services/products.service';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { CartSkeletonComponent } from '../../shared/components/cart-skeleton/cart-skeleton.component';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { CartItem } from '../../core/models/cart.model';
+import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
+import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, CurrencyArsPipe, CartSkeletonComponent, EmptyStateComponent],
+  imports: [CommonModule, RouterModule, CurrencyArsPipe, CartSkeletonComponent, EmptyStateComponent, ProductCardComponent, ProductCardSkeletonComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────
   // DEPENDENCIAS
   // ─────────────────────────────────────────────────────────────
   public readonly cartService = inject(CartService);
   public readonly pricingConfigService = inject(PricingConfigService);
+  private readonly productsService = inject(ProductsService);
   private readonly router = inject(Router);
+
+  products = this.productsService.products;
+  productsLoading = this.productsService.loading;
 
   // ─────────────────────────────────────────────────────────────
   // ESTADO (Signals)
@@ -35,6 +42,12 @@ export class CartComponent {
   subtotalArs = this.cartService.subtotalArs;
   totalVolume = this.cartService.totalVolumeCc;
   dolarOficial = this.cartService.dolarOficial;
+
+  ngOnInit(): void {
+    this.productsService.getProducts().subscribe({
+      error: error => console.error('Error al cargar otros productos:', error)
+    });
+  }
 
   // ─────────────────────────────────────────────────────────────
   // ACCIONES
@@ -80,7 +93,7 @@ export class CartComponent {
   }
 
   goToCheckout(): void {
-    this.router.navigate(['/checkout']);
+    this.router.navigate(['/finalizar-compra']);
   }
 }
 

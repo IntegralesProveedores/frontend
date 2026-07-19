@@ -99,18 +99,15 @@
                 </div>
               </div>
             </div>
-			<!--
-            <div class="alert alert-warning bg-transparent d-flex align-items-center gap-3 mb-5" role="alert">
-              <i class="bi bi-exclamation-triangle-fill"></i>
-              <div class="x-small mb-0">
-                Nos contactaremos para coordinar el pago y aplicar el costo de envío.
-              </div>
-            </div>
-			-->
+
             <div class="checkout-actions">
               <button type="submit" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3" [disabled]="loading || checkoutForm.invalid">
                 @if (!loading) {
-                  <span>COMPRAR</span>
+                  <span>
+					COMPRAR &nbsp; 
+                    <i class="bi bi-credit-card-2-back"></i>
+
+				  </span>
                 } @else {
                   <div class="d-flex align-items-center justify-content-center">
                     <span class="spinner-border spinner-border-sm me-2"></span>
@@ -119,8 +116,8 @@
                 }
               </button>
               
-              <a routerLink="/cart" class="btn-app-link-muted w-100 text-center d-block">
-                &larr; Carrito
+			  <a routerLink="/carrito" class="btn btn-pill-outline btn-pill-outline--accent py-3 w-100">
+                &larr; CARRITO &nbsp; <i class="bi bi-basket"></i>
               </a>
             </div>
           </form>
@@ -134,10 +131,16 @@
             @for (item of cartService.cartItems(); track item.variantId) {
               <div class="d-flex gap-3 py-1 border-bottom border-light align-items-center">
                 <div class="checkout-img-box">
-                  <img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
-                </div>
+				  <a [routerLink]="['/productos', item.slug, item.units_per_pack]">
+					<img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
+				  </a>
+				</div>
                 <div class="flex-grow-1">
-                  <h4 class="x-small mb-1 fw-bold item-name text-uppercase">{{ item.productName }}</h4>
+				<a [routerLink]="['/productos', item.slug, item.units_per_pack]" class="text-decoration-none">
+					  <h4 class="x-small mb-1 fw-bold item-name text-uppercase">
+						{{ item.productName }}
+					  </h4>
+				</a>
                   <div class="d-flex justify-content-between align-items-start">
                     <span class="x-small summary-label">Pack x{{ item.units_per_pack }}u.<br />Cant: {{ item.quantity }}</span>
                     <div class="text-end">
@@ -165,9 +168,39 @@
               </div>
             </div>
           </div>
-        </div>
+        
+		
+            <div class="alert alert-warning d-flex align-items-center gap-3 mt-3" role="alert">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <div class="x-small mb-0">
+                Coordinaremos el pago, el envio y su costo
+              </div>
+            </div>
+			
+		</div>
       </div>
 
+    </div>
+
+    <div class="related-products mt-5 pt-4 border-top">
+      <h3 class="h4 mb-4 fw-bold">Otros productos</h3>
+      @if (productsLoading()) {
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+          @for (i of [1,2,3,4,5]; track i) {
+            <div class="col">
+              <app-product-card-skeleton />
+            </div>
+          }
+        </div>
+      } @else if (products().length > 0) {
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+          @for (p of products(); track p.id) {
+            <div class="col">
+              <app-product-card [product]="p" />
+            </div>
+          }
+        </div>
+      }
     </div>
   </div>
 </section>

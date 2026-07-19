@@ -2,32 +2,30 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
-import { ApiService } from '../../core/services/api.service';
-import { Product } from '../../core/models/product.model';
-import { PaginatedResponse } from '../../core/models/api-response.model';
+import { ProductsService } from '../../core/services/products.service';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
 
 @Component({
-  selector: 'app-catalog',
+  selector: 'app-product-list',
   standalone: true,
   imports: [CommonModule, RouterModule, ProductCardComponent, ProductCardSkeletonComponent],
-  templateUrl: './catalog.component.html',
-  styleUrl: './catalog.component.css'
+  templateUrl: './product-list.component.html',
+  styleUrl: './product-list.component.css'
 })
-export class CatalogComponent implements OnInit {
+export class ProductListComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────
   // DEPENDENCIAS
   // ─────────────────────────────────────────────────────────────
-  private readonly api = inject(ApiService);
+  private readonly productsService = inject(ProductsService);
   private readonly titleService = inject(Title);
   private readonly metaService = inject(Meta);
 
   // ─────────────────────────────────────────────────────────────
   // ESTADO (Signals)
   // ─────────────────────────────────────────────────────────────
-  products = signal<Product[]>([]);
-  loading = signal(true);
+  products = this.productsService.products;
+  loading = this.productsService.loading;
   error = signal<string | null>(null);
 
   ngOnInit(): void {
@@ -43,21 +41,15 @@ export class CatalogComponent implements OnInit {
    * TODO [F4]: Implementar paginación real en backend y frontend.
    */
   loadProducts(): void {
-    this.loading.set(true);
     this.error.set(null);
     this.titleService.setTitle('Catálogo de Macetas Biodegradables | Brotalia');
     this.metaService.updateTag({
       name: 'description',
-      content: 'Explorá nuestro catálogo completo de macetas biodegradables mayoristas y minoristas. Envíos a todo el país.'
+      content: 'Catálogo completo de macetas biodegradables (turba, papel y cartón) mayoristas y minoristas: almacigueras, macetas florales y más. Envíos a todo el país.'
     });
-    this.api.get<PaginatedResponse<Product>>('/products').subscribe({
-      next: data => {
-        this.products.set(data.items);
-        this.loading.set(false);
-      },
+    this.productsService.getProducts().subscribe({
       error: () => {
         this.error.set('No se pudieron cargar los productos.');
-        this.loading.set(false);
       }
     });
   }

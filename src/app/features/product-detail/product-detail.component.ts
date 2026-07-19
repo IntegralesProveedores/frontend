@@ -4,8 +4,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
+import { ProductsService } from '../../core/services/products.service';
 import { Product, ProductVariant } from '../../core/models/product.model';
-import { PaginatedResponse } from '../../core/models/api-response.model';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 import { ProductDetailSkeletonComponent } from '../../shared/components/product-detail-skeleton/product-detail-skeleton.component';
@@ -51,7 +51,7 @@ interface ProductJsonLd {
 })
 export class ProductDetailComponent implements OnInit {
   product = signal<Product | null>(null);
-  allProducts = signal<Product[]>([]);
+  allProducts = inject(ProductsService).products;
   loading = signal(true);
   error = signal<string | null>(null);
 
@@ -59,6 +59,9 @@ export class ProductDetailComponent implements OnInit {
   selectedImageIndex = signal(0);
   quantity = signal(1);
   added = signal(false);
+  // Solo se completa al entrar desde una línea puntual del carrito mediante
+  // el segmento /:variant; nunca se deriva del fallback de una única línea.
+  editSourceVariantId = signal<string | null>(null);
 
   // Precios dinámicos devueltos por el backend
   dynamicPriceArs = signal<number>(0);
@@ -66,6 +69,7 @@ export class ProductDetailComponent implements OnInit {
 
   private api = inject(ApiService);
   private cart = inject(CartService);
+  private productsService = inject(ProductsService);
   public pricingConfigService = inject(PricingConfigService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
@@ -90,15 +94,9 @@ export class ProductDetailComponent implements OnInit {
   });
 
 	hasCurrentProductInCart = computed(() => {
-	  const variant = this.selectedVariant();
-
-	  if (!variant) {
-		return false;
-	  }
-
-	  return this.cart
-		.cartItems()
-		.some(item => item.variantId === variant.id);
+	  const v = this.selectedVariant();
+	  if (!v) return false;
+	  return this.cart.cartItems().some(item => item.variantId === v.id);
 	});
 
 
@@ -121,6 +119,7 @@ export class ProductDetailComponent implements OnInit {
       const v = this.selectedVariant();
       const q = this.quantity();
       const p = this.product();
+      this.cart.cartItems();
       
       if (v && p) {
         this.scheduleDynamicPriceUpdate(v.id, q);
@@ -131,7 +130,7 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const slug = params.get('slug') ?? '';
-      this.loadProduct(slug);
+      this.loadProduct(slug, params.get('variant'));
     });
     this.loadAllProducts();
   }
@@ -177,6 +176,10 @@ export class ProductDetailComponent implements OnInit {
     const existingScript = this.document.getElementById(scriptId);
     if (existingScript?.parentNode) {
       existingScript.parentNode.removeChild(existingScript);
+    }
+    const existingBreadcrumb = this.document.getElementById('breadcrumb-jsonld');
+    if (existingBreadcrumb?.parentNode) {
+      existingBreadcrumb.parentNode.removeChild(existingBreadcrumb);
     }
 
     const variants = data.variants ?? [];
@@ -224,15 +227,30 @@ export class ProductDetailComponent implements OnInit {
     this.renderer.setAttribute(script, 'id', scriptId);
     this.renderer.appendChild(script, this.renderer.createText(JSON.stringify(baseSchema)));
     this.renderer.appendChild(this.document.head, script);
+
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://brotalia.com.ar/' },
+        { '@type': 'ListItem', position: 2, name: 'Productos', item: 'https://brotalia.com.ar/productos' },
+        { '@type': 'ListItem', position: 3, name: data.name, item: `https://brotalia.com.ar/productos/${data.slug}` }
+      ]
+    };
+    const breadcrumbScript = this.renderer.createElement('script');
+    this.renderer.setAttribute(breadcrumbScript, 'type', 'application/ld+json');
+    this.renderer.setAttribute(breadcrumbScript, 'id', 'breadcrumb-jsonld');
+    this.renderer.appendChild(breadcrumbScript, this.renderer.createText(JSON.stringify(breadcrumbSchema)));
+    this.renderer.appendChild(this.document.head, breadcrumbScript);
   }
 
-  loadProduct(slug: string): void {
+  loadProduct(slug: string, presentationParam: string | null = null): void {
     this.loading.set(true);
     this.api.get<Product>(`/products/${slug}`).subscribe({
       next: data => {
         this.product.set(data);
-        const pageTitle = `${data.name} | Brotalia`;
-        const fallbackDescription = `${data.name} - Maceta biodegradable. Comprá online con envío en toda Argentina.`;
+        const pageTitle = `Maceta Biodegradable ${data.name} | Brotalia`;
+        const fallbackDescription = `Maceta biodegradable ${data.name}, 100% compostable (turba, papel y cartón). Sin stress de trasplante, mayor crecimiento de raíces. Venta mayorista y minorista con envío a toda Argentina.`;
         const rawDescription = typeof data.description === 'string' ? data.description.trim() : '';
         const metaDescription = rawDescription.length > 0 ? rawDescription : fallbackDescription;
         const imageUrl = data.images?.[0]?.url ?? '';
@@ -257,10 +275,31 @@ export class ProductDetailComponent implements OnInit {
 
         this.pricingConfigService.setPricingConfig(data.pricing_config);
         const firstVariant = data.variants?.[0] ?? null;
-        this.selectedVariant.set(firstVariant);
-        if (firstVariant) {
-          this.dynamicPriceArs.set(firstVariant.price_ars || 0);
-          this.dynamicPriceUsd.set(firstVariant.price_usd || 0);
+        const cartItemsForProduct = this.cart.cartItems().filter(item => item.productId === data.id);
+        const presentation = presentationParam?.trim() ? Number(presentationParam) : NaN;
+        // units_per_pack es la presentación legible de la URL. Si hubiera duplicados,
+        // .find() toma deliberadamente la primera variante del catálogo.
+        const matchedVariant = Number.isFinite(presentation)
+          ? data.variants?.find(variant => variant.units_per_pack === presentation) ?? null
+          : null;
+        const editSourceVariantId = matchedVariant && cartItemsForProduct.some(
+          item => item.variantId === matchedVariant.id
+        )
+          ? matchedVariant.id
+          : null;
+        const fallbackCartItem = cartItemsForProduct.length === 1 ? cartItemsForProduct[0] : undefined;
+        const selectedVariant = matchedVariant
+          ?? (fallbackCartItem
+            ? data.variants?.find(variant => variant.id === fallbackCartItem.variantId)
+            : undefined)
+          ?? firstVariant;
+
+        this.editSourceVariantId.set(editSourceVariantId);
+
+        this.selectedVariant.set(selectedVariant);
+        if (selectedVariant) {
+          this.dynamicPriceArs.set(selectedVariant.price_ars || 0);
+          this.dynamicPriceUsd.set(selectedVariant.price_usd || 0);
         }
         this.selectedImageIndex.set(0);
         this.quantity.set(1);
@@ -277,18 +316,34 @@ export class ProductDetailComponent implements OnInit {
   }
 
   loadAllProducts(): void {
-    this.api.get<PaginatedResponse<Product>>('/products').subscribe({
-      next: data => {
-        this.allProducts.set(data.items);
-        this.pricingConfigService.setPricingConfig(data.items?.[0]?.pricing_config);
+    this.productsService.getProducts().subscribe({
+      next: products => {
+        this.pricingConfigService.setPricingConfig(products?.[0]?.pricing_config);
       },
       error: err => console.error('Error loading related products', err)
     });
   }
 
   selectVariant(v: ProductVariant): void {
+    const from = this.editSourceVariantId();
+    const sourceItem = from ? this.cart.cartItems().find(item => item.variantId === from) : undefined;
+
+    if (from && from !== v.id && sourceItem) {
+      void this.cart.changeVariant(from, {
+        variantId: v.id,
+        sku: v.sku,
+        stock: v.stock,
+        units_per_pack: v.units_per_pack,
+        cost_usd: v.cost_usd
+      });
+      this.editSourceVariantId.set(v.id);
+      this.quantity.set(1);
+    } else if (!sourceItem) {
+      this.editSourceVariantId.set(null);
+      this.quantity.set(1);
+    }
+
     this.selectedVariant.set(v);
-    this.quantity.set(1);
   }
 
   decrement(): void {

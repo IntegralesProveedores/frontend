@@ -5,11 +5,6 @@
   overflow: hidden;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   PRODUCT DETAIL COMPONENT
-   Refactor: Typography contrast & semantic scale
-   ───────────────────────────────────────────────────────────── */
-
 .product-title {
   color: var(--color-text-primary);
 }
@@ -59,35 +54,27 @@
   align-items: center;
 }
 
-
-
-
-
 .btn-action {
     width: 100%;
     padding: 0.85rem 1rem;
 }
+
 .btn-action-secondary {
   transition: var(--transition-base);
 }
 
 .btn-action,
+
 .btn-action-secondary {
   width: 100%;
   justify-content: center;
 }
-
-
-
 
 .qty-selector,
 .btn-action,
 .btn-action-secondary {
     height: 52px;
 }
-
-
-
 
 .metadata-label {
   color: var(--color-text-muted);
@@ -122,14 +109,10 @@
 }
 
 
-
-
-
-
 .product-grid{
     display:grid;
-    grid-template-columns: 40% 40%;
-    gap:3rem;
+    grid-template-columns: 40% 50%;
+    gap:2rem;
     align-items:start;
 }
 
@@ -139,7 +122,6 @@
         "breadcrumb"
         "header"
         "buy";
-    gap:1rem;
 }
 
 .product-breadcrumb{

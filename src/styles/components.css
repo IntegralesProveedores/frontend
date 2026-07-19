@@ -89,7 +89,9 @@
 }
 
 /* Pill outline button system (shared hero-cta / btn-action / btn-action-secondary) */
-.btn-pill-outline {
+.btn-pill-outline, 
+.btn-pill-outline:disabled 
+{
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -113,7 +115,9 @@
   color: #fff;
 }
 
-.btn-pill-outline--secondary {
+.btn-pill-outline--secondary,
+.btn-pill-outline--secondary:disabled
+{
   border-color: var(--color-secondary);
   color: var(--color-secondary);
 }
