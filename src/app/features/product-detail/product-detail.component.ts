@@ -249,8 +249,16 @@ export class ProductDetailComponent implements OnInit {
     this.api.get<Product>(`/products/${slug}`).subscribe({
       next: data => {
         this.product.set(data);
-        const pageTitle = `Maceta Biodegradable ${data.name} | Brotalia`;
-        const fallbackDescription = `Maceta biodegradable ${data.name}, 100% compostable (turba, papel y cartón). Sin stress de trasplante, mayor crecimiento de raíces. Venta mayorista y minorista con envío a toda Argentina.`;
+        const presentation = presentationParam?.trim() ? Number(presentationParam) : NaN;
+        // units_per_pack es la presentación legible de la URL. Si hubiera duplicados,
+        // .find() toma deliberadamente la primera variante del catálogo.
+        const matchedVariant = Number.isFinite(presentation)
+          ? data.variants?.find(variant => variant.units_per_pack === presentation) ?? null
+          : null;
+        const pageTitle = `Maceta Biodegradable ${data.name}${matchedVariant ? ` ${matchedVariant.units_per_pack} u.` : ''} | Brotalia`;
+        const fallbackDescription = matchedVariant
+          ? `Maceta biodegradable ${data.name} ${matchedVariant.units_per_pack} unidades, 100% compostable (turba, papel y cartón). Sin stress de trasplante, mayor crecimiento de raíces. Venta mayorista y minorista con envío a toda Argentina.`
+          : `Maceta biodegradable ${data.name}, 100% compostable (turba, papel y cartón). Sin stress de trasplante, mayor crecimiento de raíces. Venta mayorista y minorista con envío a toda Argentina.`;
         const rawDescription = typeof data.description === 'string' ? data.description.trim() : '';
         const metaDescription = rawDescription.length > 0 ? rawDescription : fallbackDescription;
         const imageUrl = data.images?.[0]?.url ?? '';
@@ -267,6 +275,14 @@ export class ProductDetailComponent implements OnInit {
         this.metaService.updateTag({ property: 'og:url', content: `https://brotalia.com.ar/productos/${slug}` });
         this.metaService.updateTag({ name: 'twitter:title', content: pageTitle });
         this.metaService.updateTag({ name: 'twitter:description', content: metaDescription });
+        const existingCanonical = this.document.head.querySelector('link[rel="canonical"]');
+        if (existingCanonical?.parentNode) {
+          existingCanonical.parentNode.removeChild(existingCanonical);
+        }
+        const canonical = this.renderer.createElement('link');
+        this.renderer.setAttribute(canonical, 'rel', 'canonical');
+        this.renderer.setAttribute(canonical, 'href', `https://brotalia.com.ar/productos/${slug}`);
+        this.renderer.appendChild(this.document.head, canonical);
         if (absoluteImageUrl) {
           this.metaService.updateTag({ property: 'og:image', content: absoluteImageUrl });
           this.metaService.updateTag({ name: 'twitter:image', content: absoluteImageUrl });
@@ -276,12 +292,6 @@ export class ProductDetailComponent implements OnInit {
         this.pricingConfigService.setPricingConfig(data.pricing_config);
         const firstVariant = data.variants?.[0] ?? null;
         const cartItemsForProduct = this.cart.cartItems().filter(item => item.productId === data.id);
-        const presentation = presentationParam?.trim() ? Number(presentationParam) : NaN;
-        // units_per_pack es la presentación legible de la URL. Si hubiera duplicados,
-        // .find() toma deliberadamente la primera variante del catálogo.
-        const matchedVariant = Number.isFinite(presentation)
-          ? data.variants?.find(variant => variant.units_per_pack === presentation) ?? null
-          : null;
         const editSourceVariantId = matchedVariant && cartItemsForProduct.some(
           item => item.variantId === matchedVariant.id
         )

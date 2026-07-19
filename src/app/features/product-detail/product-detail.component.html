@@ -37,34 +37,38 @@
 				<div class="product-header">
 					<!-- Columna izquierda: Información -->
 					<div class="product-data">
-						<h1 class="h2 mb-2 product-title text-uppercase">
+						<h1 class="h2 mb-1 product-title text-uppercase">
 							{{ product()?.name }}
 						</h1>
-						<div class="text-muted mt-2" style="font-size: 0.8rem;">
+						<p class="detail text-secondary small mb-1">
+							{{ product()?.detail }}
+						</p>
+						<div class="text-muted mb-2" style="font-size: 0.8rem;">
 							@if (product()?.diameter_cm) { {{ product()?.diameter_cm }} × }
 							@if (product()?.height_cm) { {{ product()?.height_cm }} cm (h) }
 							@if (product()?.volume_cc) { · {{ product()?.volume_cc }} cm³ }
 						</div>
+						
 					</div>
 					
 					<!-- Columna derecha: Precio -->
 					<div class="product-price text-start">
-						<div class="h2 mb-0 text-primary fw-bold">
+						<div class="h2 mb-1 text-primary fw-bold">
 							USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}
 						</div>
-						<div class="mt-1">
+						<div class="mb-1">
 							<span class="text-secondary fw-semibold">
 							{{ currentPricing().finalPriceArs | currencyArs }}
 							</span>
 						</div>
-						<div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">
+						<div class="iva-legend text-muted mb-2" style="font-size: 0.8rem;">
 							{{ pricingConfigService.vatLabel() }}
 						</div>
 					</div>
 				</div>
 				
 				<!-- Col: Botones -->
-				<div class="product-buy mt-2">
+				<div class="product-buy">
 					<div class="row">
 					
 						<p class="description text-secondary small">

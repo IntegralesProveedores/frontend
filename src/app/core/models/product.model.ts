@@ -61,6 +61,7 @@ export interface Product {
   name: string;
   slug: string;
   description: string;
+  detail?: string | null;
   active: boolean;
   cost_usd?: number;
   units_per_pack_master?: number;

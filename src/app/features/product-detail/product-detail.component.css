@@ -12,6 +12,7 @@
 .description {
   line-height: 1.6;
   color: var(--color-text-secondary);
+  text-align: justify;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
