@@ -2,6 +2,7 @@
 
 # Compiled output
 /dist
+/prerender-routes.txt
 /tmp
 /out-tsc
 /bazel-out
