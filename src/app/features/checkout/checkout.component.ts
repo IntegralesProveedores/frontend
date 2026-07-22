@@ -8,6 +8,7 @@ import { CartService } from '../../core/services/cart.service';
 import { ProductsService } from '../../core/services/products.service';
 import { SessionContextService } from '../../core/services/session-context.service';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
+import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
@@ -45,11 +46,13 @@ export class CheckoutComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
   public readonly session = inject(SessionContextService);
   public readonly pricingConfigService = inject(PricingConfigService);
+  private readonly mercadoPagoService = inject(MercadoPagoService);
 
   products = this.productsService.products;
   productsLoading = this.productsService.loading;
 
   loading = false;
+  paymentLoading = false;
   formSubmitted = false;
 
   customer = {
@@ -245,6 +248,38 @@ export class CheckoutComponent implements OnInit {
       this.router.navigate(['/orden/error']);
     } finally {
       this.loading = false;
+    }
+  }
+
+  async iniciarPagoMercadoPago(isValid: boolean | null): Promise<void> {
+    this.formSubmitted = true;
+
+    if (!isValid || this.cartService.isEmpty()) {
+      return;
+    }
+
+    this.paymentLoading = true;
+    const c = this.customer;
+
+    try {
+      await this.mercadoPagoService.startCheckout({
+        items: this.cartService.cartItems().map(item => ({
+          variant_id: item.variantId,
+          quantity: item.quantity
+        })),
+        customer: {
+          nombre: c.nombre,
+          email: c.email,
+          cuit: c.cuit,
+          codigoArea: c.codigoArea,
+          celular: c.celular
+        }
+      });
+    } catch (error) {
+      console.error('Error al iniciar Mercado Pago:', error);
+      this.router.navigate(['/orden/error']);
+    } finally {
+      this.paymentLoading = false;
     }
   }
 

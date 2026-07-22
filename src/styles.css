@@ -161,3 +161,14 @@ main {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-muted);
 }
+
+/* SCROLL NONE CHROME, FIREFOX */
+::-webkit-scrollbar { 
+	display:none; 
+}
+
+* { 
+	scrollbar-width:none; 
+}
+
+

@@ -33,7 +33,7 @@ export interface CreateOrderPayload {
 export interface OrderStatus {
   id: string;
   status: 'pending' | 'paid' | 'cancelled' | 'shipped';
-  payment_status: 'pending' | 'approved' | 'rejected';
+  payment_status: 'pending' | 'approved' | 'in_process' | 'rejected' | 'cancelled' | 'refunded' | 'charged_back';
   shipping_status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   shipping_tracking_code: string | null;
   total_amount: number;

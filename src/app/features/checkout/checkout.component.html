@@ -115,6 +115,20 @@
                   </div>
                 }
               </button>
+
+              <button type="button" class="btn btn-pill-outline btn-pill-outline--primary btn-lg py-3 w-100 mb-3" [disabled]="loading || paymentLoading || checkoutForm.invalid" (click)="iniciarPagoMercadoPago(checkoutForm.valid)">
+                @if (!paymentLoading) {
+                  <span>
+                    PAGAR CON MERCADO PAGO &nbsp;
+                    <i class="bi bi-credit-card"></i>
+                  </span>
+                } @else {
+                  <div class="d-flex align-items-center justify-content-center">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    <span>REDIRIGIENDO...</span>
+                  </div>
+                }
+              </button>
               
 			  <a routerLink="/carrito" class="btn btn-pill-outline btn-pill-outline--accent py-3 w-100">
                 &larr; CARRITO &nbsp; <i class="bi bi-basket"></i>

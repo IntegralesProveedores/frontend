@@ -44,6 +44,11 @@ export const routes: Routes = [
       import('./features/order-status/failure/failure.component').then(m => m.FailureComponent)
   },
   {
+    path: 'orden/pendiente',
+    loadComponent: () =>
+      import('./features/order-status/pending/pending.component').then(m => m.PendingComponent)
+  },
+  {
     path: 'orden/:id',
     loadComponent: () =>
       import('./features/order-status/detail/detail.component').then(m => m.DetailComponent)
