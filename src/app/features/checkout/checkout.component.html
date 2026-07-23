@@ -1,6 +1,6 @@
 <section class="checkout-page section-spacing">
   <div class="container">
-    <div class="row g-5">
+    <div class="row">
       <!-- Formulario -->
       <div class="col-md-6">
         <div class="checkout-form-container">
@@ -101,10 +101,24 @@
             </div>
 
             <div class="checkout-actions">
-              <button type="submit" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3" [disabled]="loading || checkoutForm.invalid">
+              
+              <button type="button" class="btn btn-pill-outline btn-mercado-libre btn-lg py-3 w-100 mb-3" [disabled]="loading || paymentLoading || checkoutForm.invalid" (click)="iniciarPagoMercadoPago(checkoutForm.valid)">
+                @if (!paymentLoading) {
+                  <span>
+                    <img src="/assets/icon/mercado-pago-horizontal.png" alt="MERCADO PAGO" />
+                  </span>
+                } @else {
+                  <div class="d-flex align-items-center justify-content-center">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    <span>REDIRIGIENDO...</span>
+                  </div>
+                }
+              </button>
+			  
+			  <button type="submit" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3" [disabled]="loading || checkoutForm.invalid">
                 @if (!loading) {
                   <span>
-					COMPRAR &nbsp; 
+					TRANSFERENCIA &nbsp; 
                     <i class="bi bi-credit-card-2-back"></i>
 
 				  </span>
@@ -112,20 +126,6 @@
                   <div class="d-flex align-items-center justify-content-center">
                     <span class="spinner-border spinner-border-sm me-2"></span>
                     <span>PROCESANDO...</span>
-                  </div>
-                }
-              </button>
-
-              <button type="button" class="btn btn-pill-outline btn-pill-outline--primary btn-lg py-3 w-100 mb-3" [disabled]="loading || paymentLoading || checkoutForm.invalid" (click)="iniciarPagoMercadoPago(checkoutForm.valid)">
-                @if (!paymentLoading) {
-                  <span>
-                    PAGAR CON MERCADO PAGO &nbsp;
-                    <i class="bi bi-credit-card"></i>
-                  </span>
-                } @else {
-                  <div class="d-flex align-items-center justify-content-center">
-                    <span class="spinner-border spinner-border-sm me-2"></span>
-                    <span>REDIRIGIENDO...</span>
                   </div>
                 }
               </button>
@@ -156,10 +156,10 @@
 					  </h4>
 				</a>
                   <div class="d-flex justify-content-between align-items-start">
-                    <span class="x-small summary-label">Pack x{{ item.units_per_pack }}u.<br />Cant: {{ item.quantity }}</span>
+                    <span class="x-small summary-label">Pack x{{ item.units_per_pack }} u.<br />Cant: {{ item.quantity }}</span>
                     <div class="text-end">
-                      <div class="x-small text-success fw-bold">USD ${{ ((item.price_usd || 0) * item.quantity) | number:'1.2-2' }}</div>
-                      <div class="x-small price-ars">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
+                      <div class="x-small text-success fw-bold">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
+                      <div class="x-small price-usd">USD {{ ((item.price_usd || 0) * item.quantity) | number:'1.2-2' }}</div>
                     </div>
                   </div>
                 </div>
@@ -170,14 +170,14 @@
           <div class="summary-details">
             <div class="d-flex justify-content-between mb-3 x-small summary-label pb-3">
               <span>USD BNA Venta</span>
-              <span class="summary-value">${{ cartService.dolarOficial() | number:'1.2-2' }}</span>
+              <span class="summary-value">$ {{ cartService.dolarOficial() | number:'1.2-2' }}</span>
             </div>
             
             <div class="total-row d-flex justify-content-between align-items-start pt-3 border-top mt-2">
               <span class="fw-bold h5 mb-0 item-name">TOTAL</span>
               <div class="text-end">
-                <div class="h3 mb-1 fw-bold total-main">USD $ {{ cartService.totalUsd() | number:'1.2-2' }}</div>
-                <div class="h5 mb-0 fw-bold total-secondary">{{ cartService.subtotalArs() | currencyArs }}</div>
+                <div class="h3 mb-1 fw-bold total-main">{{ cartService.subtotalArs() | currencyArs }}</div>
+                <div class="h6 mb-0 fw-bold total-secondary">USD {{ cartService.totalUsd() | number:'1.2-2' }}</div>
                 <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
               </div>
             </div>

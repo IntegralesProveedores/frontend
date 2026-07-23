@@ -236,3 +236,20 @@
   border-color: var(--color-primary);
   color: #fff;
 }
+
+.btn-mercado-libre {
+  background: #ffe700;
+  border: 0;
+  color: #130559;
+  cursor: pointer;
+}
+
+.btn-mercado-libre img {
+	width: 150px;
+}
+
+.btn-mercado-libre:hover,
+.btn-mercado-libre:focus {
+  background: #ffe700;
+  color: #130559;
+}

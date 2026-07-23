@@ -54,11 +54,11 @@
 					<!-- Columna derecha: Precio -->
 					<div class="product-price text-start">
 						<div class="h2 mb-1 text-primary fw-bold">
-							USD ${{ currentPricing().finalPriceUsd | number:'1.2-2' }}
+							{{ currentPricing().finalPriceArs | currencyArs }}
 						</div>
 						<div class="mb-1">
 							<span class="text-secondary fw-semibold">
-							{{ currentPricing().finalPriceArs | currencyArs }}
+							USD {{ currentPricing().finalPriceUsd | number:'1.2-2' }}
 							</span>
 						</div>
 						<div class="iva-legend text-muted mb-2" style="font-size: 0.8rem;">
