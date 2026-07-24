@@ -1,4 +1,4 @@
-import { Component, inject, effect, OnInit } from '@angular/core';
+import { Component, inject, effect, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -9,6 +9,12 @@ import { ProductsService } from '../../core/services/products.service';
 import { SessionContextService } from '../../core/services/session-context.service';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { MercadoPagoService } from '../../core/services/mercadopago.service';
+import { ShippingService } from '../../core/services/shipping.service';
+import { ShippingAddress, ShippingMethod } from '../../core/models/order.model';
+
+
+
+
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
@@ -39,6 +45,7 @@ type ValidatedOrder = {
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
+
 export class CheckoutComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly api = inject(ApiService);
@@ -47,6 +54,8 @@ export class CheckoutComponent implements OnInit {
   public readonly session = inject(SessionContextService);
   public readonly pricingConfigService = inject(PricingConfigService);
   private readonly mercadoPagoService = inject(MercadoPagoService);
+  public readonly shippingService = inject(ShippingService);
+
 
   products = this.productsService.products;
   productsLoading = this.productsService.loading;
@@ -54,6 +63,18 @@ export class CheckoutComponent implements OnInit {
   loading = false;
   paymentLoading = false;
   formSubmitted = false;
+  shipping = this.shippingService.current; 
+  shippingMethod = signal<ShippingMethod | null>('delivery');
+  sameAsBuyer = signal(true);
+  shippingFormSubmitted = false;
+
+  address: ShippingAddress = {
+    recipient_name: '', postal_code: '', province: '', locality: '', county: '',
+    street: '', street_number: '', floor: '', apartment: '', country: 'Argentina'
+  };
+
+
+
 
   customer = {
     nombre: '',
@@ -75,7 +96,20 @@ export class CheckoutComponent implements OnInit {
           celular: user.phone.number
         };
       }
+
     });
+  }
+
+  toggleSameAsBuyer(): void {
+    const sameAsBuyer = !this.sameAsBuyer();
+    this.sameAsBuyer.set(sameAsBuyer);
+    this.address.recipient_name = sameAsBuyer ? this.customer.nombre : '';
+  }
+
+  onBuyerNameChange(name: string): void {
+    if (this.sameAsBuyer()) {
+      this.address.recipient_name = name;
+    }
   }
 
   ngOnInit(): void {
@@ -86,6 +120,12 @@ export class CheckoutComponent implements OnInit {
     if (this.cartService.isEmpty()) {
       this.router.navigate(['/carrito']);
     }
+  
+    const existing = this.shippingService.current();
+    if (existing.method) this.shippingMethod.set(existing.method);
+    if (existing.address) this.address = { ...existing.address };
+  
+  
   }
 
   onCuitInput(event: any): void {
@@ -118,84 +158,197 @@ export class CheckoutComponent implements OnInit {
       .replace(/'/g, '&#39;');
   }
 
-  private generarHTMLCorreo(order: ValidatedOrder): string {
-    const c = this.customer;
-
-    let html = `
-      <div style="font-family: Arial, sans-serif; color: #333; max-width: 700px; margin: auto; border: 1px solid #eee; padding: 20px;">
-        <h2 style="color: #2b5e2b; text-align: center;">Detalle de Pedido</h2>
-        <hr style="border: 0; border-top: 1px solid #eee;">
-        <p><strong>Cliente:</strong> ${this.escapeHtml(c.nombre)}</p>
-        <p><strong>CUIT:</strong> ${this.escapeHtml(c.cuit) || 'No informado'}</p>
-        <p><strong>Teléfono:</strong> (${this.escapeHtml(c.codigoArea)}) ${this.escapeHtml(c.celular)}</p>
-        <p><strong>Email:</strong> ${this.escapeHtml(c.email)}</p>
-        
-        <table width="100%" style="border-collapse: collapse; margin-top: 20px; font-size: 10px;">
-          <thead>
-            <tr style="background-color: #f8f9fa;">
-              <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Producto</th>
-              <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Unidad</th>
-              <th style="border: 1px solid #ddd; padding: 10px; text-align: center;">Cant.</th>
-              <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-    `;
-
-    order.items.forEach(item => {
-      const priceUsd = item.price_usd || 0;
-      const subtotalItemUsd = item.subtotal_usd || (priceUsd * item.quantity);
-      const unitsPerPack = item.units_per_pack || 1;
-
-      html += `
-        <tr>
-          <td style="border: 1px solid #ddd; padding: 10px;">
-            <strong style="color: #2b5e2b;">${this.escapeHtml(item.product_name)}</strong><br>
-            <span style="font-size: 0.7em; color: #666;">PackX${unitsPerPack}u.</span><br>
-            <span style="font-size: 0.7em; color: #888;">SKU: ${this.escapeHtml(item.sku)}</span>
-          </td>
-          <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">USD$${priceUsd.toFixed(2)}</td>
-          <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">${item.quantity}</td>
-          <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">USD$${subtotalItemUsd.toFixed(2)}</td>
-        </tr>
-      `;
-    });
-
-    html += `
-          </tbody>
-        </table>
-
-        <div style="margin-top: 30px; text-align: right; border-top: 2px solid #eee; padding-top: 15px;">
-          <div style="margin-bottom: 5px;">
-            <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL USD</span>
-            <span style="font-size: 22px; color: #28a745; font-weight: bold; margin-left: 10px;">USD $${order.total_usd.toFixed(2)}</span>
-          </div>
-          <div style="margin-bottom: 5px;">
-            <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL ARS</span>
-            <span style="font-size: 18px; color: #2b5e2b; font-weight: bold; margin-left: 10px;">$${this.fmtNumber(order.total_ars)}</span>
-          </div>
-          <div style="margin-bottom: 5px; color: #888; font-size: 13px;">
-            Cotización aplicada: $${this.fmtNumber(order.exchange_rate)} ARS
-          </div>
-          <div style="color: #999; font-size: 11px; font-style: italic;">
-            ${this.pricingConfigService.vatLabel()}
-          </div>
-        </div>
-        
-        <div style="margin-top: 40px; padding: 15px; background-color: #e9f7ef; border-radius: 4px; text-align: center;">
-          <p style="margin: 0; color: #1e7e34; font-weight: bold;">A la brevedad nos pondremos en contacto para coordinar el pago y envío. ¡Gracias!</p>
-        </div>
+private generarSeccionEnvio(): string {
+  if (this.shippingMethod() === 'pickup') {
+    return `
+      <div style="margin-top: 25px; padding: 18px; background-color: #f0f7ff; border-radius: 6px; border-left: 4px solid #2b5e2b;">
+        <p style="margin: 0 0 10px; color: #2b5e2b; font-weight: bold; font-size: 15px;">
+          📦 Coordiná tu retiro
+        </p>
+        <p style="margin: 0 0 10px; font-size: 13px; color: #444; line-height: 1.5;">
+          Escribinos por WhatsApp al <strong>+54 9 11 3022-6565</strong> para coordinar
+          día, horario y punto de retiro. Podés retirar en
+          <strong>Portela 875, Flores, CABA</strong> o en
+          <strong>Roosevelt 1935, Belgrano, CABA</strong>, según disponibilidad.
+        </p>
+        <p style="margin: 0; font-size: 12px; color: #777;">
+          Atendemos de lunes a jueves de 10 a 14 hs. Los mensajes enviados fuera de
+          ese horario se responden el día hábil siguiente dentro del horario indicado.
+        </p>
       </div>
     `;
-
-    return html;
   }
+
+  const a = this.address;
+  const direccionCompleta = [
+    `${this.escapeHtml(a.street)} ${this.escapeHtml(a.street_number)}`,
+    a.floor ? `Piso ${this.escapeHtml(a.floor)}` : null,
+    a.apartment ? `Depto ${this.escapeHtml(a.apartment)}` : null
+  ].filter(Boolean).join(', ');
+
+  return `
+    <div style="margin-top: 25px;">
+      <h3 style="color: #2b5e2b; font-size: 15px; margin-bottom: 10px;">Dirección de envío</h3>
+      <table width="100%" style="border-collapse: collapse; font-size: 13px;">
+        <tr>
+          <td style="padding: 4px 0; color: #666; width: 140px;">Destinatario:</td>
+          <td style="padding: 4px 0; color: #333;">${this.escapeHtml(a.recipient_name)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0; color: #666;">Dirección:</td>
+          <td style="padding: 4px 0; color: #333;">${direccionCompleta}</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0; color: #666;">Localidad:</td>
+          <td style="padding: 4px 0; color: #333;">${this.escapeHtml(a.locality)}${a.county ? ` (${this.escapeHtml(a.county)})` : ''}</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0; color: #666;">Provincia:</td>
+          <td style="padding: 4px 0; color: #333;">${this.escapeHtml(a.province)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0; color: #666;">Código Postal:</td>
+          <td style="padding: 4px 0; color: #333;">${this.escapeHtml(a.postal_code)}</td>
+        </tr>
+      </table>
+    </div>
+  `;
+}
+
+private generarSeccionPagoTransferencia(): string {
+  return `
+    <div style="margin-top: 25px;">
+      <h3 style="color: #2b5e2b; font-size: 15px; margin-bottom: 10px;">Forma de pago — Transferencia bancaria</h3>
+      <table width="100%" style="border-collapse: collapse; font-size: 13px; margin-bottom: 12px;">
+        <tr>
+          <td style="padding: 10px; background-color: #f8f9fa; border: 1px solid #eee;" colspan="2">
+            <strong style="color: #2b5e2b;">Mercado Pago</strong>
+          </td>
+        </tr>
+        <tr><td style="padding: 4px 10px; color: #666;">Alias:</td><td style="padding: 4px 10px;">brotalia</td></tr>
+        <tr><td style="padding: 4px 10px; color: #666;">CVU:</td><td style="padding: 4px 10px;">0000003100047366574097</td></tr>
+        <tr><td style="padding: 4px 10px; color: #666;">Titular:</td><td style="padding: 4px 10px;">Luciano German Farina</td></tr>
+        <tr><td style="padding: 4px 10px; color: #666;">CUIT:</td><td style="padding: 4px 10px;">24304556605</td></tr>
+      </table>
+      <table width="100%" style="border-collapse: collapse; font-size: 13px;">
+        <tr>
+          <td style="padding: 10px; background-color: #f8f9fa; border: 1px solid #eee;" colspan="2">
+            <strong style="color: #2b5e2b;">BBVA</strong>
+          </td>
+        </tr>
+        <tr><td style="padding: 4px 10px; color: #666;">Alias:</td><td style="padding: 4px 10px;">farinagerman.bna</td></tr>
+        <tr><td style="padding: 4px 10px; color: #666;">CBU:</td><td style="padding: 4px 10px;">0110006830000620409251</td></tr>
+        <tr><td style="padding: 4px 10px; color: #666;">Titular:</td><td style="padding: 4px 10px;">Luciano Germán Farina</td></tr>
+        <tr><td style="padding: 4px 10px; color: #666;">CUIT:</td><td style="padding: 4px 10px;">24304556605</td></tr>
+        <tr><td style="padding: 4px 10px; color: #666;">Cuenta:</td><td style="padding: 4px 10px;">CA $ N°00300062040925</td></tr>
+      </table>
+      <div style="margin-top: 15px; padding: 15px; background-color: #e9f7ef; border-radius: 4px; text-align: center;">
+        <p style="margin: 0; color: #1e7e34; font-weight: bold; font-size: 13px;">
+          Recibido o acreditado el pago se procesa el pedido. El comprobante
+          podés enviarlo por WhatsApp al +54 9 11 3022-6565.
+        </p>
+      </div>
+    </div>
+  `;
+}
+
+// TODO: unificar este template con el del backend (payment.service.ts) en un
+// paquete compartido cuando se pueda — hoy corren en runtimes distintos
+// (browser vs Cloudflare Worker) y se duplica el HTML a propósito.
+private generarHTMLCorreo(order: ValidatedOrder): string {
+  const c = this.customer;
+
+  let html = `
+    <div style="font-family: Arial, sans-serif; color: #333; max-width: 700px; margin: auto; border: 1px solid #eee; padding: 20px;">
+      <h2 style="color: #2b5e2b; text-align: center;">Detalle de Pedido</h2>
+      <hr style="border: 0; border-top: 1px solid #eee;">
+      <p><strong>Cliente:</strong> ${this.escapeHtml(c.nombre)}</p>
+      <p><strong>CUIT:</strong> ${this.escapeHtml(c.cuit) || 'No informado'}</p>
+      <p><strong>Teléfono:</strong> (${this.escapeHtml(c.codigoArea)}) ${this.escapeHtml(c.celular)}</p>
+      <p><strong>Email:</strong> ${this.escapeHtml(c.email)}</p>
+
+      <table width="100%" style="border-collapse: collapse; margin-top: 20px; font-size: 10px;">
+        <thead>
+          <tr style="background-color: #f8f9fa;">
+            <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Producto</th>
+            <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Unidad</th>
+            <th style="border: 1px solid #ddd; padding: 10px; text-align: center;">Cant.</th>
+            <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  order.items.forEach(item => {
+    const priceUsd = item.price_usd || 0;
+    const subtotalItemUsd = item.subtotal_usd || (priceUsd * item.quantity);
+    const unitsPerPack = item.units_per_pack || 1;
+
+    html += `
+      <tr>
+        <td style="border: 1px solid #ddd; padding: 10px;">
+          <strong style="color: #2b5e2b;">${this.escapeHtml(item.product_name)}</strong><br>
+          <span style="font-size: 0.7em; color: #666;">PackX${unitsPerPack}u.</span><br>
+          <span style="font-size: 0.7em; color: #888;">SKU: ${this.escapeHtml(item.sku)}</span>
+        </td>
+        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">USD$${priceUsd.toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">${item.quantity}</td>
+        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">USD$${subtotalItemUsd.toFixed(2)}</td>
+      </tr>
+    `;
+  });
+
+  html += `
+        </tbody>
+      </table>
+  `;
+
+  html += this.generarSeccionEnvio();
+  html += this.generarSeccionPagoTransferencia();
+
+  html += `
+      <div style="margin-top: 30px; text-align: right; border-top: 2px solid #eee; padding-top: 15px;">
+        <div style="margin-bottom: 5px;">
+          <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL USD</span>
+          <span style="font-size: 22px; color: #28a745; font-weight: bold; margin-left: 10px;">USD $${order.total_usd.toFixed(2)}</span>
+        </div>
+        <div style="margin-bottom: 5px;">
+          <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL ARS</span>
+          <span style="font-size: 18px; color: #2b5e2b; font-weight: bold; margin-left: 10px;">$${this.fmtNumber(order.total_ars)}</span>
+        </div>
+        <div style="margin-bottom: 5px; color: #888; font-size: 13px;">
+          Cotización aplicada: $${this.fmtNumber(order.exchange_rate)} ARS
+        </div>
+        <div style="color: #999; font-size: 11px; font-style: italic;">
+          ${this.pricingConfigService.vatLabel()}
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 4px; text-align: center;">
+        <p style="margin: 0; color: #2b5e2b; font-weight: bold;">¡Gracias por tu compra!</p>
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+
 
   async confirmarPedido(isValid: boolean | null) {
     this.formSubmitted = true;
+	this.shippingFormSubmitted = true;
 
-    if (!isValid || this.cartService.isEmpty()) {
+    if (this.sameAsBuyer() && this.shippingMethod() === 'delivery') {
+      this.address.recipient_name = this.customer.nombre;
+    }
+
+    if (!isValid || !this.shippingValid || this.cartService.isEmpty()) {
       return;
+    }
+
+    if (this.shippingMethod() === 'delivery') {
+      this.shippingService.setAddress({ ...this.address });
     }
 
     this.loading = true;
@@ -203,6 +356,10 @@ export class CheckoutComponent implements OnInit {
     const cartItems = this.cartService.cartItems();
 
     try {
+      if (this.sameAsBuyer() && this.shippingMethod() === 'delivery') {
+        this.address.recipient_name = this.customer.nombre;
+      }
+
       const payload = {
         items: cartItems.map(i => ({
           variant_id: i.variantId,
@@ -214,6 +371,10 @@ export class CheckoutComponent implements OnInit {
           cuit: c.cuit,
           codigoArea: c.codigoArea,
           celular: c.celular
+        },
+        shipping: {
+          method: this.shippingMethod()!,
+          ...(this.shippingMethod() === 'delivery' ? { address: { ...this.address } } : {})
         }
       };
 
@@ -253,15 +414,28 @@ export class CheckoutComponent implements OnInit {
 
   async iniciarPagoMercadoPago(isValid: boolean | null): Promise<void> {
     this.formSubmitted = true;
+	this.shippingFormSubmitted = true;
 
-    if (!isValid || this.cartService.isEmpty()) {
+    if (this.sameAsBuyer() && this.shippingMethod() === 'delivery') {
+      this.address.recipient_name = this.customer.nombre;
+    }
+
+    if (!isValid || !this.shippingValid || this.cartService.isEmpty()) {
       return;
+    }
+
+    if (this.shippingMethod() === 'delivery') {
+      this.shippingService.setAddress({ ...this.address });
     }
 
     this.paymentLoading = true;
     const c = this.customer;
 
     try {
+      if (this.sameAsBuyer() && this.shippingMethod() === 'delivery') {
+        this.address.recipient_name = this.customer.nombre;
+      }
+
       await this.mercadoPagoService.startCheckout({
         items: this.cartService.cartItems().map(item => ({
           variant_id: item.variantId,
@@ -273,6 +447,10 @@ export class CheckoutComponent implements OnInit {
           cuit: c.cuit,
           codigoArea: c.codigoArea,
           celular: c.celular
+        },
+        shipping: {
+          method: this.shippingMethod()!,
+          ...(this.shippingMethod() === 'delivery' ? { address: { ...this.address } } : {})
         }
       });
     } catch (error) {
@@ -282,6 +460,22 @@ export class CheckoutComponent implements OnInit {
       this.paymentLoading = false;
     }
   }
+
+  selectShippingMethod(method: ShippingMethod): void {
+    this.shippingMethod.set(method);
+    this.shippingService.setMethod(method);
+  }
+
+  get shippingValid(): boolean {
+    if (this.shippingMethod() === 'pickup') return true;
+    if (this.shippingMethod() === 'delivery') {
+      const a = this.address;
+      return !!(a.recipient_name && a.postal_code && a.street && a.street_number && a.province && a.locality);
+    }
+    return false;
+  }
+
+
 
   fmtNumber(n: number) {
     return new Intl.NumberFormat('es-AR', {

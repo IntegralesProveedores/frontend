@@ -34,7 +34,6 @@
 							</h4>
 						</a>
                         <p class="x-small text-success mb-0 fw-semibold">{{ item.price_ars | currencyArs }}</p>
-                        <p class="x-small price-usd mb-0">USD {{ item.price_usd | number:'1.2-2' }}</p>
                         <p class="x-small text-muted mb-0">Pack x{{ item.units_per_pack }} u.</p>
                       </div>
                     </div>
@@ -50,7 +49,6 @@
                       </div>
                       <div class="item-total text-end">
                         <div class="fw-bold item-name">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
-                        <div class="x-small price-usd">USD {{ ((item.price_usd || 0) * (item.quantity || 0)) | number:'1.2-2' }}</div>
 						<div class="x-small text-muted">{{ ((item.units_per_pack || 0) * item.quantity) | number:'1.0-0' }} u.</div>
 
 
@@ -73,37 +71,27 @@
         <!-- Order Summary -->
         <div class="col-lg-4">
           <div class="order-summary-box p-4">
-            <h3 class="h5 mb-4 fw-bold summary-title">Resumen del Pedido</h3>
-            
-            <div class="summary-row d-flex justify-content-between mb-3 small summary-label">
-              <span>Subtotal USD</span>
-              <span class="summary-value">USD {{ totalUsd() | number:'1.2-2' }}</span>
-            </div>
-
-            <div class="summary-row d-flex justify-content-between mb-3 small summary-label border-bottom pb-3">
-              <span>USD BNA Venta</span>
-              <span class="summary-value">${{ dolarOficial() | number:'1.2-2' }}</span>
-            </div>
-
-            <div class="summary-row d-flex justify-content-between align-items-start pt-3 mt-2">
-              <span class="fw-bold h5 mb-0 summary-title">TOTAL</span>
+            <div class="summary-row d-flex justify-content-between align-items-start">
+              <span class="fw-bold h5 mb-0 summary-title">SUBTOTAL</span>
               <div class="text-end">
                 <div class="h3 mb-1 fw-bold total-main">{{ subtotalArs() | currencyArs }}</div>
-                <div class="h6 mb-1 fw-bold total-secondary">USD {{ totalUsd() | number:'1.2-2' }}</div>
                 <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
               </div>
             </div>
 
-            <div class="summary-actions mt-2">
+            <div class="summary-actions mt-4">
 
-              <button (click)="goToCheckout()" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3">
-					PAGAR &nbsp; 
-                    <i class="bi bi-credit-card-2-back"></i>
-              </button>
-			  
-              <a routerLink="/productos" class="btn btn-pill-outline btn-pill-outline--accent py-3 w-100">
-                &larr; TIENDA &nbsp; <i class="bi bi-shop"></i>
+              <a routerLink="/finalizar-compra" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3">
+				INICIAR COMPRA &nbsp; 
+                <i class="bi bi-credit-card-2-back"></i>
               </a>
+			  <p class="x-small text-muted text-center">
+				  <a routerLink="/productos" class="link-danger text-decoration-none">
+					&larr; VER MAS PRODUCTOS &nbsp; <i class="bi bi-shop"></i>
+				  </a>
+			  </p>
+
+
 
             </div>
           </div>

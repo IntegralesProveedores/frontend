@@ -30,8 +30,8 @@ export const routes: Routes = [
   {
     path: 'finalizar-compra',
     canActivate: [cartNotEmptyGuard],
-    loadComponent: () =>
-      import('./features/checkout/checkout.component').then(m => m.CheckoutComponent)
+	loadComponent: () =>
+       import('./features/checkout/checkout.component').then(m => m.CheckoutComponent)
   },
   {
     path: 'orden/exito',

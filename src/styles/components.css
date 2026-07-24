@@ -243,11 +243,9 @@
   color: #130559;
   cursor: pointer;
 }
-
 .btn-mercado-libre img {
 	width: 150px;
 }
-
 .btn-mercado-libre:hover,
 .btn-mercado-libre:focus {
   background: #ffe700;

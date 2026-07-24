@@ -52,14 +52,9 @@
 					</div>
 					
 					<!-- Columna derecha: Precio -->
-					<div class="product-price text-start">
+					<div class="product-price text-end">
 						<div class="h2 mb-1 text-primary fw-bold">
 							{{ currentPricing().finalPriceArs | currencyArs }}
-						</div>
-						<div class="mb-1">
-							<span class="text-secondary fw-semibold">
-							USD {{ currentPricing().finalPriceUsd | number:'1.2-2' }}
-							</span>
 						</div>
 						<div class="iva-legend text-muted mb-2" style="font-size: 0.8rem;">
 							{{ pricingConfigService.vatLabel() }}
@@ -99,7 +94,7 @@
 								</label>
 								@if (selectedVariant()) {
 								<span class="x-small text-muted">
-								Stock: {{ selectedVariant()?.stock }}
+									Stock: {{ selectedVariant()?.stock }}
 								</span>
 								}
 							</div>
@@ -121,28 +116,27 @@
 									+
 									</button>
 								</div>
+								
 								<button
-								class="btn-pill-outline btn-pill-outline--accent btn-action"
-								(click)="addToCart()"
-								[disabled]="!inStock">
-								{{ added() ? 'Agregado' : (inStock ? 'AGREGAR' : 'Sin Stock') }}
+									class="btn-pill-outline btn-pill-outline--accent btn-action"
+									(click)="addToCart()"
+									[disabled]="!inStock">
+									{{ added() ? 'Producto agregado' : (inStock ? 'AGREGAR AL CARRITO' : 'Sin Stock') }} &nbsp; <i class="bi bi-basket"></i>
 								</button>
-								@if (hasCurrentProductInCart()) {
-								<a
-																routerLink="/carrito"
-									class="btn-pill-outline btn-pill-outline--secondary btn-action btn-action-secondary">
 								
-								COMPRAR &nbsp; <i class="bi bi-credit-card-2-back"></i>
-								
-								</a>
-								}
 							</div>
 						</div>
+						
 						<!-- CTA -->
 						<div class="actions-wrapper">
-							<p class="x-small text-center text-muted italic">
-								Factura A/C. Envíos gratis en C.A.B.A.
+							@if (hasCurrentProductInCart()) {							
+							<p class="x-small text-muted">
+								Producto agregado al carrito. 
+								<a routerLink="/carrito" class="link-danger text-decoration-none">
+									VER CARRITO &nbsp; <i class="bi bi-basket"></i>
+								</a>
 							</p>
+							}
 						</div>
 					</div>
 				</div>

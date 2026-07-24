@@ -1,4 +1,4 @@
-import { OrderItem } from './order.model';
+import { OrderItem, ShippingPayload } from './order.model';
 
 export interface MercadoPagoCustomer {
   nombre: string;
@@ -11,6 +11,7 @@ export interface MercadoPagoCustomer {
 export interface CreatePaymentRequest {
   items: OrderItem[];
   customer: MercadoPagoCustomer;
+  shipping: ShippingPayload;
 }
 
 export interface CreatePaymentResponse {

@@ -1,13 +1,21 @@
 export interface ShippingAddress {
   recipient_name: string;
+  postal_code: string;
+  province: string;
+  locality: string;
+  county: string;
   street: string;
   street_number: string;
-  floor?: string;
-  apartment?: string;
-  city: string;
-  province: string;
-  postal_code: string;
+  floor: string;
+  apartment: string;
   country: string;
+}
+
+export type ShippingMethod = 'pickup' | 'delivery';
+
+export interface ShippingPayload {
+  method: ShippingMethod;
+  address?: ShippingAddress;
 }
 
 export interface ShippingOption {
@@ -26,8 +34,7 @@ export interface OrderItem {
 export interface CreateOrderPayload {
   email: string;
   items: OrderItem[];
-  address: ShippingAddress;
-  shipping_amount: number;
+  shipping: ShippingPayload;
 }
 
 export interface OrderStatus {
@@ -43,4 +50,30 @@ export interface OrderStatus {
   created_at: string;
 }
 
+export interface ShippingSelection {
+  method: ShippingMethod | null;
+  address: ShippingAddress | null;
+}
 
+/** Orden completa preparada para el detalle de /orden/:id. */
+export interface OrderDetail {
+  order: OrderStatus;
+  items: Array<OrderItem & {
+    id?: string;
+    product_name?: string;
+    sku?: string;
+    unit_price?: number;
+    subtotal?: number;
+  }>;
+  customer: {
+    nombre: string;
+    email: string;
+    cuit: string | null;
+    codigoArea: string | null;
+    celular: string | null;
+  } | null;
+  shipping: {
+    method: ShippingMethod;
+    address: ShippingAddress | null;
+  };
+}
