@@ -12,9 +12,6 @@ import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { ShippingService } from '../../core/services/shipping.service';
 import { ShippingAddress, ShippingMethod } from '../../core/models/order.model';
 
-
-
-
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
@@ -73,9 +70,6 @@ export class CheckoutComponent implements OnInit {
     street: '', street_number: '', floor: '', apartment: '', country: 'Argentina'
   };
 
-
-
-
   customer = {
     nombre: '',
     email: '',
@@ -124,7 +118,6 @@ export class CheckoutComponent implements OnInit {
     const existing = this.shippingService.current();
     if (existing.method) this.shippingMethod.set(existing.method);
     if (existing.address) this.address = { ...existing.address };
-  
   
   }
 
@@ -252,9 +245,6 @@ private generarSeccionPagoTransferencia(): string {
   `;
 }
 
-// TODO: unificar este template con el del backend (payment.service.ts) en un
-// paquete compartido cuando se pueda — hoy corren en runtimes distintos
-// (browser vs Cloudflare Worker) y se duplica el HTML a propósito.
 private generarHTMLCorreo(order: ValidatedOrder): string {
   const c = this.customer;
 
@@ -267,21 +257,21 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
       <p><strong>Teléfono:</strong> (${this.escapeHtml(c.codigoArea)}) ${this.escapeHtml(c.celular)}</p>
       <p><strong>Email:</strong> ${this.escapeHtml(c.email)}</p>
 
-      <table width="100%" style="border-collapse: collapse; margin-top: 20px; font-size: 10px;">
-        <thead>
-          <tr style="background-color: #f8f9fa;">
-            <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Producto</th>
-            <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Unidad</th>
-            <th style="border: 1px solid #ddd; padding: 10px; text-align: center;">Cant.</th>
-            <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
+<table width="100%" style="border-collapse: collapse; margin-top: 20px; font-size: 10px;">
+      <thead>
+        <tr style="background-color: #f8f9fa;">
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Producto</th>
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Unidad</th>
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: center;">Cant.</th>
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
   `;
 
   order.items.forEach(item => {
-    const priceUsd = item.price_usd || 0;
-    const subtotalItemUsd = item.subtotal_usd || (priceUsd * item.quantity);
+    const priceArs = item.price_ars || 0;
+    const subtotalItemArs = item.subtotal_ars || (priceArs * item.quantity);
     const unitsPerPack = item.units_per_pack || 1;
 
     html += `
@@ -291,9 +281,9 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
           <span style="font-size: 0.7em; color: #666;">PackX${unitsPerPack}u.</span><br>
           <span style="font-size: 0.7em; color: #888;">SKU: ${this.escapeHtml(item.sku)}</span>
         </td>
-        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">USD$${priceUsd.toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">$${this.fmtNumber(priceArs)}</td>
         <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">${item.quantity}</td>
-        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">USD$${subtotalItemUsd.toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">$${this.fmtNumber(subtotalItemArs)}</td>
       </tr>
     `;
   });
@@ -309,15 +299,8 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
   html += `
       <div style="margin-top: 30px; text-align: right; border-top: 2px solid #eee; padding-top: 15px;">
         <div style="margin-bottom: 5px;">
-          <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL USD</span>
-          <span style="font-size: 22px; color: #28a745; font-weight: bold; margin-left: 10px;">USD $${order.total_usd.toFixed(2)}</span>
-        </div>
-        <div style="margin-bottom: 5px;">
-          <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL ARS</span>
-          <span style="font-size: 18px; color: #2b5e2b; font-weight: bold; margin-left: 10px;">$${this.fmtNumber(order.total_ars)}</span>
-        </div>
-        <div style="margin-bottom: 5px; color: #888; font-size: 13px;">
-          Cotización aplicada: $${this.fmtNumber(order.exchange_rate)} ARS
+          <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL</span>
+          <span style="font-size: 22px; color: #2b5e2b; font-weight: bold; margin-left: 10px;">$${this.fmtNumber(order.total_ars)}</span>
         </div>
         <div style="color: #999; font-size: 11px; font-style: italic;">
           ${this.pricingConfigService.vatLabel()}
