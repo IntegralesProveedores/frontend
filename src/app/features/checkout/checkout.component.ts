@@ -1,8 +1,9 @@
-import { Component, inject, effect, OnInit, signal } from '@angular/core';
+import { Component, inject, effect, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subject, forkJoin, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, finalize, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
 import { ProductsService } from '../../core/services/products.service';
@@ -11,6 +12,7 @@ import { PricingConfigService } from '../../core/services/pricing-config.service
 import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { ShippingService } from '../../core/services/shipping.service';
 import { ShippingAddress, ShippingMethod } from '../../core/models/order.model';
+import { PostalCodeService, PostalCodeLookup } from '../../core/services/postal-code.service';
 
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
@@ -51,6 +53,7 @@ export class CheckoutComponent implements OnInit {
   public readonly session = inject(SessionContextService);
   public readonly pricingConfigService = inject(PricingConfigService);
   private readonly mercadoPagoService = inject(MercadoPagoService);
+  private readonly postalCodeService = inject(PostalCodeService);
   public readonly shippingService = inject(ShippingService);
 
 
@@ -64,6 +67,17 @@ export class CheckoutComponent implements OnInit {
   shippingMethod = signal<ShippingMethod | null>('delivery');
   sameAsBuyer = signal(true);
   shippingFormSubmitted = false;
+  loadingPostalCode = signal(false);
+  shippingQuote = signal<{ zone: string | null, price_ars: number | null } | null>(null);
+  postalCodeNotFound = signal(false);
+  private readonly postalCodeSubject = new Subject<string>();
+
+  readonly shippingCost = computed(() => this.shippingMethod() === 'delivery'
+    ? (this.shippingQuote()?.price_ars ?? null)
+    : 0);
+
+  // TODO: sumar shipping_amount al total real de la orden en el backend (fase pendiente).
+  readonly totalConEnvio = computed(() => this.cartService.subtotalArs() + (this.shippingCost() ?? 0));
 
   address: ShippingAddress = {
     recipient_name: '', postal_code: '', province: '', locality: '', county: '',
@@ -107,6 +121,57 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.postalCodeSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      switchMap(cp => {
+        if (!/^\d{4}$/.test(cp)) {
+          this.loadingPostalCode.set(false);
+          this.postalCodeNotFound.set(false);
+          this.shippingQuote.set(null);
+          return of(null);
+        }
+
+        this.loadingPostalCode.set(true);
+        this.postalCodeNotFound.set(false);
+
+        return forkJoin({
+          lookup: this.postalCodeService.lookup(cp).pipe(
+            catchError(error => {
+              if (error.status === 404) return of(null as PostalCodeLookup | null);
+              throw error;
+            })
+          ),
+          quote: this.postalCodeService.quote(cp).pipe(
+            catchError(() => of({ postal_code: cp, zone: null, price_ars: null }))
+          )
+        }).pipe(finalize(() => this.loadingPostalCode.set(false)));
+      })
+    ).subscribe({
+      next: result => {
+        if (!result) return;
+        if (!result.lookup) {
+          this.address.province = '';
+          this.address.locality = '';
+          this.address.county = '';
+          this.postalCodeNotFound.set(true);
+          this.shippingQuote.set(null);
+          return;
+        }
+
+        this.address.province = result.lookup.province;
+        this.address.locality = result.lookup.locality;
+        this.address.county = result.lookup.county ?? '';
+        this.address.country = result.lookup.country;
+        this.postalCodeNotFound.set(false);
+        this.shippingQuote.set({ zone: result.quote.zone, price_ars: result.quote.price_ars });
+      },
+      error: error => {
+        console.error('Error al consultar código postal:', error);
+        this.shippingQuote.set(null);
+      }
+    });
+
     this.productsService.getProducts().subscribe({
       error: error => console.error('Error al cargar otros productos:', error)
     });
@@ -118,7 +183,14 @@ export class CheckoutComponent implements OnInit {
     const existing = this.shippingService.current();
     if (existing.method) this.shippingMethod.set(existing.method);
     if (existing.address) this.address = { ...existing.address };
+    if (this.address.postal_code) this.postalCodeSubject.next(this.address.postal_code);
   
+  }
+
+  onPostalCodeChange(postalCode: string): void {
+    const normalized = postalCode.replace(/\D/g, '').slice(0, 4);
+    if (normalized !== postalCode) this.address.postal_code = normalized;
+    this.postalCodeSubject.next(normalized);
   }
 
   onCuitInput(event: any): void {

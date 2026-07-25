@@ -134,10 +134,16 @@
         </label>
       </div>
       <div class="col-md-4">
-        <input name="postal_code" [(ngModel)]="address.postal_code" class="form-control-minimal" required placeholder="Código Postal">
+        <input name="postal_code" [(ngModel)]="address.postal_code" (ngModelChange)="onPostalCodeChange($event)" class="form-control-minimal" required maxlength="4" inputmode="numeric" placeholder="Código Postal">
+        @if (loadingPostalCode()) {
+          <div class="x-small text-muted">Buscando código postal...</div>
+        }
+        @if (postalCodeNotFound()) {
+          <div class="text-danger x-small">Código postal no encontrado.</div>
+        }
       </div>
       <div class="col-md-8">
-        <input name="province" [(ngModel)]="address.province" class="form-control-minimal" required placeholder="Provincia">
+        <input name="province" [(ngModel)]="address.province" class="form-control-minimal" required readonly placeholder="Provincia">
       </div>
 	  
 <div class="col-md-6">
@@ -259,11 +265,21 @@
 
           <div class="summary-details">
 
-            
+            <div class="d-flex justify-content-between align-items-center py-2 border-top mt-2">
+              <span class="summary-label">Envío</span>
+              @if ((shippingCost() ?? 0) > 0) {
+                <span>{{ shippingCost() | currencyArs }}</span>
+              } @else if (shippingMethod() === 'pickup') {
+                <span>Gratis / Retiro</span>
+              } @else {
+                <span>A coordinar</span>
+              }
+            </div>
+
             <div class="total-row d-flex justify-content-between align-items-start pt-3 border-top mt-2">
               <span class="fw-bold h5 mb-0 item-name">TOTAL</span>
               <div class="text-end">
-                <div class="h3 mb-1 fw-bold total-main">{{ cartService.subtotalArs() | currencyArs }}</div>
+                <div class="h3 mb-1 fw-bold total-main">{{ totalConEnvio() | currencyArs }}</div>
                 <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
               </div>
             </div>
