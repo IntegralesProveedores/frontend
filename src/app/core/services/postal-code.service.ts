@@ -24,7 +24,10 @@ export class PostalCodeService {
     return this.api.get<PostalCodeLookup>(`/postal-code/${cp}`);
   }
 
-  quote(cp: string): Observable<ShippingQuote> {
-    return this.api.get<ShippingQuote>('/shipping/quote', { postal_code: cp });
+  quote(cp: string, quantity: number): Observable<ShippingQuote> {
+    return this.api.get<ShippingQuote>('/shipping/quote', {
+      postal_code: cp,
+      quantity: String(quantity)
+    });
   }
 }

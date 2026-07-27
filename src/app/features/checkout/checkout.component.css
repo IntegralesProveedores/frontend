@@ -63,6 +63,7 @@
 
 .validation-container {
   min-height: 1.25rem;
+  min-height: auto;
   margin-bottom: .5rem;
 }
 
@@ -73,7 +74,7 @@
 
 .shipping-options-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 
@@ -83,7 +84,8 @@
 }
 
 .shipping-option {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 1rem;
   text-align: left;
@@ -113,6 +115,10 @@
   color: var(--color-text-secondary);
 }
 
+.shipping-option > p {
+  grid-column: 2;
+}
+
 .shipping-option.active {
   border-color: var(--color-primary);
   background-color: var(--color-surface);
@@ -122,6 +128,14 @@
   .order-summary-box {
     position: static;
     margin-top: 2rem;
+  }
+
+  
+  .shipping-options-row {
+    /*grid-template-columns: 1fr;*/
+  }  
+  .shipping-option {
+    padding: 10px 5px;
   }
 }
 

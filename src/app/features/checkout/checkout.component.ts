@@ -1,9 +1,10 @@
 import { Component, inject, effect, OnInit, signal, computed } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { firstValueFrom, Subject, forkJoin, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, finalize, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, finalize, skip, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
 import { ProductsService } from '../../core/services/products.service';
@@ -32,6 +33,7 @@ type ValidatedOrder = {
     subtotal_ars: number;
   }>;
   total_ars: number;
+  shipping_ars: number;
   total_usd: number;
   exchange_rate: number;
   order_ref: string;
@@ -65,12 +67,16 @@ export class CheckoutComponent implements OnInit {
   formSubmitted = false;
   shipping = this.shippingService.current; 
   shippingMethod = signal<ShippingMethod | null>('delivery');
-  sameAsBuyer = signal(true);
   shippingFormSubmitted = false;
   loadingPostalCode = signal(false);
   shippingQuote = signal<{ zone: string | null, price_ars: number | null } | null>(null);
   postalCodeNotFound = signal(false);
   private readonly postalCodeSubject = new Subject<string>();
+  readonly totalUnits = computed(() => this.cartService.cartItems().reduce(
+    (sum, item) => sum + item.quantity * (item.units_per_pack || 1),
+    0
+  ));
+  private readonly totalUnits$ = toObservable(this.totalUnits);
 
   readonly shippingCost = computed(() => this.shippingMethod() === 'delivery'
     ? (this.shippingQuote()?.price_ars ?? null)
@@ -108,16 +114,20 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  toggleSameAsBuyer(): void {
-    const sameAsBuyer = !this.sameAsBuyer();
-    this.sameAsBuyer.set(sameAsBuyer);
-    this.address.recipient_name = sameAsBuyer ? this.customer.nombre : '';
+  get addressFieldsVisible(): boolean {
+    return /^\d{4}$/.test(this.address.postal_code)
+      && !this.loadingPostalCode()
+      && !this.postalCodeNotFound()
+      && !!this.address.province.trim();
   }
 
-  onBuyerNameChange(name: string): void {
-    if (this.sameAsBuyer()) {
-      this.address.recipient_name = name;
-    }
+  get isCabaProvince(): boolean {
+    const province = this.address.province.trim().toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return province === 'ciudad autonoma de buenos aires' || province === 'caba';
+  }
+
+  private getTotalUnits(): number {
+    return this.totalUnits();
   }
 
   ngOnInit(): void {
@@ -142,7 +152,7 @@ export class CheckoutComponent implements OnInit {
               throw error;
             })
           ),
-          quote: this.postalCodeService.quote(cp).pipe(
+          quote: this.postalCodeService.quote(cp, this.getTotalUnits()).pipe(
             catchError(() => of({ postal_code: cp, zone: null, price_ars: null }))
           )
         }).pipe(finalize(() => this.loadingPostalCode.set(false)));
@@ -172,6 +182,20 @@ export class CheckoutComponent implements OnInit {
       }
     });
 
+    this.totalUnits$.pipe(
+      skip(1),
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(units => {
+      const cp = this.address.postal_code;
+      if (!/^\d{4}$/.test(cp) || this.postalCodeNotFound() || units <= 0) return;
+
+      this.postalCodeService.quote(cp, units).subscribe({
+        next: quote => this.shippingQuote.set({ zone: quote.zone, price_ars: quote.price_ars }),
+        error: () => this.shippingQuote.set(null)
+      });
+    });
+
     this.productsService.getProducts().subscribe({
       error: error => console.error('Error al cargar otros productos:', error)
     });
@@ -191,6 +215,14 @@ export class CheckoutComponent implements OnInit {
     const normalized = postalCode.replace(/\D/g, '').slice(0, 4);
     if (normalized !== postalCode) this.address.postal_code = normalized;
     this.postalCodeSubject.next(normalized);
+  }
+
+  filterNumericInput(event: Event, field: 'codigoArea' | 'celular'): void {
+    const input = event.target as HTMLInputElement;
+    const maxLength = field === 'codigoArea' ? 4 : 8;
+    const value = input.value.replace(/\D/g, '').slice(0, maxLength);
+    if (input.value !== value) input.value = value;
+    this.customer[field] = value;
   }
 
   onCuitInput(event: any): void {
@@ -224,6 +256,23 @@ export class CheckoutComponent implements OnInit {
   }
 
 private generarSeccionEnvio(): string {
+  if (this.shippingMethod() === 'coordinar') {
+    return `
+      <div style="margin-top: 25px; padding: 18px; background-color: #f0f7ff; border-radius: 6px; border-left: 4px solid #2b5e2b;">
+        <p style="margin: 0 0 10px; color: #2b5e2b; font-weight: bold; font-size: 15px;">💬 Coordinemos tu envío</p>
+        <p style="margin: 0 0 10px; font-size: 13px; color: #444; line-height: 1.5;">
+          Escribinos por WhatsApp al <strong>+54 9 11 3022-6565</strong> para coordinar
+          el método de envío (transporte, micro o expreso), el costo y los tiempos según tu localidad.
+        </p>
+        <p style="margin: 0 0 10px; font-size: 13px; color: #444;">El costo de envío se coordina por WhatsApp según transporte y destino.</p>
+        <p style="margin: 0; font-size: 12px; color: #777;">
+          Te respondemos de lunes a jueves de 10 a 14 hs. Los mensajes fuera de ese horario
+          se responden el día hábil siguiente dentro del horario indicado.
+        </p>
+      </div>
+    `;
+  }
+
   if (this.shippingMethod() === 'pickup') {
     return `
       <div style="margin-top: 25px; padding: 18px; background-color: #f0f7ff; border-radius: 6px; border-left: 4px solid #2b5e2b;">
@@ -274,6 +323,10 @@ private generarSeccionEnvio(): string {
         <tr>
           <td style="padding: 4px 0; color: #666;">Código Postal:</td>
           <td style="padding: 4px 0; color: #333;">${this.escapeHtml(a.postal_code)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0; color: #666;">Costo de envío:</td>
+          <td style="padding: 4px 0; color: #333;">$${this.fmtNumber(this.shippingCost() ?? 0)}</td>
         </tr>
       </table>
     </div>
@@ -370,6 +423,11 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
 
   html += `
       <div style="margin-top: 30px; text-align: right; border-top: 2px solid #eee; padding-top: 15px;">
+        ${order.shipping_ars > 0 ? `
+        <div style="margin-bottom: 5px;">
+          <span style="font-size: 14px; color: #666;">Envío</span>
+          <span style="font-size: 14px; color: #666; margin-left: 10px;">$${this.fmtNumber(order.shipping_ars)}</span>
+        </div>` : ''}
         <div style="margin-bottom: 5px;">
           <span style="font-size: 14px; color: #666; font-weight: bold;">TOTAL</span>
           <span style="font-size: 22px; color: #2b5e2b; font-weight: bold; margin-left: 10px;">$${this.fmtNumber(order.total_ars)}</span>
@@ -394,7 +452,7 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
     this.formSubmitted = true;
 	this.shippingFormSubmitted = true;
 
-    if (this.sameAsBuyer() && this.shippingMethod() === 'delivery') {
+    if (this.shippingMethod() === 'delivery') {
       this.address.recipient_name = this.customer.nombre;
     }
 
@@ -411,7 +469,7 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
     const cartItems = this.cartService.cartItems();
 
     try {
-      if (this.sameAsBuyer() && this.shippingMethod() === 'delivery') {
+      if (this.shippingMethod() === 'delivery') {
         this.address.recipient_name = this.customer.nombre;
       }
 
@@ -471,7 +529,7 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
     this.formSubmitted = true;
 	this.shippingFormSubmitted = true;
 
-    if (this.sameAsBuyer() && this.shippingMethod() === 'delivery') {
+    if (this.shippingMethod() === 'delivery') {
       this.address.recipient_name = this.customer.nombre;
     }
 
@@ -487,7 +545,7 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
     const c = this.customer;
 
     try {
-      if (this.sameAsBuyer() && this.shippingMethod() === 'delivery') {
+      if (this.shippingMethod() === 'delivery') {
         this.address.recipient_name = this.customer.nombre;
       }
 
@@ -522,10 +580,16 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
   }
 
   get shippingValid(): boolean {
-    if (this.shippingMethod() === 'pickup') return true;
+    if (this.shippingMethod() === 'pickup' || this.shippingMethod() === 'coordinar') return true;
     if (this.shippingMethod() === 'delivery') {
       const a = this.address;
-      return !!(a.recipient_name && a.postal_code && a.street && a.street_number && a.province && a.locality);
+      return !!(
+        a.recipient_name &&
+        this.addressFieldsVisible &&
+        a.street &&
+        a.street_number &&
+        (this.isCabaProvince || a.locality)
+      );
     }
     return false;
   }

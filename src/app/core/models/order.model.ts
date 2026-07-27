@@ -11,7 +11,7 @@ export interface ShippingAddress {
   country: string;
 }
 
-export type ShippingMethod = 'pickup' | 'delivery';
+export type ShippingMethod = 'pickup' | 'delivery' | 'coordinar';
 
 export interface ShippingPayload {
   method: ShippingMethod;

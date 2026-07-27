@@ -14,7 +14,7 @@ export class ShippingService {
 
   readonly isValid = computed(() => {
     const s = this.selection();
-    if (s.method === 'pickup') return true;
+    if (s.method === 'pickup' || s.method === 'coordinar') return true;
     if (s.method === 'delivery') {
       const a = s.address;
       return !!(a?.postal_code && a?.street && a?.street_number && a?.province && a?.locality);
@@ -27,7 +27,7 @@ export class ShippingService {
   }
 
   setMethod(method: ShippingMethod): void {
-    this.selection.update(s => ({ ...s, method, address: method === 'pickup' ? null : s.address }));
+    this.selection.update(s => ({ ...s, method, address: method === 'pickup' || method === 'coordinar' ? null : s.address }));
     this.saveToStorage();
   }
 
