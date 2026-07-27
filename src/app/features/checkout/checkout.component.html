@@ -165,7 +165,7 @@
               @if (shippingMethod() === 'delivery') {
               <div>
 				  <span class="summary-label text-danger">
-					El envío demora 2 a 5 días: 
+					El envío demora 2 a 5 días hábiles.  
 					@if ((shippingCost() ?? 0) > 0) {
                     <span>{{ shippingCost() | currencyArs }}</span>
                     }
