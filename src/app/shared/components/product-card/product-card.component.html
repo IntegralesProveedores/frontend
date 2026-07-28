@@ -9,22 +9,16 @@
   </div>
   
   <div class="product-info">
-    <h3 class="price-main fw-light text-uppercase">{{ product.name }}</h3>
+    <div class="text-small">
+	    @if (product.volume_cc) { {{ product.volume_cc }} cm³ }
+    </div>
+	<h3 class="price-main fw-light text-uppercase">{{ product.name }}</h3>
     
     <div class="product-prices">
-      <!--
-	  <div class="price-main fw-bold">USD ${{ variant?.price_usd | number:'1.2-2' }}</div>
-      <div class="price-details d-flex gap-2 mt-1">
-		<span class="price-usd small text-secondary">
-		  {{ (variant?.price_ars || 0) | currencyArs }}
-        </span>
-      </div>
-	  -->
 	  <div class="text-muted mt-1">
-	    @if (product.diameter_cm) { {{ product.diameter_cm }} × }{{ product.height_cm }}cm (h) <br />
-	    @if (product.volume_cc) { {{ product.volume_cc }} cm³ }
+	    @if (product.diameter_cm) { {{ product.diameter_cm }} × }{{ product.height_cm }} cm. <br />
 	  </div>
-	  <div class="text-muted mt-1 italic" style="font-size: 0.7rem;"><!--{{ variant?.units_per_pack }}u. | -->{{ pricingConfigService.vatLabel() }}</div>
+	  <div class="text-muted mt-1 italic" style="font-size: 0.7rem;">{{ pricingConfigService.vatLabel() }}</div>
     </div>
   </div>
 

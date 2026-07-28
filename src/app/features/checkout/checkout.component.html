@@ -91,8 +91,7 @@
     
     <button 
 		type="button" 
-		class="shipping-option"
-        style="background: #FFCE00;"
+		class="shipping-option shipping-option-correo"
 		[class.active]="shippingMethod() === 'delivery'"
         (click)="selectShippingMethod('delivery')">
       
@@ -152,7 +151,7 @@
       <div class="col-4 col-md-4">
         <input name="postal_code" [(ngModel)]="address.postal_code" (ngModelChange)="onPostalCodeChange($event)" class="form-control-minimal" required maxlength="4" inputmode="numeric" placeholder="Código Postal">
         @if (loadingPostalCode()) {
-          <div class="x-small text-muted">Buscando código postal...</div>
+          <div class="x-small text-muted">Buscando...</div>
         }
         @if (postalCodeNotFound()) {
           <div class="text-danger x-small">Código postal no encontrado.</div>
@@ -204,7 +203,7 @@
         <input name="floor" [(ngModel)]="address.floor" class="form-control-minimal" placeholder="Piso (opcional)">
       </div>
       <div class="col-6 col-md-6">
-        <input name="apartment" [(ngModel)]="address.apartment" class="form-control-minimal" placeholder="Depto (opcional)">
+        <input name="apartment" [(ngModel)]="address.apartment" class="form-control-minimal" placeholder="Dpto. (opcional)">
       </div>
       }
 
@@ -288,7 +287,7 @@
                   <div class="d-flex justify-content-between align-items-start">
                     <span class="x-small summary-label">Pack x{{ item.units_per_pack }} u.<br />Cant: {{ item.quantity }}</span>
                     <div class="text-end">
-                      <div class="x-small text-success fw-bold">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
+                      <div class="text-success fw-bold">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
                     </div>
                   </div>
                 </div>

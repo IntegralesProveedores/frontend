@@ -124,6 +124,10 @@
   background-color: var(--color-surface);
 }
 
+.shipping-option.shipping-option-correo.active {
+  background-color: #FFCE00;
+}
+
 @media (max-width: 1000px) {
   .order-summary-box {
     position: static;

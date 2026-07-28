@@ -336,7 +336,7 @@ private generarSeccionEnvio(): string {
 private generarSeccionPagoTransferencia(): string {
   return `
     <div style="margin-top: 25px;">
-      <h3 style="color: #2b5e2b; font-size: 15px; margin-bottom: 10px;">Forma de pago — Transferencia bancaria</h3>
+      <h3 style="color: #2b5e2b; font-size: 15px; margin-bottom: 10px;">Forma de pago — Transferencia</h3>
       <table width="100%" style="border-collapse: collapse; font-size: 13px; margin-bottom: 12px;">
         <tr>
           <td style="padding: 10px; background-color: #f8f9fa; border: 1px solid #eee;" colspan="2">
@@ -351,7 +351,7 @@ private generarSeccionPagoTransferencia(): string {
       <table width="100%" style="border-collapse: collapse; font-size: 13px;">
         <tr>
           <td style="padding: 10px; background-color: #f8f9fa; border: 1px solid #eee;" colspan="2">
-            <strong style="color: #2b5e2b;">BBVA</strong>
+            <strong style="color: #2b5e2b;">BANCO NACION</strong>
           </td>
         </tr>
         <tr><td style="padding: 4px 10px; color: #666;">Alias:</td><td style="padding: 4px 10px;">farinagerman.bna</td></tr>
