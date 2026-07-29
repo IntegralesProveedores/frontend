@@ -17,7 +17,7 @@
 			 #nombre="ngModel"
 			 [disabled]="session.isAuthenticated()"
 			 [class.is-invalid]="nombre.invalid && (nombre.touched || formSubmitted)"
-			 placeholder="Nombre y Apellido">
+			 placeholder="Nombre y Apellido (*)">
 	  <div class="validation-container">
 		@if (nombre.invalid && (nombre.touched || formSubmitted)) {
 		  <div class="text-danger x-small">
@@ -35,7 +35,7 @@
 			   #email="ngModel"
 			   [disabled]="session.isAuthenticated()"
 			   [class.is-invalid]="email.invalid && (email.touched || formSubmitted)"
-			   placeholder="Email">
+			   placeholder="Email (*)">
 		<div class="validation-container">
 		  @if (email.invalid && (email.touched || formSubmitted)) {
 			<div class="text-danger x-small">
@@ -55,7 +55,7 @@
 			   #codigoArea="ngModel"
 			   [disabled]="session.isAuthenticated()"
 			   [class.is-invalid]="codigoArea.invalid && (codigoArea.touched || formSubmitted)"
-			   placeholder="Cód. Área">
+			   placeholder="Área (*)">
 		<div class="validation-container">
 		  @if (codigoArea.invalid && (codigoArea.touched || formSubmitted)) {
 			<div class="text-danger x-small">
@@ -73,7 +73,7 @@
 			   #celular="ngModel"
 			   [disabled]="session.isAuthenticated()"
 			   [class.is-invalid]="celular.invalid && (celular.touched || formSubmitted)"
-			   placeholder="Celular">
+			   placeholder="Celular (*)">
 		<div class="validation-container">
 		  @if (celular.invalid && (celular.touched || formSubmitted)) {
 			<div class="text-danger x-small">
@@ -149,22 +149,22 @@
   @if (shippingMethod() === 'delivery') {
     <div class="row g-2 mt-2 mb-2">
       <div class="col-4 col-md-4">
-        <input name="postal_code" [(ngModel)]="address.postal_code" (ngModelChange)="onPostalCodeChange($event)" class="form-control-minimal" required maxlength="4" inputmode="numeric" placeholder="Código Postal">
+        <input name="postal_code" [(ngModel)]="address.postal_code" (ngModelChange)="onPostalCodeChange($event)" class="form-control-minimal" required maxlength="4" inputmode="numeric" placeholder="Código Postal (*)">
         @if (loadingPostalCode()) {
           <div class="x-small text-muted">Buscando...</div>
         }
         @if (postalCodeNotFound()) {
-          <div class="text-danger x-small">Código postal no encontrado.</div>
+          <div class="text-danger x-small">No encontrado.</div>
         }
       </div>
       <div class="col-8 col-md-8">
-        <input name="province" [(ngModel)]="address.province" class="form-control-minimal" required readonly placeholder="Provincia">
+        <input name="province" [(ngModel)]="address.province" class="form-control-minimal" required readonly placeholder="Provincia (*)">
       </div>
 	  
               @if (shippingMethod() === 'delivery') {
               <div>
 				  <span class="summary-label text-danger">
-					El envío demora 2 a 5 días hábiles.  
+					El envío demora 3 a 7 días hábiles.  
 					@if ((shippingCost() ?? 0) > 0) {
                     <span>{{ shippingCost() | currencyArs }}</span>
                     }
@@ -194,16 +194,16 @@
 @if (addressFieldsVisible) {
   
       <div class="col-8 col-md-8">
-        <input name="street" [(ngModel)]="address.street" class="form-control-minimal" required placeholder="Calle">
+        <input name="street" [(ngModel)]="address.street" class="form-control-minimal" required placeholder="Calle (*)">
       </div>
       <div class="col-4 col-md-4">
-        <input name="street_number" [(ngModel)]="address.street_number" class="form-control-minimal" required placeholder="Número">
+        <input name="street_number" [(ngModel)]="address.street_number" class="form-control-minimal" required placeholder="Número (*)">
       </div>
       <div class="col-6 col-md-6">
-        <input name="floor" [(ngModel)]="address.floor" class="form-control-minimal" placeholder="Piso (opcional)">
+        <input name="floor" [(ngModel)]="address.floor" class="form-control-minimal" placeholder="Piso">
       </div>
       <div class="col-6 col-md-6">
-        <input name="apartment" [(ngModel)]="address.apartment" class="form-control-minimal" placeholder="Dpto. (opcional)">
+        <input name="apartment" [(ngModel)]="address.apartment" class="form-control-minimal" placeholder="Dpto.">
       </div>
       }
 
@@ -243,8 +243,9 @@
 	  <button type="submit" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3" [disabled]="loading || checkoutForm.invalid">
 		@if (!loading) {
 		  <span>
-			TRANSFERENCIA &nbsp; 
 			<i class="bi bi-credit-card-2-back"></i>
+			&nbsp; 
+			TRANSFERENCIA 
 
 		  </span>
 		} @else {
@@ -257,6 +258,7 @@
 	  
 
   </div>
+  
 </form>		  
 
 
@@ -301,17 +303,17 @@
               <div>
                 <span class="summary-label">Envío</span>
                 @if (shippingMethod() === 'delivery') {
-                  <small class="x-small text-muted d-block">Demora 2 a 5 días hábiles</small>
+                  <small class="x-small text-muted d-block">Demora 3 a 7 días hábiles</small>
                 }
               </div>
               @if ((shippingCost() ?? 0) > 0) {
                 <span>{{ shippingCost() | currencyArs }}</span>
               } @else if (shippingMethod() === 'pickup') {
-                <span>Gratis / Retiro</span>
+                <span>Retiro</span>
               } @else if (shippingMethod() === 'coordinar') {
                 <span>A coordinar</span>
               } @else {
-                <span>A coordinar</span>
+                <span>...</span>
               }
             </div>
 
