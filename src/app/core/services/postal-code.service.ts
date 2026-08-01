@@ -14,6 +14,14 @@ export interface ShippingQuote {
   postal_code: string;
   zone: string | null;
   price_ars: number | null;
+  boxes?: {
+    boxModelName: string;
+    widthCm: number;
+    lengthCm: number;
+    heightCm: number;
+    weightKg: number;
+    count: number;
+  }[];
 }
 
 @Injectable({ providedIn: 'root' })

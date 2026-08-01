@@ -251,3 +251,11 @@
   background: #ffe700;
   color: #130559;
 }
+
+
+@media (max-width: 1000px) {
+.btn-mercado-libre img {
+	width: 100px;
+}
+
+}

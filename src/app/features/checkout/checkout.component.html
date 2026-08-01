@@ -6,10 +6,10 @@
 
 		<div class="checkout-form-container"> 
 
-<form #checkoutForm="ngForm" (ngSubmit)="confirmarPedido(checkoutForm.valid)">
+<form #checkoutForm="ngForm" (ngSubmit)="pagarAhora(checkoutForm.valid)">
 
   <!-- BLOQUE 1: Datos personales -->
-	
+	<h5 class="mb-3">1. Datos Personales</h5>
 	<div class="mb-1">
 	  <input type="text" name="nombre" [(ngModel)]="customer.nombre"
 			 class="form-control-minimal" 
@@ -87,6 +87,8 @@
 	</div>
 
   <!-- BLOQUE 2: Envio -->
+  <h5 class="mt-5 mb-3">2. Método de Entrega</h5>
+  
   <div class="shipping-options-row">
     
     <button 
@@ -163,8 +165,8 @@
 	  
               @if (shippingMethod() === 'delivery') {
               <div>
-				  <span class="summary-label text-danger">
-					El envío demora 3 a 7 días hábiles.  
+				  <span class="summary-label text-danger text-small">
+					Demora 3 a 7 días hábiles.  
 					@if ((shippingCost() ?? 0) > 0) {
                     <span>{{ shippingCost() | currencyArs }}</span>
                     }
@@ -178,6 +180,7 @@
 <div class="col-6 col-md-6">
       <input
       name="locality"
+      [(ngModel)]="address.locality"
       class="form-control-minimal"
       placeholder="Localidad">
 </div>
@@ -221,44 +224,59 @@
     </div>
   }
 
+  @if (formSubmitted && !paymentMethod()) {
+    <div class="text-danger x-small mt-2">Seleccioná un método de pago para continuar.</div>
+  }
+
   <!-- BLOQUE 3: Pago -->
+  <h5 class="mt-5 mb-3">3. Método de Pago</h5>
   <div class="checkout-actions">
 
-	  
-	  <button type="button" class="btn btn-pill-outline btn-mercado-libre btn-lg py-3 w-100 mb-3" [disabled]="loading || paymentLoading || checkoutForm.invalid" (click)="iniciarPagoMercadoPago(checkoutForm.valid)">
-		  <div class="d-flex align-items-center justify-content-center">
+    <div class="payment-options-row">
+      <button
+        type="button"
+        class="btn btn-pill-outline btn-mercado-libre btn-lg py-3 payment-option active"
+        [class.active]="paymentMethod() === 'mercadopago'"
+        (click)="selectPaymentMethod('mercadopago')">
+        <span class="radio-dot" [class.checked]="paymentMethod() === 'mercadopago'"></span>
+        <img src="/assets/icon/mercado-pago-horizontal.png" alt="MERCADO PAGO" />
+      </button>
 
-			@if (paymentLoading) {
-				<span class="spinner-border spinner-border-sm me-2"></span>
-
-			}                  
-			<img src="/assets/icon/mercado-pago-horizontal.png" alt="MERCADO PAGO" />
-		  
-		  </div>
-
-
-
-	  </button>
-	  
-	  <button type="submit" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3" [disabled]="loading || checkoutForm.invalid">
-		@if (!loading) {
-		  <span>
-			<i class="bi bi-credit-card-2-back"></i>
-			&nbsp; 
-			TRANSFERENCIA 
-
-		  </span>
-		} @else {
-		  <div class="d-flex align-items-center justify-content-center">
-			<span class="spinner-border spinner-border-sm me-2"></span>
-			<span>PROCESANDO...</span>
-		  </div>
-		}
-	  </button>
-	  
+      <button
+        type="button"
+        class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 payment-option"
+        [class.active]="paymentMethod() === 'transferencia'"
+        (click)="selectPaymentMethod('transferencia')">
+        <span class="radio-dot" [class.checked]="paymentMethod() === 'transferencia'"></span>
+        <span>
+          <!--
+		  <i class="bi bi-credit-card-2-back"></i>
+          &nbsp;
+		  -->
+          TRANSFERENCIA
+        </span>
+      </button>
+    </div>
+	
+	
 
   </div>
   
+  
+  
+<h5 class="mt-5 mb-3">4. Terminar Compra</h5>
+
+    <button
+      type="submit"
+      class="btn btn-app-primary btn-lg py-3 w-100 payment-submit"
+      [disabled]="loading || paymentLoading || checkoutForm.invalid">
+      @if (loading || paymentLoading) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        <span>PROCESANDO...</span>
+      } @else {
+        <span>PAGAR {{ totalConEnvio() | currencyArs }}</span>
+      }
+    </button>  
 </form>		  
 
 
@@ -316,6 +334,15 @@
                 <span>...</span>
               }
             </div>
+
+            @if (shippingMethod() === 'delivery' && shippingQuote()?.boxes?.length) {
+              @for (box of shippingQuote()?.boxes ?? []; track box.boxModelName) {
+                <div class="d-flex justify-content-between align-items-center x-small py-1">
+                  <span class="summary-label">{{ box.count }} x {{ box.boxModelName }}</span>
+                  <span class="summary-value">{{ box.widthCm }} x {{ box.lengthCm }} x {{ box.heightCm }} cm.</span>
+                </div>
+              }
+            }
 
             <div class="total-row d-flex justify-content-between align-items-start pt-3 border-top mt-2">
               <span class="fw-bold h5 mb-0 item-name">TOTAL</span>

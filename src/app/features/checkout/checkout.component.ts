@@ -1,4 +1,5 @@
-import { Component, inject, effect, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, effect, OnInit, OnDestroy, signal, computed, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,8 +13,9 @@ import { SessionContextService } from '../../core/services/session-context.servi
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { ShippingService } from '../../core/services/shipping.service';
+import { CustomerDraftService } from '../../core/services/customer-draft.service';
 import { ShippingAddress, ShippingMethod } from '../../core/models/order.model';
-import { PostalCodeService, PostalCodeLookup } from '../../core/services/postal-code.service';
+import { PostalCodeService, PostalCodeLookup, ShippingQuote } from '../../core/services/postal-code.service';
 
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
@@ -47,7 +49,7 @@ type ValidatedOrder = {
   styleUrl: './checkout.component.css'
 })
 
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly api = inject(ApiService);
   public readonly cartService = inject(CartService);
@@ -56,7 +58,10 @@ export class CheckoutComponent implements OnInit {
   public readonly pricingConfigService = inject(PricingConfigService);
   private readonly mercadoPagoService = inject(MercadoPagoService);
   private readonly postalCodeService = inject(PostalCodeService);
+  private readonly customerDraftService = inject(CustomerDraftService);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   public readonly shippingService = inject(ShippingService);
+  private skipDraftPersistence = false;
 
 
   products = this.productsService.products;
@@ -67,11 +72,13 @@ export class CheckoutComponent implements OnInit {
   formSubmitted = false;
   shipping = this.shippingService.current; 
   shippingMethod = signal<ShippingMethod | null>('delivery');
+  paymentMethod = signal<'mercadopago' | 'transferencia' | null>('mercadopago');
   shippingFormSubmitted = false;
   loadingPostalCode = signal(false);
-  shippingQuote = signal<{ zone: string | null, price_ars: number | null } | null>(null);
+  shippingQuote = signal<Pick<ShippingQuote, 'zone' | 'price_ars' | 'boxes'> | null>(null);
   postalCodeNotFound = signal(false);
   private readonly postalCodeSubject = new Subject<string>();
+  private lastPostalCode = '';
   readonly totalUnits = computed(() => this.cartService.cartItems().reduce(
     (sum, item) => sum + item.quantity * (item.units_per_pack || 1),
     0
@@ -131,6 +138,18 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (!this.session.isAuthenticated()) {
+      const draft = this.customerDraftService.current();
+      if (draft) Object.assign(this.customer, draft);
+    }
+
+    if (this.isBrowser) {
+      const savedPaymentMethod = localStorage.getItem('checkout_payment_method_draft');
+      if (savedPaymentMethod === 'mercadopago' || savedPaymentMethod === 'transferencia') {
+        this.paymentMethod.set(savedPaymentMethod);
+      }
+    }
+
     this.postalCodeSubject.pipe(
       debounceTime(400),
       distinctUntilChanged(),
@@ -153,7 +172,7 @@ export class CheckoutComponent implements OnInit {
             })
           ),
           quote: this.postalCodeService.quote(cp, this.getTotalUnits()).pipe(
-            catchError(() => of({ postal_code: cp, zone: null, price_ars: null }))
+            catchError(() => of({ postal_code: cp, zone: null, price_ars: null, boxes: [] }))
           )
         }).pipe(finalize(() => this.loadingPostalCode.set(false)));
       })
@@ -170,11 +189,11 @@ export class CheckoutComponent implements OnInit {
         }
 
         this.address.province = result.lookup.province;
-        this.address.locality = result.lookup.locality;
-        this.address.county = result.lookup.county ?? '';
+        if (!this.address.locality) this.address.locality = result.lookup.locality;
+        if (!this.address.county) this.address.county = result.lookup.county ?? '';
         this.address.country = result.lookup.country;
         this.postalCodeNotFound.set(false);
-        this.shippingQuote.set({ zone: result.quote.zone, price_ars: result.quote.price_ars });
+        this.shippingQuote.set({ zone: result.quote.zone, price_ars: result.quote.price_ars, boxes: result.quote.boxes });
       },
       error: error => {
         console.error('Error al consultar código postal:', error);
@@ -191,7 +210,7 @@ export class CheckoutComponent implements OnInit {
       if (!/^\d{4}$/.test(cp) || this.postalCodeNotFound() || units <= 0) return;
 
       this.postalCodeService.quote(cp, units).subscribe({
-        next: quote => this.shippingQuote.set({ zone: quote.zone, price_ars: quote.price_ars }),
+        next: quote => this.shippingQuote.set({ zone: quote.zone, price_ars: quote.price_ars, boxes: quote.boxes }),
         error: () => this.shippingQuote.set(null)
       });
     });
@@ -207,14 +226,25 @@ export class CheckoutComponent implements OnInit {
     const existing = this.shippingService.current();
     if (existing.method) this.shippingMethod.set(existing.method);
     if (existing.address) this.address = { ...existing.address };
+    this.lastPostalCode = this.address.postal_code;
     if (this.address.postal_code) this.postalCodeSubject.next(this.address.postal_code);
   
   }
 
   onPostalCodeChange(postalCode: string): void {
     const normalized = postalCode.replace(/\D/g, '').slice(0, 4);
+    const isNewCompletePostalCode = normalized !== this.lastPostalCode
+      && /^\d{4}$/.test(normalized)
+      && /^\d{4}$/.test(this.lastPostalCode);
+
+    if (isNewCompletePostalCode) {
+      this.address.locality = '';
+      this.address.county = '';
+    }
+
     if (normalized !== postalCode) this.address.postal_code = normalized;
     this.postalCodeSubject.next(normalized);
+    this.lastPostalCode = normalized;
   }
 
   filterNumericInput(event: Event, field: 'codigoArea' | 'celular'): void {
@@ -302,7 +332,7 @@ private generarSeccionEnvio(): string {
 
   return `
     <div style="margin-top: 25px;">
-      <h3 style="color: #2b5e2b; font-size: 15px; margin-bottom: 10px;">Dirección de envío</h3>
+      <h3 style="color: #2b5e2b; font-size: 15px; margin-bottom: 10px;">DIRECCIÓN DE ENVÍO</h3>
       <table width="100%" style="border-collapse: collapse; font-size: 13px;">
         <tr>
           <td style="padding: 4px 0; color: #666; width: 140px;">Destinatario:</td>
@@ -375,7 +405,7 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
 
   let html = `
     <div style="font-family: Arial, sans-serif; color: #333; max-width: 700px; margin: auto; border: 1px solid #eee; padding: 20px;">
-      <h2 style="color: #2b5e2b; text-align: center;">Detalle de Pedido</h2>
+      <h2 style="color: #2b5e2b; text-align: center;">DETALLE DEL PEDIDO</h2>
       <hr style="border: 0; border-top: 1px solid #eee;">
       <p><strong>Cliente:</strong> ${this.escapeHtml(c.nombre)}</p>
       <p><strong>CUIT:</strong> ${this.escapeHtml(c.cuit) || 'No informado'}</p>
@@ -515,7 +545,11 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
         environment.emailjs.publicKey
       );
 
+      this.skipDraftPersistence = true;
       this.cartService.clear();
+      this.customerDraftService.clear();
+      this.shippingService.clear();
+      if (this.isBrowser) localStorage.removeItem('checkout_payment_method_draft');
       this.router.navigate(['/orden/exito']);
     } catch (error) {
       console.error('Error en checkout:', error);
@@ -566,12 +600,52 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
           ...(this.shippingMethod() === 'delivery' ? { address: { ...this.address } } : {})
         }
       });
+
+      this.skipDraftPersistence = true;
+      this.customerDraftService.clear();
+      this.shippingService.clear();
+      if (this.isBrowser) localStorage.removeItem('checkout_payment_method_draft');
     } catch (error) {
       console.error('Error al iniciar Mercado Pago:', error);
       this.router.navigate(['/orden/error']);
     } finally {
       this.paymentLoading = false;
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.skipDraftPersistence) return;
+
+    if (!this.session.isAuthenticated()) {
+      this.customerDraftService.setCustomer({ ...this.customer });
+    }
+
+    if (this.isBrowser && this.paymentMethod()) {
+      localStorage.setItem('checkout_payment_method_draft', this.paymentMethod()!);
+    }
+
+    if (this.shippingMethod() === 'delivery') {
+      this.shippingService.setAddress({ ...this.address });
+    }
+  }
+
+  async pagarAhora(isValid: boolean | null): Promise<void> {
+    const method = this.paymentMethod();
+    if (!method) {
+      this.formSubmitted = true;
+      return;
+    }
+
+    if (method === 'mercadopago') {
+      await this.iniciarPagoMercadoPago(isValid);
+      return;
+    }
+
+    await this.confirmarPedido(isValid);
+  }
+
+  selectPaymentMethod(method: 'mercadopago' | 'transferencia'): void {
+    this.paymentMethod.set(method);
   }
 
   selectShippingMethod(method: ShippingMethod): void {
