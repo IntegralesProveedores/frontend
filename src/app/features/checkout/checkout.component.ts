@@ -1,11 +1,10 @@
 import { Component, inject, effect, OnInit, OnDestroy, signal, computed, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { firstValueFrom, Subject, forkJoin, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, finalize, skip, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, finalize, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
 import { ProductsService } from '../../core/services/products.service';
@@ -15,11 +14,13 @@ import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { ShippingService } from '../../core/services/shipping.service';
 import { CustomerDraftService } from '../../core/services/customer-draft.service';
 import { ShippingAddress, ShippingMethod } from '../../core/models/order.model';
-import { PostalCodeService, PostalCodeLookup, ShippingQuote } from '../../core/services/postal-code.service';
+import { PostalCodeService, PostalCodeLookup } from '../../core/services/postal-code.service';
+import { PaymentMethodService } from '../../core/services/payment-method.service';
 
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
+import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
 import { environment } from '../../../environments/environment';
 import * as emailjs from '@emailjs/browser';
 
@@ -44,7 +45,7 @@ type ValidatedOrder = {
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, CurrencyArsPipe, ProductCardComponent, ProductCardSkeletonComponent],
+  imports: [CommonModule, FormsModule, RouterModule, CurrencyArsPipe, ProductCardComponent, ProductCardSkeletonComponent, OrderSummaryComponent],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -59,6 +60,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private readonly mercadoPagoService = inject(MercadoPagoService);
   private readonly postalCodeService = inject(PostalCodeService);
   private readonly customerDraftService = inject(CustomerDraftService);
+  public readonly paymentMethodService = inject(PaymentMethodService);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   public readonly shippingService = inject(ShippingService);
   private skipDraftPersistence = false;
@@ -72,21 +74,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   formSubmitted = false;
   shipping = this.shippingService.current; 
   shippingMethod = signal<ShippingMethod | null>('delivery');
-  paymentMethod = signal<'mercadopago' | 'transferencia' | null>('mercadopago');
   shippingFormSubmitted = false;
   loadingPostalCode = signal(false);
-  shippingQuote = signal<Pick<ShippingQuote, 'zone' | 'price_ars' | 'boxes'> | null>(null);
   postalCodeNotFound = signal(false);
   private readonly postalCodeSubject = new Subject<string>();
   private lastPostalCode = '';
-  readonly totalUnits = computed(() => this.cartService.cartItems().reduce(
-    (sum, item) => sum + item.quantity * (item.units_per_pack || 1),
+  readonly totalUnits = computed(() => Math.round(1000 * this.cartService.cartItems().reduce(
+    (sum, item) => sum + (item.quantity * (item.units_per_pack || 1)) / (item.units_per_pack_master || 1),
     0
-  ));
-  private readonly totalUnits$ = toObservable(this.totalUnits);
+  )));
 
   readonly shippingCost = computed(() => this.shippingMethod() === 'delivery'
-    ? (this.shippingQuote()?.price_ars ?? null)
+    ? (this.shippingService.quote()?.price_ars ?? null)
     : 0);
 
   // TODO: sumar shipping_amount al total real de la orden en el backend (fase pendiente).
@@ -143,13 +142,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       if (draft) Object.assign(this.customer, draft);
     }
 
-    if (this.isBrowser) {
-      const savedPaymentMethod = localStorage.getItem('checkout_payment_method_draft');
-      if (savedPaymentMethod === 'mercadopago' || savedPaymentMethod === 'transferencia') {
-        this.paymentMethod.set(savedPaymentMethod);
-      }
-    }
-
     this.postalCodeSubject.pipe(
       debounceTime(400),
       distinctUntilChanged(),
@@ -157,7 +149,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         if (!/^\d{4}$/.test(cp)) {
           this.loadingPostalCode.set(false);
           this.postalCodeNotFound.set(false);
-          this.shippingQuote.set(null);
+          this.shippingService.setQuote(null);
           return of(null);
         }
 
@@ -184,7 +176,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           this.address.locality = '';
           this.address.county = '';
           this.postalCodeNotFound.set(true);
-          this.shippingQuote.set(null);
+          this.shippingService.setQuote(null);
           return;
         }
 
@@ -193,26 +185,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         if (!this.address.county) this.address.county = result.lookup.county ?? '';
         this.address.country = result.lookup.country;
         this.postalCodeNotFound.set(false);
-        this.shippingQuote.set({ zone: result.quote.zone, price_ars: result.quote.price_ars, boxes: result.quote.boxes });
+        this.shippingService.setQuote({ zone: result.quote.zone, price_ars: result.quote.price_ars, boxes: result.quote.boxes });
       },
       error: error => {
         console.error('Error al consultar código postal:', error);
-        this.shippingQuote.set(null);
+        this.shippingService.setQuote(null);
       }
-    });
-
-    this.totalUnits$.pipe(
-      skip(1),
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(units => {
-      const cp = this.address.postal_code;
-      if (!/^\d{4}$/.test(cp) || this.postalCodeNotFound() || units <= 0) return;
-
-      this.postalCodeService.quote(cp, units).subscribe({
-        next: quote => this.shippingQuote.set({ zone: quote.zone, price_ars: quote.price_ars, boxes: quote.boxes }),
-        error: () => this.shippingQuote.set(null)
-      });
     });
 
     this.productsService.getProducts().subscribe({
@@ -224,7 +202,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   
     const existing = this.shippingService.current();
-    if (existing.method) this.shippingMethod.set(existing.method);
+    if (existing.method) {
+      this.shippingMethod.set(existing.method);
+    } else {
+      this.shippingService.setMethod(this.shippingMethod()!);
+    }
     if (existing.address) this.address = { ...existing.address };
     this.lastPostalCode = this.address.postal_code;
     if (this.address.postal_code) this.postalCodeSubject.next(this.address.postal_code);
@@ -549,7 +531,7 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
       this.cartService.clear();
       this.customerDraftService.clear();
       this.shippingService.clear();
-      if (this.isBrowser) localStorage.removeItem('checkout_payment_method_draft');
+      this.paymentMethodService.clear();
       this.router.navigate(['/orden/exito']);
     } catch (error) {
       console.error('Error en checkout:', error);
@@ -604,7 +586,7 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
       this.skipDraftPersistence = true;
       this.customerDraftService.clear();
       this.shippingService.clear();
-      if (this.isBrowser) localStorage.removeItem('checkout_payment_method_draft');
+      this.paymentMethodService.clear();
     } catch (error) {
       console.error('Error al iniciar Mercado Pago:', error);
       this.router.navigate(['/orden/error']);
@@ -620,17 +602,13 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
       this.customerDraftService.setCustomer({ ...this.customer });
     }
 
-    if (this.isBrowser && this.paymentMethod()) {
-      localStorage.setItem('checkout_payment_method_draft', this.paymentMethod()!);
-    }
-
     if (this.shippingMethod() === 'delivery') {
       this.shippingService.setAddress({ ...this.address });
     }
   }
 
   async pagarAhora(isValid: boolean | null): Promise<void> {
-    const method = this.paymentMethod();
+    const method = this.paymentMethodService.current();
     if (!method) {
       this.formSubmitted = true;
       return;
@@ -645,7 +623,7 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
   }
 
   selectPaymentMethod(method: 'mercadopago' | 'transferencia'): void {
-    this.paymentMethod.set(method);
+    this.paymentMethodService.setMethod(method);
   }
 
   selectShippingMethod(method: ShippingMethod): void {

@@ -3,7 +3,7 @@
     <!-- Empty State -->
     @if (isEmpty()) {
       <div class="empty-cart text-center py-5">
-        <p class="lead text-muted mb-4">No hay productos en tu carrito todavía.</p>
+        <p class="lead text-muted mb-4">No hay productos en tu carrito todavÃ­a.</p>
         <a routerLink="/productos" class="btn-pill-outline btn-pill-outline--accent btn-action btn-lg px-5 py-3 shadow-sm">
            &larr; TIENDA &nbsp; <i class="bi bi-shop"></i>
 		</a>
@@ -14,7 +14,7 @@
     @if (!isEmpty()) {
       <div class="row g-5" style="margin-right: 0;">
         <!-- Items List -->
-        <div class="col-lg-8">
+        <div class="col-lg-6">
           <div class="cart-items-list">
             @for (item of items(); track item.variantId) {
               <div class="cart-item-row py-2 border-bottom">
@@ -69,32 +69,13 @@
         </div>
 
         <!-- Order Summary -->
-        <div class="col-lg-4">
-          <div class="order-summary-box p-4">
-            <div class="summary-row d-flex justify-content-between align-items-start">
-              <span class="fw-bold h5 mb-0 summary-title">SUBTOTAL</span>
-              <div class="text-end">
-                <div class="h3 mb-1 fw-bold total-main">{{ subtotalArs() | currencyArs }}</div>
-                <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
-              </div>
-            </div>
-
-            <div class="summary-actions mt-4">
-
-              <a routerLink="/finalizar-compra" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3">
-				INICIAR COMPRA &nbsp; 
-                <i class="bi bi-credit-card-2-back"></i>
-              </a>
-			  <p class="x-small text-muted text-center">
-				  <a routerLink="/productos" class="link-danger text-decoration-none">
-					&larr; VER MAS PRODUCTOS &nbsp; <i class="bi bi-shop"></i>
-				  </a>
-			  </p>
-
-
-
-            </div>
-          </div>
+        <div class="col-lg-5 offset-md-1">
+          <app-order-summary footerLinkLabel="VER MAS PRODUCTOS" footerLinkRoute="/productos" footerLinkIcon="bi-shop" [showItemsList]="false">
+            <a routerLink="/finalizar-compra" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3">
+              INICIAR COMPRA &nbsp;
+              <i class="bi bi-credit-card-2-back"></i>
+            </a>
+          </app-order-summary>
         </div>
       </div>
     }
@@ -121,3 +102,5 @@
     </div>
   </div>
 </section>
+
+

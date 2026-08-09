@@ -1,0 +1,95 @@
+<div class="order-summary-box p-4">
+  @if (showItemsList) {
+    <div class="checkout-items-list mb-4">
+      @for (item of cartService.cartItems(); track item.variantId) {
+        <div class="d-flex gap-3 py-1 align-items-center">
+          <div class="checkout-img-box">
+            <a [routerLink]="['/productos', item.slug, item.units_per_pack]">
+              <img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
+            </a>
+          </div>
+          <div class="flex-grow-1">
+            <a [routerLink]="['/productos', item.slug, item.units_per_pack]" class="text-decoration-none">
+              <h4 class="x-small mb-1 fw-bold item-name text-uppercase">{{ item.productName }}</h4>
+            </a>
+            <div class="d-flex justify-content-between align-items-start">
+              <span class="x-small summary-label">Pack x{{ item.units_per_pack }} u.<br />Cant: {{ item.quantity }}</span>
+              <div class="text-end">
+                <div class="text-success fw-bold">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="summary-row d-flex justify-content-between align-items-start mb-2">
+      <span class="fw-bold h5 mb-0 summary-title">SUBTOTAL</span>
+      <div class="text-end">
+        <div class="h3 mb-1 fw-bold total-main">{{ cartService.subtotalArs() | currencyArs }}</div>
+        <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
+      </div>
+    </div>
+  }
+
+  <div class="summary-details">
+    @if (cartService.volumeDiscountPercentage() > 0) {
+      <div class="d-flex justify-content-between align-items-center py-2 border-top mt-2">
+        <span class="summary-label">Descuento</span>
+        <span class="text-success fw-bold">{{ cartService.volumeDiscountPercentage() }}% OFF</span>
+      </div>
+    }
+
+    @if (shippingMethod) {
+      <div class="d-flex justify-content-between align-items-center py-2 border-top mt-2">
+        <div>
+          <span class="summary-label">Env&iacute;o</span>
+          @if (shippingMethod === 'delivery') {
+            <small class="x-small text-muted d-block">Demora 3 a 7 d&iacute;as h&aacute;biles</small>
+          }
+        </div>
+        @if ((shippingCost ?? 0) > 0) {
+          <span>{{ shippingCost | currencyArs }}</span>
+        } @else if (shippingMethod === 'pickup') {
+          <span>Retiro</span>
+        } @else if (shippingMethod === 'coordinar') {
+          <span>A coordinar</span>
+        } @else {
+          <span>...</span>
+        }
+      </div>
+
+      @if (shippingMethod === 'delivery' && shippingQuote?.boxes?.length) {
+        @for (box of shippingQuote?.boxes ?? []; track box.boxModelName) {
+          <div class="d-flex justify-content-between align-items-center x-small py-1">
+            <span class="summary-label">{{ box.count }} x {{ box.boxModelName }}</span>
+            <span class="summary-value">{{ box.widthCm }} x {{ box.lengthCm }} x {{ box.heightCm }} cm.</span>
+          </div>
+        }
+      }
+    }
+
+    @if (paymentMethodService.current()) {
+      <div class="d-flex justify-content-between align-items-center py-2 border-top mt-2">
+        <span class="summary-label">Pago</span>
+        <span class="summary-value">{{ paymentMethodLabel() }}</span>
+      </div>
+    }
+
+    <div class="total-row d-flex justify-content-between align-items-start pt-3 border-top mt-2">
+      <span class="fw-bold h5 mb-0 item-name">TOTAL</span>
+      <div class="text-end">
+        <div class="h3 mb-1 fw-bold total-main">{{ totalConEnvio | currencyArs }}</div>
+        <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
+      </div>
+    </div>
+
+    <ng-content></ng-content>
+
+    <p class="x-small text-muted text-center mt-3">
+      <a [routerLink]="footerLinkRoute" class="link-danger text-decoration-none">
+        &larr; {{ footerLinkLabel }} &nbsp; <i class="bi" [ngClass]="footerLinkIcon"></i>
+      </a>
+    </p>
+  </div>
+</div>
