@@ -18,13 +18,14 @@ export class ShippingService {
   private readonly quoteSignal = signal<QuoteData | null>(null);
   private readonly cartService = inject(CartService);
   private readonly postalCodeService = inject(PostalCodeService);
-  private readonly totalUnits = computed(() =>
-    Math.round(1000 * this.cartService.cartItems().reduce(
-      (sum, i) => sum + (i.quantity * (i.units_per_pack || 1)) / (i.units_per_pack_master || 1),
-      0
-    ))
-  );
-  private readonly totalUnits$ = toObservable(this.totalUnits);
+  private readonly productGroups = computed(() => {
+    const groups = new Map<string, number>();
+    for (const item of this.cartService.cartItems()) {
+      groups.set(item.productId, (groups.get(item.productId) ?? 0) + item.quantity * (item.units_per_pack || 1));
+    }
+    return Array.from(groups, ([productId, units]) => ({ productId, units }));
+  });
+  private readonly productGroups$ = toObservable(this.productGroups);
 
   readonly current = this.selection.asReadonly();
   readonly quote = this.quoteSignal.asReadonly();
@@ -54,16 +55,16 @@ export class ShippingService {
   }
 
   private watchCartChanges(): void {
-    this.totalUnits$.pipe(
+    this.productGroups$.pipe(
       skip(1),
       debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(units => {
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
+    ).subscribe(groups => {
       const s = this.selection();
       const cp = s.address?.postal_code ?? '';
-      if (s.method !== 'delivery' || !/^\d{4}$/.test(cp) || units <= 0) return;
+      if (s.method !== 'delivery' || !/^\d{4}$/.test(cp) || groups.length === 0) return;
 
-      this.postalCodeService.quote(cp, units).subscribe({
+      this.postalCodeService.quote(cp, groups).subscribe({
         next: quote => this.setQuote({ zone: quote.zone, price_ars: quote.price_ars, boxes: quote.boxes }),
         error: () => this.setQuote(null)
       });

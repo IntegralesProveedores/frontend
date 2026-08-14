@@ -53,7 +53,7 @@
 		@if (nombre.invalid && (nombre.touched || formSubmitted)) {
 		  <div class="text-danger x-small">
 			@if (nombre.errors?.['required']) { <span>El nombre es obligatorio.</span> }
-			@if (nombre.errors?.['minlength']) { <span>MÃƒÂ­nimo 3 caracteres.</span> }
+			@if (nombre.errors?.['minlength']) { <span>M&iacute;­­nimo 3 caracteres.</span> }
 		  </div>
 		}
 	  </div>
@@ -71,7 +71,7 @@
 		  @if (email.invalid && (email.touched || formSubmitted)) {
 			<div class="text-danger x-small">
 			  @if (email.errors?.['required']) { <span>El email es obligatorio.</span> }
-			  @if (email.errors?.['email']) { <span>Formato de email invÃƒÂ¡lido.</span> }
+			  @if (email.errors?.['email']) { <span>Formato de email inv&aacute;­lido.</span> }
 			</div>
 		  }
 		</div>
@@ -91,8 +91,8 @@
 		  @if (codigoArea.invalid && (codigoArea.touched || formSubmitted)) {
 			<div class="text-danger x-small">
 			  @if (codigoArea.errors?.['required']) { <span>Requerido.</span> }
-			  @if (codigoArea.errors?.['minlength']) { <span>Debe tener 2 a 4 dÃ­gitos.</span> }
-			  @if (codigoArea.errors?.['pattern']) { <span>Solo nÃºmeros.</span> }
+			  @if (codigoArea.errors?.['minlength']) { <span>2 a 4 d&iacute;­gitos.</span> }
+			  @if (codigoArea.errors?.['pattern']) { <span>Solo n&uacute;­meros.</span> }
 			</div>
 		  }
 		</div>
@@ -109,8 +109,8 @@
 		  @if (celular.invalid && (celular.touched || formSubmitted)) {
 			<div class="text-danger x-small">
 			  @if (celular.errors?.['required']) { <span>Requerido. </span> }
-			  @if (celular.errors?.['minlength']) { <span>Debe tener 6 a 8 dÃ­gitos. </span> }
-			  @if (celular.errors?.['pattern']) { <span>Solo nÃºmeros.</span> }
+			  @if (celular.errors?.['minlength']) { <span>Debe tener 6 a 8 d&iacute;­­gitos. </span> }
+			  @if (celular.errors?.['pattern']) { <span>Solo n&uacute;­meros.</span> }
 			</div>
 		  }
 		</div>
@@ -118,148 +118,25 @@
 	</div>
 
   <!-- BLOQUE 2: Envio -->
-  <h5 class="mt-5 mb-3">2. METODO DE ENTREGA</h5>
-  
-  <div class="shipping-options-row">
-    
-    <button 
-		type="button" 
-		class="shipping-option shipping-option-correo"
-		[class.active]="shippingMethod() === 'delivery'"
-        (click)="selectShippingMethod('delivery')">
-      
-	  
-      <img src="/assets/icon/correo-argentino.png" alt="CORREO ARGENTINO" class="img-fluid d-block mx-auto" />
-
-	</button>
-
-	<button type="button" class="shipping-option"
-            [class.active]="shippingMethod() === 'coordinar'"
-            (click)="selectShippingMethod('coordinar')">
-	  <i class="bi bi-truck"></i>
-      <div><h3>Coordinar</h3></div>
-    </button>
-
-	<button type="button" class="shipping-option"
-            [class.active]="shippingMethod() === 'pickup'"
-            (click)="selectShippingMethod('pickup')">
-      <i class="bi bi-shop"></i>
-      <div><h3>Retiro</h3></div>
-    </button>
-
-  </div>
-
-  @if (shippingMethod() === 'coordinar') {
-    <div class="info-box mt-3 mb-3">
-      <p class="mb-2 fw-bold"><i class="bi bi-whatsapp text-success"></i> Coordinemos tu envÃ­o</p>
-      <p class="x-small mb-2">
-        Escribinos por WhatsApp al <strong>+54 9 11 3022-6565</strong> para coordinar
-        el mÃ©todo de envÃ­o (transporte, micro o expreso), el costo y los tiempos segÃºn tu localidad.
-      </p>
-      <p class="x-small mb-0 text-muted">
-        Te respondemos de lunes a jueves de 10 a 14 hs. Los mensajes fuera de ese horario
-        se responden el dÃ­a hÃ¡bil siguiente dentro del horario indicado.
-      </p>
-    </div>
-  }
-
-  @if (shippingMethod() === 'pickup') {
-    <div class="info-box mt-3 mb-3">
-      <p class="mb-2 fw-bold"><i class="bi bi-whatsapp text-success"></i> CoordinÃ¡ tu retiro</p>
-      <p class="x-small mb-2">
-        DespuÃ©s de tu compra, escribinos por WhatsApp al
-        <strong>+54 9 11 3022-6565</strong> para coordinar dÃ­a, horario y punto
-        de retiro. PodÃ©s retirar en <strong>Portela 875, Flores, CABA</strong>
-        o en <strong>Roosevelt 1935, Belgrano, CABA</strong>, segÃºn disponibilidad.
-      </p>
-      <p class="x-small mb-0 text-muted">
-        Atendemos de lunes a jueves de 10 a 14 hs. Los mensajes enviados fuera
-        de ese horario se responden el dÃ­a hÃ¡bil siguiente dentro del horario indicado.
-      </p>
-    </div>
-  }
-
-  @if (shippingMethod() === 'delivery') {
-    <div class="row g-2 mt-2 mb-2">
-      <div class="col-4 col-md-4">
-        <input name="postal_code" [(ngModel)]="address.postal_code" (ngModelChange)="onPostalCodeChange($event)" class="form-control-minimal" required maxlength="4" inputmode="numeric" placeholder="CÃ³digo Postal (*)">
-        @if (loadingPostalCode()) {
-          <div class="x-small text-muted">Buscando...</div>
-        }
-        @if (postalCodeNotFound()) {
-          <div class="text-danger x-small">No encontrado.</div>
-        }
-      </div>
-      <div class="col-8 col-md-8">
-        <input name="province" [(ngModel)]="address.province" class="form-control-minimal" required readonly placeholder="Provincia (*)">
-      </div>
-	  
-              @if (shippingMethod() === 'delivery') {
-              <div>
-				  <span class="summary-label text-danger text-small">
-					Demora 3 a 7 d&iacute;as h&aacute;biles.  
-					@if ((shippingCost() ?? 0) > 0) {
-                    <span>{{ shippingCost() | currencyArs }}</span>
-                    }
-				  </span>
-                  
-				   
-			  </div>
-			  }
-	  
-@if (addressFieldsVisible && !isCabaProvince) {
-<div class="col-6 col-md-6">
-      <input
-      name="locality"
-      class="form-control-minimal"
-      placeholder="Localidad">
-</div>
-
-<div class="col-6 col-md-6">
-    <input
-      name="county"
-      [(ngModel)]="address.county"
-      class="form-control-minimal"
-      placeholder="Partido">
-</div>	
-}
-
-@if (addressFieldsVisible) {
-  
-      <div class="col-8 col-md-8">
-        <input name="street" [(ngModel)]="address.street" class="form-control-minimal" required placeholder="Calle (*)">
-      </div>
-      <div class="col-4 col-md-4">
-        <input name="street_number" [(ngModel)]="address.street_number" class="form-control-minimal" required placeholder="Nro. (*)">
-      </div>
-      <div class="col-6 col-md-6">
-        <input name="floor" [(ngModel)]="address.floor" class="form-control-minimal" placeholder="Piso">
-      </div>
-      <div class="col-6 col-md-6">
-        <input name="apartment" [(ngModel)]="address.apartment" class="form-control-minimal" placeholder="Dpto.">
-      </div>
-      }
-
-    </div>
-
-  }
+  <h5 class="mt-5 mb-3">2. M&Eacute;TODO DE ENTREGA</h5>
+  <app-shipping-selector mode="full"></app-shipping-selector>
 
   @if (shippingFormSubmitted && !shippingMethod()) {
-    <div class="text-danger x-small mt-2">SeleccionÃ¡ una opciÃ³n de envÃ­Â­o.</div>
+    <div class="text-danger x-small mt-2">Seleccion&aacute;­ una opci&oacute;­n de env&iacute;­­o.</div>
   }
 
   @if (shippingFormSubmitted && shippingMethod() === 'delivery' && !shippingValid) {
     <div class="text-danger x-small mt-2">
-      CompletÃ¡ los datos obligatorios de envÃ­o para continuar.
+      CompletÃ¡ los datos obligatorios de env&iacute;­­o para continuar.
     </div>
   }
 
   @if (formSubmitted && !paymentMethodService.current()) {
-    <div class="text-danger x-small mt-2">SeleccionÃ¡ un mÃ©todo de pago para continuar.</div>
+    <div class="text-danger x-small mt-2">Seleccion&aacute;­ un m&eacute;­todo de pago para continuar.</div>
   }
 
   <!-- BLOQUE 3: Pago -->
-  <h5 class="mt-5 mb-3">3. METODO DE PAGO</h5>
+  <h5 class="mt-5 mb-3">3. M&Eacute;TODO DE PAGO</h5>
   <div class="checkout-actions">
 
     <div class="payment-options-row">
@@ -346,5 +223,4 @@
     </div>
   </div>
 </section>
-
 

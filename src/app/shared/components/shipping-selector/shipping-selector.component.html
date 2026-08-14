@@ -1,0 +1,59 @@
+<div class="shipping-selector" [class.shipping-selector--compact]="mode === 'compact'">
+  <div class="shipping-options-row">
+    <button type="button" class="shipping-option shipping-option-correo" [class.compact]="mode === 'compact'" [class.active]="method() === 'delivery'" (click)="selectMethod('delivery')">
+      <img src="/assets/icon/correo-argentino.png" alt="CORREO ARGENTINO" class="img-fluid d-block mx-auto" />
+    </button>
+    <button type="button" class="shipping-option" [class.compact]="mode === 'compact'" [class.active]="method() === 'coordinar'" (click)="selectMethod('coordinar')">
+      <i class="bi bi-truck"></i><div><h3>Coordinar</h3></div>
+    </button>
+    <button type="button" class="shipping-option" [class.compact]="mode === 'compact'" [class.active]="method() === 'pickup'" (click)="selectMethod('pickup')">
+      <i class="bi bi-shop"></i><div><h3>Retiro</h3></div>
+    </button>
+  </div>
+
+  @if (method() === 'coordinar') {
+    <div class="info-box mt-3 mb-3">
+		<p class="mb-0 fw-bold">
+			<i class="bi bi-whatsapp text-success"></i> 
+			{{ mode === 'compact' ? "+54 9 11 3022-6565" : "Coordinemos tu envío" }}
+		</p>
+		<p class="x-small mb-0">{{ mode === 'compact' ? texts.coordinar.short : texts.coordinar.long }}</p>
+		</div>
+  }
+  @if (method() === 'pickup') {
+    <div class="info-box mt-3 mb-3">
+		<p class="mb-0 fw-bold">
+			<i class="bi bi-whatsapp text-success"></i> 
+			{{ mode === 'compact' ? "+54 9 11 3022-6565" : "Coordiná tu retiro" }}
+		</p>
+		<p class="x-small mb-0">{{ mode === 'compact' ? texts.pickup.short : texts.pickup.long }}</p>
+	</div>
+  }
+
+  @if (method() === 'delivery') {
+    <div class="row g-2 mt-2 mb-2">
+      <div class="col-4 col-md-4">
+        <input name="shipping_postal_code" [ngModel]="address.postal_code" (ngModelChange)="updatePostalCode($event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" required maxlength="4" inputmode="numeric" placeholder="CP (*)">
+        @if (postalCodeNotFound()) { <div class="text-danger x-small">No encontrado.</div> }
+      </div>
+      <div class="col-8 col-md-8 province-field">
+        <input name="shipping_province" [ngModel]="address.province" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" required readonly placeholder="Provincia (*)">
+        @if (loadingPostalCode()) {
+          <span class="province-loading-spinner spinner-border spinner-border-sm me-2"></span>
+        }
+      </div>
+      <!--<div class="col-12"><span class="summary-label text-danger text-small">Demora 3 a 7 días hábiles. @if ((shippingCost() ?? 0) > 0) { <span>{{ shippingCost() | currencyArs }}</span> }</span></div>-->
+
+      @if (mode === 'full' && addressFieldsVisible && !isCabaProvince) {
+        <div class="col-6 col-md-6"><input name="shipping_locality" [ngModel]="address.locality" (ngModelChange)="updateAddress('locality', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" placeholder="Localidad"></div>
+        <div class="col-6 col-md-6"><input name="shipping_county" [ngModel]="address.county" (ngModelChange)="updateAddress('county', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" placeholder="Partido"></div>
+      }
+      @if (mode === 'full' && addressFieldsVisible) {
+        <div class="col-8 col-md-8"><input name="shipping_street" [ngModel]="address.street" (ngModelChange)="updateAddress('street', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" required placeholder="Calle (*)"></div>
+        <div class="col-4 col-md-4"><input name="shipping_street_number" [ngModel]="address.street_number" (ngModelChange)="updateAddress('street_number', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" required placeholder="Nro. (*)"></div>
+        <div class="col-6 col-md-6"><input name="shipping_floor" [ngModel]="address.floor" (ngModelChange)="updateAddress('floor', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" placeholder="Piso"></div>
+        <div class="col-6 col-md-6"><input name="shipping_apartment" [ngModel]="address.apartment" (ngModelChange)="updateAddress('apartment', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" placeholder="Dpto."></div>
+      }
+    </div>
+  }
+</div>

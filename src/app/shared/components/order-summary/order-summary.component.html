@@ -1,4 +1,10 @@
 <div class="order-summary-box p-4">
+
+
+  <div class="summary-details">
+
+
+
   @if (showItemsList) {
     <div class="checkout-items-list mb-4">
       @for (item of cartService.cartItems(); track item.variantId) {
@@ -32,13 +38,37 @@
     </div>
   }
 
-  <div class="summary-details">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @if (cartService.volumeDiscountPercentage() > 0) {
       <div class="d-flex justify-content-between align-items-center py-2 border-top mt-2">
         <span class="summary-label">Descuento</span>
         <span class="text-success fw-bold">{{ cartService.volumeDiscountPercentage() }}% OFF</span>
       </div>
     }
+
+    <ng-content select="[shippingSelectorSlot]"></ng-content>
 
     @if (shippingMethod) {
       <div class="d-flex justify-content-between align-items-center py-2 border-top mt-2">
@@ -59,7 +89,7 @@
         }
       </div>
 
-      @if (shippingMethod === 'delivery' && shippingQuote?.boxes?.length) {
+      @if (showBoxesDetail && shippingMethod === 'delivery' && shippingQuote?.boxes?.length) {
         @for (box of shippingQuote?.boxes ?? []; track box.boxModelName) {
           <div class="d-flex justify-content-between align-items-center x-small py-1">
             <span class="summary-label">{{ box.count }} x {{ box.boxModelName }}</span>
@@ -69,7 +99,7 @@
       }
     }
 
-    @if (paymentMethodService.current()) {
+    @if (showPaymentMethod && paymentMethodService.current()) {
       <div class="d-flex justify-content-between align-items-center py-2 border-top mt-2">
         <span class="summary-label">Pago</span>
         <span class="summary-value">{{ paymentMethodLabel() }}</span>

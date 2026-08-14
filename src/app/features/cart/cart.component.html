@@ -70,8 +70,9 @@
 
         <!-- Order Summary -->
         <div class="col-lg-5 offset-md-1">
-          <app-order-summary footerLinkLabel="VER MAS PRODUCTOS" footerLinkRoute="/productos" footerLinkIcon="bi-shop" [showItemsList]="false">
-            <a routerLink="/finalizar-compra" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mb-3">
+          <app-order-summary footerLinkLabel="VER MAS PRODUCTOS" footerLinkRoute="/productos" footerLinkIcon="bi-shop" [showItemsList]="false" [showPaymentMethod]="false" [showBoxesDetail]="false">
+            <app-shipping-selector mode="compact" shippingSelectorSlot></app-shipping-selector>
+            <a routerLink="/finalizar-compra" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mt-3 mb-2">
               INICIAR COMPRA &nbsp;
               <i class="bi bi-credit-card-2-back"></i>
             </a>
@@ -102,5 +103,3 @@
     </div>
   </div>
 </section>
-
-

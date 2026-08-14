@@ -32,10 +32,11 @@ export class PostalCodeService {
     return this.api.get<PostalCodeLookup>(`/postal-code/${cp}`);
   }
 
-  quote(cp: string, quantity: number): Observable<ShippingQuote> {
-    return this.api.get<ShippingQuote>('/shipping/quote', {
-      postal_code: cp,
-      quantity: String(quantity)
-    });
+  quote(cp: string, items: Array<{ productId: string; units: number } | { product_id: string; units: number }>): Observable<ShippingQuote> {
+    const payloadItems = items.map(item => ({
+      product_id: 'productId' in item ? item.productId : item.product_id,
+      units: item.units
+    }));
+    return this.api.post<ShippingQuote>('/shipping/quote', { postal_code: cp, items: payloadItems });
   }
 }

@@ -1,0 +1,21 @@
+.shipping-selector .info-box { background-color: var(--color-accent-soft); padding: .25rem .75rem; border-radius: var(--border-radius-base); }
+.shipping-options-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.shipping-option { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: .75rem; padding: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-base); background-color: var(--color-bg); transition: border-color .2s ease, background-color .2s ease; }
+.shipping-option i { font-size: 1.6rem; color: var(--color-accent); }
+.shipping-option h3 { font-size: 1rem; font-weight: 700; margin: 0 0 .2rem; color: var(--color-text-primary); }
+.shipping-option.active { border-color: var(--color-primary); background-color: var(--color-surface); }
+.shipping-option.shipping-option-correo.active { background-color: #FFCE00; }
+.shipping-option.compact { padding: .5rem; gap: .35rem; }
+.shipping-option.compact i { font-size: 1.15rem; }
+.shipping-option.compact h3 { font-size: .8rem; }
+.province-field { position: relative; }
+.province-field .form-control-minimal { padding-right: 2.5rem; }
+.province-loading-spinner {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  margin-top: -0.5rem;
+  margin-left: 0;
+  pointer-events: none;
+}
+@media (max-width: 1000px) { .shipping-option { padding: 10px 5px; } .shipping-option.compact { padding: .5rem; } }

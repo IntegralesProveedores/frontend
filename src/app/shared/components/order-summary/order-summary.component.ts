@@ -24,6 +24,8 @@ export class OrderSummaryComponent {
   @Input() footerLinkRoute = '/carrito';
   @Input() footerLinkIcon = 'bi-basket';
   @Input() showItemsList = true;
+  @Input() showPaymentMethod = true;
+  @Input() showBoxesDetail = true;
 
   get shippingMethod() {
     return this.shippingService.current().method;

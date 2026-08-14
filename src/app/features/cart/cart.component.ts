@@ -11,11 +11,12 @@ import { CartItem } from '../../core/models/cart.model';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
 import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
+import { ShippingSelectorComponent } from '../../shared/components/shipping-selector/shipping-selector.component';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, CurrencyArsPipe, CartSkeletonComponent, EmptyStateComponent, ProductCardComponent, ProductCardSkeletonComponent, OrderSummaryComponent],
+  imports: [CommonModule, RouterModule, CurrencyArsPipe, CartSkeletonComponent, EmptyStateComponent, ProductCardComponent, ProductCardSkeletonComponent, OrderSummaryComponent, ShippingSelectorComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
