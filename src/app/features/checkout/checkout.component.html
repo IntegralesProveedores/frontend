@@ -119,6 +119,7 @@
 
   <!-- BLOQUE 2: Envio -->
   <h5 class="mt-5 mb-3">2. M&Eacute;TODO DE ENTREGA</h5>
+  
   <app-shipping-selector mode="full"></app-shipping-selector>
 
   @if (shippingFormSubmitted && !shippingMethod()) {
@@ -127,7 +128,7 @@
 
   @if (shippingFormSubmitted && shippingMethod() === 'delivery' && !shippingValid) {
     <div class="text-danger x-small mt-2">
-      CompletÃ¡ los datos obligatorios de env&iacute;­­o para continuar.
+      Comple&aacute; los datos obligatorios de env&iacute;­­o para continuar.
     </div>
   }
 

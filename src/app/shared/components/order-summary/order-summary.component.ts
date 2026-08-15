@@ -39,8 +39,26 @@ export class OrderSummaryComponent {
     return this.shippingService.shippingCost();
   }
 
+  get shippingQuoting(): boolean {
+    return this.shippingService.quoting();
+  }
+
   get totalConEnvio(): number {
     return this.cartService.subtotalArs() + (this.shippingCost ?? 0);
+  }
+
+  /**
+   * Subtotal ANTES del descuento por volumen. Se deriva del subtotal ya
+   * descontado (cartService.subtotalArs()) y del porcentaje promedio de
+   * descuento (cartService.volumeDiscountPercentage()), porque el carrito
+   * no guarda un monto "bruto" por separado: el descuento ya viene aplicado
+   * dentro de cada price_ars. Es una aproximación de visualización.
+   */
+  get subtotalBrutoArs(): number {
+    const pct = this.cartService.volumeDiscountPercentage();
+    const neto = this.cartService.subtotalArs();
+    if (!pct) return neto;
+    return Math.round(neto / (1 - pct / 100));
   }
 
   paymentMethodLabel(): string {

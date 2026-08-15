@@ -1,4 +1,4 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, computed, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
@@ -31,7 +31,11 @@ export class CartComponent implements OnInit {
 
   loading = signal(false);
 
-  items = this.cartService.cartItems;
+  items = computed(() =>
+    [...this.cartService.cartItems()].sort((a, b) =>
+      (a.product_volume_cc ?? 0) - (b.product_volume_cc ?? 0) || (a.units_per_pack ?? 0) - (b.units_per_pack ?? 0)
+    )
+  );
   isEmpty = this.cartService.isEmpty;
   totalUsd = this.cartService.totalUsd;
   subtotalArs = this.cartService.subtotalArs;

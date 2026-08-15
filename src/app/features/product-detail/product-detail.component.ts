@@ -384,7 +384,8 @@ export class ProductDetailComponent implements OnInit {
       stock: v.stock,
       units_per_pack: v.units_per_pack,
       units_per_pack_master: p.units_per_pack_master,
-      volume_cc: v.dimensions?.volume_cc
+      volume_cc: v.dimensions?.volume_cc,
+      product_volume_cc: p.volume_cc ?? null
     });
 
     this.added.set(true);

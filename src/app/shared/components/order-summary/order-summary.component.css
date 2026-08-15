@@ -25,5 +25,50 @@
   .order-summary-box {
     position: static;
     margin-top: 2rem;
+    padding: 1rem !important;
   }
+
+  .summary-block {
+    padding: 0.5rem 0.65rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .summary-block .h3 {
+    font-size: 1.25rem;
+  }
+
+  .checkout-items-list > div {
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+.shipping-cost-spinner {
+  display: inline-flex;
+  align-items: center;
+}
+
+.payment-method-icon {
+  height: 25px;
+  width: auto;
+  display: block;
+}
+
+.summary-block {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border: none;
+  border-radius: var(--border-radius-base);
+  padding: 0.5rem;
+  margin-bottom: .5rem;
+  line-height: 1rem;
+}
+
+.summary-block:last-of-type {
+  margin-bottom: 0;
+}
+
+.summary-block--total {
+  background-color: transparent;
+  border: none;
+  padding: 0;
 }

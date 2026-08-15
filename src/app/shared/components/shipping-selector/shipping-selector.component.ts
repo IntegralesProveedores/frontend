@@ -9,6 +9,7 @@ import { ShippingService } from '../../../core/services/shipping.service';
 import { CartService } from '../../../core/services/cart.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
 import { SHIPPING_TEXTS } from '../../constants/shipping-texts.constants';
+import { isCabaProvince, isBuenosAiresProvince } from '../../utils/province.utils';
 
 const EMPTY_ADDRESS: ShippingAddress = {
   recipient_name: '', postal_code: '', province: '', locality: '', county: '',
@@ -36,6 +37,7 @@ export class ShippingSelectorComponent implements OnInit {
   readonly shippingCost = this.shippingService.shippingCost;
   readonly loadingPostalCode = signal(false);
   readonly postalCodeNotFound = signal(false);
+  readonly streetNumberIsSN = signal(false);
   address: ShippingAddress = { ...EMPTY_ADDRESS };
 
   readonly texts = SHIPPING_TEXTS;
@@ -45,6 +47,7 @@ export class ShippingSelectorComponent implements OnInit {
     const existing = this.current();
     if (!existing.method) this.shippingService.setMethod('delivery');
     this.address = { ...EMPTY_ADDRESS, ...(existing.address ?? {}) };
+    this.streetNumberIsSN.set(this.address.street_number === 'S/N');
     this.lastPostalCode = this.address.postal_code;
     this.postalCodeSubject.pipe(
       debounceTime(400),
@@ -85,10 +88,12 @@ export class ShippingSelectorComponent implements OnInit {
       this.address.country = result.lookup.country;
       this.postalCodeNotFound.set(false);
       this.persistAddress();
-      this.shippingService.setQuote({ zone: result.quote.zone, price_ars: result.quote.price_ars, boxes: result.quote.boxes });
+      this.shippingService.setQuote({ zone: result.quote.zone, price_ars: result.quote.price_ars, boxes: result.quote.boxes }, result.quote.postal_code);
     });
 
-    if (this.address.postal_code) this.postalCodeSubject.next(this.address.postal_code);
+    if (this.address.postal_code && !this.shippingService.hasValidQuote(this.address.postal_code)) {
+      this.postalCodeSubject.next(this.address.postal_code);
+    }
   }
 
   private productGroups(): Array<{ productId: string; units: number }> {
@@ -101,17 +106,20 @@ export class ShippingSelectorComponent implements OnInit {
     this.shippingService.setMethod(method);
     if (method === 'delivery') {
       this.address = { ...EMPTY_ADDRESS, ...(this.current().address ?? {}) };
-      if (this.address.postal_code) this.postalCodeSubject.next(this.address.postal_code);
+      this.streetNumberIsSN.set(this.address.street_number === 'S/N');
+      if (this.address.postal_code && !this.shippingService.hasValidQuote(this.address.postal_code)) {
+        this.postalCodeSubject.next(this.address.postal_code);
+      }
     }
   }
 
   updatePostalCode(value: string): void {
     const normalized = value.replace(/\D/g, '').slice(0, 4);
     if (normalized !== this.address.postal_code) {
-      if (/^\d{4}$/.test(this.address.postal_code) && normalized !== this.address.postal_code) {
-        this.address.locality = '';
-        this.address.county = '';
-      }
+      this.address.province = '';
+      this.address.locality = '';
+      this.address.county = '';
+      this.postalCodeNotFound.set(false);
       this.address.postal_code = normalized;
       this.persistAddress();
     }
@@ -124,6 +132,11 @@ export class ShippingSelectorComponent implements OnInit {
     this.persistAddress();
   }
 
+  toggleStreetNumberSN(checked: boolean): void {
+    this.streetNumberIsSN.set(checked);
+    this.updateAddress('street_number', checked ? 'S/N' : '');
+  }
+
   private persistAddress(): void {
     this.shippingService.setAddress({ ...this.address });
   }
@@ -133,7 +146,18 @@ export class ShippingSelectorComponent implements OnInit {
   }
 
   get isCabaProvince(): boolean {
-    const province = this.address.province.trim().toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    return province === 'ciudad autonoma de buenos aires' || province === 'caba';
+    return isCabaProvince(this.address.province);
+  }
+
+  get isBuenosAiresProvince(): boolean {
+    return isBuenosAiresProvince(this.address.province);
+  }
+
+  get showLocalityField(): boolean {
+    return this.addressFieldsVisible && !this.isCabaProvince;
+  }
+
+  get showCountyField(): boolean {
+    return this.addressFieldsVisible && this.isBuenosAiresProvince;
   }
 }

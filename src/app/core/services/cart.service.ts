@@ -1,7 +1,7 @@
 import { Injectable, signal, computed, PLATFORM_ID, inject, effect, untracked } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
-import { CartItem } from '../models/cart.model';
+import { CartItem, GroupedCartItem } from '../models/cart.model';
 import { ApiService } from './api.service';
 import { PricingConfigService } from './pricing-config.service';
 import { calculateLocalPrice } from '../lib/pricing.util';
@@ -35,6 +35,39 @@ export class CartService {
   readonly subtotalArs = computed(() =>
     this.items().reduce((sum, i) => sum + (i.price_ars || 0) * i.quantity, 0)
   );
+
+  readonly groupedCartItems = computed<GroupedCartItem[]>(() => {
+    const map = new Map<string, GroupedCartItem>();
+    for (const item of this.items()) {
+      const unitsPerPack = item.units_per_pack || 1;
+      const totalUnits = unitsPerPack * item.quantity;
+      const subtotal = (item.price_ars || 0) * item.quantity;
+      const existing = map.get(item.productId);
+      if (existing) {
+        existing.totalUnits += totalUnits;
+        existing.totalQuantity += item.quantity;
+        existing.subtotalArs += subtotal;
+        existing.presentations.push({ variantId: item.variantId, units_per_pack: unitsPerPack, quantity: item.quantity });
+      } else {
+        map.set(item.productId, {
+          productId: item.productId,
+          productName: item.productName,
+          slug: item.slug,
+          imageUrl: item.imageUrl,
+          representativeUnitsPerPack: unitsPerPack,
+          totalQuantity: item.quantity,
+          totalUnits,
+          subtotalArs: subtotal,
+          presentations: [{ variantId: item.variantId, units_per_pack: unitsPerPack, quantity: item.quantity }]
+        });
+      }
+    }
+    return Array.from(map.values()).sort((a, b) => {
+      const aVolume = this.items().find(item => item.productId === a.productId)?.product_volume_cc ?? 0;
+      const bVolume = this.items().find(item => item.productId === b.productId)?.product_volume_cc ?? 0;
+      return aVolume - bVolume;
+    });
+  });
 
   readonly volumeDiscountPercentage = computed(() => {
     const config = this.pricingConfigService.pricingConfig();
