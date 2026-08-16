@@ -21,7 +21,7 @@
     @if (cartService.volumeDiscountPercentage() > 0) {
       <div class="mobile-checkout-summary__row mobile-checkout-summary__row--discount">
         <span>Descuento</span>
-        <span>{{ cartService.volumeDiscountPercentage() }}% OFF</span>
+        <span><strong>-</strong>{{ cartService.volumeDiscountPercentage() }}%</span>
       </div>
     }
     <button type="button" class="btn btn-app-primary btn-sm w-100 payment-submit" (click)="pagarAhora(checkoutForm.valid)">
