@@ -21,7 +21,7 @@
     @if (cartService.volumeDiscountPercentage() > 0) {
       <div class="mobile-checkout-summary__row mobile-checkout-summary__row--discount">
         <span>Descuento</span>
-        <span><strong>-</strong>{{ cartService.volumeDiscountPercentage() }}%</span>
+        <span>{{ cartService.volumeDiscountPercentage() }}% OFFz</span>
       </div>
     }
     <button type="button" class="btn btn-app-primary btn-sm w-100 payment-submit" (click)="pagarAhora(checkoutForm.valid)">
@@ -166,7 +166,7 @@
           &nbsp;
 		  -->
           TRANSFERENCIA
-          @if (pricingConfigService.paymentCommissionPercentage() > 0) { <span class="badge-off">{{ pricingConfigService.paymentCommissionPercentage() }}% Off</span> }
+          @if (pricingConfigService.paymentCommissionPercentage() > 0) { <span class="badge-off"><strong style="font-family: 'Arial Black', Gadget, sans-serif;">&minus;</strong> {{ pricingConfigService.paymentCommissionPercentage() }}%</span> }
         </span>
       </button>
     </div>

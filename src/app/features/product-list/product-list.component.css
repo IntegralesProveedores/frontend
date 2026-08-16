@@ -30,13 +30,3 @@
   border-radius: var(--border-radius-base);
 }
 
-
-/* Hide scrollbar but allow scrolling */
-.categories-nav::-webkit-scrollbar {
-  display: none;
-}
-.categories-nav {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
