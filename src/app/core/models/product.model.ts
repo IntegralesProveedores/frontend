@@ -13,6 +13,7 @@ export interface ProductVariant {
   price_ars: number;
   price_usd?: number;
   cost_usd?: number;
+  cost_currency?: 'ARS' | 'USD';
   markup_percentage?: number;
   stock: number;
   units_per_pack: number;
@@ -40,6 +41,7 @@ export interface PricingConfig {
   taxes: PricingTax[];
   volume_discounts: VolumeDiscount[];
   markup: number;
+  payment_commission_percentage: number;
 }
 
 export interface ProductImage {

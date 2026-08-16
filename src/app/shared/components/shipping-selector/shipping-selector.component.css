@@ -28,6 +28,9 @@
 
 .province-field { position: relative; }
 .province-field .form-control-minimal { padding-right: 2.5rem; }
+
+.observaciones-check { display: flex; align-items: center; gap: .5rem; font-size: .85rem; cursor: pointer; }
+.observaciones-textarea { height: auto; margin-top: .5rem; resize: vertical; }
 .province-loading-spinner {
   position: absolute;
   top: 50%;

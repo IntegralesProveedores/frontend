@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, PLATFORM_ID, inject } from '@angular/core';
+import { Injectable, signal, computed, PLATFORM_ID, inject, Injector } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, finalize, skip } from 'rxjs';
@@ -19,11 +19,12 @@ export class ShippingService {
   private readonly quoteSignal = signal<QuoteData | null>(null);
   private readonly quotingSignal = signal(false);
   private readonly quotedKey = signal<string | null>(null);
-  private readonly cartService = inject(CartService);
+  private readonly injector = inject(Injector);
   private readonly postalCodeService = inject(PostalCodeService);
   private readonly productGroups = computed(() => {
+    const cartService = this.injector.get(CartService);
     const groups = new Map<string, number>();
-    for (const item of this.cartService.cartItems()) {
+    for (const item of cartService.cartItems()) {
       groups.set(item.productId, (groups.get(item.productId) ?? 0) + item.quantity * (item.units_per_pack || 1));
     }
     return Array.from(groups, ([productId, units]) => ({ productId, units }));

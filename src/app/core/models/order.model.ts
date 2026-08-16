@@ -9,6 +9,7 @@ export interface ShippingAddress {
   floor: string;
   apartment: string;
   country: string;
+  observations?: string;
 }
 
 export type ShippingMethod = 'pickup' | 'delivery' | 'coordinar';

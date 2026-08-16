@@ -25,6 +25,7 @@ const EMPTY_ADDRESS: ShippingAddress = {
 })
 export class ShippingSelectorComponent implements OnInit {
   @Input() mode: 'compact' | 'full' = 'full';
+  @Input() formSubmitted = false;
 
   private readonly shippingService = inject(ShippingService);
   private readonly postalCodeService = inject(PostalCodeService);
@@ -38,6 +39,7 @@ export class ShippingSelectorComponent implements OnInit {
   readonly loadingPostalCode = signal(false);
   readonly postalCodeNotFound = signal(false);
   readonly streetNumberIsSN = signal(false);
+  readonly showObservaciones = signal(false);
   address: ShippingAddress = { ...EMPTY_ADDRESS };
 
   readonly texts = SHIPPING_TEXTS;
@@ -48,6 +50,7 @@ export class ShippingSelectorComponent implements OnInit {
     if (!existing.method) this.shippingService.setMethod('delivery');
     this.address = { ...EMPTY_ADDRESS, ...(existing.address ?? {}) };
     this.streetNumberIsSN.set(this.address.street_number === 'S/N');
+    this.showObservaciones.set(!!this.address.observations);
     this.lastPostalCode = this.address.postal_code;
     this.postalCodeSubject.pipe(
       debounceTime(400),
@@ -135,6 +138,19 @@ export class ShippingSelectorComponent implements OnInit {
   toggleStreetNumberSN(checked: boolean): void {
     this.streetNumberIsSN.set(checked);
     this.updateAddress('street_number', checked ? 'S/N' : '');
+  }
+
+  onStreetNumberInput(event: Event): void {
+    if (this.streetNumberIsSN()) return;
+    const input = event.target as HTMLInputElement;
+    const value = input.value.replace(/\D/g, '');
+    if (input.value !== value) input.value = value;
+    this.updateAddress('street_number', value);
+  }
+
+  toggleObservaciones(checked: boolean): void {
+    this.showObservaciones.set(checked);
+    if (!checked) this.updateAddress('observations', '');
   }
 
   private persistAddress(): void {

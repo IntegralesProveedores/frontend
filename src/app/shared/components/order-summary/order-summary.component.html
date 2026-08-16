@@ -23,7 +23,7 @@
 					</span>
 
 					<div class="text-end">
-					  <div class="text-success fw-bold">{{ item.subtotalArs | currencyArs }}</div>
+					  <div class="fw-bold">{{ item.subtotalArsNoDiscount | currencyArs }}</div>
 					</div>
 				  </div>
 				</div>
@@ -35,7 +35,7 @@
 		@if (cartService.volumeDiscountPercentage() > 0) {
 		  <div class="d-flex justify-content-between align-items-center py-1">
 			<span class="summary-label">Subtotal</span>
-			<span class="summary-value">{{ subtotalBrutoArs | currencyArs }}</span>
+			<span class="summary-value">{{ subtotalSinDescuentoArs | currencyArs }}</span>
 		  </div>
 		  <div class="d-flex justify-content-between align-items-center py-1">
 			<span class="summary-label">Descuento</span>
@@ -48,6 +48,7 @@
 		  <div class="text-end">
 			<div class="h3 mb-1 fw-bold total-main text-success">{{ cartService.subtotalArs() | currencyArs }}</div>
 			<div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
+			<div class="price-sin-impuestos text-muted" style="font-size: 0.7rem;">Sin impuestos: {{ subtotalSinImpuestosArs | currencyArs }}</div>
 		  </div>
 		</div>
 	  </div>
@@ -86,7 +87,7 @@
           } @else if (shippingMethod === 'pickup') {
             <div class="h3 mb-0 fw-bold text-success">Retiro</div>
           } @else if (shippingMethod === 'coordinar') {
-            <div class="h3 mb-0 fw-bold text-success">A coordinar</div>
+            <div class="h3 mb-0 fw-bold text-success">Coordinar</div>
           } @else {
             <div class="h3 mb-0 fw-bold text-success">...</div>
           }
@@ -95,18 +96,31 @@
 		
 		
       </div>
+
     </div>
   }
 
   @if (showPaymentMethod && paymentMethodService.current()) {
     <div class="summary-block">
       <div class="d-flex justify-content-between align-items-center py-2">
-		<span class="fw-bold h5 mb-0 item-name">Pago</span>
+		<span class="fw-bold h5 mb-0 item-name">
+			Pago
+			@if (paymentMethodService.current() === 'transferencia' && cartService.paymentCommissionPercentage_MP() > 0) {
+			  <span>Transferencia</span>
+			}
+		</span>
 
         @if (paymentMethodService.current() === 'mercadopago') {
           <img src="/assets/icon/mercado-pago-horizontal.png" alt="MERCADO PAGO" class="payment-method-icon">
         } @else {
+		  @if (paymentMethodService.current() === 'transferencia' && cartService.paymentCommissionPercentage_MP() > 0) {
+			<span class="h5 mb-0 fw-bold text-success">{{ pricingConfigService.paymentCommissionPercentage() }}% Off</span>
+         } @else {
+		  
           <span class="summary-value">{{ paymentMethodLabel() }}</span>
+		  }
+		  
+		  
         }
       </div>
     </div>
@@ -116,7 +130,7 @@
     <div class="total-row d-flex justify-content-between align-items-start">
       <span class="fw-bold h5 mb-0 item-name">TOTAL</span>
       <div class="text-end">
-        <div class="h3 mb-1 fw-bold total-main">{{ totalConEnvio | currencyArs }}</div>
+        <div class="h3 mb-1 fw-bold total-main">{{ cartService.totalConComision() | currencyArs }}</div>
         <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
       </div>
     </div>

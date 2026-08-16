@@ -12,6 +12,9 @@ export interface CreatePaymentRequest {
   items: OrderItem[];
   customer: MercadoPagoCustomer;
   shipping: ShippingPayload;
+  payment_method?: 'mercadopago' | 'transferencia';
+  payment_commission_percentage?: number;
+  payment_commission_amount?: number;
 }
 
 export interface CreatePaymentResponse {

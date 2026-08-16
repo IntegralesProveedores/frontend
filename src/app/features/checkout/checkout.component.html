@@ -5,14 +5,14 @@
       <span>{{ cartService.subtotalArs() | currencyArs }}</span>
     </div>
     <div class="mobile-checkout-summary__row">
-      <span>Env&iacute;­o</span>
+      <span>Entrega</span>
       <span>
         @if ((shippingCost() ?? 0) > 0) {
           {{ shippingCost() | currencyArs }}
         } @else if (shippingMethod() === 'pickup') {
           Retiro
         } @else if (shippingMethod() === 'coordinar') {
-          A coordinar
+          Coordinar
         } @else {
           ...
         }
@@ -24,12 +24,16 @@
         <span>{{ cartService.volumeDiscountPercentage() }}% OFF</span>
       </div>
     }
-    <div class="mobile-checkout-summary__total">
-      <span>TOTAL</span>
-      <span>{{ totalConEnvio() | currencyArs }}</span>
-    </div>
+    <button type="button" class="btn btn-app-primary btn-sm w-100 payment-submit" (click)="pagarAhora(checkoutForm.valid)">
+      @if (loading || paymentLoading) { <span class="spinner-border spinner-border-sm me-2"></span><span>PROCESANDO...</span> }
+      @else { <span>PAGAR {{ totalConEnvio() | currencyArs }}</span> }
+    </button>
     <div class="mobile-checkout-summary__iva">{{ pricingConfigService.vatLabel() }}</div>
+
   </div>
+  
+  
+
   <div class="container">
     <div class="row">
       <!-- Formulario -->
@@ -120,7 +124,7 @@
   <!-- BLOQUE 2: Envio -->
   <h5 class="mt-5 mb-3">2. M&Eacute;TODO DE ENTREGA</h5>
   
-  <app-shipping-selector mode="full"></app-shipping-selector>
+  <app-shipping-selector mode="full" [formSubmitted]="shippingFormSubmitted"></app-shipping-selector>
 
   @if (shippingFormSubmitted && !shippingMethod()) {
     <div class="text-danger x-small mt-2">Seleccion&aacute;­ una opci&oacute;­n de env&iacute;­­o.</div>
@@ -128,7 +132,7 @@
 
   @if (shippingFormSubmitted && shippingMethod() === 'delivery' && !shippingValid) {
     <div class="text-danger x-small mt-2">
-      Comple&aacute; los datos obligatorios de env&iacute;­­o para continuar.
+      Complet&aacute; los datos obligatorios de env&iacute;­­o para continuar.
     </div>
   }
 
@@ -162,6 +166,7 @@
           &nbsp;
 		  -->
           TRANSFERENCIA
+          @if (pricingConfigService.paymentCommissionPercentage() > 0) { <span class="badge-off">{{ pricingConfigService.paymentCommissionPercentage() }}% Off</span> }
         </span>
       </button>
     </div>
@@ -177,7 +182,7 @@
     <button
       type="submit"
       class="btn btn-app-primary btn-lg py-3 w-100 payment-submit"
-      [disabled]="loading || paymentLoading || checkoutForm.invalid">
+      [disabled]="loading || paymentLoading">
       @if (loading || paymentLoading) {
         <span class="spinner-border spinner-border-sm me-2"></span>
         <span>PROCESANDO...</span>
@@ -224,4 +229,3 @@
     </div>
   </div>
 </section>
-

@@ -4,7 +4,9 @@ import { firstValueFrom } from 'rxjs';
 import { CartItem, GroupedCartItem } from '../models/cart.model';
 import { ApiService } from './api.service';
 import { PricingConfigService } from './pricing-config.service';
-import { calculateLocalPrice } from '../lib/pricing.util';
+import { calculateLocalPrice, calculateLocalPriceNoDiscount } from '../lib/pricing.util';
+import { PaymentMethodService } from './payment-method.service';
+import { ShippingService } from './shipping.service';
 
 const CART_KEY = 'cart_items';
 
@@ -13,6 +15,8 @@ export class CartService {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly apiService = inject(ApiService);
   private readonly pricingConfigService = inject(PricingConfigService);
+  private readonly paymentMethodService = inject(PaymentMethodService);
+  private readonly shippingService = inject(ShippingService);
 
   private readonly items = signal<CartItem[]>([]);
   private readonly dolarVenta = signal<number>(0);
@@ -36,17 +40,30 @@ export class CartService {
     this.items().reduce((sum, i) => sum + (i.price_ars || 0) * i.quantity, 0)
   );
 
+  readonly shippingArs = computed(() => this.shippingService.shippingCost() ?? 0);
+  readonly paymentCommissionPercentage = computed(() => this.paymentMethodService.current() === 'transferencia' ? 0 : this.pricingConfigService.paymentCommissionPercentage());
+  readonly paymentCommissionPercentage_MP = computed(() => this.pricingConfigService.paymentCommissionPercentage());
+  readonly paymentCommissionArs = computed(() => Math.round((this.subtotalArs() + this.shippingArs()) * this.paymentCommissionPercentage() / 100));
+  readonly totalConComision = computed(() => this.subtotalArs() + this.shippingArs() + this.paymentCommissionArs());
+  readonly subtotalSinDescuentoArs = computed(() => this.groupedCartItems().reduce((sum, item) => sum + item.subtotalArsNoDiscount, 0));
+
   readonly groupedCartItems = computed<GroupedCartItem[]>(() => {
     const map = new Map<string, GroupedCartItem>();
     for (const item of this.items()) {
       const unitsPerPack = item.units_per_pack || 1;
       const totalUnits = unitsPerPack * item.quantity;
       const subtotal = (item.price_ars || 0) * item.quantity;
+      const config = this.pricingConfigService.pricingConfig();
+      const noDiscount = config && item.cost_usd_master && item.units_per_pack_master && unitsPerPack
+        ? calculateLocalPriceNoDiscount(Number(item.cost_usd_master), Number(item.units_per_pack_master), unitsPerPack, item.quantity, item.cost_currency, config)
+        : { price_ars: item.price_ars || 0 };
+      const subtotalNoDiscount = noDiscount.price_ars * item.quantity;
       const existing = map.get(item.productId);
       if (existing) {
         existing.totalUnits += totalUnits;
         existing.totalQuantity += item.quantity;
         existing.subtotalArs += subtotal;
+        existing.subtotalArsNoDiscount += subtotalNoDiscount;
         existing.presentations.push({ variantId: item.variantId, units_per_pack: unitsPerPack, quantity: item.quantity });
       } else {
         map.set(item.productId, {
@@ -58,6 +75,8 @@ export class CartService {
           totalQuantity: item.quantity,
           totalUnits,
           subtotalArs: subtotal,
+          unitPriceNoDiscountArs: noDiscount.price_ars,
+          subtotalArsNoDiscount: subtotalNoDiscount,
           presentations: [{ variantId: item.variantId, units_per_pack: unitsPerPack, quantity: item.quantity }]
         });
       }
@@ -128,9 +147,10 @@ export class CartService {
           Number(item.units_per_pack_master) || 1,
           Number(item.units_per_pack) || 1,
           newQuantity,
+          item.cost_currency,
           config
         )
-      : { price_ars: item.price_ars, price_usd: item.price_usd };
+      : { price_ars: item.price_ars, price_usd: item.price_usd, price_sin_impuestos_ars: item.price_sin_impuestos_ars };
 
     if (existing) {
       this.items.set(current.map(i =>
@@ -183,6 +203,7 @@ export class CartService {
         Number(item.units_per_pack_master) || 1,
         Number(item.units_per_pack) || 1,
         quantity,
+        item.cost_currency,
         config
       );
 
@@ -228,9 +249,10 @@ export class CartService {
           Number(pricingBase.units_per_pack_master) || 1,
           Number(toVariant.units_per_pack) || 1,
           quantity,
+          pricingBase.cost_currency,
           config
         )
-      : { price_ars: pricingBase.price_ars, price_usd: pricingBase.price_usd };
+      : { price_ars: pricingBase.price_ars, price_usd: pricingBase.price_usd, price_sin_impuestos_ars: pricingBase.price_sin_impuestos_ars };
 
     if (destination) {
       this.items.set(current
@@ -276,6 +298,7 @@ export class CartService {
         Number(item.units_per_pack_master) || 1,
         Number(item.units_per_pack) || 1,
         item.quantity,
+        item.cost_currency,
         config
       );
       return { ...item, ...pricing };

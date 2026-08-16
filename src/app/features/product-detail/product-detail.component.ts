@@ -162,6 +162,7 @@ export class ProductDetailComponent implements OnInit {
       Number(p.units_per_pack_master) || 1,
       Number(v.units_per_pack) || 1,
       totalQty,
+      v.cost_currency,
       config
     );
 
@@ -377,6 +378,7 @@ export class ProductDetailComponent implements OnInit {
       sku: v.sku,
       price_ars: this.dynamicPriceArs(),
       price_usd: this.dynamicPriceUsd(),
+      cost_currency: v.cost_currency,
       cost_usd: v.cost_usd,
       cost_usd_master: p.cost_usd,
       quantity: this.quantity(),

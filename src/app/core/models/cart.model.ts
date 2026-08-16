@@ -6,8 +6,10 @@ export interface CartItem {
   sku: string;
   price_ars: number;
   price_usd?: number;
+  price_sin_impuestos_ars?: number;
   cost_usd?: number;
   cost_usd_master?: number;
+  cost_currency?: 'ARS' | 'USD';
   quantity: number;
   imageUrl: string;
   stock: number;
@@ -33,6 +35,8 @@ export interface GroupedCartItem {
   totalQuantity: number;
   totalUnits: number;
   subtotalArs: number;
+  unitPriceNoDiscountArs: number;
+  subtotalArsNoDiscount: number;
   presentations: GroupedCartItemPresentation[];
 }
 

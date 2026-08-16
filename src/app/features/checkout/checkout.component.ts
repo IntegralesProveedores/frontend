@@ -37,6 +37,9 @@ type ValidatedOrder = {
   total_usd: number;
   exchange_rate: number;
   order_ref: string;
+  payment_method?: 'mercadopago' | 'transferencia';
+  payment_commission_percentage?: number;
+  payment_commission_amount?: number;
 };
 
 @Component({
@@ -76,7 +79,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     : 0);
 
   // TODO: sumar shipping_amount al total real de la orden en el backend (fase pendiente).
-  readonly totalConEnvio = computed(() => this.cartService.subtotalArs() + (this.shippingCost() ?? 0));
+  readonly totalConEnvio = this.cartService.totalConComision;
 
   customer = {
     nombre: '',
@@ -270,7 +273,47 @@ private generarSeccionPagoTransferencia(): string {
   `;
 }
 
+private generarSeccionProductos(order: ValidatedOrder): string {
+  const groups = new Map<string, { name: string; totalUnits: number; subtotal: number; skus: string[] }>();
+  for (const item of order.items) {
+    const existing = groups.get(item.product_name);
+    const units = (item.units_per_pack || 1) * item.quantity;
+    const subtotal = item.subtotal_ars || (item.price_ars * item.quantity);
+    if (existing) {
+      existing.totalUnits += units;
+      existing.subtotal += subtotal;
+      existing.skus.push(item.sku);
+    } else groups.set(item.product_name, { name: item.product_name, totalUnits: units, subtotal, skus: [item.sku] });
+  }
+  let rows = '';
+  groups.forEach(g => rows += `<tr><td style="border:1px solid #ddd;padding:10px;"><strong style="color:#2b5e2b;">${this.escapeHtml(g.name)}</strong><br><span style="font-size:.7em;color:#888;">SKU: ${this.escapeHtml(g.skus.join(', '))}</span></td><td style="border:1px solid #ddd;padding:10px;text-align:center;">${g.totalUnits} u.</td><td style="border:1px solid #ddd;padding:10px;text-align:right;">$${this.fmtNumber(g.subtotal)}</td></tr>`);
+  return `<h3 style="color:#2b5e2b;font-size:15px;margin:25px 0 10px;">PRODUCTOS</h3><table width="100%" style="border-collapse:collapse;font-size:13px;"><thead><tr style="background-color:#f8f9fa;"><th style="border:1px solid #ddd;padding:10px;text-align:left;">Producto</th><th style="border:1px solid #ddd;padding:10px;text-align:center;">Unidades</th><th style="border:1px solid #ddd;padding:10px;text-align:right;">Subtotal</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+private generarSeccionEmbalaje(): string {
+  const boxes = this.shippingService.quote()?.boxes ?? [];
+  if (!boxes.length) return '';
+  const rows = boxes.map(b => `<tr><td style="padding:4px 0;color:#666;">${b.count} x ${this.escapeHtml(b.boxModelName)}</td><td style="padding:4px 0;color:#333;text-align:right;">${b.widthCm} x ${b.lengthCm} x ${b.heightCm} x cm.</td></tr>`).join('');
+  return `<h3 style="color:#2b5e2b;font-size:15px;margin:25px 0 10px;">EMBALAJE</h3><table width="100%" style="border-collapse:collapse;font-size:13px;">${rows}</table>`;
+}
+
+private generarSeccionPago(order: ValidatedOrder): string {
+  if (order.payment_method === 'transferencia' || this.paymentMethodService.current() === 'transferencia') return this.generarSeccionPagoTransferencia();
+  return `<h3 style="color:#2b5e2b;font-size:15px;margin:25px 0 10px;">PAGO</h3><p style="font-size:13px;color:#444;">Mercado Pago - Checkout Pro</p>`;
+}
+
+private generarSeccionTotales(order: ValidatedOrder): string {
+  const descuentoPct = this.cartService.volumeDiscountPercentage();
+  const subtotal = this.cartService.subtotalSinDescuentoArs();
+  return `<h3 style="color:#2b5e2b;font-size:15px;margin:25px 0 10px;">TOTALES</h3><table width="100%" style="border-collapse:collapse;font-size:13px;"><tr><td>Subtotal</td><td style="text-align:right;">$${this.fmtNumber(subtotal)}</td></tr>${descuentoPct > 0 ? `<tr><td>Descuento</td><td style="text-align:right;color:#1e7e34;">${descuentoPct}% OFF</td></tr>` : ''}${order.shipping_ars > 0 ? `<tr><td>Envío</td><td style="text-align:right;">$${this.fmtNumber(order.shipping_ars)}</td></tr>` : ''}${order.payment_method === 'transferencia' && (order.payment_commission_percentage ?? 0) > 0 ? `<tr><td>Transferencia</td><td style="text-align:right;color:#1e7e34;">${order.payment_commission_percentage}% OFF</td></tr>` : ''}${order.payment_method === 'mercadopago' && (order.payment_commission_amount ?? 0) > 0 ? `<tr><td>Comisión de pago (Mercado Pago)</td><td style="text-align:right;">$${this.fmtNumber(order.payment_commission_amount ?? 0)}</td></tr>` : ''}<tr><td style="font-weight:bold;font-size:16px;padding-top:10px;">TOTAL</td><td style="font-weight:bold;font-size:20px;text-align:right;padding-top:10px;">$${this.fmtNumber(order.total_ars)}</td></tr></table><div style="color:#999;font-size:11px;font-style:italic;text-align:right;margin-top:4px;">${this.pricingConfigService.vatLabel()}</div>`;
+}
+
 private generarHTMLCorreo(order: ValidatedOrder): string {
+  const c = this.customer;
+  return `<div style="font-family:Arial,sans-serif;color:#333;max-width:700px;margin:auto;border:1px solid #eee;padding:20px;"><h2 style="color:#2b5e2b;text-align:center;">DETALLE DEL PEDIDO</h2><hr style="border:0;border-top:1px solid #eee;"><p><strong>Cliente:</strong> ${this.escapeHtml(c.nombre)}</p><p><strong>CUIT:</strong> ${this.escapeHtml(c.cuit) || 'No informado'}</p><p><strong>Teléfono:</strong> (${this.escapeHtml(c.codigoArea)}) ${this.escapeHtml(c.celular)}</p><p><strong>Email:</strong> ${this.escapeHtml(c.email)}</p>${this.generarSeccionProductos(order)}${this.generarSeccionEmbalaje()}${this.generarSeccionEnvio()}${this.generarSeccionPago(order)}${this.generarSeccionTotales(order)}<div style="margin-top:20px;padding:15px;background-color:#f8f9fa;border-radius:4px;text-align:center;"><p style="margin:0;color:#2b5e2b;font-weight:bold;">¡Gracias por tu compra!</p></div></div>`;
+}
+
+private generarHTMLCorreoLegacy(order: ValidatedOrder): string {
   const c = this.customer;
 
   let html = `
@@ -378,6 +421,9 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
           codigoArea: c.codigoArea,
           celular: c.celular
         },
+        payment_method: this.paymentMethodService.current() ?? 'mercadopago',
+        payment_commission_percentage: this.cartService.paymentCommissionPercentage(),
+        payment_commission_amount: this.cartService.paymentCommissionArs(),
         shipping: {
           method: this.shippingMethod()!,
           ...(this.shippingMethod() === 'delivery' ? { address: { ...this.shippingService.current().address! } } : {})
@@ -451,6 +497,9 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
           codigoArea: c.codigoArea,
           celular: c.celular
         },
+        payment_method: this.paymentMethodService.current() ?? 'mercadopago',
+        payment_commission_percentage: this.cartService.paymentCommissionPercentage(),
+        payment_commission_amount: this.cartService.paymentCommissionArs(),
         shipping: {
           method: this.shippingMethod()!,
           ...(this.shippingMethod() === 'delivery' ? { address: { ...this.shippingService.current().address! } } : {})
@@ -486,11 +535,10 @@ private generarHTMLCorreo(order: ValidatedOrder): string {
   }
 
   async pagarAhora(isValid: boolean | null): Promise<void> {
+    this.formSubmitted = true;
+    this.shippingFormSubmitted = true;
     const method = this.paymentMethodService.current();
-    if (!method) {
-      this.formSubmitted = true;
-      return;
-    }
+    if (!method || !isValid || !this.shippingValid || this.cartService.isEmpty()) return;
 
     if (method === 'mercadopago') {
       await this.iniciarPagoMercadoPago(isValid);

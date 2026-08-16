@@ -7,6 +7,7 @@ const PRICING_CONFIG_KEY = 'pricing_config';
 export class PricingConfigService {
   private readonly config = signal<PricingConfig | null>(null);
   readonly pricingConfig = this.config.asReadonly();
+  readonly paymentCommissionPercentage = computed(() => this.config()?.payment_commission_percentage ?? 0);
   readonly hasPricingConfig = computed(() => this.config() !== null);
   readonly vatLabel = computed(() => {
     const taxes = this.config()?.taxes ?? [];
