@@ -31,13 +31,16 @@
 
 
 @media (max-width: 1000px) 
-{
-		
+{	
 	.cart-page {
 		margin-top: 10px;
 	}
 	.cart-img-box img {
 		display: none;
 	}
+	.cart-page .item-name {
+		font-size: 11px;
+	}
+
 }
 

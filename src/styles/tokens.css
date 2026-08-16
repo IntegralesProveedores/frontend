@@ -67,7 +67,7 @@
   --t-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: var(--t-base);
 
-  --section-spacing: var(--space-8);
+  --section-spacing: var(--space-4);
   --skeleton-bg: #e5e5e5;
   --skeleton-shimmer: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
 

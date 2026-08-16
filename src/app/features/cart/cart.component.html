@@ -14,7 +14,7 @@
     @if (!isEmpty()) {
       <div class="row g-5" style="margin-right: 0;">
         <!-- Items List -->
-        <div class="col-lg-6">
+        <div class="offset-md-1 col-lg-6">
           <div class="cart-items-list">
             @for (item of items(); track item.variantId) {
               <div class="cart-item-row py-2 border-bottom">
@@ -48,7 +48,7 @@
                         <button class="btn-app-qty btn-app-qty--sm" (click)="increment(item)">+</button>
                       </div>
                       <div class="item-total text-end">
-                        <div class="fw-bold item-name">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
+                        <div class="h6 fw-bold item-name">{{ (item.price_ars * item.quantity) | currencyArs }}</div>
 						<div class="x-small text-muted">{{ ((item.units_per_pack || 0) * item.quantity) | number:'1.0-0' }} u.</div>
 
 
@@ -69,7 +69,7 @@
         </div>
 
         <!-- Order Summary -->
-        <div class="col-lg-5 offset-md-1">
+        <div class="col-lg-4">
           <app-order-summary footerLinkLabel="VER MAS PRODUCTOS" footerLinkRoute="/productos" footerLinkIcon="bi-shop" [showItemsList]="false" [showPaymentMethod]="false" [showBoxesDetail]="false">
             <app-shipping-selector mode="compact" shippingSelectorSlot></app-shipping-selector>
             <a routerLink="/finalizar-compra" class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mt-3 mb-2">

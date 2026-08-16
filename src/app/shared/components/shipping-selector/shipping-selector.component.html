@@ -1,5 +1,5 @@
 <div class="shipping-selector" [class.shipping-selector--compact]="mode === 'compact'">
-  <div class="shipping-options-row">
+  <div class="shipping-options-row mb-1">
     <button type="button" class="shipping-option shipping-option-correo" [class.compact]="mode === 'compact'" [class.active]="method() === 'delivery'" (click)="selectMethod('delivery')">
       <img src="/assets/icon/correo-argentino.png" alt="CORREO ARGENTINO" class="img-fluid d-block mx-auto" />
     </button>
@@ -12,7 +12,7 @@
   </div>
 
   @if (method() === 'coordinar') {
-    <div class="info-box mt-3 mb-3">
+    <div class="info-box">
 		<p class="mb-0 fw-bold">
 			<i class="bi bi-whatsapp text-success"></i> 
 			{{ mode === 'compact' ? "+54 9 11 3022-6565" : "+54 9 11 3022-6565" }}
@@ -21,7 +21,7 @@
 		</div>
   }
   @if (method() === 'pickup') {
-    <div class="info-box mt-3 mb-3">
+    <div class="info-box">
 		<p class="mb-0 fw-bold">
 			<i class="bi bi-whatsapp text-success"></i> 
 			{{ mode === 'compact' ? "+54 9 11 3022-6565" : "+54 9 11 3022-6565" }}
@@ -31,7 +31,7 @@
   }
 
   @if (method() === 'delivery') {
-    <div class="row g-2 mt-2 mb-2">
+    <div class="row g-2">
       <div class="col-4 col-md-4">
         <input name="shipping_postal_code" [ngModel]="address.postal_code" (ngModelChange)="updatePostalCode($event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" [class.is-invalid]="!address.postal_code && formSubmitted" required maxlength="4" inputmode="numeric" autocomplete="off" placeholder="CP (*)">
         @if (postalCodeNotFound()) { <div class="text-danger x-small">No encontrado.</div> }
@@ -66,12 +66,14 @@
         <div class="col-6 col-md-6"><input name="shipping_floor" [ngModel]="address.floor" (ngModelChange)="updateAddress('floor', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" autocomplete="off" placeholder="Piso"></div>
         <div class="col-6 col-md-6"><input name="shipping_apartment" [ngModel]="address.apartment" (ngModelChange)="updateAddress('apartment', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" autocomplete="off" placeholder="Dpto."></div>
       }
+	  <!--
       @if (mode === 'full') {
         <div class="mt-2">
           <label class="observaciones-check"><input type="checkbox" [ngModel]="showObservaciones()" (ngModelChange)="toggleObservaciones($event)" [ngModelOptions]="{ standalone: true }"><span>Agregar observaciones</span></label>
           @if (showObservaciones()) { <textarea name="shipping_observations" [ngModel]="address.observations" (ngModelChange)="updateAddress('observations', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal observaciones-textarea" rows="2" maxlength="300" placeholder="Observaciones"></textarea> }
         </div>
       }
+	  -->
     </div>
   }
 </div>

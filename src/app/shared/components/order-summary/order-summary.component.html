@@ -1,148 +1,148 @@
 <div class="order-summary-box p-1">
   <div class="summary-details">
-	  <div class="summary-block">
-		@if (showItemsList) {
-		  <div class="checkout-items-list mb-2">
-			@for (item of cartService.groupedCartItems(); track item.productId) {
-			  <div class="d-flex gap-3 py-1 mb-2">
-				<div class="checkout-img-box">
-				  <a [routerLink]="['/productos', item.slug, item.representativeUnitsPerPack]">
-					<img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
-				  </a>
-				</div>
-				<div class="flex-grow-1">
-				  <a [routerLink]="['/productos', item.slug, item.representativeUnitsPerPack]" class="text-decoration-none">
-					<h4 class="x-small mb-1 fw-bold item-name text-uppercase">{{ item.productName }}</h4>
-				  </a>
-				  <div class="d-flex justify-content-between align-items-start">
-					<span class="x-small summary-label lh-1">
-					  @for (presentation of item.presentations; track presentation.variantId) {
-						<!--<span class="d-block">Pack x{{ presentation.units_per_pack }} u. &times; {{ presentation.quantity }}</span>-->
-					  }
-					  <span class="d-block fw-bold mt-1">{{ item.totalUnits }} u.</span>
-					</span>
+		  <div class="summary-block">
+			@if (showItemsList) {
+			  <div class="checkout-items-list mb-2">
+				@for (item of cartService.groupedCartItems(); track item.productId) {
+				  <div class="d-flex gap-3 py-1 mb-0">
+					<div class="checkout-img-box">
+					  <a [routerLink]="['/productos', item.slug, item.representativeUnitsPerPack]">
+						<img [src]="item.imageUrl" [alt]="item.productName" class="img-fluid">
+					  </a>
+					</div>
+					<div class="flex-grow-1">
+					  <a [routerLink]="['/productos', item.slug, item.representativeUnitsPerPack]" class="text-decoration-none">
+						<h4 class="x-small mb-1 fw-bold item-name text-uppercase">{{ item.productName }}</h4>
+					  </a>
+					  <div class="d-flex justify-content-between align-items-start">
+						<span class="x-small summary-label lh-1">
+						  @for (presentation of item.presentations; track presentation.variantId) {
+							<!--<span class="d-block">Pack x{{ presentation.units_per_pack }} u. &times; {{ presentation.quantity }}</span>-->
+						  }
+						  <span class="d-block fw-bold mt-1">{{ item.totalUnits }} u.</span>
+						</span>
 
-					<div class="text-end">
-					  <div class="fw-bold">{{ item.subtotalArsNoDiscount | currencyArs }}</div>
+						<div class="text-end">
+						  <div class="fw-bold">{{ item.subtotalArsNoDiscount | currencyArs }}</div>
+						</div>
+					  </div>
 					</div>
 				  </div>
-				</div>
+				}
 			  </div>
 			}
-		  </div>
-		}
 
-		@if (cartService.volumeDiscountPercentage() > 0) {
-		  <div class="d-flex justify-content-between align-items-center py-1">
-			<span class="summary-label">Subtotal</span>
-			<span class="summary-value">{{ subtotalSinDescuentoArs | currencyArs }}</span>
-		  </div>
-		  <div class="d-flex justify-content-between align-items-center py-1">
-			<span class="summary-label">Descuento</span>
-			<span class="text-success fw-bold">{{ cartService.volumeDiscountPercentage() }}% OFF</span>
-		  </div>
-		}
+			@if (cartService.volumeDiscountPercentage() > 0) {
+			  <div class="d-flex justify-content-between align-items-center py-1">
+				<span class="summary-label">Subtotal</span>
+				<span class="summary-value">{{ subtotalSinDescuentoArs | currencyArs }}</span>
+			  </div>
+			  <div class="d-flex justify-content-between align-items-center py-1">
+				<span class="summary-label">Descuento</span>
+				<span class="text-success fw-bold">{{ cartService.volumeDiscountPercentage() }}% OFF</span>
+			  </div>
+			}
 
-		<div class="summary-row d-flex justify-content-between align-items-start" [class.border-top]="showItemsList || cartService.volumeDiscountPercentage() > 0" [class.pt-2]="showItemsList || cartService.volumeDiscountPercentage() > 0" [class.mt-2]="showItemsList || cartService.volumeDiscountPercentage() > 0">
-		  <span class="fw-bold h5 mb-0 summary-title">SUBTOTAL</span>
+			<div class="summary-row d-flex justify-content-between align-items-start" [class.border-top]="showItemsList || cartService.volumeDiscountPercentage() > 0" [class.pt-2]="showItemsList || cartService.volumeDiscountPercentage() > 0" [class.mt-2]="showItemsList || cartService.volumeDiscountPercentage() > 0">
+			  <span class="fw-bold h5 mb-0 summary-title">SUBTOTAL</span>
+			  <div class="text-end">
+				<div class="h3 mb-1 fw-bold total-main text-success">{{ cartService.subtotalArs() | currencyArs }}</div>
+				<div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
+				<div class="price-sin-impuestos text-muted" style="font-size: 0.7rem;">Sin impuestos: {{ subtotalSinImpuestosArs | currencyArs }}</div>
+			  </div>
+			</div>
+		  </div>
+
+	  @if (showBoxesDetail && shippingMethod === 'delivery' && shippingQuote?.boxes?.length) {
+		<div class="summary-block">
+		  <span class="fw-bold h5 mb-0 summary-title">Embalaje</span>
+		  @for (box of shippingQuote?.boxes ?? []; track box.boxModelName) {
+			<div class="d-flex justify-content-between align-items-center x-small py-1">
+			  <span class="summary-label">{{ box.count }} x {{ box.boxModelName }}</span>
+			  <span class="summary-value">{{ box.widthCm }} x {{ box.lengthCm }} x {{ box.heightCm }} cm.</span>
+			</div>
+		  }
+		</div>
+	  }
+
+	  @if (shippingMethod) {
+		<div class="summary-block">
+		  <ng-content select="[shippingSelectorSlot]"></ng-content>
+
+		  <div class="summary-row d-flex justify-content-between align-items-start mt-1">
+
+			<div class="text-start">
+			  <span class="fw-bold h5 mb-0 summary-title">Entrega</span>
+			  @if (shippingMethod === 'delivery') {
+				<small class="x-small text-muted d-block">Demora 3 a 7 d&iacute;as h&aacute;biles</small>
+			  }
+			</div>
+			<div class="text-end">
+			  @if (shippingQuoting) {
+				<span class="shipping-cost-spinner" aria-label="Recalculando env&iacute;o">
+				  <span class="spinner-border spinner-border-sm text-success" role="status"></span>
+				</span>
+			  } @else if ((shippingCost ?? 0) > 0) {
+				<div class="h3 mb-0 fw-bold text-success">{{ shippingCost | currencyArs }}</div>
+			  } @else if (shippingMethod === 'pickup') {
+				<div class="h3 mb-0 fw-bold text-success">Retiro</div>
+			  } @else if (shippingMethod === 'coordinar') {
+				<div class="h3 mb-0 fw-bold text-success">Coordinar</div>
+			  } @else {
+				<div class="h3 mb-0 fw-bold text-success">...</div>
+			  }
+			</div>		
+			
+			
+			
+		  </div>
+
+		</div>
+	  }
+
+	  @if (showPaymentMethod && paymentMethodService.current()) {
+		<div class="summary-block">
+		  <div class="d-flex justify-content-between align-items-center py-2">
+			<span class="fw-bold h5 mb-0 item-name">
+				Pago
+				@if (paymentMethodService.current() === 'transferencia' && cartService.paymentCommissionPercentage_MP() > 0) {
+				  <span>Transferencia</span>
+				}
+			</span>
+
+			@if (paymentMethodService.current() === 'mercadopago') {
+			  <img src="/assets/icon/mercado-pago-horizontal.png" alt="MERCADO PAGO" class="payment-method-icon">
+			} @else {
+			  @if (paymentMethodService.current() === 'transferencia' && cartService.paymentCommissionPercentage_MP() > 0) {
+				<span class="h5 mb-0 fw-bold text-success">{{ pricingConfigService.paymentCommissionPercentage() }}% Off</span>
+			 } @else {
+			  
+			  <span class="summary-value">{{ paymentMethodLabel() }}</span>
+			  }
+			  
+			  
+			}
+		  </div>
+		</div>
+	  }
+
+	  <div class="summary-block">
+		<div class="total-row d-flex justify-content-between align-items-start">
+		  <span class="fw-bold h5 mb-0 item-name">TOTAL</span>
 		  <div class="text-end">
-			<div class="h3 mb-1 fw-bold total-main text-success">{{ cartService.subtotalArs() | currencyArs }}</div>
+			<div class="h3 mb-1 fw-bold total-main">{{ cartService.totalConComision() | currencyArs }}</div>
 			<div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
-			<div class="price-sin-impuestos text-muted" style="font-size: 0.7rem;">Sin impuestos: {{ subtotalSinImpuestosArs | currencyArs }}</div>
 		  </div>
 		</div>
 	  </div>
 
-  @if (showBoxesDetail && shippingMethod === 'delivery' && shippingQuote?.boxes?.length) {
-    <div class="summary-block">
-	  <span class="fw-bold h5 mb-0 summary-title">Embalaje</span>
-      @for (box of shippingQuote?.boxes ?? []; track box.boxModelName) {
-        <div class="d-flex justify-content-between align-items-center x-small py-1">
-          <span class="summary-label">{{ box.count }} x {{ box.boxModelName }}</span>
-          <span class="summary-value">{{ box.widthCm }} x {{ box.lengthCm }} x {{ box.heightCm }} cm.</span>
-        </div>
-      }
-    </div>
-  }
+		<ng-content></ng-content>
 
-  @if (shippingMethod) {
-    <div class="summary-block">
-      <ng-content select="[shippingSelectorSlot]"></ng-content>
-
-      <div class="summary-row d-flex justify-content-between align-items-start mt-2 pt-2">
-
-        <div class="text-start">
-          <span class="fw-bold h5 mb-0 summary-title">Entrega</span>
-          @if (shippingMethod === 'delivery') {
-            <small class="x-small text-muted d-block">Demora 3 a 7 d&iacute;as h&aacute;biles</small>
-          }
-        </div>
-        <div class="text-end">
-          @if (shippingQuoting) {
-            <span class="shipping-cost-spinner" aria-label="Recalculando env&iacute;o">
-              <span class="spinner-border spinner-border-sm text-success" role="status"></span>
-            </span>
-          } @else if ((shippingCost ?? 0) > 0) {
-            <div class="h3 mb-0 fw-bold text-success">{{ shippingCost | currencyArs }}</div>
-          } @else if (shippingMethod === 'pickup') {
-            <div class="h3 mb-0 fw-bold text-success">Retiro</div>
-          } @else if (shippingMethod === 'coordinar') {
-            <div class="h3 mb-0 fw-bold text-success">Coordinar</div>
-          } @else {
-            <div class="h3 mb-0 fw-bold text-success">...</div>
-          }
-        </div>		
+		<p class="x-small text-muted text-center mt-3">
+		  <a [routerLink]="footerLinkRoute" class="link-danger text-decoration-none">
+			&larr; {{ footerLinkLabel }} &nbsp; <i class="bi" [ngClass]="footerLinkIcon"></i>
+		  </a>
+		</p>
 		
-		
-		
-      </div>
-
-    </div>
-  }
-
-  @if (showPaymentMethod && paymentMethodService.current()) {
-    <div class="summary-block">
-      <div class="d-flex justify-content-between align-items-center py-2">
-		<span class="fw-bold h5 mb-0 item-name">
-			Pago
-			@if (paymentMethodService.current() === 'transferencia' && cartService.paymentCommissionPercentage_MP() > 0) {
-			  <span>Transferencia</span>
-			}
-		</span>
-
-        @if (paymentMethodService.current() === 'mercadopago') {
-          <img src="/assets/icon/mercado-pago-horizontal.png" alt="MERCADO PAGO" class="payment-method-icon">
-        } @else {
-		  @if (paymentMethodService.current() === 'transferencia' && cartService.paymentCommissionPercentage_MP() > 0) {
-			<span class="h5 mb-0 fw-bold text-success">{{ pricingConfigService.paymentCommissionPercentage() }}% Off</span>
-         } @else {
-		  
-          <span class="summary-value">{{ paymentMethodLabel() }}</span>
-		  }
-		  
-		  
-        }
-      </div>
-    </div>
-  }
-
-  <div class="summary-block">
-    <div class="total-row d-flex justify-content-between align-items-start">
-      <span class="fw-bold h5 mb-0 item-name">TOTAL</span>
-      <div class="text-end">
-        <div class="h3 mb-1 fw-bold total-main">{{ cartService.totalConComision() | currencyArs }}</div>
-        <div class="iva-legend text-muted mt-1" style="font-size: 0.8rem;">{{ pricingConfigService.vatLabel() }}</div>
-      </div>
-    </div>
-  </div>
-
-    <ng-content></ng-content>
-
-    <p class="x-small text-muted text-center mt-3">
-      <a [routerLink]="footerLinkRoute" class="link-danger text-decoration-none">
-        &larr; {{ footerLinkLabel }} &nbsp; <i class="bi" [ngClass]="footerLinkIcon"></i>
-      </a>
-    </p>
-	
   </div>
 </div>
