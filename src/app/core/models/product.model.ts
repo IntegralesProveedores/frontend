@@ -78,5 +78,3 @@ export interface Product {
   volume_cc?: number | null;
   pricing_config?: PricingConfig;
 }
-
-

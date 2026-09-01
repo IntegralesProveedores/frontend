@@ -12,8 +12,6 @@ import { ContactoBrotaliaComponent } from './contacto-brotalia/contacto-brotalia
 import { FaqBrotaliaComponent } from './faq-brotalia/faq-brotalia.component';
 import { Title, Meta } from '@angular/platform-browser';
 
-
-
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -23,20 +21,26 @@ import { Title, Meta } from '@angular/platform-browser';
     HeroComponent,
     BeneficiosComponent,
     ProductosDestacadosComponent,
-	VentajasComponent,
+    VentajasComponent,
     ComoFuncionaComponent,
     EnviosPagosComponent,
     ContactoBrotaliaComponent,
-    FaqBrotaliaComponent
+    FaqBrotaliaComponent,
   ],
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
   private readonly titleService = inject(Title);
   private readonly metaService = inject(Meta);
 
   ngOnInit(): void {
-    this.titleService.setTitle('Brotalia | Macetas Biodegradables 100% Compostables al por Mayor');
-    this.metaService.updateTag({ name: 'description', content: 'Macetas biodegradables de turba, papel y cartón para tu vivero, distribuidora o negocio. Mejor crecimiento radicular, sin stress de trasplante. Envíos a toda Argentina.' });
+    this.titleService.setTitle(
+      'Brotalia | Macetas Biodegradables 100% Compostables al por Mayor',
+    );
+    this.metaService.updateTag({
+      name: 'description',
+      content:
+        'Macetas biodegradables de turba, papel y cartón para tu vivero, distribuidora o negocio. Mejor crecimiento radicular, sin stress de trasplante. Envíos a toda Argentina.',
+    });
   }
 }

@@ -8,11 +8,9 @@ import { CartService } from '../../../core/services/cart.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './cart-icon.component.html',
-  styleUrl: './cart-icon.component.css'
+  styleUrl: './cart-icon.component.css',
 })
 export class CartIconComponent {
   private cart = inject(CartService);
   count = this.cart.itemCount;
 }
-
-

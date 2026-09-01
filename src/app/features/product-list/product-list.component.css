@@ -1,6 +1,5 @@
 ﻿.col {
-	margin-top: 0;
-	
+  margin-top: 0;
 }
 .cat-link {
   background: none;
@@ -29,4 +28,3 @@
   border: none;
   border-radius: var(--border-radius-base);
 }
-

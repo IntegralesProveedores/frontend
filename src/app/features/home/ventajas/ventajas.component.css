@@ -1,9 +1,9 @@
 .img-hover-zoom {
-    transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 }
 
 .img-hover-zoom:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -13,7 +13,7 @@
 
 .ventajas {
   background-color: var(--color-bg-brand-soft);
-  font-family: 'Caveat', cursive;
+  font-family: "Caveat", cursive;
   font-size: 1.5em;
   font-weight: 600;
   line-height: 0.8;
@@ -23,7 +23,7 @@
 .numero-circulo {
   width: 30px;
   height: 30px;
-  aspect-ratio: 1/1; 
+  aspect-ratio: 1/1;
   border: 2px solid var(--color-text);
   border-radius: 50%;
   display: flex;
@@ -37,75 +37,75 @@
   width: 250px;
 }
 
-
-
 .texto-ventaja {
-
-
 }
 
 .ventaja {
   position: relative;
   padding: 40px 40px 50px;
-  background-size: 40px auto, 60px auto !important;
-  
+  background-size:
+    40px auto,
+    60px auto !important;
 }
 
 .ventaja-1 {
-  background: url("/assets/images/banner/ventajas/flecha-01.webp") bottom right no-repeat,
-              url("/assets/images/banner/ventajas/hoja-01.webp") top right no-repeat;
+  background:
+    url("/assets/images/banner/ventajas/flecha-01.webp") bottom right no-repeat,
+    url("/assets/images/banner/ventajas/hoja-01.webp") top right no-repeat;
 }
 
 .ventaja-2 {
-  background: url("/assets/images/banner/ventajas/flecha-02.webp") bottom center no-repeat,
-              url("/assets/images/banner/ventajas/hoja-02.webp") top right no-repeat;
+  background:
+    url("/assets/images/banner/ventajas/flecha-02.webp") bottom center no-repeat,
+    url("/assets/images/banner/ventajas/hoja-02.webp") top right no-repeat;
 }
 
 .ventaja-3 {
-  background: url("/assets/images/banner/ventajas/flecha-03.webp") bottom left no-repeat,
-              url("/assets/images/banner/ventajas/hoja-03.webp") bottom right no-repeat;
+  background:
+    url("/assets/images/banner/ventajas/flecha-03.webp") bottom left no-repeat,
+    url("/assets/images/banner/ventajas/hoja-03.webp") bottom right no-repeat;
 }
 
 .ventaja-4 {
-  background: url("/assets/images/banner/ventajas/flecha-04.webp") top left no-repeat,
-              url("/assets/images/banner/ventajas/hoja-04.webp") bottom center no-repeat;
+  background:
+    url("/assets/images/banner/ventajas/flecha-04.webp") top left no-repeat,
+    url("/assets/images/banner/ventajas/hoja-04.webp") bottom center no-repeat;
 }
 
 .ventaja-5 {
-  background: url("/assets/images/banner/ventajas/flecha-05.webp") top left no-repeat,
-              url("/assets/images/banner/ventajas/hoja-00.webp") top center no-repeat;
+  background:
+    url("/assets/images/banner/ventajas/flecha-05.webp") top left no-repeat,
+    url("/assets/images/banner/ventajas/hoja-00.webp") top center no-repeat;
   padding: 0 40px;
-
 }
 
 .ventaja-6 {
-  background: url("/assets/images/banner/ventajas/flecha-06.webp") top center no-repeat,
-              url("/assets/images/banner/ventajas/hoja-06.webp") top left no-repeat;
+  background:
+    url("/assets/images/banner/ventajas/flecha-06.webp") top center no-repeat,
+    url("/assets/images/banner/ventajas/hoja-06.webp") top left no-repeat;
 }
 
 .ventaja-7 {
-  background: url("/assets/images/banner/ventajas/flecha-07.webp") center right no-repeat,
-              url("/assets/images/banner/ventajas/hoja-07.webp") top left no-repeat;
+  background:
+    url("/assets/images/banner/ventajas/flecha-07.webp") center right no-repeat,
+    url("/assets/images/banner/ventajas/hoja-07.webp") top left no-repeat;
 }
 
+@media (max-width: 768px) {
+  .numero-circulo {
+    border: 1px solid var(--color-text);
+  }
 
-@media (max-width: 768px) 
-{
+  .img-maceta {
+    min-width: 170px !important;
+  }
 
-	.numero-circulo {
-	  border: 1px solid var(--color-text);
-	}
-
-
-	.img-maceta {
-		min-width: 170px !important;
-	}
-
-	.ventaja {
-		padding-left: 0;
-		padding-right: 0;
-		font-size: 0.9em !important;
-		background-size: 20px auto, 40px auto !important;
-	}
-
+  .ventaja {
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 0.9em !important;
+    background-size:
+      20px auto,
+      40px auto !important;
+  }
 }

@@ -14,9 +14,9 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
     <div class="progressive-image-container" [style.aspect-ratio]="aspectRatio">
       <!-- Skeleton: Se muestra mientras la imagen no ha cargado -->
       @if (!isLoaded()) {
-        <app-skeleton 
-          width="100%" 
-          height="100%" 
+        <app-skeleton
+          width="100%"
+          height="100%"
           [radius]="radius"
           class="skeleton-overlay"
         />
@@ -33,39 +33,41 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
       />
     </div>
   `,
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-    }
+  styles: [
+    `
+      :host {
+        display: block;
+        width: 100%;
+      }
 
-    .progressive-image-container {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      background-color: var(--color-bg-tertiary);
-    }
+      .progressive-image-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background-color: var(--color-bg-tertiary);
+      }
 
-    .skeleton-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
+      .skeleton-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
 
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      transition: opacity 0.5s ease-in-out;
-      object-fit: cover;
-    }
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        object-fit: cover;
+      }
 
-    img.loaded {
-      opacity: 1;
-    }
-  `]
+      img.loaded {
+        opacity: 1;
+      }
+    `,
+  ],
 })
 export class ProgressiveImageComponent {
   @Input({ required: true }) src!: string;
@@ -75,7 +77,7 @@ export class ProgressiveImageComponent {
   @Input() radius: string = '0';
 
   private readonly platformId = inject(PLATFORM_ID);
-  
+
   // Estado independiente de carga
   isLoaded = signal(false);
 

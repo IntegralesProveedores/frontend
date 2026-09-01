@@ -7,7 +7,7 @@ import { EmptyStateComponent } from '../empty-state/empty-state.component';
   standalone: true,
   imports: [CommonModule, EmptyStateComponent],
   template: `
-    <app-empty-state 
+    <app-empty-state
       icon="bi-exclamation-triangle-fill"
       variant="error"
       [title]="title"
@@ -16,11 +16,12 @@ import { EmptyStateComponent } from '../empty-state/empty-state.component';
       actionText="Intentar de nuevo"
       (actionClick)="retry.emit()"
     />
-  `
+  `,
 })
 export class ErrorStateComponent {
   @Input() title: string = '¡Ups! Algo salió mal';
-  @Input() message: string = 'No pudimos conectar con el servidor. Por favor, intentá de nuevo.';
+  @Input() message: string =
+    'No pudimos conectar con el servidor. Por favor, intentá de nuevo.';
   @Input() showRetry: boolean = true;
   @Output() retry = new EventEmitter<void>();
 }

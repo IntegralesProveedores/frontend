@@ -1,75 +1,71 @@
 .banner-content {
-    background-image: url('/assets/images/producto-maceta-biodegradable-todos-06.webp');
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    background-size: cover;
+  background-image: url("/assets/images/producto-maceta-biodegradable-todos-06.webp");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
 }
-
 
 .banner-content h1,
 .banner-content h2,
 .banner-content p,
 .banner-content a {
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 0, 0, 0.7), 2px 2px 6px rgba(0, 0, 0, 0.9);
-  color: #FFF;
+  text-shadow:
+    0 0 5px rgba(0, 0, 0, 0.9),
+    0 0 10px rgba(0, 0, 0, 0.7),
+    2px 2px 6px rgba(0, 0, 0, 0.9);
+  color: #fff;
   font-size: 4em;
   line-height: 1.2;
 }
 
-	.banner-content h1 {
-	  font-size: 2em;
-	  font-weight: 700;
-	  color: #FFF; 
-	  line-height: 0.9;
-	}
-	
-	.banner-content p {
-		font-weight: 500;
-	}
-		
-		.banner-content p span {
-			color: #fff;
-			padding: 0 0.4em;
-			border-radius: 1em 2em 1em 2em;
-			font-weight: 900;
-			font-size: 1.2em;
-			text-shadow: none;
-			background: var(--color-accent);
-			font-family: 'Caveat', cursive;
-		}
+.banner-content h1 {
+  font-size: 2em;
+  font-weight: 700;
+  color: #fff;
+  line-height: 0.9;
+}
 
-	.banner-content a {
-		font-size: 1.2em;
-		margin-left: auto !important;
-		margin-right: auto !important;
-	}
+.banner-content p {
+  font-weight: 500;
+}
 
-@media (max-width: 768px) 
-{
-	.banner-content {
-        background-size: auto 100%;
-        background-position: center bottom;
-    }
-		.banner-content h1,
-		.banner-content p,
-		.banner-content a {
-		  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-		  color: #FFF;
-		  font-size: 2em;
-		  line-height: 1.2;
-		}
-			.banner-content h1 {
-			  font-size: 2em;
-			}
-			.banner-content a {
-				font-size: 1.5em;
-			}
-			.banner-content p span {
-				font-size: 1.9em;
-			}
+.banner-content p span {
+  color: #fff;
+  padding: 0 0.4em;
+  border-radius: 1em 2em 1em 2em;
+  font-weight: 900;
+  font-size: 1.2em;
+  text-shadow: none;
+  background: var(--color-accent);
+  font-family: "Caveat", cursive;
+}
 
+.banner-content a {
+  font-size: 1.2em;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
 
-    
-
-
+@media (max-width: 768px) {
+  .banner-content {
+    background-size: auto 100%;
+    background-position: center bottom;
+  }
+  .banner-content h1,
+  .banner-content p,
+  .banner-content a {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    color: #fff;
+    font-size: 2em;
+    line-height: 1.2;
+  }
+  .banner-content h1 {
+    font-size: 2em;
+  }
+  .banner-content a {
+    font-size: 1.5em;
+  }
+  .banner-content p span {
+    font-size: 1.9em;
+  }
 }

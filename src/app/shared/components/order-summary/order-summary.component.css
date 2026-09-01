@@ -6,8 +6,8 @@
 }
 
 .checkout-img-box {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 4px;
   overflow: hidden;
   background-color: var(--color-surface);
@@ -58,8 +58,8 @@
   border: 1px solid var(--color-border);
   border: none;
   border-radius: var(--border-radius-base);
-  padding: .1rem .5rem;
-  margin-bottom: .5rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
   line-height: 1rem;
 }
 

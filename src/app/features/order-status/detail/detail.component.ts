@@ -7,10 +7,8 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
   standalone: true,
   imports: [CommonModule, EmptyStateComponent],
   templateUrl: './detail.component.html',
-  styleUrl: './detail.component.css'
+  styleUrl: './detail.component.css',
 })
 export class DetailComponent {
   notFound = signal(true); // Placeholder until real logic is implemented
 }
-
-

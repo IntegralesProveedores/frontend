@@ -1,231 +1,339 @@
 <section class="checkout-page section-spacing">
-  <div class="mobile-checkout-summary">
-    <div class="mobile-checkout-summary__row">
-      <span>Productos</span>
-      <span>{{ cartService.subtotalArs() | currencyArs }}</span>
-    </div>
-    <div class="mobile-checkout-summary__row">
-      <span>Entrega</span>
-      <span>
-        @if ((shippingCost() ?? 0) > 0) {
-          {{ shippingCost() | currencyArs }}
-        } @else if (shippingMethod() === 'pickup') {
-          Retiro
-        } @else if (shippingMethod() === 'coordinar') {
-          Coordinar
-        } @else {
-          ...
-        }
-      </span>
-    </div>
-    @if (cartService.volumeDiscountPercentage() > 0) {
-      <div class="mobile-checkout-summary__row mobile-checkout-summary__row--discount">
-        <span>Descuento</span>
-        <span>{{ cartService.volumeDiscountPercentage() }}% OFFz</span>
-      </div>
-    }
-    <button type="button" class="btn btn-app-primary btn-sm w-100 payment-submit" (click)="pagarAhora(checkoutForm.valid)">
-      @if (loading || paymentLoading) { <span class="spinner-border spinner-border-sm me-2"></span><span>PROCESANDO...</span> }
-      @else { <span>PAGAR {{ totalConEnvio() | currencyArs }}</span> }
-    </button>
-    <div class="mobile-checkout-summary__iva">{{ pricingConfigService.vatLabel() }}</div>
-
-  </div>
-  
-  
-
   <div class="container">
     <div class="row">
       <!-- Formulario -->
       <div class="offset-md-1 col-lg-5">
+          <form
+            #checkoutForm="ngForm"
+            (ngSubmit)="pagarAhora(checkoutForm.valid)"
+			class="checkout-form-container"
+			>
+            <!-- BLOQUE 1: Datos personales -->
+            <h5>1. DATOS PERSONALES</h5>
+            <div class="mb-1">
+              <input
+                type="text"
+                name="nombre"
+                [(ngModel)]="customer.nombre"
+                class="form-control-minimal"
+                required
+                minlength="3"
+                #nombre="ngModel"
+                [disabled]="session.isAuthenticated()"
+                [class.is-invalid]="
+                  nombre.invalid && (nombre.touched || formSubmitted)
+                "
+                placeholder="Nombre y Apellido (*)"
+              />
+              <div class="validation-container">
+                @if (nombre.invalid && (nombre.touched || formSubmitted)) {
+                  <div class="text-danger x-small">
+                    @if (nombre.errors?.["required"]) {
+                      <span>El nombre es obligatorio.</span>
+                    }
+                    @if (nombre.errors?.["minlength"]) {
+                      <span>M&iacute;­­nimo 3 caracteres.</span>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
 
-		<div class="checkout-form-container"> 
+            <div class="mb-1">
+              <input
+                type="email"
+                name="email"
+                [(ngModel)]="customer.email"
+                class="form-control-minimal"
+                required
+                email
+                #email="ngModel"
+                [disabled]="session.isAuthenticated()"
+                [class.is-invalid]="
+                  email.invalid && (email.touched || formSubmitted)
+                "
+                placeholder="Email (*)"
+              />
+              <div class="validation-container">
+                @if (email.invalid && (email.touched || formSubmitted)) {
+                  <div class="text-danger x-small">
+                    @if (email.errors?.["required"]) {
+                      <span>El email es obligatorio.</span>
+                    }
+                    @if (email.errors?.["email"]) {
+                      <span>Formato de email inv&aacute;­lido.</span>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
 
-<form #checkoutForm="ngForm" (ngSubmit)="pagarAhora(checkoutForm.valid)">
+            <div class="row">
+              <div class="col-4 col-md-4">
+                <input
+                  type="text"
+                  name="codigoArea"
+                  [(ngModel)]="customer.codigoArea"
+                  (input)="filterNumericInput($event, 'codigoArea')"
+                  class="form-control-minimal"
+                  required
+                  minlength="2"
+                  maxlength="4"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  #codigoArea="ngModel"
+                  [disabled]="session.isAuthenticated()"
+                  [class.is-invalid]="
+                    codigoArea.invalid && (codigoArea.touched || formSubmitted)
+                  "
+                  placeholder="Area (*)"
+                />
+                <div class="validation-container">
+                  @if (
+                    codigoArea.invalid && (codigoArea.touched || formSubmitted)
+                  ) {
+                    <div class="text-danger x-small">
+                      @if (codigoArea.errors?.["required"]) {
+                        <span>Requerido.</span>
+                      }
+                      @if (codigoArea.errors?.["minlength"]) {
+                        <span>2 a 4 d&iacute;­gitos.</span>
+                      }
+                      @if (codigoArea.errors?.["pattern"]) {
+                        <span>Solo n&uacute;­meros.</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+              <div class="col-8 col-md-8">
+                <input
+                  type="text"
+                  name="celular"
+                  [(ngModel)]="customer.celular"
+                  (input)="filterNumericInput($event, 'celular')"
+                  class="form-control-minimal"
+                  required
+                  minlength="6"
+                  maxlength="8"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  #celular="ngModel"
+                  [disabled]="session.isAuthenticated()"
+                  [class.is-invalid]="
+                    celular.invalid && (celular.touched || formSubmitted)
+                  "
+                  placeholder="Celular (*)"
+                />
+                <div class="validation-container">
+                  @if (celular.invalid && (celular.touched || formSubmitted)) {
+                    <div class="text-danger x-small">
+                      @if (celular.errors?.["required"]) {
+                        <span>Requerido. </span>
+                      }
+                      @if (celular.errors?.["minlength"]) {
+                        <span>Debe tener 6 a 8 d&iacute;­­gitos. </span>
+                      }
+                      @if (celular.errors?.["pattern"]) {
+                        <span>Solo n&uacute;­meros.</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
 
-  <!-- BLOQUE 1: Datos personales -->
-	<h5>1. DATOS PERSONALES</h5>
-	<div class="mb-1">
-	  <input type="text" name="nombre" [(ngModel)]="customer.nombre"
-			 class="form-control-minimal" 
-			 required minlength="3"
-			 #nombre="ngModel"
-			 [disabled]="session.isAuthenticated()"
-			 [class.is-invalid]="nombre.invalid && (nombre.touched || formSubmitted)"
-			 placeholder="Nombre y Apellido (*)">
-	  <div class="validation-container">
-		@if (nombre.invalid && (nombre.touched || formSubmitted)) {
-		  <div class="text-danger x-small">
-			@if (nombre.errors?.['required']) { <span>El nombre es obligatorio.</span> }
-			@if (nombre.errors?.['minlength']) { <span>M&iacute;­­nimo 3 caracteres.</span> }
-		  </div>
-		}
-	  </div>
-	</div>
+            <!-- BLOQUE 2: Envio -->
+            <h5>2. M&Eacute;TODO DE ENTREGA</h5>
 
-	  <div class="mb-1">
-		<input type="email" name="email" [(ngModel)]="customer.email" 
-			   class="form-control-minimal" 
-			   required email
-			   #email="ngModel"
-			   [disabled]="session.isAuthenticated()"
-			   [class.is-invalid]="email.invalid && (email.touched || formSubmitted)"
-			   placeholder="Email (*)">
-		<div class="validation-container">
-		  @if (email.invalid && (email.touched || formSubmitted)) {
-			<div class="text-danger x-small">
-			  @if (email.errors?.['required']) { <span>El email es obligatorio.</span> }
-			  @if (email.errors?.['email']) { <span>Formato de email inv&aacute;­lido.</span> }
-			</div>
-		  }
-		</div>
-	  </div>
+            <app-shipping-selector
+              mode="full"
+              [formSubmitted]="shippingFormSubmitted"
+            ></app-shipping-selector>
 
+            @if (shippingFormSubmitted && !shippingMethod()) {
+              <div class="text-danger x-small mt-2">
+                Seleccion&aacute;­ una opci&oacute;­n de env&iacute;­­o.
+              </div>
+            }
 
-	<div class="row">
-	  <div class="col-4 col-md-4">
-		<input type="text" name="codigoArea" [(ngModel)]="customer.codigoArea" (input)="filterNumericInput($event, 'codigoArea')"
-			   class="form-control-minimal" 
-			   required minlength="2" maxlength="4" inputmode="numeric" pattern="[0-9]*"
-			   #codigoArea="ngModel"
-			   [disabled]="session.isAuthenticated()"
-			   [class.is-invalid]="codigoArea.invalid && (codigoArea.touched || formSubmitted)"
-			   placeholder="Area (*)">
-		<div class="validation-container">
-		  @if (codigoArea.invalid && (codigoArea.touched || formSubmitted)) {
-			<div class="text-danger x-small">
-			  @if (codigoArea.errors?.['required']) { <span>Requerido.</span> }
-			  @if (codigoArea.errors?.['minlength']) { <span>2 a 4 d&iacute;­gitos.</span> }
-			  @if (codigoArea.errors?.['pattern']) { <span>Solo n&uacute;­meros.</span> }
-			</div>
-		  }
-		</div>
-	  </div>
-	  <div class="col-8 col-md-8">
-		<input type="text" name="celular" [(ngModel)]="customer.celular" (input)="filterNumericInput($event, 'celular')"
-			   class="form-control-minimal" 
-			   required minlength="6" maxlength="8" inputmode="numeric" pattern="[0-9]*"
-			   #celular="ngModel"
-			   [disabled]="session.isAuthenticated()"
-			   [class.is-invalid]="celular.invalid && (celular.touched || formSubmitted)"
-			   placeholder="Celular (*)">
-		<div class="validation-container">
-		  @if (celular.invalid && (celular.touched || formSubmitted)) {
-			<div class="text-danger x-small">
-			  @if (celular.errors?.['required']) { <span>Requerido. </span> }
-			  @if (celular.errors?.['minlength']) { <span>Debe tener 6 a 8 d&iacute;­­gitos. </span> }
-			  @if (celular.errors?.['pattern']) { <span>Solo n&uacute;­meros.</span> }
-			</div>
-		  }
-		</div>
-	  </div>
-	</div>
+            @if (
+              shippingFormSubmitted &&
+              shippingMethod() === "delivery" &&
+              !shippingValid
+            ) {
+              <div class="validation-container text-danger x-small mt-2">
+                Complet&aacute; datos obligatorios.
+              </div>
+            }
 
-  <!-- BLOQUE 2: Envio -->
-  <h5>2. M&Eacute;TODO DE ENTREGA</h5>
-  
-  <app-shipping-selector mode="full" [formSubmitted]="shippingFormSubmitted"></app-shipping-selector>
+            @if (formSubmitted && !paymentMethodService.current()) {
+              <div class="validation-container text-danger x-small mt-2">
+                Seleccion&aacute;­ un m&eacute;­todo de pago para continuar.
+              </div>
+            }
 
-  @if (shippingFormSubmitted && !shippingMethod()) {
-    <div class="text-danger x-small mt-2">Seleccion&aacute;­ una opci&oacute;­n de env&iacute;­­o.</div>
-  }
+            <!-- BLOQUE 3: Pago -->
+            <h5 class="mt-4">3. M&Eacute;TODO DE PAGO</h5>
+            <div class="checkout-actions">
+              <div class="payment-options-row">
+                <button
+                  type="button"
+                  class="btn btn-pill-outline btn-mercado-libre btn-lg py-3 payment-option active"
+                  [class.active]="
+                    paymentMethodService.current() === 'mercadopago'
+                  "
+                  (click)="selectPaymentMethod('mercadopago')"
+                >
+                  <span
+                    class="radio-dot"
+                    [class.checked]="
+                      paymentMethodService.current() === 'mercadopago'
+                    "
+                  ></span>
+                  <img
+                    src="/assets/icon/mercado-pago-horizontal.png"
+                    alt="MERCADO PAGO"
+                  />
+                </button>
 
-  @if (shippingFormSubmitted && shippingMethod() === 'delivery' && !shippingValid) {
-    <div class="text-danger x-small mt-2">
-      Complet&aacute; datos obligatorios.
-    </div>
-  }
-
-  @if (formSubmitted && !paymentMethodService.current()) {
-    <div class="text-danger x-small mt-2">Seleccion&aacute;­ un m&eacute;­todo de pago para continuar.</div>
-  }
-
-  <!-- BLOQUE 3: Pago -->
-  <h5 class="mt-4">3. M&Eacute;TODO DE PAGO</h5>
-  <div class="checkout-actions">
-
-    <div class="payment-options-row">
-      <button
-        type="button"
-        class="btn btn-pill-outline btn-mercado-libre btn-lg py-3 payment-option active"
-        [class.active]="paymentMethodService.current() === 'mercadopago'"
-        (click)="selectPaymentMethod('mercadopago')">
-        <span class="radio-dot" [class.checked]="paymentMethodService.current() === 'mercadopago'"></span>
-        <img src="/assets/icon/mercado-pago-horizontal.png" alt="MERCADO PAGO" />
-      </button>
-
-      <button
-        type="button"
-        class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 payment-option"
-        [class.active]="paymentMethodService.current() === 'transferencia'"
-        (click)="selectPaymentMethod('transferencia')">
-        <span class="radio-dot" [class.checked]="paymentMethodService.current() === 'transferencia'"></span>
-        <span>
-          <!--
-		  <i class="bi bi-credit-card-2-back"></i>
+                <button
+                  type="button"
+                  class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 payment-option"
+                  [class.active]="
+                    paymentMethodService.current() === 'transferencia'
+                  "
+                  (click)="selectPaymentMethod('transferencia')"
+                >
+                  <span
+                    class="radio-dot"
+                    [class.checked]="
+                      paymentMethodService.current() === 'transferencia'
+                    "
+                  ></span>
+                  <span>
+                    <!--
+          <i class="bi bi-credit-card-2-back"></i>
           &nbsp;
-		  -->
-          TRANSFERENCIA
-          @if (pricingConfigService.paymentCommissionPercentage() > 0) { <span class="badge-off"><strong style="font-family: 'Arial Black', Gadget, sans-serif;">&minus;</strong> {{ pricingConfigService.paymentCommissionPercentage() }}%</span> }
-        </span>
-      </button>
-    </div>
-	
-	
+          -->
+                    TRANSFERENCIA
+                    @if (
+                      pricingConfigService.paymentCommissionPercentage() > 0
+                    ) {
+                      <span class="badge-off"
+                        ><strong
+                          style="
+                            font-family:
+                              &quot;Arial Black&quot;, Gadget, sans-serif;
+                          "
+                          >&minus;</strong
+                        >
+                        {{
+                          pricingConfigService.paymentCommissionPercentage()
+                        }}%</span
+                      >
+                    }
+                  </span>
+                </button>
+              </div>
 
-  </div>
-  
-  
-  
-<h5 class="mt-4">4. TERMINAR COMPRA</h5>
+              @if (
+                paymentMethodService.current() === 'transferencia' &&
+                mercadoPagoTransferInfo()
+              ) {
+                <div class="info-box mt-3 x-small">
+                  <p class="mb-1 d-flex align-items-center gap-2">
+                    <span>
+                      <strong>Alias:</strong>
+                      {{ mercadoPagoTransferInfo()!.alias }}
+                    </span>
+                    <button
+                      type="button"
+                      class="btn-copy"
+                      (click)="
+                        copyToClipboard(
+                          mercadoPagoTransferInfo()!.alias,
+                          'alias'
+                        )
+                      "
+                      aria-label="Copiar alias"
+                    >
+                      <i
+                        class="bi"
+                        [class.bi-clipboard]="copiedField() !== 'alias'"
+                        [class.bi-clipboard-check]="
+                          copiedField() === 'alias'
+                        "
+                      ></i>
+                    </button>
+                  </p>
+                  @if (mercadoPagoTransferInfo()!.cvu) {
+                    <p class="mb-1 d-flex align-items-center gap-2">
+                      <span>
+                        <strong>CVU:</strong>
+                        {{ mercadoPagoTransferInfo()!.cvu }}
+                      </span>
+                      <button
+                        type="button"
+                        class="btn-copy"
+                        (click)="
+                          copyToClipboard(
+                            mercadoPagoTransferInfo()!.cvu!,
+                            'cvu'
+                          )
+                        "
+                        aria-label="Copiar CVU"
+                      >
+                        <i
+                          class="bi"
+                          [class.bi-clipboard]="copiedField() !== 'cvu'"
+                          [class.bi-clipboard-check]="
+                            copiedField() === 'cvu'
+                          "
+                        ></i>
+                      </button>
+                    </p>
+                  }
+                  @if (mercadoPagoTransferInfo()!.cbu) {
+                    <p class="mb-1">
+                      <strong>CBU:</strong>
+                      {{ mercadoPagoTransferInfo()!.cbu }}
+                    </p>
+                  }
+                  <p class="mb-0">
+                    <strong>Titular:</strong>
+                    {{ mercadoPagoTransferInfo()!.account_holder_name }}
+                  </p>
+                </div>
+              }
+            </div>
 
-    <button
-      type="submit"
-      class="btn btn-app-primary btn-lg py-3 w-100 payment-submit"
-      [disabled]="loading || paymentLoading">
-      @if (loading || paymentLoading) {
-        <span class="spinner-border spinner-border-sm me-2"></span>
-        <span>PROCESANDO...</span>
-      } @else {
-        <span>PAGAR {{ totalConEnvio() | currencyArs }}</span>
-      }
-    </button>  
-</form>		  
+            <h5 class="mt-4">4. TERMINAR COMPRA</h5>
 
-
-
-
-
-
-        </div>
+            <button
+              type="submit"
+              class="btn btn-app-primary btn-lg py-3 w-100 payment-submit"
+              [disabled]="loading || paymentLoading"
+            >
+              @if (loading || paymentLoading) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                <span>PROCESANDO...</span>
+              } @else {
+                <span>PAGAR {{ totalConEnvio() | currencyArs }}</span>
+              }
+            </button>
+          </form>
+        
       </div>
 
       <!-- Resumen Derecho -->
       <div class="offset-md-1 col-lg-4">
-        <app-order-summary footerLinkLabel="VOLVER AL CARRITO" footerLinkRoute="/carrito" footerLinkIcon="bi-basket"></app-order-summary>
+        <app-order-summary
+          footerLinkLabel="VOLVER AL CARRITO"
+          footerLinkRoute="/carrito"
+          footerLinkIcon="bi-basket"
+        ></app-order-summary>
       </div>
-
-    </div>
-
-    <div class="related-products mt-5 pt-4 border-top">
-      <h3 class="h4 mb-4 fw-bold">Otros productos</h3>
-      @if (productsLoading()) {
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
-          @for (i of [1,2,3,4,5]; track i) {
-            <div class="col">
-              <app-product-card-skeleton />
-            </div>
-          }
-        </div>
-      } @else if (products().length > 0) {
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
-          @for (p of products(); track p.id) {
-            <div class="col">
-              <app-product-card [product]="p" />
-            </div>
-          }
-        </div>
-      }
     </div>
   </div>
 </section>

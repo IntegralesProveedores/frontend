@@ -24,21 +24,3 @@
 .footer .text-muted {
   color: var(--color-text-muted) !important;
 }
-
-/* Newsletter styling to match original button aesthetic */
-.footer .form-control {
-  background-color: var(--color-surface);
-  color: var(--color-text-primary);
-}
-
-
-.footer .btn-primary {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-.footer .btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-

@@ -1,9 +1,9 @@
 <section class="product-list section-spacing">
-  <div class="container">    
+  <div class="container">
     <!-- Grid -->
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 mt-1">
       @if (loading()) {
-        @for (i of [1,2,3,4,5]; track i) {
+        @for (i of [1, 2, 3, 4, 5]; track i) {
           <div class="col">
             <app-product-card-skeleton />
           </div>

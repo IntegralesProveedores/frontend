@@ -1,14 +1,23 @@
 ﻿.product-card-wrapper {
-  cursor: pointer;
   transition: opacity 0.3s ease;
   padding: 8px;
   border-radius: var(--border-radius-base);
   color: var(--color-text-secondary);
 }
 
+.product-measure {
+  font-size: 0.8rem;
+}
+
+.btn-action {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  justify-content: center;
+}
+
 .product-title {
   font-family: var(--font-body);
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-weight: 300;
   color: var(--color-text-primary);
   margin-bottom: 0.25rem;
@@ -24,13 +33,13 @@
 
 .price-main {
   color: var(--color-primary);
-  font-size:2em;
+  color: #000;
+  font-size: 2em;
   padding: 0;
   margin: 0;
-  font-family: 'Oswald';
-  font-weight: 900;  
+  font-family: "Oswald";
+  font-weight: 900;
 }
-
 
 .price-details {
   line-height: 1;
@@ -42,8 +51,7 @@
 }
 
 @media (max-width: 768px) {
-.price-main {
-  font-size: 1.5rem;
+  .price-main {
+    font-size: 1.5rem;
+  }
 }
-}
-

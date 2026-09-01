@@ -32,13 +32,13 @@ export class ProductsService {
     this.errorSignal.set(null);
 
     this.request$ = this.api.get<PaginatedResponse<Product>>('/products').pipe(
-      map(response => response.items),
-      tap(products => {
+      map((response) => response.items),
+      tap((products) => {
         this.productsSignal.set(products);
         this.loaded = true;
         this.loadingSignal.set(false);
       }),
-      catchError(error => {
+      catchError((error) => {
         this.errorSignal.set('No se pudieron cargar los productos.');
         this.loadingSignal.set(false);
         return throwError(() => error);
@@ -46,7 +46,7 @@ export class ProductsService {
       finalize(() => {
         this.request$ = null;
       }),
-      shareReplay({ bufferSize: 1, refCount: false })
+      shareReplay({ bufferSize: 1, refCount: false }),
     );
 
     return this.request$;

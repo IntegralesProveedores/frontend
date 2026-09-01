@@ -45,5 +45,3 @@ export interface Cart {
   subtotal: number;
   itemCount: number;
 }
-
-

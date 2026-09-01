@@ -7,6 +7,9 @@
 /out-tsc
 /bazel-out
 
+# Backups of images converted to webp (see product_images conversion task)
+/_image-backups-webp
+
 # Node
 /node_modules
 npm-debug.log

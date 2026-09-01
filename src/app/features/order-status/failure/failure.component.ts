@@ -8,8 +8,6 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
   standalone: true,
   imports: [CommonModule, RouterModule, EmptyStateComponent],
   templateUrl: './failure.component.html',
-  styleUrl: './failure.component.css'
+  styleUrl: './failure.component.css',
 })
 export class FailureComponent {}
-
-

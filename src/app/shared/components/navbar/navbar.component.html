@@ -1,51 +1,74 @@
-
-<a class="logo-floating-block" routerLink="/" fragment="home" aria-label="Ir al inicio">
-  <img src="/assets/images/brotalia-iso-00.png" class="logo-img" alt="Brotalia" />
+<a
+  class="logo-floating-block"
+  routerLink="/"
+  fragment="home"
+  aria-label="Ir al inicio"
+>
+  <img
+    src="/assets/images/brotalia-iso-00.png"
+    class="logo-img"
+    alt="Brotalia"
+  />
 </a>
 
-<nav class="nav-bar nav-bar-vertical">
+<nav class="nav-bar nav-bar-vertical-right">
   <ul class="nav">
     <li class="nav-item">
-      <a class="nav-link" routerLink="/" fragment="ventajas" aria-label="Ver ventajas">
+      <a
+        class="nav-link"
+        routerLink="/"
+        fragment="ventajas"
+        aria-label="Ver ventajas"
+      >
         <i class="bi bi-info-circle"></i>
         <span class="nav-text">Ventajas</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/" fragment="servicios" aria-label="Informacion de envios">
+      <a
+        class="nav-link"
+        routerLink="/"
+        fragment="servicios"
+        aria-label="Informacion de envios"
+      >
         <i class="bi bi-truck"></i>
         <span class="nav-text">Envios</span>
       </a>
     </li>
     <li class="nav-item nav-item-home">
-      <a class="nav-link" routerLink="/" fragment="home" aria-label="Ir al inicio">
+      <a
+        class="nav-link"
+        routerLink="/"
+        fragment="home"
+        aria-label="Ir al inicio"
+      >
         <img src="/assets/images/brotalia-iso-00.png" alt="Brotalia" />
         <span class="nav-text">Home</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/" fragment="contacto" aria-label="Contactar por WhatsApp">
+      <a
+        class="nav-link"
+        routerLink="/"
+        fragment="contacto"
+        aria-label="Contactar por WhatsApp"
+      >
         <i class="bi bi-whatsapp"></i>
         <span class="nav-text">Contacto</span>
       </a>
     </li>
     <li class="nav-item">
       @if (count() > 0) {
-
-	  <a routerLink="/carrito" class="nav-link" aria-label="Carrito">
-		<app-cart-icon />
-        <span class="nav-text">Carrito</span>
-      </a>	  
-	  
-	  } @else {
-	  
-	  <a routerLink="/productos" class="nav-link" aria-label="Ir a la tienda">
-        <i class="bi bi-shop"></i>
-        <span class="nav-text">Tienda</span>
-      </a>
-	  
-	  }
-	
-	</li>
+        <a routerLink="/carrito" class="nav-link" aria-label="Carrito">
+          <app-cart-icon />
+          <span class="nav-text">Carrito</span>
+        </a>
+      } @else {
+        <a routerLink="/productos" class="nav-link" aria-label="Ir a la tienda">
+          <i class="bi bi-shop"></i>
+          <span class="nav-text">Tienda</span>
+        </a>
+      }
+    </li>
   </ul>
 </nav>

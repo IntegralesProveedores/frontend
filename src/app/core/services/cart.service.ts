@@ -1,10 +1,21 @@
-import { Injectable, signal, computed, PLATFORM_ID, inject, effect, untracked } from '@angular/core';
+import {
+  Injectable,
+  signal,
+  computed,
+  PLATFORM_ID,
+  inject,
+  effect,
+  untracked,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { CartItem, GroupedCartItem } from '../models/cart.model';
 import { ApiService } from './api.service';
 import { PricingConfigService } from './pricing-config.service';
-import { calculateLocalPrice, calculateLocalPriceNoDiscount } from '../lib/pricing.util';
+import {
+  calculateLocalPrice,
+  calculateLocalPriceNoDiscount,
+} from '../lib/pricing.util';
 import { PaymentMethodService } from './payment-method.service';
 import { ShippingService } from './shipping.service';
 
@@ -20,32 +31,56 @@ export class CartService {
 
   private readonly items = signal<CartItem[]>([]);
   private readonly dolarVenta = signal<number>(0);
-  private readonly priceRefreshTimers = new Map<string, ReturnType<typeof setTimeout>>();
+  private readonly priceRefreshTimers = new Map<
+    string,
+    ReturnType<typeof setTimeout>
+  >();
   private readonly priceRefreshSeq = new Map<string, number>();
 
   readonly cartItems = this.items.asReadonly();
   readonly dolarOficial = this.dolarVenta.asReadonly();
 
   readonly itemCount = computed(() =>
-    this.items().reduce((sum, i) => sum + i.quantity, 0)
+    this.items().reduce((sum, i) => sum + i.quantity, 0),
   );
 
   readonly isEmpty = computed(() => this.items().length === 0);
 
   readonly totalUsd = computed(() =>
-    this.items().reduce((sum, i) => sum + (i.price_usd || 0) * i.quantity, 0)
+    this.items().reduce((sum, i) => sum + (i.price_usd || 0) * i.quantity, 0),
   );
 
   readonly subtotalArs = computed(() =>
-    this.items().reduce((sum, i) => sum + (i.price_ars || 0) * i.quantity, 0)
+    this.items().reduce((sum, i) => sum + (i.price_ars || 0) * i.quantity, 0),
   );
 
-  readonly shippingArs = computed(() => this.shippingService.shippingCost() ?? 0);
-  readonly paymentCommissionPercentage = computed(() => this.paymentMethodService.current() === 'transferencia' ? 0 : this.pricingConfigService.paymentCommissionPercentage());
-  readonly paymentCommissionPercentage_MP = computed(() => this.pricingConfigService.paymentCommissionPercentage());
-  readonly paymentCommissionArs = computed(() => Math.round((this.subtotalArs() + this.shippingArs()) * this.paymentCommissionPercentage() / 100));
-  readonly totalConComision = computed(() => this.subtotalArs() + this.shippingArs() + this.paymentCommissionArs());
-  readonly subtotalSinDescuentoArs = computed(() => this.groupedCartItems().reduce((sum, item) => sum + item.subtotalArsNoDiscount, 0));
+  readonly shippingArs = computed(
+    () => this.shippingService.shippingCost() ?? 0,
+  );
+  readonly paymentCommissionPercentage = computed(() =>
+    this.paymentMethodService.current() === 'transferencia'
+      ? 0
+      : this.pricingConfigService.paymentCommissionPercentage(),
+  );
+  readonly paymentCommissionPercentage_MP = computed(() =>
+    this.pricingConfigService.paymentCommissionPercentage(),
+  );
+  readonly paymentCommissionArs = computed(() =>
+    Math.round(
+      ((this.subtotalArs() + this.shippingArs()) *
+        this.paymentCommissionPercentage()) /
+        100,
+    ),
+  );
+  readonly totalConComision = computed(
+    () => this.subtotalArs() + this.shippingArs() + this.paymentCommissionArs(),
+  );
+  readonly subtotalSinDescuentoArs = computed(() =>
+    this.groupedCartItems().reduce(
+      (sum, item) => sum + item.subtotalArsNoDiscount,
+      0,
+    ),
+  );
 
   readonly groupedCartItems = computed<GroupedCartItem[]>(() => {
     const map = new Map<string, GroupedCartItem>();
@@ -54,9 +89,20 @@ export class CartService {
       const totalUnits = unitsPerPack * item.quantity;
       const subtotal = (item.price_ars || 0) * item.quantity;
       const config = this.pricingConfigService.pricingConfig();
-      const noDiscount = config && item.cost_usd_master && item.units_per_pack_master && unitsPerPack
-        ? calculateLocalPriceNoDiscount(Number(item.cost_usd_master), Number(item.units_per_pack_master), unitsPerPack, item.quantity, item.cost_currency, config)
-        : { price_ars: item.price_ars || 0 };
+      const noDiscount =
+        config &&
+        item.cost_usd_master &&
+        item.units_per_pack_master &&
+        unitsPerPack
+          ? calculateLocalPriceNoDiscount(
+              Number(item.cost_usd_master),
+              Number(item.units_per_pack_master),
+              unitsPerPack,
+              item.quantity,
+              item.cost_currency,
+              config,
+            )
+          : { price_ars: item.price_ars || 0 };
       const subtotalNoDiscount = noDiscount.price_ars * item.quantity;
       const existing = map.get(item.productId);
       if (existing) {
@@ -64,7 +110,11 @@ export class CartService {
         existing.totalQuantity += item.quantity;
         existing.subtotalArs += subtotal;
         existing.subtotalArsNoDiscount += subtotalNoDiscount;
-        existing.presentations.push({ variantId: item.variantId, units_per_pack: unitsPerPack, quantity: item.quantity });
+        existing.presentations.push({
+          variantId: item.variantId,
+          units_per_pack: unitsPerPack,
+          quantity: item.quantity,
+        });
       } else {
         map.set(item.productId, {
           productId: item.productId,
@@ -77,20 +127,32 @@ export class CartService {
           subtotalArs: subtotal,
           unitPriceNoDiscountArs: noDiscount.price_ars,
           subtotalArsNoDiscount: subtotalNoDiscount,
-          presentations: [{ variantId: item.variantId, units_per_pack: unitsPerPack, quantity: item.quantity }]
+          presentations: [
+            {
+              variantId: item.variantId,
+              units_per_pack: unitsPerPack,
+              quantity: item.quantity,
+            },
+          ],
         });
       }
     }
     return Array.from(map.values()).sort((a, b) => {
-      const aVolume = this.items().find(item => item.productId === a.productId)?.product_volume_cc ?? 0;
-      const bVolume = this.items().find(item => item.productId === b.productId)?.product_volume_cc ?? 0;
+      const aVolume =
+        this.items().find((item) => item.productId === a.productId)
+          ?.product_volume_cc ?? 0;
+      const bVolume =
+        this.items().find((item) => item.productId === b.productId)
+          ?.product_volume_cc ?? 0;
       return aVolume - bVolume;
     });
   });
 
   readonly volumeDiscountPercentage = computed(() => {
     const config = this.pricingConfigService.pricingConfig();
-    const discounts = [...(config?.volume_discounts ?? [])].sort((a, b) => b.min - a.min);
+    const discounts = [...(config?.volume_discounts ?? [])].sort(
+      (a, b) => b.min - a.min,
+    );
     if (discounts.length === 0) return 0;
 
     let weightedSum = 0;
@@ -99,8 +161,9 @@ export class CartService {
     for (const i of this.items()) {
       if (!i.units_per_pack || !i.units_per_pack_master) continue;
 
-      const equivalentPacks = (i.units_per_pack * i.quantity) / i.units_per_pack_master;
-      const discountEntry = discounts.find(d => equivalentPacks >= d.min);
+      const equivalentPacks =
+        (i.units_per_pack * i.quantity) / i.units_per_pack_master;
+      const discountEntry = discounts.find((d) => equivalentPacks >= d.min);
       const factor = discountEntry ? discountEntry.factor : 1;
       if (factor <= 1) continue;
 
@@ -114,9 +177,11 @@ export class CartService {
   });
 
   readonly totalVolumeCc = computed(() =>
-    this.items().reduce((sum, i) =>
-      sum + ((i.volume_cc || 0) * (i.units_per_pack || 1) * i.quantity), 0
-    )
+    this.items().reduce(
+      (sum, i) =>
+        sum + (i.volume_cc || 0) * (i.units_per_pack || 1) * i.quantity,
+      0,
+    ),
   );
 
   constructor() {
@@ -125,22 +190,31 @@ export class CartService {
       this.refreshExchangeRate();
     }
 
-    effect(() => {
-      const rate = this.dolarVenta();
-      if (rate > 0) {
-        untracked(() => {
-          this.recalculateAllPrices();
-        });
-      }
-    }, { allowSignalWrites: true });
+    effect(
+      () => {
+        const rate = this.dolarVenta();
+        if (rate > 0) {
+          untracked(() => {
+            this.recalculateAllPrices();
+          });
+        }
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   async add(item: CartItem): Promise<void> {
     const current = this.items();
-    const existing = current.find(i => i.variantId === item.variantId);
-    const newQuantity = existing ? existing.quantity + item.quantity : item.quantity;
+    const existing = current.find((i) => i.variantId === item.variantId);
+    const newQuantity = existing
+      ? existing.quantity + item.quantity
+      : item.quantity;
     const config = this.pricingConfigService.pricingConfig();
-    const canRecalculate = !!config && !!item.cost_usd_master && !!item.units_per_pack_master && !!item.units_per_pack;
+    const canRecalculate =
+      !!config &&
+      !!item.cost_usd_master &&
+      !!item.units_per_pack_master &&
+      !!item.units_per_pack;
     const updatedPricing = canRecalculate
       ? calculateLocalPrice(
           Number(item.cost_usd_master) || 0,
@@ -148,23 +222,34 @@ export class CartService {
           Number(item.units_per_pack) || 1,
           newQuantity,
           item.cost_currency,
-          config
+          config,
         )
-      : { price_ars: item.price_ars, price_usd: item.price_usd, price_sin_impuestos_ars: item.price_sin_impuestos_ars };
+      : {
+          price_ars: item.price_ars,
+          price_usd: item.price_usd,
+          price_sin_impuestos_ars: item.price_sin_impuestos_ars,
+        };
 
     if (existing) {
-      this.items.set(current.map(i =>
-        i.variantId === item.variantId ? { ...i, ...item, ...updatedPricing, quantity: newQuantity } : i
-      ));
+      this.items.set(
+        current.map((i) =>
+          i.variantId === item.variantId
+            ? { ...i, ...item, ...updatedPricing, quantity: newQuantity }
+            : i,
+        ),
+      );
     } else {
-      this.items.set([...current, { ...item, ...updatedPricing, quantity: newQuantity }]);
+      this.items.set([
+        ...current,
+        { ...item, ...updatedPricing, quantity: newQuantity },
+      ]);
     }
 
     this.saveToStorage();
   }
 
   remove(variantId: string): void {
-    this.items.set(this.items().filter(i => i.variantId !== variantId));
+    this.items.set(this.items().filter((i) => i.variantId !== variantId));
     this.saveToStorage();
   }
 
@@ -174,12 +259,14 @@ export class CartService {
       return;
     }
 
-    const item = this.items().find(i => i.variantId === variantId);
+    const item = this.items().find((i) => i.variantId === variantId);
     if (!item) return;
 
-    this.items.set(this.items().map(i =>
-      i.variantId === variantId ? { ...i, quantity } : i
-    ));
+    this.items.set(
+      this.items().map((i) =>
+        i.variantId === variantId ? { ...i, quantity } : i,
+      ),
+    );
     this.saveToStorage();
 
     const requestSeq = (this.priceRefreshSeq.get(variantId) ?? 0) + 1;
@@ -194,7 +281,12 @@ export class CartService {
       }
 
       const config = this.pricingConfigService.pricingConfig();
-      if (!config || !item.cost_usd_master || !item.units_per_pack_master || !item.units_per_pack) {
+      if (
+        !config ||
+        !item.cost_usd_master ||
+        !item.units_per_pack_master ||
+        !item.units_per_pack
+      ) {
         return;
       }
 
@@ -204,12 +296,14 @@ export class CartService {
         Number(item.units_per_pack) || 1,
         quantity,
         item.cost_currency,
-        config
+        config,
       );
 
-      this.items.set(this.items().map(i =>
-        i.variantId === variantId ? { ...i, ...updatedPricing, quantity } : i
-      ));
+      this.items.set(
+        this.items().map((i) =>
+          i.variantId === variantId ? { ...i, ...updatedPricing, quantity } : i,
+        ),
+      );
       this.saveToStorage();
     }, 350);
 
@@ -224,7 +318,7 @@ export class CartService {
       stock: number;
       units_per_pack: number;
       cost_usd?: number;
-    }
+    },
   ): Promise<void> {
     if (fromVariantId === toVariant.variantId) return;
 
@@ -232,47 +326,70 @@ export class CartService {
       const timer = this.priceRefreshTimers.get(variantId);
       if (timer) clearTimeout(timer);
       this.priceRefreshTimers.delete(variantId);
-      this.priceRefreshSeq.set(variantId, (this.priceRefreshSeq.get(variantId) ?? 0) + 1);
+      this.priceRefreshSeq.set(
+        variantId,
+        (this.priceRefreshSeq.get(variantId) ?? 0) + 1,
+      );
     }
 
     const current = this.items();
-    const source = current.find(item => item.variantId === fromVariantId);
+    const source = current.find((item) => item.variantId === fromVariantId);
     if (!source) return;
 
-    const destination = current.find(item => item.variantId === toVariant.variantId);
+    const destination = current.find(
+      (item) => item.variantId === toVariant.variantId,
+    );
     const config = this.pricingConfigService.pricingConfig();
-    const quantity = destination ? destination.quantity + source.quantity : source.quantity;
+    const quantity = destination
+      ? destination.quantity + source.quantity
+      : source.quantity;
     const pricingBase = destination ?? source;
-    const updatedPricing = config && pricingBase.cost_usd_master && pricingBase.units_per_pack_master && toVariant.units_per_pack
-      ? calculateLocalPrice(
-          Number(pricingBase.cost_usd_master) || 0,
-          Number(pricingBase.units_per_pack_master) || 1,
-          Number(toVariant.units_per_pack) || 1,
-          quantity,
-          pricingBase.cost_currency,
-          config
-        )
-      : { price_ars: pricingBase.price_ars, price_usd: pricingBase.price_usd, price_sin_impuestos_ars: pricingBase.price_sin_impuestos_ars };
+    const updatedPricing =
+      config &&
+      pricingBase.cost_usd_master &&
+      pricingBase.units_per_pack_master &&
+      toVariant.units_per_pack
+        ? calculateLocalPrice(
+            Number(pricingBase.cost_usd_master) || 0,
+            Number(pricingBase.units_per_pack_master) || 1,
+            Number(toVariant.units_per_pack) || 1,
+            quantity,
+            pricingBase.cost_currency,
+            config,
+          )
+        : {
+            price_ars: pricingBase.price_ars,
+            price_usd: pricingBase.price_usd,
+            price_sin_impuestos_ars: pricingBase.price_sin_impuestos_ars,
+          };
 
     if (destination) {
-      this.items.set(current
-        .filter(item => item.variantId !== fromVariantId)
-        .map(item => item.variantId === toVariant.variantId
-          ? { ...item, quantity, ...updatedPricing }
-          : item));
+      this.items.set(
+        current
+          .filter((item) => item.variantId !== fromVariantId)
+          .map((item) =>
+            item.variantId === toVariant.variantId
+              ? { ...item, quantity, ...updatedPricing }
+              : item,
+          ),
+      );
     } else {
-      this.items.set(current.map(item => item.variantId === fromVariantId
-        ? {
-            ...item,
-            variantId: toVariant.variantId,
-            sku: toVariant.sku,
-            stock: toVariant.stock,
-            units_per_pack: toVariant.units_per_pack,
-            cost_usd: toVariant.cost_usd ?? item.cost_usd,
-            quantity,
-            ...updatedPricing
-          }
-        : item));
+      this.items.set(
+        current.map((item) =>
+          item.variantId === fromVariantId
+            ? {
+                ...item,
+                variantId: toVariant.variantId,
+                sku: toVariant.sku,
+                stock: toVariant.stock,
+                units_per_pack: toVariant.units_per_pack,
+                cost_usd: toVariant.cost_usd ?? item.cost_usd,
+                quantity,
+                ...updatedPricing,
+              }
+            : item,
+        ),
+      );
     }
 
     this.saveToStorage();
@@ -288,8 +405,13 @@ export class CartService {
     if (currentItems.length === 0) return;
 
     const config = this.pricingConfigService.pricingConfig();
-    const updates = currentItems.map(item => {
-      if (!config || !item.cost_usd_master || !item.units_per_pack_master || !item.units_per_pack) {
+    const updates = currentItems.map((item) => {
+      if (
+        !config ||
+        !item.cost_usd_master ||
+        !item.units_per_pack_master ||
+        !item.units_per_pack
+      ) {
         return item;
       }
 
@@ -299,7 +421,7 @@ export class CartService {
         Number(item.units_per_pack) || 1,
         item.quantity,
         item.cost_currency,
-        config
+        config,
       );
       return { ...item, ...pricing };
     });
@@ -316,7 +438,7 @@ export class CartService {
         if (config) {
           this.pricingConfigService.setPricingConfig({
             ...config,
-            exchange_rate: settings.usd_exchange_rate
+            exchange_rate: settings.usd_exchange_rate,
           });
         }
       }

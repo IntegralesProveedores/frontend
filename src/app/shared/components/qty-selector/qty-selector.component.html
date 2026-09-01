@@ -1,0 +1,19 @@
+<div [class]="variant === 'cart' ? 'qty-selector-minimal' : 'qty-selector'">
+  <button
+    class="btn-app-qty"
+    [class.btn-app-qty--sm]="variant === 'cart'"
+    (click)="decrement.emit()"
+    [disabled]="decrementDisabled"
+  >
+    -
+  </button>
+  <span class="qty-value">{{ quantity }}</span>
+  <button
+    class="btn-app-qty"
+    [class.btn-app-qty--sm]="variant === 'cart'"
+    (click)="increment.emit()"
+    [disabled]="incrementDisabled"
+  >
+    +
+  </button>
+</div>

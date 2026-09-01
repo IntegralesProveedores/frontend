@@ -7,6 +7,6 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './pending.component.html',
-  styleUrl: './pending.component.css'
+  styleUrl: './pending.component.css',
 })
 export class PendingComponent {}

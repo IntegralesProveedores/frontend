@@ -41,8 +41,16 @@ export interface CreateOrderPayload {
 export interface OrderStatus {
   id: string;
   status: 'pending' | 'paid' | 'cancelled' | 'shipped';
-  payment_status: 'pending' | 'approved' | 'in_process' | 'rejected' | 'cancelled' | 'refunded' | 'charged_back';
-  shipping_status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  payment_status:
+    | 'pending'
+    | 'approved'
+    | 'in_process'
+    | 'rejected'
+    | 'cancelled'
+    | 'refunded'
+    | 'charged_back';
+  shipping_status:
+    'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   shipping_tracking_code: string | null;
   total_amount: number;
   subtotal_amount: number;
@@ -59,13 +67,15 @@ export interface ShippingSelection {
 /** Orden completa preparada para el detalle de /orden/:id. */
 export interface OrderDetail {
   order: OrderStatus;
-  items: Array<OrderItem & {
-    id?: string;
-    product_name?: string;
-    sku?: string;
-    unit_price?: number;
-    subtotal?: number;
-  }>;
+  items: Array<
+    OrderItem & {
+      id?: string;
+      product_name?: string;
+      sku?: string;
+      unit_price?: number;
+      subtotal?: number;
+    }
+  >;
   customer: {
     nombre: string;
     email: string;

@@ -2,6 +2,17 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
+export interface PaymentTransferInfo {
+  bank_name: string;
+  alias: string;
+  cvu: string | null;
+  cbu: string | null;
+  account_number: string | null;
+  account_holder_name: string;
+  account_holder_tax_id: string;
+  position: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly http = inject(HttpClient);
@@ -10,13 +21,21 @@ export class ApiService {
   get<T>(path: string, params?: Record<string, string>) {
     let httpParams = new HttpParams();
     if (params) {
-      Object.entries(params).forEach(([k, v]) => httpParams = httpParams.set(k, v));
+      Object.entries(params).forEach(
+        ([k, v]) => (httpParams = httpParams.set(k, v)),
+      );
     }
     return this.http.get<T>(`${this.baseUrl}${path}`, { params: httpParams });
   }
 
   getSettings() {
-    return this.get<{ usd_exchange_rate: number, updated_at: string }>('/settings');
+    return this.get<{ usd_exchange_rate: number; updated_at: string }>(
+      '/settings',
+    );
+  }
+
+  getPaymentTransferInfo() {
+    return this.get<PaymentTransferInfo[]>('/payment-transfer-info');
   }
 
   post<T>(path: string, body: any) {

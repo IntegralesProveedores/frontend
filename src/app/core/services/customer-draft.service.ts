@@ -15,7 +15,7 @@ const EMPTY_CUSTOMER_DRAFT: CustomerDraft = {
   email: '',
   cuit: '',
   codigoArea: '',
-  celular: ''
+  celular: '',
 };
 
 @Injectable({ providedIn: 'root' })
@@ -31,7 +31,8 @@ export class CustomerDraftService {
 
   setCustomer(data: CustomerDraft): void {
     this.draft.set({ ...data });
-    if (this.isBrowser) localStorage.setItem(CUSTOMER_DRAFT_KEY, JSON.stringify(this.draft()));
+    if (this.isBrowser)
+      localStorage.setItem(CUSTOMER_DRAFT_KEY, JSON.stringify(this.draft()));
   }
 
   clear(): void {
@@ -52,8 +53,9 @@ export class CustomerDraftService {
         nombre: typeof parsed.nombre === 'string' ? parsed.nombre : '',
         email: typeof parsed.email === 'string' ? parsed.email : '',
         cuit: typeof parsed.cuit === 'string' ? parsed.cuit : '',
-        codigoArea: typeof parsed.codigoArea === 'string' ? parsed.codigoArea : '',
-        celular: typeof parsed.celular === 'string' ? parsed.celular : ''
+        codigoArea:
+          typeof parsed.codigoArea === 'string' ? parsed.codigoArea : '',
+        celular: typeof parsed.celular === 'string' ? parsed.celular : '',
       });
     } catch {
       this.draft.set(null);

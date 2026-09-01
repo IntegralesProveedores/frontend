@@ -1,161 +1,198 @@
 <section class="product-detail section-spacing">
-	<div class="container">
-		@if (loading()) {
-		<app-product-detail-skeleton />
-		} @else {
-		<div class="product-grid">
-			
-			<!-- Col: Images -->
-			<div class="product-image">
-				<div class="main-image-box mb-3">
-					<app-progressive-img 
-					[src]="mainImage" 
-					[alt]="'Maceta biodegradable ' + (product()?.name || '')" 
-					radius="var(--radius-md)"
-					imgClass="img-fluid w-100 h-100 object-fit-cover"
-					/>
-				</div>
-			</div>
-			
-			<!-- Col: Info -->
-			<div class="product-info">
-				
-				<nav aria-label="breadcrumb" class="product-breadcrumb">
-					<ol class="breadcrumb x-small text-uppercase">
-						<li class="breadcrumb-item">
-							<a [routerLink]="['/productos']" class="text-secondary text-decoration-none">Productos</a>
-						</li>
-						<li class="breadcrumb-item">
-							<a [routerLink]="['/productos']" class="text-secondary text-decoration-none">Maceta Biodegradable</a>
-						</li>
-						<li class="breadcrumb-item active text-primary">
-							{{ product()?.name }}
-						</li>
-					</ol>
-				</nav>
-				
-				<div class="product-header">
-					<!-- Columna izquierda: Información -->
-					<div class="product-data">
-						<h1 class="h2 mb-1 product-title text-uppercase">
-							{{ product()?.name }}
-						</h1>
-						<p class="detail text-secondary small mb-1">
-							{{ product()?.detail }}
-						</p>
-						<div class="text-muted mb-2" style="font-size: 0.8rem;">
-							@if (product()?.diameter_cm) { {{ product()?.diameter_cm }} × }
-							@if (product()?.height_cm) { {{ product()?.height_cm }} cm (h) }
-							@if (product()?.volume_cc) { · {{ product()?.volume_cc }} cm³ }
-						</div>
-						
-					</div>
-					
-					<!-- Columna derecha: Precio -->
-					<div class="product-price text-end">
-						<div class="h2 mb-1 text-primary fw-bold">
-							{{ currentPricing().finalPriceArs | currencyArs }}
-						</div>
-						<div class="iva-legend text-muted mb-2" style="font-size: 0.8rem;">
-							{{ pricingConfigService.vatLabel() }}
-						</div>
-					</div>
-				</div>
-				
-				<!-- Col: Botones -->
-				<div class="product-buy">
-					<div class="row">
-					
-						<p class="description text-secondary small">
-							{{ product()?.description }}
-						</p>
+  <div class="container">
+    @if (loading()) {
+      <app-product-detail-skeleton />
+    } @else {
+      <div class="product-grid row align-items-start">
+        <!-- Col: Images -->
+        <div class="product-image col-md-6">
+          <div class="product-gallery">
+            @if ((product()?.images?.length ?? 0) > 1) {
+              <div class="product-thumbnails">
+                @for (img of product()!.images; track img.id; let i = $index) {
+                  <button
+                    type="button"
+                    class="product-thumbnail"
+                    [class.active]="selectedImageIndex() === i"
+                    (click)="selectedImageIndex.set(i)"
+                    [attr.aria-label]="'Ver imagen ' + (i + 1) + ' de ' + product()?.name"
+                  >
+                    <img
+                      [src]="img.url"
+                      [alt]="'Miniatura ' + (i + 1) + ' de ' + (product()?.name || '')"
+                      loading="lazy"
+                    />
+                  </button>
+                }
+              </div>
+            }
+            <div class="main-image-box">
+              <app-progressive-img
+                [src]="mainImage"
+                [alt]="'Maceta biodegradable ' + (product()?.name || '')"
+                radius="var(--radius-md)"
+                imgClass="img-fluid w-100 h-100 object-fit-cover"
+              />
+            </div>
+          </div>
+        </div>
 
-						<!-- Variants Selection -->
-						@if (product()?.variants && product()!.variants.length > 0) {
-						<div class="mb-3 border-top">
-							<label class="x-small text-uppercase fw-bold mb-3 d-block text-muted pt-2">Presentación</label>
-							<div class="d-flex flex-wrap gap-2">
-								@for (v of product()?.variants; track v.id) {
-								<button
-								class="btn-app-variant-pill variant-pill"
-								[class.active]="selectedVariant()?.id === v.id"
-								(click)="selectVariant(v)">
-								{{ v.units_per_pack }}u.
-								</button>
-								}
-							</div>
-						</div>
-						}
-						<!-- Quantity & Stock -->
-						<div class="mb-3">
-							<div class="d-flex justify-content-between align-items-center mb-3">
-								<label class="x-small text-uppercase fw-bold text-muted">
-								Cantidad
-								</label>
-								@if (selectedVariant()) {
-								<span class="x-small text-muted">
-									Stock: {{ selectedVariant()?.stock }}
-								</span>
-								}
-							</div>
-							<div class="qty-control-wrapper">
-								<div class="qty-selector">
-									<button
-									class="btn-app-qty"
-									(click)="decrement()"
-									[disabled]="quantity() <= 1">
-									-
-									</button>
-									<span class="qty-value">
-									{{ quantity() }}
-									</span>
-									<button
-									class="btn-app-qty"
-									(click)="increment()"
-									[disabled]="quantity() >= maxQty">
-									+
-									</button>
-								</div>
-								
-								<button
-									class="btn-pill-outline btn-pill-outline--accent btn-action"
-									(click)="addToCart()"
-									[disabled]="!inStock">
-									{{ added() ? 'Producto agregado' : (inStock ? 'AGREGAR AL CARRITO' : 'Sin Stock') }} &nbsp; <i class="bi bi-basket"></i>
-								</button>
-								
-							</div>
-						</div>
-						
-						<!-- CTA -->
-						<div class="actions-wrapper">
-							@if (hasCurrentProductInCart()) {							
-							<p class="x-small text-muted">
-								Producto agregado al carrito. 
-								<a routerLink="/carrito" class="link-danger text-decoration-none">
-									VER CARRITO &nbsp; <i class="bi bi-basket"></i>
-								</a>
-							</p>
-							}
-						</div>
-					</div>
-				</div>
+        <!-- Col: Info -->
+        <div class="product-info offset-md-1 col-md-4">
+          <nav aria-label="breadcrumb" class="product-breadcrumb">
+            <ol class="breadcrumb x-small text-uppercase" style="font-size: .6rem">
+              <li class="breadcrumb-item">
+                <a
+                  [routerLink]="['/productos']"
+                  class="text-secondary text-decoration-none"
+                  >Productos</a
+                >
+              </li>
+              <li class="breadcrumb-item">
+                <a
+                  [routerLink]="['/productos']"
+                  class="text-secondary text-decoration-none"
+                  >Maceta Biodegradable</a
+                >
+              </li>
+              <li class="breadcrumb-item active text-primary">
+                {{ product()?.name }}
+              </li>
+            </ol>
+          </nav>
+
+          <div class="product-header row g-3 g-md-5 align-items-start">
+            <!-- Columna izquierda: Información -->
+            <div class="product-data col">
+              <h1 class="h2 mb-1 product-title text-uppercase">
+                {{ product()?.name }}
+              </h1>
+              <div class="text-muted" style="font-size: 0.8rem">
+                @if (product()?.diameter_cm) {
+                  {{ product()?.diameter_cm }} ×
+                }
+                @if (product()?.height_cm) {
+                  {{ product()?.height_cm }} cm (h)
+                }
+                @if (product()?.volume_cc) {
+                  · {{ product()?.volume_cc }} cm³
+                }
+              </div>
+            </div>
+
+            <!-- Columna derecha: Precio -->
+            <div class="product-price col text-end">
+              <div class="h2 mb-1 text-primary fw-bold">
+                {{ currentPricing().finalPriceArs | currencyArs }}
+              </div>
+              <div class="iva-legend text-muted mb-2" style="font-size: 0.8rem">
+                {{ pricingConfigService.vatLabel() }}
+              </div>
+            </div>
+            
+			<!-- Columna derecha: Precio -->
+			<div class="col-12 m-0">
+			  <p class="detail text-secondary small mb-1">
+                {{ product()?.detail }}
+              </p>		  
+		    </div>
+		  </div>
+
+          <!-- Col: Botones -->
+          <div class="product-buy">
+              <!-- Variants Selection -->
+              @if (product()?.variants && product()!.variants.length > 0) {
+                <div class="mb-3 border-top">
+                  <label
+                    class="x-small text-uppercase fw-bold mb-3 d-block text-muted pt-2"
+                    >Presentación</label
+                  >
+                  <div class="d-flex flex-wrap gap-2">
+                    @for (v of product()?.variants; track v.id) {
+                      <button
+                        class="btn-app-variant-pill variant-pill"
+                        [class.active]="selectedVariant()?.id === v.id"
+                        (click)="selectVariant(v)"
+                      >
+                        {{ v.units_per_pack }}u.
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+              <!-- Quantity & Stock -->
+              <div class="mb-3">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <label class="x-small text-uppercase fw-bold text-muted">
+                    Cantidad
+                  </label>
+                  @if (selectedVariant()) {
+                    <span class="x-small text-muted">
+                      Stock: {{ selectedVariant()?.stock }}
+                    </span>
+                  }
+                </div>
+                <div class="qty-control-wrapper">
+                  <app-qty-selector
+                    [quantity]="quantity()"
+                    variant="detail"
+                    [decrementDisabled]="quantity() <= 1"
+                    [incrementDisabled]="quantity() >= maxQty"
+                    (decrement)="decrement()"
+                    (increment)="increment()"
+                  />
+
+                  <button
+                    class="btn-pill-outline btn-pill-outline--accent btn-action"
+                    (click)="addToCart()"
+                    [disabled]="!inStock"
+                  >
+                    {{
+                      added()
+                        ? "Agregado"
+                        : inStock
+                          ? "AGREGAR"
+                          : "Sin Stock"
+                    }}
+                    &nbsp; <i class="bi bi-basket"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- CTA -->
+              <div class="actions-wrapper">
+                @if (hasCurrentProductInCart()) {
+                  <p class="x-small text-muted">
+                    Producto agregado al carrito.
+                    <a
+                      routerLink="/carrito"
+                      class="link-danger text-decoration-none"
+                    >
+                      VER CARRITO &nbsp; <i class="bi bi-basket"></i>
+                    </a>
+                  </p>
+                }
+              </div>
+
+              <!-- DESCRIPTION -->            
+			  <p class="description text-secondary small">
+                {{ product()?.description }}
+              </p>
+
 			
-			</div>
-		</div>
-		}
-		<!-- Related Products -->
-		@if (!loading() && relatedProducts().length > 0) {
-		<div class="related-products mt-2 pt-2 border-top">
-			<h3 class="h4 mb-4 fw-bold">Otros productos</h3>
-			<div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
-				@for (p of relatedProducts(); track p.id) {
-				<div class="col">
-					<app-product-card [product]="p" />
-				</div>
-				}
-			</div>
-		</div>
-		}
-	</div>
+          </div>
+        </div>
+      </div>
+    }
+    <!-- Related Products -->
+    @if (!loading() && relatedProducts().length > 0) {
+      <app-related-products
+        [items]="relatedProducts()"
+        [showSkeleton]="false"
+        wrapperClass="related-products mt-2 pt-2 border-top"
+      />
+    }
+  </div>
 </section>

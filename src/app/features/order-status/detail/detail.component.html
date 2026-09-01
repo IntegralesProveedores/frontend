@@ -1,8 +1,10 @@
-<section class="order-detail section-padding min-vh-100 d-flex align-items-center">
+<section
+  class="order-detail section-padding min-vh-100 d-flex align-items-center"
+>
   <div class="container">
     @if (notFound()) {
       <div class="max-w-600 mx-auto">
-        <app-empty-state 
+        <app-empty-state
           icon="bi-box2-open"
           title="Orden no encontrada"
           message="No pudimos encontrar la información de la orden solicitada. Verificá que el link sea correcto o contactanos para más ayuda."
@@ -20,7 +22,7 @@
 </section>
 
 <style>
-  .max-w-600 { max-width: 600px; }
+  .max-w-600 {
+    max-width: 600px;
+  }
 </style>
-
-

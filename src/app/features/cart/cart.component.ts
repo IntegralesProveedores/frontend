@@ -8,17 +8,27 @@ import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { CartSkeletonComponent } from '../../shared/components/cart-skeleton/cart-skeleton.component';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { CartItem } from '../../core/models/cart.model';
-import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
-import { ProductCardSkeletonComponent } from '../../shared/components/product-card-skeleton/product-card-skeleton.component';
+import { QtySelectorComponent } from '../../shared/components/qty-selector/qty-selector.component';
+import { RelatedProductsComponent } from '../../shared/components/related-products/related-products.component';
 import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
 import { ShippingSelectorComponent } from '../../shared/components/shipping-selector/shipping-selector.component';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, CurrencyArsPipe, CartSkeletonComponent, EmptyStateComponent, ProductCardComponent, ProductCardSkeletonComponent, OrderSummaryComponent, ShippingSelectorComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    CurrencyArsPipe,
+    CartSkeletonComponent,
+    EmptyStateComponent,
+    QtySelectorComponent,
+    RelatedProductsComponent,
+    OrderSummaryComponent,
+    ShippingSelectorComponent,
+  ],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css'
+  styleUrl: './cart.component.css',
 })
 export class CartComponent implements OnInit {
   public readonly cartService = inject(CartService);
@@ -32,9 +42,11 @@ export class CartComponent implements OnInit {
   loading = signal(false);
 
   items = computed(() =>
-    [...this.cartService.cartItems()].sort((a, b) =>
-      (a.product_volume_cc ?? 0) - (b.product_volume_cc ?? 0) || (a.units_per_pack ?? 0) - (b.units_per_pack ?? 0)
-    )
+    [...this.cartService.cartItems()].sort(
+      (a, b) =>
+        (a.product_volume_cc ?? 0) - (b.product_volume_cc ?? 0) ||
+        (a.units_per_pack ?? 0) - (b.units_per_pack ?? 0),
+    ),
   );
   isEmpty = this.cartService.isEmpty;
   totalUsd = this.cartService.totalUsd;
@@ -44,7 +56,8 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.productsService.getProducts().subscribe({
-      error: error => console.error('Error al cargar otros productos:', error)
+      error: (error) =>
+        console.error('Error al cargar otros productos:', error),
     });
   }
 
@@ -71,8 +84,4 @@ export class CartComponent implements OnInit {
   remove(variantId: string): void {
     this.cartService.remove(variantId);
   }
-
 }
-
-
-

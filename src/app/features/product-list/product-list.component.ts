@@ -9,9 +9,14 @@ import { ProductCardSkeletonComponent } from '../../shared/components/product-ca
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProductCardComponent, ProductCardSkeletonComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ProductCardComponent,
+    ProductCardSkeletonComponent,
+  ],
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css'
+  styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────
@@ -36,7 +41,7 @@ export class ProductListComponent implements OnInit {
   // ACCIONES
   // ─────────────────────────────────────────────────────────────
 
-  /** 
+  /**
    * Carga la lista inicial de productos.
    * TODO [F4]: Implementar paginación real en backend y frontend.
    */
@@ -45,15 +50,13 @@ export class ProductListComponent implements OnInit {
     this.titleService.setTitle('Catálogo de Macetas Biodegradables | Brotalia');
     this.metaService.updateTag({
       name: 'description',
-      content: 'Catálogo completo de macetas biodegradables (turba, papel y cartón) mayoristas y minoristas: almacigueras, macetas florales y más. Envíos a todo el país.'
+      content:
+        'Catálogo completo de macetas biodegradables (turba, papel y cartón) mayoristas y minoristas: almacigueras, macetas florales y más. Envíos a todo el país.',
     });
     this.productsService.getProducts().subscribe({
       error: () => {
         this.error.set('No se pudieron cargar los productos.');
-      }
+      },
     });
   }
 }
-
-
-

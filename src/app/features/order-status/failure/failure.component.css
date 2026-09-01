@@ -21,11 +21,13 @@
   color: var(--color-text-primary);
 }
 
-
 .text-error {
   color: #ef4444;
 }
 
-.max-w-600 { max-width: 600px; }
-.max-w-300 { max-width: 300px; }
-
+.max-w-600 {
+  max-width: 600px;
+}
+.max-w-300 {
+  max-width: 300px;
+}

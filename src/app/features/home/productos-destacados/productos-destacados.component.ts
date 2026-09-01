@@ -8,9 +8,14 @@ import { ProgressiveImageComponent } from '../../../shared/components/progressiv
 @Component({
   selector: 'app-productos-destacados',
   standalone: true,
-  imports: [CommonModule, RouterModule, SkeletonComponent, ProgressiveImageComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SkeletonComponent,
+    ProgressiveImageComponent,
+  ],
   templateUrl: './productos-destacados.component.html',
-  styleUrl: './productos-destacados.component.css'
+  styleUrl: './productos-destacados.component.css',
 })
 export class ProductosDestacadosComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
@@ -26,7 +31,7 @@ export class ProductosDestacadosComponent implements OnInit {
     this.productsService.getProducts().subscribe({
       error: (err: any) => {
         console.error('Error al cargar productos destacados:', err);
-      }
+      },
     });
   }
 }

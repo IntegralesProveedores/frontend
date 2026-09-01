@@ -12,5 +12,3 @@ export const cartNotEmptyGuard: CanActivateFn = () => {
   }
   return true;
 };
-
-

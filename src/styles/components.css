@@ -127,6 +127,11 @@
   color: #fff;
 }
 
+.btn-pill-outline--sm {
+  padding: 0.4rem 1rem;
+  font-size: 0.75rem;
+}
+
 /* Shared button utilities */
 .btn-app-primary {
   display: inline-flex;

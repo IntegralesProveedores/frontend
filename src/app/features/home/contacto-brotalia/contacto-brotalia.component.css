@@ -10,23 +10,26 @@
   overflow: hidden;
 
   background-image:
-	  linear-gradient(
-		to bottom,
-		var(--color-bg) 0%,
-		transparent 35%
-	  ),
-	  url('/assets/images/producto-maceta-biodegradable-todos-06.webp');
+    linear-gradient(to bottom, var(--color-bg) 0%, transparent 35%),
+    url("/assets/images/producto-maceta-biodegradable-todos-06.webp");
 
   background-repeat: no-repeat, no-repeat;
-  background-position: center, center bottom;
+  background-position:
+    center,
+    center bottom;
   background-size: cover, cover;
 }
 
 .contacto-split::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: -60% -20%;
-  background: linear-gradient(45deg, transparent 38%, rgba(255, 255, 255, 0.22) 50%, transparent 62%);
+  background: linear-gradient(
+    45deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 62%
+  );
   pointer-events: none;
 }
 
@@ -43,7 +46,7 @@
 }
 
 .contacto-card h3 {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   text-transform: uppercase;
   font-weight: 700;
   color: var(--color-title);
@@ -77,7 +80,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: #25D366;
+  background: #25d366;
   color: #fff;
   font-weight: 700;
   padding: 0.8rem 1.5rem;

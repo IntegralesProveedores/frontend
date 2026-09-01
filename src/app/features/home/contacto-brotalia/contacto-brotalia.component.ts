@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './contacto-brotalia.component.html',
-  styleUrl: './contacto-brotalia.component.css'
+  styleUrl: './contacto-brotalia.component.css',
 })
-export class ContactoBrotaliaComponent {
-
-}
+export class ContactoBrotaliaComponent {}

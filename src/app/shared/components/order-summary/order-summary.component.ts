@@ -12,7 +12,7 @@ import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
   standalone: true,
   imports: [CommonModule, RouterModule, CurrencyArsPipe],
   templateUrl: './order-summary.component.html',
-  styleUrl: './order-summary.component.css'
+  styleUrl: './order-summary.component.css',
 })
 export class OrderSummaryComponent {
   public readonly cartService = inject(CartService);
@@ -43,7 +43,9 @@ export class OrderSummaryComponent {
     return this.shippingService.quoting();
   }
 
-  get totalConEnvio(): number { return this.cartService.totalConComision(); }
+  get totalConEnvio(): number {
+    return this.cartService.totalConComision();
+  }
 
   /**
    * Subtotal ANTES del descuento por volumen. Se deriva del subtotal ya
@@ -53,11 +55,18 @@ export class OrderSummaryComponent {
    * dentro de cada price_ars. Es una aproximación de visualización.
    */
   get subtotalSinDescuentoArs(): number {
-    return this.cartService.groupedCartItems().reduce((sum, i) => sum + i.subtotalArsNoDiscount, 0);
+    return this.cartService
+      .groupedCartItems()
+      .reduce((sum, i) => sum + i.subtotalArsNoDiscount, 0);
   }
 
   get subtotalSinImpuestosArs(): number {
-    return this.cartService.cartItems().reduce((sum, i) => sum + (i.price_sin_impuestos_ars ?? 0) * i.quantity, 0);
+    return this.cartService
+      .cartItems()
+      .reduce(
+        (sum, i) => sum + (i.price_sin_impuestos_ars ?? 0) * i.quantity,
+        0,
+      );
   }
 
   paymentMethodLabel(): string {

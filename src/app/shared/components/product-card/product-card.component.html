@@ -1,25 +1,49 @@
-<div class="product-card-wrapper h-100" [routerLink]="['/productos', product.slug]">
-  <div class="product-image-box mb-3">
-    <app-progressive-img 
-      [src]="mainImage" 
-      [alt]="'Maceta biodegradable ' + product.name" 
+<div
+  class="product-card-wrapper h-100"
+  (mouseenter)="onImageMouseEnter()"
+  (mouseleave)="onImageMouseLeave()"
+>
+  <a
+    [routerLink]="['/productos', product.slug]"
+    class="product-image-box mb-3 d-block text-decoration-none"
+  >
+    <app-progressive-img
+      [src]="mainImage"
+      [alt]="'Maceta biodegradable ' + product.name"
       radius="var(--radius-md)"
       imgClass="img-fluid w-100 h-100 object-fit-cover"
     />
-  </div>
-  
-  <div class="product-info">
-    <div class="text-small">
-	    @if (product.volume_cc) { {{ product.volume_cc }} cm³ }
-    </div>
-	<h3 class="price-main fw-light text-uppercase">{{ product.name }}</h3>
-    
-    <div class="product-prices">
-	  <div class="text-muted mt-1">
-	    @if (product.diameter_cm) { {{ product.diameter_cm }} × }{{ product.height_cm }} cm. <br />
-	  </div>
-	  <div class="text-muted mt-1 italic" style="font-size: 0.7rem;">{{ pricingConfigService.vatLabel() }}</div>
-    </div>
-  </div>
+  </a>
 
+  <div class="product-info text-center position-relative">
+
+	<h3 class="price-main fw-light text-uppercase">
+      <a
+        [routerLink]="['/productos', product.slug]"
+        class="stretched-link text-reset text-decoration-none"
+      >
+        {{ product.name }}
+      </a>
+    </h3>
+
+    <div class="text-muted product-measure">
+      @if (product.diameter_cm) {
+        {{ product.diameter_cm }}×
+      }
+      @if (product.height_cm) {
+        {{ product.height_cm }}cm (h)
+      }
+      @if (product.volume_cc) {
+        &bull; {{ product.volume_cc }}cm³
+      }
+    </div>
+
+
+    <a
+      [routerLink]="['/productos', product.slug]"
+      class="btn-pill-outline btn-pill-outline--accent btn-pill-outline--sm position-relative z-2 mt-2"
+    >
+      COMPRAR
+    </a>
+  </div>
 </div>

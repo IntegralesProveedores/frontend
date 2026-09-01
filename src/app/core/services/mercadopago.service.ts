@@ -2,7 +2,10 @@ import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from './api.service';
-import { CreatePaymentRequest, CreatePaymentResponse } from '../models/payment.model';
+import {
+  CreatePaymentRequest,
+  CreatePaymentResponse,
+} from '../models/payment.model';
 
 @Injectable({ providedIn: 'root' })
 export class MercadoPagoService {
@@ -11,7 +14,7 @@ export class MercadoPagoService {
 
   async startCheckout(request: CreatePaymentRequest): Promise<void> {
     const response = await firstValueFrom(
-      this.api.post<CreatePaymentResponse>('/payments/create', request)
+      this.api.post<CreatePaymentResponse>('/payments/create', request),
     );
 
     if (!this.isBrowser || !response.init_point) {

@@ -8,9 +8,9 @@
   color: var(--color-text-secondary);
   transition: var(--t-base);
 }
-	.icon-relative:hover {
-	  color: #FFF;
-	}
+.icon-relative:hover {
+  color: #fff;
+}
 
 .count-badge {
   position: absolute;

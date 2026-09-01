@@ -7,7 +7,7 @@ import { SessionContextService } from '../../../core/services/session-context.se
   standalone: true,
   imports: [RouterModule],
   templateUrl: './banner-principal.component.html',
-  styleUrl: './banner-principal.component.css'
+  styleUrl: './banner-principal.component.css',
 })
 export class BannerPrincipalComponent {
   public readonly session = inject(SessionContextService);

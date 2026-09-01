@@ -9,14 +9,12 @@ import { ShippingService } from '../../../core/services/shipping.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './success.component.html',
-  styleUrl: './success.component.css'
+  styleUrl: './success.component.css',
 })
-
 export class SuccessComponent implements OnInit {
-  
   constructor(
-	private readonly cartService: CartService,
-    private readonly shippingService: ShippingService	
+    private readonly cartService: CartService,
+    private readonly shippingService: ShippingService,
   ) {}
 
   ngOnInit(): void {
@@ -24,5 +22,3 @@ export class SuccessComponent implements OnInit {
     this.shippingService.clear();
   }
 }
-
-

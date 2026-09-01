@@ -7,8 +7,6 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
   standalone: true,
   imports: [CommonModule, SkeletonComponent],
   templateUrl: './product-detail-skeleton.component.html',
-  styleUrl: './product-detail-skeleton.component.css'
-
+  styleUrl: './product-detail-skeleton.component.css',
 })
-
 export class ProductDetailSkeletonComponent {}

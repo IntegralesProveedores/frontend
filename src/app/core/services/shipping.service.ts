@@ -1,9 +1,23 @@
-import { Injectable, signal, computed, PLATFORM_ID, inject, Injector } from '@angular/core';
+import {
+  Injectable,
+  signal,
+  computed,
+  PLATFORM_ID,
+  inject,
+  Injector,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, finalize, skip } from 'rxjs';
-import { ShippingAddress, ShippingMethod, ShippingSelection } from '../models/order.model';
-import { isCabaProvince, isBuenosAiresProvince } from '../../shared/utils/province.utils';
+import {
+  ShippingAddress,
+  ShippingMethod,
+  ShippingSelection,
+} from '../models/order.model';
+import {
+  isCabaProvince,
+  isBuenosAiresProvince,
+} from '../../shared/utils/province.utils';
 import { ShippingQuote, PostalCodeService } from './postal-code.service';
 import { CartService } from './cart.service';
 
@@ -25,7 +39,11 @@ export class ShippingService {
     const cartService = this.injector.get(CartService);
     const groups = new Map<string, number>();
     for (const item of cartService.cartItems()) {
-      groups.set(item.productId, (groups.get(item.productId) ?? 0) + item.quantity * (item.units_per_pack || 1));
+      groups.set(
+        item.productId,
+        (groups.get(item.productId) ?? 0) +
+          item.quantity * (item.units_per_pack || 1),
+      );
     }
     return Array.from(groups, ([productId, units]) => ({ productId, units }));
   });
@@ -47,7 +65,8 @@ export class ShippingService {
     if (s.method === 'pickup' || s.method === 'coordinar') return true;
     if (s.method === 'delivery') {
       const a = s.address;
-      if (!a?.postal_code || !a?.street || !a?.street_number || !a?.province) return false;
+      if (!a?.postal_code || !a?.street || !a?.street_number || !a?.province)
+        return false;
       if (isCabaProvince(a.province)) return true;
       if (isBuenosAiresProvince(a.province)) return !!(a.locality && a.county);
       return !!a.locality;
@@ -63,27 +82,47 @@ export class ShippingService {
   }
 
   private watchCartChanges(): void {
-    this.productGroups$.pipe(
-      skip(1),
-      debounceTime(300),
-      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
-    ).subscribe(groups => {
-      const s = this.selection();
-      const cp = s.address?.postal_code ?? '';
-      if (s.method !== 'delivery' || !/^\d{4}$/.test(cp) || groups.length === 0) return;
+    this.productGroups$
+      .pipe(
+        skip(1),
+        debounceTime(300),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+      )
+      .subscribe((groups) => {
+        const s = this.selection();
+        const cp = s.address?.postal_code ?? '';
+        if (
+          s.method !== 'delivery' ||
+          !/^\d{4}$/.test(cp) ||
+          groups.length === 0
+        )
+          return;
 
-      this.quotingSignal.set(true);
-      this.postalCodeService.quote(cp, groups).pipe(
-        finalize(() => this.quotingSignal.set(false))
-      ).subscribe({
-        next: quote => this.setQuote({ zone: quote.zone, price_ars: quote.price_ars, boxes: quote.boxes }, cp),
-        error: () => this.setQuote(null)
+        this.quotingSignal.set(true);
+        this.postalCodeService
+          .quote(cp, groups)
+          .pipe(finalize(() => this.quotingSignal.set(false)))
+          .subscribe({
+            next: (quote) =>
+              this.setQuote(
+                {
+                  zone: quote.zone,
+                  price_ars: quote.price_ars,
+                  boxes: quote.boxes,
+                },
+                cp,
+              ),
+            error: () => this.setQuote(null),
+          });
       });
-    });
   }
 
   setMethod(method: ShippingMethod): void {
-    this.selection.update(s => ({ ...s, method, address: method === 'pickup' || method === 'coordinar' ? null : s.address }));
+    this.selection.update((s) => ({
+      ...s,
+      method,
+      address: method === 'pickup' || method === 'coordinar' ? null : s.address,
+    }));
     if (method !== 'delivery') {
       this.quoteSignal.set(null);
       this.quotedKey.set(null);
@@ -92,7 +131,7 @@ export class ShippingService {
   }
 
   setAddress(address: ShippingAddress): void {
-    this.selection.update(s => ({ ...s, address }));
+    this.selection.update((s) => ({ ...s, address }));
     this.saveToStorage();
   }
 
@@ -102,12 +141,16 @@ export class ShippingService {
   }
 
   private quoteKeyFor(cp: string): string {
-    const groups = [...this.productGroups()].sort((a, b) => a.productId.localeCompare(b.productId));
-    return `${cp}|${groups.map(g => `${g.productId}:${g.units}`).join(',')}`;
+    const groups = [...this.productGroups()].sort((a, b) =>
+      a.productId.localeCompare(b.productId),
+    );
+    return `${cp}|${groups.map((g) => `${g.productId}:${g.units}`).join(',')}`;
   }
 
   hasValidQuote(cp: string): boolean {
-    return this.quoteSignal() !== null && this.quotedKey() === this.quoteKeyFor(cp);
+    return (
+      this.quoteSignal() !== null && this.quotedKey() === this.quoteKeyFor(cp)
+    );
   }
 
   clear(): void {
@@ -118,7 +161,8 @@ export class ShippingService {
   }
 
   private saveToStorage(): void {
-    if (this.isBrowser) localStorage.setItem(SHIPPING_KEY, JSON.stringify(this.selection()));
+    if (this.isBrowser)
+      localStorage.setItem(SHIPPING_KEY, JSON.stringify(this.selection()));
   }
 
   private loadFromStorage(): void {

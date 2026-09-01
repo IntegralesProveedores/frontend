@@ -1,72 +1,205 @@
-<div class="shipping-selector" [class.shipping-selector--compact]="mode === 'compact'">
+<div
+  class="shipping-selector"
+  [class.shipping-selector--compact]="mode === 'compact'"
+>
   <div class="shipping-options-row mb-1">
-    <button type="button" class="shipping-option shipping-option-correo" [class.compact]="mode === 'compact'" [class.active]="method() === 'delivery'" (click)="selectMethod('delivery')">
-      <img src="/assets/icon/correo-argentino.png" alt="CORREO ARGENTINO" class="img-fluid d-block mx-auto" />
+    <button
+      type="button"
+      class="shipping-option shipping-option-correo"
+      [class.compact]="mode === 'compact'"
+      [class.active]="method() === 'delivery'"
+      (click)="selectMethod('delivery')"
+    >
+      <img
+        src="/assets/icon/correo-argentino.png"
+        alt="CORREO ARGENTINO"
+        class="img-fluid d-block mx-auto"
+      />
     </button>
-    <button type="button" class="shipping-option" [class.compact]="mode === 'compact'" [class.active]="method() === 'coordinar'" (click)="selectMethod('coordinar')">
-      <i class="bi bi-truck"></i><div><h3>Coordinar</h3></div>
+    <button
+      type="button"
+      class="shipping-option"
+      [class.compact]="mode === 'compact'"
+      [class.active]="method() === 'coordinar'"
+      (click)="selectMethod('coordinar')"
+    >
+      <i class="bi bi-truck"></i>
+      <div><h3>Coordinar</h3></div>
     </button>
-    <button type="button" class="shipping-option" [class.compact]="mode === 'compact'" [class.active]="method() === 'pickup'" (click)="selectMethod('pickup')">
-      <i class="bi bi-shop"></i><div><h3>Retiro</h3></div>
+    <button
+      type="button"
+      class="shipping-option"
+      [class.compact]="mode === 'compact'"
+      [class.active]="method() === 'pickup'"
+      (click)="selectMethod('pickup')"
+    >
+      <i class="bi bi-shop"></i>
+      <div><h3>Retiro</h3></div>
     </button>
   </div>
 
-  @if (method() === 'coordinar') {
+  @if (method() === "coordinar") {
     <div class="info-box">
-		<p class="mb-0 fw-bold">
-			<i class="bi bi-whatsapp text-success"></i> 
-			{{ mode === 'compact' ? "+54 9 11 3022-6565" : "+54 9 11 3022-6565" }}
-		</p>
-		<p class="x-small mb-0">{{ mode === 'compact' ? texts.coordinar.short : texts.coordinar.long }}</p>
-		</div>
+      <p class="mb-0 fw-bold">
+        <i class="bi bi-whatsapp text-success"></i>
+        {{ mode === "compact" ? "+54 9 11 3022-6565" : "+54 9 11 3022-6565" }}
+      </p>
+      <p class="x-small mb-0">
+        {{ mode === "compact" ? texts.coordinar.short : texts.coordinar.long }}
+      </p>
+    </div>
   }
-  @if (method() === 'pickup') {
+  @if (method() === "pickup") {
     <div class="info-box">
-		<p class="mb-0 fw-bold">
-			<i class="bi bi-whatsapp text-success"></i> 
-			{{ mode === 'compact' ? "+54 9 11 3022-6565" : "+54 9 11 3022-6565" }}
-		</p>
-		<p class="x-small mb-0">{{ mode === 'compact' ? texts.pickup.short : texts.pickup.long }}</p>
-	</div>
+      <p class="mb-0 fw-bold">
+        <i class="bi bi-whatsapp text-success"></i>
+        {{ mode === "compact" ? "+54 9 11 3022-6565" : "+54 9 11 3022-6565" }}
+      </p>
+      <p class="x-small mb-0">
+        {{ mode === "compact" ? texts.pickup.short : texts.pickup.long }}
+      </p>
+    </div>
   }
 
-  @if (method() === 'delivery') {
+  @if (method() === "delivery") {
     <div class="row g-2">
       <div class="col-4 col-md-4">
-        <input name="shipping_postal_code" [ngModel]="address.postal_code" (ngModelChange)="updatePostalCode($event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" [class.is-invalid]="!address.postal_code && formSubmitted" required maxlength="4" inputmode="numeric" autocomplete="off" placeholder="CP (*)">
-        @if (postalCodeNotFound()) { <div class="text-danger x-small">No encontrado.</div> }
-      </div>
-      <div class="col-8 col-md-8 province-field">
-        <input name="shipping_province" [ngModel]="address.province" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" [class.is-invalid]="!address.province && formSubmitted" required readonly autocomplete="off" placeholder="Provincia (*)">
-        @if (loadingPostalCode()) {
-          <span class="province-loading-spinner spinner-border spinner-border-sm me-2"></span>
+        <input
+          name="shipping_postal_code"
+          [ngModel]="address.postal_code"
+          (ngModelChange)="updatePostalCode($event)"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control-minimal"
+          [class.is-invalid]="!address.postal_code && formSubmitted"
+          required
+          maxlength="4"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="CP (*)"
+        />
+        @if (postalCodeNotFound()) {
+          <div class="text-danger x-small">No encontrado.</div>
         }
       </div>
-      @if (mode === 'full' && showLocalityField) {
-        <div [class.col-12]="!showCountyField" [class.col-md-12]="!showCountyField" [class.col-6]="showCountyField" [class.col-md-6]="showCountyField">
-          <input name="shipping_locality" [ngModel]="address.locality" (ngModelChange)="updateAddress('locality', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" [class.is-invalid]="!address.locality && formSubmitted" required autocomplete="off" placeholder="Localidad (*)">
+      <div class="col-8 col-md-8 province-field">
+        <input
+          name="shipping_province"
+          [ngModel]="address.province"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control-minimal"
+          [class.is-invalid]="!address.province && formSubmitted"
+          required
+          readonly
+          autocomplete="off"
+          placeholder="Provincia (*)"
+        />
+        @if (loadingPostalCode()) {
+          <span
+            class="province-loading-spinner spinner-border spinner-border-sm me-2"
+          ></span>
+        }
+      </div>
+      @if (mode === "full" && showLocalityField) {
+        <div
+          [class.col-12]="!showCountyField"
+          [class.col-md-12]="!showCountyField"
+          [class.col-6]="showCountyField"
+          [class.col-md-6]="showCountyField"
+        >
+          <input
+            name="shipping_locality"
+            [ngModel]="address.locality"
+            (ngModelChange)="updateAddress('locality', $event)"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control-minimal"
+            [class.is-invalid]="!address.locality && formSubmitted"
+            required
+            autocomplete="off"
+            placeholder="Localidad (*)"
+          />
         </div>
       }
-      @if (mode === 'full' && showCountyField) {
+      @if (mode === "full" && showCountyField) {
         <div class="col-6 col-md-6">
-          <input name="shipping_county" [ngModel]="address.county" (ngModelChange)="updateAddress('county', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" [class.is-invalid]="!address.county && formSubmitted" required autocomplete="off" placeholder="Partido (*)">
+          <input
+            name="shipping_county"
+            [ngModel]="address.county"
+            (ngModelChange)="updateAddress('county', $event)"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control-minimal"
+            [class.is-invalid]="!address.county && formSubmitted"
+            required
+            autocomplete="off"
+            placeholder="Partido (*)"
+          />
         </div>
       }
-      @if (mode === 'full' && addressFieldsVisible) {
-        <div class="col-8 col-md-8"><input name="shipping_street" [ngModel]="address.street" (ngModelChange)="updateAddress('street', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" [class.is-invalid]="!address.street && formSubmitted" required autocomplete="off" placeholder="Calle (*)"></div>
+      @if (mode === "full" && addressFieldsVisible) {
+        <div class="col-8 col-md-8">
+          <input
+            name="shipping_street"
+            [ngModel]="address.street"
+            (ngModelChange)="updateAddress('street', $event)"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control-minimal"
+            [class.is-invalid]="!address.street && formSubmitted"
+            required
+            autocomplete="off"
+            placeholder="Calle (*)"
+          />
+        </div>
         <div class="col-4 col-md-4">
           <div class="street-number-wrapper">
-            <input name="shipping_street_number" [ngModel]="address.street_number" (ngModelChange)="updateAddress('street_number', $event)" (input)="onStreetNumberInput($event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" required inputmode="numeric" pattern="[0-9]*" autocomplete="off" [readonly]="streetNumberIsSN()" [class.is-invalid]="!address.street_number && formSubmitted" placeholder="Nro. (*)">
+            <input
+              name="shipping_street_number"
+              [ngModel]="address.street_number"
+              (ngModelChange)="updateAddress('street_number', $event)"
+              (input)="onStreetNumberInput($event)"
+              [ngModelOptions]="{ standalone: true }"
+              class="form-control-minimal"
+              required
+              inputmode="numeric"
+              pattern="[0-9]*"
+              autocomplete="off"
+              [readonly]="streetNumberIsSN()"
+              [class.is-invalid]="!address.street_number && formSubmitted"
+              placeholder="Nro. (*)"
+            />
             <label class="street-number-sn-check">
-              <input type="checkbox" [ngModel]="streetNumberIsSN()" (ngModelChange)="toggleStreetNumberSN($event)" [ngModelOptions]="{ standalone: true }">
+              <input
+                type="checkbox"
+                [ngModel]="streetNumberIsSN()"
+                (ngModelChange)="toggleStreetNumberSN($event)"
+                [ngModelOptions]="{ standalone: true }"
+              />
               <span>S/N</span>
             </label>
           </div>
         </div>
-        <div class="col-6 col-md-6"><input name="shipping_floor" [ngModel]="address.floor" (ngModelChange)="updateAddress('floor', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" autocomplete="off" placeholder="Piso"></div>
-        <div class="col-6 col-md-6"><input name="shipping_apartment" [ngModel]="address.apartment" (ngModelChange)="updateAddress('apartment', $event)" [ngModelOptions]="{ standalone: true }" class="form-control-minimal" autocomplete="off" placeholder="Dpto."></div>
+        <div class="col-6 col-md-6">
+          <input
+            name="shipping_floor"
+            [ngModel]="address.floor"
+            (ngModelChange)="updateAddress('floor', $event)"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control-minimal"
+            autocomplete="off"
+            placeholder="Piso"
+          />
+        </div>
+        <div class="col-6 col-md-6">
+          <input
+            name="shipping_apartment"
+            [ngModel]="address.apartment"
+            (ngModelChange)="updateAddress('apartment', $event)"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control-minimal"
+            autocomplete="off"
+            placeholder="Dpto."
+          />
+        </div>
       }
-	  <!--
+      <!--
       @if (mode === 'full') {
         <div class="mt-2">
           <label class="observaciones-check"><input type="checkbox" [ngModel]="showObservaciones()" (ngModelChange)="toggleObservaciones($event)" [ngModelOptions]="{ standalone: true }"><span>Agregar observaciones</span></label>

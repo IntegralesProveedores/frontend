@@ -19,19 +19,20 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
       </div>
     </div>
   `,
-  styles: [`
-    .product-card-wrapper {
-      padding: 8px;
-      border-radius: var(--border-radius-base);
-    }
+  styles: [
+    `
+      .product-card-wrapper {
+        padding: 8px;
+        border-radius: var(--border-radius-base);
+      }
 
-    .product-image-box {
-      aspect-ratio: 1 / 1;
-      background-color: var(--color-bg-soft);
-      border-radius: var(--border-radius-base);
-      overflow: hidden;
-    }
-  `]
+      .product-image-box {
+        aspect-ratio: 1 / 1;
+        background-color: var(--color-bg-soft);
+        border-radius: var(--border-radius-base);
+        overflow: hidden;
+      }
+    `,
+  ],
 })
-
 export class ProductCardSkeletonComponent {}
