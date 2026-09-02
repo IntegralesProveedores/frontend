@@ -20,14 +20,11 @@ import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { ShippingService } from '../../core/services/shipping.service';
 import { CustomerDraftService } from '../../core/services/customer-draft.service';
 import { PaymentMethodService } from '../../core/services/payment-method.service';
-import { OrderEmailTemplateService } from '../../core/services/order-email-template.service';
 
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { RelatedProductsComponent } from '../../shared/components/related-products/related-products.component';
 import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
 import { ShippingSelectorComponent } from '../../shared/components/shipping-selector/shipping-selector.component';
-import { environment } from '../../../environments/environment';
-import * as emailjs from '@emailjs/browser';
 
 type ValidatedOrder = {
   items: Array<{
@@ -76,9 +73,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private readonly customerDraftService = inject(CustomerDraftService);
   public readonly paymentMethodService = inject(PaymentMethodService);
   public readonly shippingService = inject(ShippingService);
-  private readonly orderEmailTemplateService = inject(
-    OrderEmailTemplateService,
-  );
   private skipDraftPersistence = false;
 
   products = this.productsService.products;
@@ -222,41 +216,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         },
       };
 
-      const order = await firstValueFrom(
-        this.api.post<ValidatedOrder>('/orders', payload),
-      );
-
-      const mensajeHTML =
-        await this.orderEmailTemplateService.generarHTMLCorreo(
-          order,
-          c,
-          this.shippingMethod(),
-          this.shippingService.current().address,
-          this.shippingCost(),
-          this.shippingService.quote()?.boxes,
-          this.paymentMethodService.current(),
-          this.cartService.volumeDiscountPercentage(),
-          this.cartService.subtotalSinDescuentoArs(),
-          this.pricingConfigService.vatLabel(),
-        );
-
-      const templateParams = {
-        to_name: c.nombre,
-        to_email: c.email,
-        name: c.nombre,
-        reply_to: c.email,
-        email: c.email,
-        telefono: `(${c.codigoArea}) ${c.celular}`,
-        order_id: order.order_ref,
-        mensaje_html: mensajeHTML,
-      };
-
-      await emailjs.send(
-        environment.emailjs.serviceId,
-        environment.emailjs.templateId,
-        templateParams,
-        environment.emailjs.publicKey,
-      );
+      await firstValueFrom(this.api.post<ValidatedOrder>('/orders', payload));
 
       this.skipDraftPersistence = true;
       this.cartService.clear();
