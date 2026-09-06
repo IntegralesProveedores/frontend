@@ -1,9 +1,18 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr';
 import express from 'express';
+import helmet from 'helmet';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
+import { environment } from './src/environments/environment';
+
+const MERCADOPAGO_ORIGINS = [
+  'https://*.mercadopago.com',
+  'https://*.mercadopago.com.ar',
+  'https://*.mercadolibre.com',
+  'https://*.mlstatic.com',
+];
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -13,6 +22,25 @@ export function app(): express.Express {
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
   const commonEngine = new CommonEngine();
+
+  server.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net', 'https://fonts.googleapis.com'],
+          fontSrc: ["'self'", 'https://cdn.jsdelivr.net', 'https://fonts.gstatic.com'],
+          imgSrc: ["'self'", 'data:'],
+          connectSrc: ["'self'", environment.apiUrl, ...MERCADOPAGO_ORIGINS],
+          formAction: ["'self'", ...MERCADOPAGO_ORIGINS],
+          frameSrc: ["'self'", ...MERCADOPAGO_ORIGINS],
+          objectSrc: ["'none'"],
+          baseUri: ["'self'"],
+        },
+      },
+    }),
+  );
 
   server.get('/sitemap.xml', async (_req, res, next) => {
     try {
