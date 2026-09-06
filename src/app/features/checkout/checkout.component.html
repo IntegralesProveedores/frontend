@@ -27,6 +27,7 @@
                   nombre.invalid && (nombre.touched || formSubmitted)
                 "
                 placeholder="Nombre y Apellido (*)"
+                aria-label="Nombre y Apellido"
               />
               <div class="validation-container">
                 @if (nombre.invalid && (nombre.touched || formSubmitted)) {
@@ -56,6 +57,7 @@
                   email.invalid && (email.touched || formSubmitted)
                 "
                 placeholder="Email (*)"
+                aria-label="Email"
               />
               <div class="validation-container">
                 @if (email.invalid && (email.touched || formSubmitted)) {
@@ -90,6 +92,7 @@
                     codigoArea.invalid && (codigoArea.touched || formSubmitted)
                   "
                   placeholder="Area (*)"
+                  aria-label="Código de área"
                 />
                 <div class="validation-container">
                   @if (
@@ -127,6 +130,7 @@
                     celular.invalid && (celular.touched || formSubmitted)
                   "
                   placeholder="Celular (*)"
+                  aria-label="Celular"
                 />
                 <div class="validation-container">
                   @if (celular.invalid && (celular.touched || formSubmitted)) {
