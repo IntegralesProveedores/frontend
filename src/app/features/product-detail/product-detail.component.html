@@ -41,20 +41,24 @@
         <div class="product-info offset-md-1 col-md-4">
           <nav aria-label="breadcrumb" class="product-breadcrumb">
             <ol class="breadcrumb x-small text-uppercase" style="font-size: .6rem">
-              <li class="breadcrumb-item">
-                <a
-                  [routerLink]="['/productos']"
-                  class="text-secondary text-decoration-none"
-                  >Productos</a
-                >
-              </li>
-              <li class="breadcrumb-item">
-                <a
-                  [routerLink]="['/productos']"
-                  class="text-secondary text-decoration-none"
-                  >Maceta Biodegradable</a
-                >
-              </li>
+              @if (product()?.category?.parent) {
+                <li class="breadcrumb-item">
+                  <a
+                    [routerLink]="['/productos']"
+                    class="text-secondary text-decoration-none"
+                    >{{ product()?.category?.parent?.name }}</a
+                  >
+                </li>
+              }
+              @if (product()?.category) {
+                <li class="breadcrumb-item">
+                  <a
+                    [routerLink]="['/productos']"
+                    class="text-secondary text-decoration-none"
+                    >{{ product()?.category?.name }}</a
+                  >
+                </li>
+              }
               <li class="breadcrumb-item active text-primary">
                 {{ product()?.name }}
               </li>
@@ -176,12 +180,40 @@
                 }
               </div>
 
-              <!-- DESCRIPTION -->            
-			  <p class="description text-secondary small">
-                {{ product()?.description }}
-              </p>
+              <!-- Medios de pago -->
+              <div class="payment-methods-badge mb-3 pt-3 border-top">
+                <p class="x-small text-uppercase fw-bold text-muted mb-2">
+                  Medios de pago
+                </p>
+                <div class="payment-methods-icons-row">
+                  <img
+                    src="/assets/icon/mercado-pago-horizontal.png"
+                    alt="Mercado Pago"
+                    class="payment-badge-logo"
+                  />
+                  <div class="payment-transfer-badge">
+                    <i class="bi bi-bank payment-transfer-icon"></i>
+                    <span class="payment-transfer-label">Transferencia</span>
+                    <span class="badge bg-success payment-discount-badge">-10%</span>
+                  </div>
+                </div>
+                <p class="x-small text-muted mt-2 mb-0">
+                  Tarjeta cr&eacute;dito y d&eacute;bito, cuotas sin inter&eacute;s seg&uacute;n promoci&oacute;n vigente y dinero en cuenta.
+                </p>
+              </div>
+
+              <!-- DESCRIPTION -->
+              <div class="payment-methods-badge mb-3 pt-3 border-top">
+                <p class="x-small text-uppercase fw-bold text-muted mb-2">
+                  Descripci&oacute;n
+                </p>
+
+                <p class="description text-secondary small">
+				  {{ product()?.description }}
+				</p>
 
 			
+			  </div>
           </div>
         </div>
       </div>

@@ -1,7 +1,12 @@
 <section class="cart-page section-spacing">
   <div class="container">
+    <!-- Skeleton -->
+    @if (!ready()) {
+      <app-cart-skeleton />
+    }
+
     <!-- Empty State -->
-    @if (isEmpty()) {
+    @if (ready() && isEmpty()) {
       <div class="empty-cart text-center py-5">
         <p class="lead text-muted mb-4">No hay productos en tu carrito.</p>
         <a
@@ -14,7 +19,7 @@
     }
 
     <!-- Cart Content -->
-    @if (!isEmpty()) {
+    @if (ready() && !isEmpty()) {
       <div class="row">
         <!-- Items List -->
         <div class="offset-lg-1 col-lg-5">

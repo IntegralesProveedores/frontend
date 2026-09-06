@@ -1,4 +1,11 @@
-import { Component, computed, signal, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  signal,
+  inject,
+  OnInit,
+  afterNextRender,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
@@ -40,6 +47,7 @@ export class CartComponent implements OnInit {
   productsLoading = this.productsService.loading;
 
   loading = signal(false);
+  ready = signal(false);
 
   items = computed(() =>
     [...this.cartService.cartItems()].sort(
@@ -53,6 +61,10 @@ export class CartComponent implements OnInit {
   subtotalArs = this.cartService.subtotalArs;
   totalVolume = this.cartService.totalVolumeCc;
   dolarOficial = this.cartService.dolarOficial;
+
+  constructor() {
+    afterNextRender(() => this.ready.set(true));
+  }
 
   ngOnInit(): void {
     this.productsService.getProducts().subscribe({

@@ -1,16 +1,112 @@
 <section class="success-page section-editorial min-vh-100 animate-fade">
   <div class="container text-center">
     <div class="animate-reveal mb-12">
-      <div class="icon-circle mx-auto mb-8">
-        <i class="bi bi-check-circle-fill"></i>
-      </div>
-
       <h1 class="text-editorial-md mb-2">¡Compra Confirmada!</h1>
-
       <p class="text-secondary mx-auto max-w-600">
         Recibirás un correo electrónico con el detalle de tu compra.
       </p>
     </div>
+
+    @if (showTransferInfo) {
+      <div class="info-box mx-auto max-w-600 text-start mb-8 animate-reveal mb-2">
+        <p class="mb-1 d-flex align-items-center gap-2">
+          <span>
+            <strong>N&uacute;mero de orden:</strong>
+            {{ orderRef() }}
+          </span>
+          <button
+            type="button"
+            class="btn-copy"
+            (click)="copyToClipboard(orderRef()!, 'order')"
+            aria-label="Copiar n&uacute;mero de orden"
+          >
+            <i
+              class="bi"
+              [class.bi-clipboard]="copiedField() !== 'order'"
+              [class.bi-clipboard-check]="copiedField() === 'order'"
+            ></i>
+          </button>
+        </p>
+
+        <hr class="my-3" />
+
+        <p class="mb-1 d-flex align-items-center gap-2">
+          <span>
+            <strong>Alias:</strong>
+            {{ transferInfo()!.alias }}
+          </span>
+          <button
+            type="button"
+            class="btn-copy"
+            (click)="copyToClipboard(transferInfo()!.alias, 'alias')"
+            aria-label="Copiar alias"
+          >
+            <i
+              class="bi"
+              [class.bi-clipboard]="copiedField() !== 'alias'"
+              [class.bi-clipboard-check]="copiedField() === 'alias'"
+            ></i>
+          </button>
+        </p>
+        @if (transferInfo()!.cvu) {
+          <p class="mb-1 d-flex align-items-center gap-2">
+            <span>
+              <strong>CVU:</strong>
+              {{ transferInfo()!.cvu }}
+            </span>
+            <button
+              type="button"
+              class="btn-copy"
+              (click)="copyToClipboard(transferInfo()!.cvu!, 'cvu')"
+              aria-label="Copiar CVU"
+            >
+              <i
+                class="bi"
+                [class.bi-clipboard]="copiedField() !== 'cvu'"
+                [class.bi-clipboard-check]="copiedField() === 'cvu'"
+              ></i>
+            </button>
+          </p>
+        }
+        @if (transferInfo()!.cbu) {
+          <p class="mb-1 d-flex align-items-center gap-2">
+            <span>
+              <strong>CBU:</strong>
+              {{ transferInfo()!.cbu }}
+            </span>
+            <button
+              type="button"
+              class="btn-copy"
+              (click)="copyToClipboard(transferInfo()!.cbu!, 'cbu')"
+              aria-label="Copiar CBU"
+            >
+              <i
+                class="bi"
+                [class.bi-clipboard]="copiedField() !== 'cbu'"
+                [class.bi-clipboard-check]="copiedField() === 'cbu'"
+              ></i>
+            </button>
+          </p>
+        }
+        <p class="mb-0">
+          <strong>Titular:</strong>
+          {{ transferInfo()!.account_holder_name }}
+        </p>
+
+        <p class="x-small mt-3 mb-0">
+          Tu pedido se prepara una vez realizada la transferencia. Envianos el
+          comprobante por
+          <a
+            [href]="whatsappUrl"
+            target="_blank"
+            rel="noopener"
+            class="link-danger text-decoration-none fw-bold"
+            >WhatsApp</a
+          >
+          o por mail indicando el n&uacute;mero de orden.
+        </p>
+      </div>
+    }
 
     <a
       routerLink="/productos"

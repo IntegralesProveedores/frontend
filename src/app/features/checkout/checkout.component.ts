@@ -6,6 +6,7 @@ import {
   OnDestroy,
   signal,
   computed,
+  afterNextRender,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -25,6 +26,7 @@ import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { RelatedProductsComponent } from '../../shared/components/related-products/related-products.component';
 import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
 import { ShippingSelectorComponent } from '../../shared/components/shipping-selector/shipping-selector.component';
+import { CheckoutSkeletonComponent } from '../../shared/components/checkout-skeleton/checkout-skeleton.component';
 
 type ValidatedOrder = {
   items: Array<{
@@ -58,6 +60,7 @@ type ValidatedOrder = {
     RelatedProductsComponent,
     OrderSummaryComponent,
     ShippingSelectorComponent,
+    CheckoutSkeletonComponent,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css',
@@ -81,6 +84,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   loading = false;
   paymentLoading = false;
   formSubmitted = false;
+  ready = signal(false);
   shipping = this.shippingService.current;
   shippingMethod = computed(
     () => this.shippingService.current().method ?? 'delivery',
@@ -109,6 +113,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private copiedFieldTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
+    afterNextRender(() => this.ready.set(true));
+
     effect(() => {
       const user = this.session.currentUser();
       if (user) {
@@ -216,14 +222,25 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         },
       };
 
-      await firstValueFrom(this.api.post<ValidatedOrder>('/orders', payload));
+      const result = await firstValueFrom(
+        this.api.post<ValidatedOrder>('/orders', payload),
+      );
 
       this.skipDraftPersistence = true;
       this.cartService.clear();
       this.customerDraftService.clear();
       this.shippingService.clear();
       this.paymentMethodService.clear();
-      this.router.navigate(['/orden/exito']);
+      this.router.navigate(['/orden/exito'], {
+        state: {
+          orderRef: result.order_ref,
+          paymentMethod: payload.payment_method,
+          transferInfo:
+            payload.payment_method === 'transferencia'
+              ? this.mercadoPagoTransferInfo()
+              : null,
+        },
+      });
     } catch (error) {
       console.error('Error en checkout:', error);
       this.router.navigate(['/orden/error']);

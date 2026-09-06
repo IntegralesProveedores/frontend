@@ -1,5 +1,8 @@
 <section class="checkout-page section-spacing">
   <div class="container">
+    @if (!ready()) {
+      <app-checkout-skeleton />
+    } @else {
     <div class="row">
       <!-- Formulario -->
       <div class="offset-md-1 col-lg-5">
@@ -335,5 +338,6 @@
         ></app-order-summary>
       </div>
     </div>
+    }
   </div>
 </section>

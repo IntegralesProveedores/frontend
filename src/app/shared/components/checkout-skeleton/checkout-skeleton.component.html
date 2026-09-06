@@ -1,0 +1,69 @@
+<div class="row">
+  <!-- Formulario -->
+  <div class="offset-md-1 col-lg-5">
+    <app-skeleton width="35%" height="0.75rem" class="d-block mb-3" />
+    <app-skeleton width="100%" height="2.5rem" radius="var(--radius-sm)" class="d-block mb-2" />
+    <app-skeleton width="100%" height="2.5rem" radius="var(--radius-sm)" class="d-block mb-3" />
+    <div class="row g-2 mb-4">
+      <div class="col-4">
+        <app-skeleton width="100%" height="2.5rem" radius="var(--radius-sm)" />
+      </div>
+      <div class="col-8">
+        <app-skeleton width="100%" height="2.5rem" radius="var(--radius-sm)" />
+      </div>
+    </div>
+
+    <app-skeleton width="45%" height="0.75rem" class="d-block mb-3" />
+    <div class="shipping-options-row d-flex gap-2 mb-4">
+      @for (i of [1, 2, 3]; track i) {
+        <app-skeleton width="100%" height="60px" radius="var(--radius-md)" />
+      }
+    </div>
+
+    <app-skeleton width="35%" height="0.75rem" class="d-block mb-3" />
+    <div class="payment-options-row d-flex gap-3 mb-4">
+      <app-skeleton width="100%" height="52px" radius="12px" />
+      <app-skeleton width="100%" height="52px" radius="12px" />
+    </div>
+
+    <app-skeleton width="100%" height="56px" radius="var(--border-radius-base)" class="d-block" />
+  </div>
+
+  <!-- Resumen -->
+  <div class="offset-md-1 col-lg-4">
+    <div class="order-summary-box p-3">
+      @for (i of [1, 2]; track i) {
+        <div class="d-flex gap-3 py-1 mb-2">
+          <app-skeleton width="40px" height="40px" radius="var(--radius-sm)" />
+          <div class="flex-grow-1">
+            <app-skeleton width="85%" height="0.8rem" class="d-block mb-2" />
+            <app-skeleton width="40%" height="0.7rem" class="d-block" />
+          </div>
+        </div>
+      }
+
+      <div class="summary-row d-flex justify-content-between align-items-start pt-2 mt-2 border-top">
+        <app-skeleton width="80px" height="1.1rem" />
+        <app-skeleton width="100px" height="1.5rem" />
+      </div>
+
+      <div class="summary-row d-flex justify-content-between align-items-start pt-2 mt-2 border-top">
+        <app-skeleton width="70px" height="1.1rem" />
+        <app-skeleton width="90px" height="1.5rem" />
+      </div>
+
+      <div class="summary-row d-flex justify-content-between align-items-start pt-2 mt-2 border-top">
+        <app-skeleton width="70px" height="1.1rem" />
+        <app-skeleton width="60px" height="1.5rem" />
+      </div>
+
+      <div class="total-row d-flex justify-content-between align-items-start pt-2 mt-2 border-top">
+        <app-skeleton width="70px" height="1.1rem" />
+        <div class="text-end">
+          <app-skeleton width="120px" height="1.75rem" class="d-block mb-2 ms-auto" />
+          <app-skeleton width="90px" height="0.7rem" class="d-block ms-auto" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -12,10 +12,15 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
         <app-skeleton width="100%" height="100%" radius="var(--radius-md)" />
       </div>
 
-      <div class="product-info">
-        <app-skeleton width="85%" height="2.25rem" class="d-block mb-2" />
-        <app-skeleton width="65%" height="1.8rem" class="d-block mb-2" />
-        <app-skeleton width="35%" height="0.7rem" class="d-block" />
+      <div class="product-info text-center">
+        <app-skeleton width="70%" height="1.8rem" class="d-block mx-auto mb-2" />
+        <app-skeleton width="45%" height="0.75rem" class="d-block mx-auto mb-3" />
+        <app-skeleton
+          width="130px"
+          height="2.25rem"
+          radius="var(--radius-full)"
+          class="d-block mx-auto"
+        />
       </div>
     </div>
   `,

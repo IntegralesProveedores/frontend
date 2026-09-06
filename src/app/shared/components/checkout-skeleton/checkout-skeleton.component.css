@@ -1,0 +1,4 @@
+.order-summary-box {
+  background-color: var(--color-bg-soft);
+  border-radius: var(--border-radius-base);
+}

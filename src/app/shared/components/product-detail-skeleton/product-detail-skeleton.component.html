@@ -1,11 +1,18 @@
-<div class="product-grid">
-  <div class="product-image">
-    <div class="main-image-box">
-      <app-skeleton width="100%" height="100%" radius="var(--radius-md)" />
+<div class="product-grid row align-items-start">
+  <div class="product-image col-md-6">
+    <div class="product-gallery">
+      <div class="product-thumbnails">
+        @for (i of [1, 2, 3]; track i) {
+          <app-skeleton width="68px" height="68px" radius="var(--radius-md)" />
+        }
+      </div>
+      <div class="main-image-box">
+        <app-skeleton width="100%" height="100%" radius="var(--radius-md)" />
+      </div>
     </div>
   </div>
 
-  <div class="product-info">
+  <div class="product-info offset-md-1 col-md-4">
     <div class="product-breadcrumb">
       <app-skeleton width="40%" height="0.75rem" />
     </div>

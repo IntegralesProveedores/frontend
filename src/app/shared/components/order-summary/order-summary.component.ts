@@ -6,6 +6,7 @@ import { ShippingService } from '../../../core/services/shipping.service';
 import { PaymentMethodService } from '../../../core/services/payment-method.service';
 import { PricingConfigService } from '../../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
+import { getEstimatedDeliveryRangeLabel } from '../../utils/business-days.util';
 
 @Component({
   selector: 'app-order-summary',
@@ -41,6 +42,10 @@ export class OrderSummaryComponent {
 
   get shippingQuoting(): boolean {
     return this.shippingService.quoting();
+  }
+
+  get estimatedDeliveryLabel(): string {
+    return getEstimatedDeliveryRangeLabel();
   }
 
   get totalConEnvio(): number {

@@ -55,6 +55,7 @@ export interface ProductCategory {
   name: string;
   slug: string;
   parent_id: string | null;
+  parent?: ProductCategory | null;
 }
 
 /** Representa la entidad de Producto comercial global */

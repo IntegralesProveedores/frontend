@@ -5,6 +5,42 @@
   overflow: hidden;
 }
 
+.payment-badge-logo {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
+.payment-methods-icons-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.payment-transfer-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.payment-transfer-icon {
+  font-size: 1.3rem;
+}
+
+.payment-transfer-label {
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.payment-discount-badge {
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
 .product-gallery {
   display: flex;
   flex-direction: row;

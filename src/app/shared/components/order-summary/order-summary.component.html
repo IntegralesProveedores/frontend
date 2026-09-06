@@ -138,9 +138,9 @@
           <div class="text-start">
             <span class="fw-bold h5 mb-0 summary-title">Entrega</span>
             @if (shippingMethod === "delivery") {
-              <small class="x-small text-muted d-block"
-                >Demora 3 a 7 d&iacute;as h&aacute;biles</small
-              >
+              <small class="x-small text-muted d-block">{{
+                estimatedDeliveryLabel
+              }}</small>
             }
           </div>
           <div class="text-end">

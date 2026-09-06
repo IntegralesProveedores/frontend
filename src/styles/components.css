@@ -226,7 +226,7 @@
 
 .btn-app-variant-pill {
   border-radius: 50px;
-  padding: 0.5rem 1.25rem;
+  padding: 0.2rem 1.25rem;
   font-weight: 500;
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
