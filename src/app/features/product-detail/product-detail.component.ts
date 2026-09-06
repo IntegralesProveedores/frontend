@@ -18,6 +18,7 @@ import { Product, ProductVariant } from '../../core/models/product.model';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductDetailSkeletonComponent } from '../../shared/components/product-detail-skeleton/product-detail-skeleton.component';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
+import { logError } from '../../shared/utils/log.util';
 import { ProgressiveImageComponent } from '../../shared/components/progressive-image/progressive-image.component';
 import { QtySelectorComponent } from '../../shared/components/qty-selector/qty-selector.component';
 import { RelatedProductsComponent } from '../../shared/components/related-products/related-products.component';
@@ -436,7 +437,7 @@ export class ProductDetailComponent implements OnInit {
           products?.[0]?.pricing_config,
         );
       },
-      error: (err) => console.error('Error loading related products', err),
+      error: (err) => logError('Error loading related products', err),
     });
   }
 

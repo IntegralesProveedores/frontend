@@ -18,8 +18,20 @@ import {
 } from '../lib/pricing.util';
 import { PaymentMethodService } from './payment-method.service';
 import { ShippingService } from './shipping.service';
+import { logError } from '../../shared/utils/log.util';
 
 const CART_KEY = 'cart_items';
+
+function isCartItem(value: unknown): value is CartItem {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v['variantId'] === 'string' &&
+    typeof v['productId'] === 'string' &&
+    typeof v['quantity'] === 'number' &&
+    v['quantity'] > 0
+  );
+}
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
@@ -443,7 +455,7 @@ export class CartService {
         }
       }
     } catch (e) {
-      console.error('Error al obtener configuracion del backend:', e);
+      logError('Error al obtener configuracion del backend:', e);
     }
   }
 
@@ -457,10 +469,11 @@ export class CartService {
     try {
       const raw = localStorage.getItem(CART_KEY);
       if (raw) {
-        this.items.set(JSON.parse(raw));
+        const parsed = JSON.parse(raw);
+        this.items.set(Array.isArray(parsed) ? parsed.filter(isCartItem) : []);
       }
     } catch (e) {
-      console.error('Error al cargar carrito del storage:', e);
+      logError('Error al cargar carrito del storage:', e);
       this.items.set([]);
     }
   }

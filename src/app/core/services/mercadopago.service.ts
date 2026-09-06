@@ -21,6 +21,17 @@ export class MercadoPagoService {
       throw new Error('Mercado Pago checkout URL is unavailable');
     }
 
-    window.location.assign(response.init_point);
+    let checkoutUrl: URL;
+    try {
+      checkoutUrl = new URL(response.init_point);
+    } catch {
+      throw new Error('Mercado Pago checkout URL is invalid');
+    }
+    const allowedHost = /(^|\.)mercadopago\.com(\.ar)?$/i;
+    if (checkoutUrl.protocol !== 'https:' || !allowedHost.test(checkoutUrl.hostname)) {
+      throw new Error('Unexpected Mercado Pago checkout host');
+    }
+
+    window.location.assign(checkoutUrl.toString());
   }
 }

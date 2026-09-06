@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
 import { ShippingService } from '../../../core/services/shipping.service';
 import { PaymentTransferInfo } from '../../../core/services/api.service';
+import { logError } from '../../../shared/utils/log.util';
 
 type OrderSuccessState = {
   orderRef?: string;
@@ -77,7 +78,7 @@ export class SuccessComponent implements OnInit, OnDestroy {
         this.copiedFieldTimer = null;
       }, 1500);
     } catch (error) {
-      console.error('Error al copiar al portapapeles:', error);
+      logError('Error al copiar al portapapeles:', error);
     }
   }
 }

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ProductsService } from '../../../core/services/products.service';
 import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 import { ProgressiveImageComponent } from '../../../shared/components/progressive-image/progressive-image.component';
+import { logError } from '../../../shared/utils/log.util';
 
 @Component({
   selector: 'app-productos-destacados',
@@ -30,7 +31,7 @@ export class ProductosDestacadosComponent implements OnInit {
   loadProducts(): void {
     this.productsService.getProducts().subscribe({
       error: (err: any) => {
-        console.error('Error al cargar productos destacados:', err);
+        logError('Error al cargar productos destacados:', err);
       },
     });
   }

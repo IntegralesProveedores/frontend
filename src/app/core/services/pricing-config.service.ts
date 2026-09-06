@@ -3,6 +3,17 @@ import { PricingConfig } from '../models/product.model';
 
 const PRICING_CONFIG_KEY = 'pricing_config';
 
+function isPricingConfig(value: unknown): value is PricingConfig {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v['exchange_rate'] === 'number' &&
+    typeof v['payment_commission_percentage'] === 'number' &&
+    Array.isArray(v['taxes']) &&
+    Array.isArray(v['volume_discounts'])
+  );
+}
+
 @Injectable({ providedIn: 'root' })
 export class PricingConfigService {
   private readonly config = signal<PricingConfig | null>(null);
@@ -25,7 +36,12 @@ export class PricingConfigService {
       const raw = localStorage.getItem(PRICING_CONFIG_KEY);
       if (raw) {
         try {
-          this.config.set(JSON.parse(raw));
+          const parsed = JSON.parse(raw);
+          if (isPricingConfig(parsed)) {
+            this.config.set(parsed);
+          } else {
+            localStorage.removeItem(PRICING_CONFIG_KEY);
+          }
         } catch {
           localStorage.removeItem(PRICING_CONFIG_KEY);
         }

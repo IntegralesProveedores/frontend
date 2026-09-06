@@ -23,6 +23,13 @@ import { CartService } from './cart.service';
 
 const SHIPPING_KEY = 'shipping_selection';
 const EMPTY: ShippingSelection = { method: null, address: null };
+const VALID_METHODS = ['pickup', 'delivery', 'coordinar'];
+
+function isShippingSelection(value: unknown): value is ShippingSelection {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const v = value as Record<string, unknown>;
+  return v['method'] === null || VALID_METHODS.includes(v['method'] as string);
+}
 
 type QuoteData = Pick<ShippingQuote, 'zone' | 'price_ars' | 'boxes'>;
 
@@ -168,7 +175,10 @@ export class ShippingService {
   private loadFromStorage(): void {
     try {
       const raw = localStorage.getItem(SHIPPING_KEY);
-      if (raw) this.selection.set(JSON.parse(raw));
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        this.selection.set(isShippingSelection(parsed) ? parsed : EMPTY);
+      }
     } catch {
       this.selection.set(EMPTY);
     }

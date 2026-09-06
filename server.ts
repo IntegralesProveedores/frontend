@@ -28,7 +28,8 @@ export function app(): express.Express {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "'unsafe-inline'", 'https://static.cloudflareinsights.com'],
+          scriptSrc: ["'self'", 'https://static.cloudflareinsights.com'],
+          scriptSrcAttr: ["'unsafe-inline'"],
           styleSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net', 'https://fonts.googleapis.com'],
           fontSrc: ["'self'", 'https://cdn.jsdelivr.net', 'https://fonts.gstatic.com'],
           imgSrc: ["'self'", 'data:'],
@@ -39,6 +40,12 @@ export function app(): express.Express {
           baseUri: ["'self'"],
         },
       },
+      // Alineado explícitamente con public/_headers (lo que realmente sirve
+      // Cloudflare Pages hoy) para que no queden desincronizados: los
+      // defaults de helmet difieren (HSTS de 180 días sin preload,
+      // Referrer-Policy "no-referrer").
+      hsts: { maxAge: 31536000, includeSubDomains: true },
+      referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
     }),
   );
 

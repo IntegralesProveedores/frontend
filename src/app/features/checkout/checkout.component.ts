@@ -21,6 +21,7 @@ import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { ShippingService } from '../../core/services/shipping.service';
 import { CustomerDraftService } from '../../core/services/customer-draft.service';
 import { PaymentMethodService } from '../../core/services/payment-method.service';
+import { logError } from '../../shared/utils/log.util';
 
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { RelatedProductsComponent } from '../../shared/components/related-products/related-products.component';
@@ -136,8 +137,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
 
     this.productsService.getProducts().subscribe({
-      error: (error) =>
-        console.error('Error al cargar otros productos:', error),
+      error: (error) => logError('Error al cargar otros productos:', error),
     });
 
     this.api.getPaymentTransferInfo().subscribe({
@@ -148,7 +148,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.mercadoPagoTransferInfo.set(mercadoPago);
       },
       error: (error) =>
-        console.error('Error al cargar datos de transferencia:', error),
+        logError('Error al cargar datos de transferencia:', error),
     });
 
     if (this.cartService.isEmpty()) {
@@ -242,7 +242,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         },
       });
     } catch (error) {
-      console.error('Error en checkout:', error);
+      logError('Error en checkout:', error);
       this.router.navigate(['/orden/error']);
     } finally {
       this.loading = false;
@@ -294,7 +294,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.shippingService.clear();
       this.paymentMethodService.clear();
     } catch (error) {
-      console.error('Error al iniciar Mercado Pago:', error);
+      logError('Error al iniciar Mercado Pago:', error);
       this.router.navigate(['/orden/error']);
     } finally {
       this.paymentLoading = false;
@@ -357,7 +357,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.copiedFieldTimer = null;
       }, 1500);
     } catch (error) {
-      console.error('Error al copiar al portapapeles:', error);
+      logError('Error al copiar al portapapeles:', error);
     }
   }
 

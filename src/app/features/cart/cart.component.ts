@@ -13,6 +13,7 @@ import { ProductsService } from '../../core/services/products.service';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { CartSkeletonComponent } from '../../shared/components/cart-skeleton/cart-skeleton.component';
+import { logError } from '../../shared/utils/log.util';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { CartItem } from '../../core/models/cart.model';
 import { QtySelectorComponent } from '../../shared/components/qty-selector/qty-selector.component';
@@ -68,8 +69,7 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.productsService.getProducts().subscribe({
-      error: (error) =>
-        console.error('Error al cargar otros productos:', error),
+      error: (error) => logError('Error al cargar otros productos:', error),
     });
   }
 
