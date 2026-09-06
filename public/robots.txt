@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /checkout
-Disallow: /cart
+Disallow: /finalizar-compra
+Disallow: /carrito
 Disallow: /orden/
 
 User-agent: GPTBot
