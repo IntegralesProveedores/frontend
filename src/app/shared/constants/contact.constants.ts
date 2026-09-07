@@ -1,0 +1,2 @@
+export const BUSINESS_WHATSAPP_URL = 'https://wa.me/5491130226565';
+export const BUSINESS_PHONE_DISPLAY = '+54 9 11 3022-6565';

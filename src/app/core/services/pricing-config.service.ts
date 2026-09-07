@@ -1,4 +1,5 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { PricingConfig } from '../models/product.model';
 
 const PRICING_CONFIG_KEY = 'pricing_config';
@@ -16,6 +17,7 @@ function isPricingConfig(value: unknown): value is PricingConfig {
 
 @Injectable({ providedIn: 'root' })
 export class PricingConfigService {
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly config = signal<PricingConfig | null>(null);
   readonly pricingConfig = this.config.asReadonly();
   readonly paymentCommissionPercentage = computed(
@@ -32,7 +34,7 @@ export class PricingConfigService {
   });
 
   constructor() {
-    if (typeof window !== 'undefined') {
+    if (this.isBrowser) {
       const raw = localStorage.getItem(PRICING_CONFIG_KEY);
       if (raw) {
         try {
@@ -52,7 +54,7 @@ export class PricingConfigService {
   setPricingConfig(value: PricingConfig | undefined | null): void {
     if (!value) return;
     this.config.set(value);
-    if (typeof window !== 'undefined') {
+    if (this.isBrowser) {
       localStorage.setItem(PRICING_CONFIG_KEY, JSON.stringify(value));
     }
   }

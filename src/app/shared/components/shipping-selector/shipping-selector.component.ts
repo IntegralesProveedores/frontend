@@ -28,6 +28,7 @@ import { ShippingService } from '../../../core/services/shipping.service';
 import { CartService } from '../../../core/services/cart.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
 import { SHIPPING_TEXTS } from '../../constants/shipping-texts.constants';
+import { BUSINESS_PHONE_DISPLAY } from '../../constants/contact.constants';
 import {
   isCabaProvince,
   isBuenosAiresProvince,
@@ -56,6 +57,8 @@ const EMPTY_ADDRESS: ShippingAddress = {
 export class ShippingSelectorComponent implements OnInit {
   @Input() mode: 'compact' | 'full' = 'full';
   @Input() formSubmitted = false;
+
+  readonly phoneDisplay = BUSINESS_PHONE_DISPLAY;
 
   private readonly shippingService = inject(ShippingService);
   private readonly postalCodeService = inject(PostalCodeService);

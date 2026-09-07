@@ -192,35 +192,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    const c = this.customer;
-    const cartItems = this.cartService.cartItems();
 
     try {
-      this.setShippingRecipient();
-
-      const payload = {
-        items: cartItems.map((i) => ({
-          variant_id: i.variantId,
-          quantity: i.quantity,
-        })),
-        customer: {
-          nombre: c.nombre,
-          email: c.email,
-          cuit: c.cuit,
-          codigoArea: c.codigoArea,
-          celular: c.celular,
-        },
-        payment_method: this.paymentMethodService.current() ?? 'mercadopago',
-        payment_commission_percentage:
-          this.cartService.paymentCommissionPercentage(),
-        payment_commission_amount: this.cartService.paymentCommissionArs(),
-        shipping: {
-          method: this.shippingMethod()!,
-          ...(this.shippingMethod() === 'delivery'
-            ? { address: { ...this.shippingService.current().address! } }
-            : {}),
-        },
-      };
+      const payload = this.buildOrderPayload();
 
       const result = await firstValueFrom(
         this.api.post<ValidatedOrder>('/orders', payload),
@@ -260,34 +234,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
 
     this.paymentLoading = true;
-    const c = this.customer;
 
     try {
-      this.setShippingRecipient();
-
-      await this.mercadoPagoService.startCheckout({
-        items: this.cartService.cartItems().map((item) => ({
-          variant_id: item.variantId,
-          quantity: item.quantity,
-        })),
-        customer: {
-          nombre: c.nombre,
-          email: c.email,
-          cuit: c.cuit,
-          codigoArea: c.codigoArea,
-          celular: c.celular,
-        },
-        payment_method: this.paymentMethodService.current() ?? 'mercadopago',
-        payment_commission_percentage:
-          this.cartService.paymentCommissionPercentage(),
-        payment_commission_amount: this.cartService.paymentCommissionArs(),
-        shipping: {
-          method: this.shippingMethod()!,
-          ...(this.shippingMethod() === 'delivery'
-            ? { address: { ...this.shippingService.current().address! } }
-            : {}),
-        },
-      });
+      await this.mercadoPagoService.startCheckout(this.buildOrderPayload());
 
       this.skipDraftPersistence = true;
       this.customerDraftService.clear();
@@ -311,6 +260,37 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
 
     this.setShippingRecipient();
+  }
+
+  /** Payload compartido entre el flujo de transferencia (/orders) y el de
+   *  Mercado Pago (mercadoPagoService.startCheckout) — llamar siempre
+   *  después de setShippingRecipient() para que la dirección tenga el
+   *  nombre del destinatario actualizado. */
+  private buildOrderPayload() {
+    const c = this.customer;
+    return {
+      items: this.cartService.cartItems().map((i) => ({
+        variant_id: i.variantId,
+        quantity: i.quantity,
+      })),
+      customer: {
+        nombre: c.nombre,
+        email: c.email,
+        cuit: c.cuit,
+        codigoArea: c.codigoArea,
+        celular: c.celular,
+      },
+      payment_method: this.paymentMethodService.current() ?? 'mercadopago',
+      payment_commission_percentage:
+        this.cartService.paymentCommissionPercentage(),
+      payment_commission_amount: this.cartService.paymentCommissionArs(),
+      shipping: {
+        method: this.shippingMethod()!,
+        ...(this.shippingMethod() === 'delivery'
+          ? { address: { ...this.shippingService.current().address! } }
+          : {}),
+      },
+    };
   }
 
   private setShippingRecipient(): void {

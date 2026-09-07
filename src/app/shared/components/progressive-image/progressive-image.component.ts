@@ -1,5 +1,5 @@
-import { Component, Input, signal, inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Input, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../skeleton/skeleton.component';
 
 /**
@@ -76,7 +76,6 @@ export class ProgressiveImageComponent {
   @Input() aspectRatio: string = '1 / 1';
   @Input() radius: string = '0';
 
-  private readonly platformId = inject(PLATFORM_ID);
 
   // Estado independiente de carga
   isLoaded = signal(false);

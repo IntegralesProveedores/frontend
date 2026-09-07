@@ -12,14 +12,13 @@ import { CartService } from '../../../core/services/cart.service';
 import { ShippingService } from '../../../core/services/shipping.service';
 import { PaymentTransferInfo } from '../../../core/services/api.service';
 import { logError } from '../../../shared/utils/log.util';
+import { BUSINESS_WHATSAPP_URL } from '../../../shared/constants/contact.constants';
 
 type OrderSuccessState = {
   orderRef?: string;
   paymentMethod?: 'mercadopago' | 'transferencia';
   transferInfo?: PaymentTransferInfo | null;
 };
-
-const BUSINESS_WHATSAPP_URL = 'https://wa.me/5491130226565';
 
 @Component({
   selector: 'app-order-success',

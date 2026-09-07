@@ -74,9 +74,6 @@ export class CartService {
       ? 0
       : this.pricingConfigService.paymentCommissionPercentage(),
   );
-  readonly paymentCommissionPercentage_MP = computed(() =>
-    this.pricingConfigService.paymentCommissionPercentage(),
-  );
   readonly paymentCommissionArs = computed(() =>
     Math.round(
       ((this.subtotalArs() + this.shippingArs()) *
