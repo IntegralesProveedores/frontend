@@ -1,4 +1,4 @@
-export function normalizeProvinceName(
+function normalizeProvinceName(
   value: string | null | undefined,
 ): string {
   return (value ?? '')
