@@ -1,71 +1,11 @@
-.surface-primary {
-  background-color: var(--color-bg-primary);
-  border: 1px solid var(--color-border-primary);
-}
-
 .surface-secondary {
   background-color: var(--color-bg-secondary);
   border: 1px solid var(--color-border-primary);
 }
 
-.card-premium {
-  background-color: var(--color-bg-primary);
-  border: 1px solid var(--color-border-primary);
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-card);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
-}
-
-.card-premium:hover {
-  box-shadow: var(--shadow-luxe);
-}
-
-.input-primary {
-  height: 44px;
-  width: 100%;
-  padding: 0 var(--space-4);
-  background-color: var(--color-bg-primary);
-  border: 1px solid var(--color-border-primary);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-primary);
-  font-family: var(--font-sans);
-}
-
-.input-primary:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 1px var(--color-primary);
-}
-
 ::placeholder {
   color: var(--color-text-muted) !important;
   opacity: 1;
-}
-
-.text-secondary {
-  color: var(--color-text-secondary) !important;
-}
-
-.text-muted {
-  color: var(--color-text-muted) !important;
-}
-
-.text-disabled {
-  color: var(--color-text-disabled) !important;
-}
-
-/* Price summary utilities (shared cart/checkout) */
-.item-name {
-  color: var(--color-text-primary);
-}
-
-.price-ars {
-  color: var(--color-text-muted);
-}
-
-.summary-title {
-  color: var(--color-text-primary);
 }
 
 .summary-label {
@@ -74,18 +14,6 @@
 
 .summary-value {
   color: var(--color-text-secondary);
-}
-
-.total-main {
-  color: var(--color-primary);
-}
-
-.total-secondary {
-  color: var(--color-text-primary);
-}
-
-.iva-legend {
-  color: var(--color-text-muted);
 }
 
 /* Pill outline button system (shared hero-cta / btn-action / btn-action-secondary) */
@@ -132,6 +60,12 @@
   font-size: 0.75rem;
 }
 
+.btn-cta-shop {
+  padding: 1rem 3rem;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.075);
+}
+
 /* Shared button utilities */
 .btn-app-primary {
   display: inline-flex;
@@ -171,17 +105,6 @@
   color: var(--color-text-primary);
 }
 
-.btn-app-link-muted {
-  color: var(--color-text-muted);
-  text-decoration: none;
-}
-
-.btn-app-link-muted:hover,
-.btn-app-link-muted:focus {
-  color: var(--color-text-secondary);
-  text-decoration: none;
-}
-
 .btn-app-icon-remove {
   background: transparent;
   border: 0;
@@ -192,54 +115,6 @@
 .btn-app-icon-remove:hover,
 .btn-app-icon-remove:focus {
   color: #d63d20;
-}
-
-.btn-app-qty {
-  background: transparent;
-  border: none;
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  font-size: 1.25rem;
-  color: var(--color-text-primary);
-  cursor: pointer;
-}
-
-.btn-app-qty:hover:not(:disabled) {
-  background-color: var(--color-bg-soft);
-}
-
-.btn-app-qty:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.btn-app-qty--sm {
-  width: 28px;
-  height: 28px;
-  font-size: 1rem;
-}
-
-.btn-app-variant-pill {
-  border-radius: 50px;
-  padding: 0.2rem 1.25rem;
-  font-weight: 500;
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-  background: transparent;
-  cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.btn-app-variant-pill:hover,
-.btn-app-variant-pill.active {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-  color: #fff;
 }
 
 .btn-mercado-libre {

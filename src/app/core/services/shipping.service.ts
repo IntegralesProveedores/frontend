@@ -125,11 +125,7 @@ export class ShippingService {
   }
 
   setMethod(method: ShippingMethod): void {
-    this.selection.update((s) => ({
-      ...s,
-      method,
-      address: method === 'pickup' || method === 'coordinar' ? null : s.address,
-    }));
+    this.selection.update((s) => ({ ...s, method }));
     if (method !== 'delivery') {
       this.quoteSignal.set(null);
       this.quotedKey.set(null);

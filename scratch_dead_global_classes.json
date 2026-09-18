@@ -1,0 +1,31 @@
+{
+  "src\\styles.css": [
+    "h1",
+    "h5",
+    "lead"
+  ],
+  "src\\styles\\animations.css": [
+    "stagger-1",
+    "stagger-2",
+    "stagger-3",
+    "stagger-4",
+    "hover-lift",
+    "interactive-scale",
+    "skeleton-loading"
+  ],
+  "src\\styles\\components.css": [
+    "surface-primary",
+    "card-premium",
+    "input-primary",
+    "text-secondary",
+    "text-muted",
+    "text-disabled",
+    "item-name",
+    "price-ars",
+    "summary-title",
+    "total-main",
+    "total-secondary",
+    "iva-legend",
+    "btn-app-link-muted"
+  ]
+}

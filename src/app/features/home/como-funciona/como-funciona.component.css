@@ -1,4 +1,4 @@
-.timeline-section {
+section {
   background: var(--color-bg);
 }
 
@@ -7,13 +7,10 @@
   padding: 5rem 6vw;
 }
 
-.timeline-title {
+h2 {
   text-align: center;
-  font-family: "Oswald", sans-serif;
   text-transform: uppercase;
-  font-weight: 700;
   letter-spacing: 0.05em;
-  color: var(--color-title);
   font-size: 2rem;
   margin-bottom: 3.5rem;
 }
@@ -86,7 +83,6 @@
 
 .timeline-content h3 {
   font-weight: 800;
-  color: var(--color-title);
   margin-bottom: 0.4rem;
   font-size: 1.05rem;
 }

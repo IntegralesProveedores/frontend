@@ -2,3 +2,19 @@
   background-color: var(--color-bg-soft);
   border-radius: var(--border-radius-base);
 }
+
+.skeleton-item-row {
+  display: flex;
+  gap: 1rem;
+  padding-block: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--bs-border-color, #dee2e6);
+}

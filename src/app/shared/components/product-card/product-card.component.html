@@ -1,49 +1,37 @@
 <div
-  class="product-card-wrapper h-100"
   (mouseenter)="onImageMouseEnter()"
   (mouseleave)="onImageMouseLeave()"
 >
-  <a
-    [routerLink]="['/productos', product.slug]"
-    class="product-image-box mb-3 d-block text-decoration-none"
-  >
-    <app-progressive-img
-      [src]="mainImage"
-      [alt]="'Maceta biodegradable ' + product.name"
-      radius="var(--radius-md)"
-      imgClass="img-fluid w-100 h-100 object-fit-cover"
-    />
-  </a>
-
-  <div class="product-info text-center position-relative">
-
-	<h3 class="price-main fw-light text-uppercase">
-      <a
-        [routerLink]="['/productos', product.slug]"
-        class="stretched-link text-reset text-decoration-none"
-      >
-        {{ product.name }}
-      </a>
-    </h3>
-
-    <div class="text-muted product-measure">
-      @if (product.diameter_cm) {
-        {{ product.diameter_cm }}×
-      }
-      @if (product.height_cm) {
-        {{ product.height_cm }}cm (h)
-      }
-      @if (product.volume_cc) {
-        &bull; {{ product.volume_cc }}cm³
-      }
-    </div>
-
-
+  <figure>
     <a
       [routerLink]="['/productos', product.slug]"
-      class="btn-pill-outline btn-pill-outline--accent btn-pill-outline--sm position-relative z-2 mt-2"
     >
-      COMPRAR
+      <app-progressive-img
+        [src]="mainImage"
+        [alt]="'Maceta biodegradable ' + product.name"
+        radius="var(--radius-md)"
+        imgClass="img-fluid w-100 h-100 object-fit-cover"
+      />
     </a>
-  </div>
+
+    <figcaption>
+      <a [routerLink]="['/productos', product.slug]">
+        <h2>{{ product.name }}</h2>
+      </a>
+	  
+      <p>
+        @if (product.diameter_cm) {
+          {{ product.diameter_cm }}×
+        }
+        @if (product.height_cm) {
+          {{ product.height_cm }}cm (h)
+        }
+        @if (product.volume_cc) {
+          &bull; {{ product.volume_cc }}cm³
+        }
+      </p>
+
+      <button type="button" (click)="goToProduct()">COMPRAR</button>
+    </figcaption>
+  </figure>
 </div>

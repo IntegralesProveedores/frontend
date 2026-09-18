@@ -6,7 +6,7 @@ import { ShippingService } from '../../../core/services/shipping.service';
 import { PaymentMethodService } from '../../../core/services/payment-method.service';
 import { PricingConfigService } from '../../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
-import { getEstimatedDeliveryRangeLabel } from '../../utils/business-days.util';
+import { getEstimatedDeliveryRange } from '../../utils/business-days.util';
 
 @Component({
   selector: 'app-order-summary',
@@ -21,12 +21,12 @@ export class OrderSummaryComponent {
   public readonly paymentMethodService = inject(PaymentMethodService);
   public readonly pricingConfigService = inject(PricingConfigService);
 
-  @Input() footerLinkLabel = 'VOLVER AL CARRITO';
-  @Input() footerLinkRoute = '/carrito';
-  @Input() footerLinkIcon = 'bi-basket';
   @Input() showItemsList = true;
   @Input() showPaymentMethod = true;
   @Input() showBoxesDetail = true;
+  @Input() actionMode: 'cart' | 'checkout' | 'none' = 'cart';
+  @Input() checkoutFormId = 'checkoutForm';
+  @Input() submitting = false;
 
   get shippingMethod() {
     return this.shippingService.current().method;
@@ -44,9 +44,7 @@ export class OrderSummaryComponent {
     return this.shippingService.quoting();
   }
 
-  get estimatedDeliveryLabel(): string {
-    return getEstimatedDeliveryRangeLabel();
-  }
+  readonly estimatedDelivery = getEstimatedDeliveryRange();
 
   get totalConEnvio(): number {
     return this.cartService.totalConComision();

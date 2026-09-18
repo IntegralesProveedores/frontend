@@ -1,50 +1,40 @@
-﻿.success-page {
+﻿section {
   display: flex;
   align-items: center;
+  min-height: 100vh;
+  opacity: 0;
+  animation: fade-in 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.icon-circle,
-.step-badge {
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-}
-
-.icon-circle {
-  width: 80px;
-  aspect-ratio: 1;
-  border: 1px solid var(--color-border-primary);
-  color: var(--color-primary);
-  font-size: 40px;
-}
-
-.step-badge {
-  width: 24px;
-  aspect-ratio: 1;
-  flex-shrink: 0;
-  background: var(--color-accent-soft);
-  color: var(--color-primary);
-  font-size: 10px;
-  font-weight: var(--weight-black);
-}
-
-.success-page h1 {
+h2 {
+  margin-bottom: 0.5rem;
   color: var(--color-text-primary);
 }
 
-.max-w-600 {
+p {
   max-width: 600px;
+  margin: 0 auto 1rem;
 }
 
-.info-box {
-  background-color: var(--color-accent-soft);
-  padding: 1.25rem;
-  border-radius: var(--border-radius-base);
-}
-
-.x-small {
-  font-size: 0.75rem;
+dialog > small {
+  margin-top: 1rem;
   letter-spacing: 0.02em;
+}
+
+.order-data-list dt,
+.order-data-list dd {
+  display: inline;
+}
+
+.order-data-list dt::after {
+  content: " ";
+}
+
+.order-data-list dd {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  vertical-align: middle;
 }
 
 .btn-copy {

@@ -1,6 +1,6 @@
 import { Component, Input, inject, signal, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Product, ProductVariant } from '../../../core/models/product.model';
 import { PricingConfigService } from '../../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
@@ -23,6 +23,7 @@ const HOVER_CAROUSEL_INTERVAL_MS = 1300;
 export class ProductCardComponent implements OnDestroy {
   @Input({ required: true }) product!: Product;
   public readonly pricingConfigService = inject(PricingConfigService);
+  private readonly router = inject(Router);
 
   private readonly hoverImageIndex = signal(0);
   private carouselTimer: ReturnType<typeof setInterval> | null = null;
@@ -58,6 +59,10 @@ export class ProductCardComponent implements OnDestroy {
   onImageMouseLeave(): void {
     this.stopCarousel();
     this.hoverImageIndex.set(0);
+  }
+
+  goToProduct(): void {
+    this.router.navigate(['/productos', this.product.slug]);
   }
 
   ngOnDestroy(): void {

@@ -33,7 +33,7 @@
   <div class="offset-md-1 col-lg-4">
     <div class="order-summary-box p-3">
       @for (i of [1, 2]; track i) {
-        <div class="d-flex gap-3 py-1 mb-2">
+        <div class="skeleton-item-row">
           <app-skeleton width="40px" height="40px" radius="var(--radius-sm)" />
           <div class="flex-grow-1">
             <app-skeleton width="85%" height="0.8rem" class="d-block mb-2" />
@@ -42,22 +42,22 @@
         </div>
       }
 
-      <div class="summary-row d-flex justify-content-between align-items-start pt-2 mt-2 border-top">
+      <div class="summary-row">
         <app-skeleton width="80px" height="1.1rem" />
         <app-skeleton width="100px" height="1.5rem" />
       </div>
 
-      <div class="summary-row d-flex justify-content-between align-items-start pt-2 mt-2 border-top">
+      <div class="summary-row">
         <app-skeleton width="70px" height="1.1rem" />
         <app-skeleton width="90px" height="1.5rem" />
       </div>
 
-      <div class="summary-row d-flex justify-content-between align-items-start pt-2 mt-2 border-top">
+      <div class="summary-row">
         <app-skeleton width="70px" height="1.1rem" />
         <app-skeleton width="60px" height="1.5rem" />
       </div>
 
-      <div class="total-row d-flex justify-content-between align-items-start pt-2 mt-2 border-top">
+      <div class="summary-row">
         <app-skeleton width="70px" height="1.1rem" />
         <div class="text-end">
           <app-skeleton width="120px" height="1.75rem" class="d-block mb-2 ms-auto" />

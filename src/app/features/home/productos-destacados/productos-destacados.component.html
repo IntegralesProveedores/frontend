@@ -1,11 +1,11 @@
-<section id="productos" class="productos-bento">
+<section id="productos">
   <div class="productos-inner">
-    <div class="bento-header">
+    <header class="bento-header">
       <h2>Nuestros Productos</h2>
       <a routerLink="/productos" class="bento-link btn-app-ghost"
         >Ver catálogo completo <i class="bi bi-arrow-right"></i
       ></a>
-    </div>
+    </header>
     @if (loading()) {
       <div class="bento-grid">
         @for (i of [1, 2, 3, 4, 5]; track i) {
@@ -15,28 +15,30 @@
         }
       </div>
     } @else {
-      <div class="bento-grid">
+      <ul class="bento-grid">
         @for (p of productos(); track p.id; let i = $index) {
-          <a
-            [routerLink]="['/productos', p.slug]"
-            class="bento-item"
-            [class.bento-item--featured]="i === 0"
-          >
-            @if (p.images && p.images.length > 0) {
-              <div class="bento-img-wrap">
-                <app-progressive-img
-                  [src]="p.images[0].url"
-                  [alt]="p.name"
-                  imgClass="bento-img"
-                />
+          <li>
+            <a
+              [routerLink]="['/productos', p.slug]"
+              class="bento-item"
+              [class.bento-item--featured]="i === 0"
+            >
+              @if (p.images && p.images.length > 0) {
+                <div class="bento-img-wrap">
+                  <app-progressive-img
+                    [src]="p.images[0].url"
+                    [alt]="p.name"
+                    imgClass="bento-img"
+                  />
+                </div>
+              }
+              <div class="bento-info">
+                <h3>{{ p.name }}</h3>
               </div>
-            }
-            <div class="bento-info">
-              <h3>{{ p.name }}</h3>
-            </div>
-          </a>
+            </a>
+          </li>
         }
-      </div>
+      </ul>
     }
   </div>
 </section>

@@ -12,7 +12,6 @@ import { Subject, of, forkJoin } from 'rxjs';
 import {
   catchError,
   debounceTime,
-  distinctUntilChanged,
   finalize,
   switchMap,
 } from 'rxjs/operators';
@@ -90,7 +89,6 @@ export class ShippingSelectorComponent implements OnInit {
     this.postalCodeSubject
       .pipe(
         debounceTime(400),
-        distinctUntilChanged(),
         switchMap((cp) => {
           if (!/^\d{4}$/.test(cp)) {
             this.loadingPostalCode.set(false);

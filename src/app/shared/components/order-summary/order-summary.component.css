@@ -1,74 +1,106 @@
-.order-summary-box {
+aside {
   background-color: var(--color-bg-soft);
   border-radius: var(--border-radius-base);
   position: sticky;
-  top: 20px;
-}
-
-.checkout-img-box {
-  width: 30px;
-  height: 30px;
-  border-radius: 4px;
-  overflow: hidden;
-  background-color: var(--color-surface);
-  flex-shrink: 0;
-}
-
-.checkout-img-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  width: 40px !important;
-}
-
-@media (max-width: 1000px) {
-  .order-summary-box {
-    position: static;
-    margin-top: 2rem;
-    padding: 1rem !important;
-  }
-
-  .summary-block {
-    padding: 0.5rem 0.65rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .summary-block .h3 {
-    font-size: 1.25rem;
-  }
-
-  .checkout-items-list > div {
-    margin-bottom: 0.5rem !important;
-  }
-}
-
-.shipping-cost-spinner {
-  display: inline-flex;
-  align-items: center;
 }
 
 .payment-method-icon {
-  height: 25px;
+  height: 20px;
   width: auto;
   display: block;
+  border-radius: 0;
 }
 
-.summary-block {
+section {
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
   border: none;
   border-radius: var(--border-radius-base);
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  line-height: 1rem;
+  padding: .2rem .5rem;
+  margin-bottom: 0.3rem;
+  line-height: .8rem;
 }
 
-.summary-block:last-of-type {
+section:last-of-type {
   margin-bottom: 0;
 }
 
-.summary-block--total {
-  background-color: transparent;
-  border: none;
-  padding: 0;
+table {
+  margin-bottom: 0.5rem;
+}
+
+td {
+  padding-block: 0.15rem;
+}
+
+tr + tr td {
+  border-top: 1px solid var(--color-border);
+}
+
+td:nth-child(1) {
+  width: 10%;
+}
+
+td:nth-child(3) {
+  width: 30%;
+  text-align: right;
+}
+
+td img {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+h4 {
+  font-size: .75rem;
+}
+
+dl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 0.15rem;
+}
+
+dl + mark {
+  display: block;
+  padding-block: 0.25rem;
+}
+
+.packaging dl {
+  font-size: 0.75rem;
+}
+
+small {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.payment > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 0.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+button, .button {
+  font-size: 1.25rem;
+  padding: .5rem 1rem;
+  width: 100%;
+  margin: 0.3rem 0;
+}
+
+@media (min-width: 1200px) {
+
+
 }

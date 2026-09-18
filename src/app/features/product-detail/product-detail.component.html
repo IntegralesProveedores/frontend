@@ -1,4 +1,4 @@
-<section class="product-detail section-spacing">
+<section>
   <div class="container">
     @if (loading()) {
       <app-product-detail-skeleton />
@@ -6,25 +6,27 @@
       <div class="product-grid row align-items-start">
         <!-- Col: Images -->
         <div class="product-image col-md-6">
-          <div class="product-gallery">
+          <figure>
             @if ((product()?.images?.length ?? 0) > 1) {
-              <div class="product-thumbnails">
+              <ul class="product-thumbnails">
                 @for (img of product()!.images; track img.id; let i = $index) {
-                  <button
-                    type="button"
-                    class="product-thumbnail"
-                    [class.active]="selectedImageIndex() === i"
-                    (click)="selectedImageIndex.set(i)"
-                    [attr.aria-label]="'Ver imagen ' + (i + 1) + ' de ' + product()?.name"
-                  >
-                    <img
-                      [src]="img.url"
-                      [alt]="'Miniatura ' + (i + 1) + ' de ' + (product()?.name || '')"
-                      loading="lazy"
-                    />
-                  </button>
+                  <li>
+                    <button
+                      type="button"
+                      class="product-thumbnail"
+                      [class.active]="selectedImageIndex() === i"
+                      (click)="selectedImageIndex.set(i)"
+                      [attr.aria-label]="'Ver imagen ' + (i + 1) + ' de ' + product()?.name"
+                    >
+                      <img
+                        [src]="img.url"
+                        [alt]="'Miniatura ' + (i + 1) + ' de ' + (product()?.name || '')"
+                        loading="lazy"
+                      />
+                    </button>
+                  </li>
                 }
-              </div>
+              </ul>
             }
             <div class="main-image-box">
               <app-progressive-img
@@ -34,44 +36,38 @@
                 imgClass="img-fluid w-100 h-100 object-fit-cover"
               />
             </div>
-          </div>
+          </figure>
         </div>
 
         <!-- Col: Info -->
         <div class="product-info offset-md-1 col-md-4">
           <nav aria-label="breadcrumb" class="product-breadcrumb">
-            <ol class="breadcrumb x-small text-uppercase" style="font-size: .6rem">
+            <ol class="breadcrumb">
               @if (product()?.category?.parent) {
                 <li class="breadcrumb-item">
-                  <a
-                    [routerLink]="['/productos']"
-                    class="text-secondary text-decoration-none"
-                    >{{ product()?.category?.parent?.name }}</a
-                  >
+                  <a [routerLink]="['/productos']">{{
+                    product()?.category?.parent?.name
+                  }}</a>
                 </li>
               }
               @if (product()?.category) {
                 <li class="breadcrumb-item">
-                  <a
-                    [routerLink]="['/productos']"
-                    class="text-secondary text-decoration-none"
-                    >{{ product()?.category?.name }}</a
-                  >
+                  <a [routerLink]="['/productos']">{{
+                    product()?.category?.name
+                  }}</a>
                 </li>
               }
-              <li class="breadcrumb-item active text-primary">
+              <li class="breadcrumb-item active">
                 {{ product()?.name }}
               </li>
             </ol>
           </nav>
 
-          <div class="product-header row g-3 g-md-5 align-items-start">
-            <!-- Columna izquierda: Información -->
-            <div class="product-data col">
-              <h1 class="h2 mb-1 product-title text-uppercase">
-                {{ product()?.name }}
-              </h1>
-              <div class="text-muted" style="font-size: 0.8rem">
+          <div class="row">
+            <!-- Información -->
+            <div class="col">
+              <h2>{{ product()?.name }}</h2>
+              <small>
                 @if (product()?.diameter_cm) {
                   {{ product()?.diameter_cm }} ×
                 }
@@ -81,40 +77,34 @@
                 @if (product()?.volume_cc) {
                   · {{ product()?.volume_cc }} cm³
                 }
-              </div>
+              </small>
             </div>
 
-            <!-- Columna derecha: Precio -->
-            <div class="product-price col text-end">
-              <div class="h2 mb-1 text-primary fw-bold">
+            <!-- Precio -->
+            <div class="col text-end">
+              <h3>
                 {{ currentPricing().finalPriceArs | currencyArs }}
-              </div>
-              <div class="iva-legend text-muted mb-2" style="font-size: 0.8rem">
+              </h3>
+              <p>
                 {{ pricingConfigService.vatLabel() }}
-              </div>
+              </p>
             </div>
             
-			<!-- Columna derecha: Precio -->
+			<!-- Detalle -->
 			<div class="col-12 m-0">
-			  <p class="detail text-secondary small mb-1">
-                {{ product()?.detail }}
-              </p>		  
+			  <p>{{ product()?.detail }}</p>
 		    </div>
 		  </div>
 
-          <!-- Col: Botones -->
-          <div class="product-buy">
+          <!-- Presentación. Cantidad -->
+          <div>
               <!-- Variants Selection -->
               @if (product()?.variants && product()!.variants.length > 0) {
-                <div class="mb-3 border-top">
-                  <label
-                    class="x-small text-uppercase fw-bold mb-3 d-block text-muted pt-2"
-                    >Presentación</label
-                  >
-                  <div class="d-flex flex-wrap gap-2">
+                <div class="product-variants">
+                  <h4>Presentación</h4>
+                  <div>
                     @for (v of product()?.variants; track v.id) {
                       <button
-                        class="btn-app-variant-pill variant-pill"
                         [class.active]="selectedVariant()?.id === v.id"
                         (click)="selectVariant(v)"
                       >
@@ -125,23 +115,16 @@
                 </div>
               }
               <!-- Quantity & Stock -->
-              <div class="mb-3">
-                <div
-                  class="d-flex justify-content-between align-items-center mb-3"
-                >
-                  <label class="x-small text-uppercase fw-bold text-muted">
-                    Cantidad
-                  </label>
+              <div class="product-quantity">
+                <div class="product-quantity-header">
+                  <h4>Cantidad</h4>
                   @if (selectedVariant()) {
-                    <span class="x-small text-muted">
-                      Stock: {{ selectedVariant()?.stock }}
-                    </span>
+                    <span>Stock: {{ selectedVariant()?.stock }}</span>
                   }
                 </div>
                 <div class="qty-control-wrapper">
                   <app-qty-selector
                     [quantity]="quantity()"
-                    variant="detail"
                     [decrementDisabled]="quantity() <= 1"
                     [incrementDisabled]="quantity() >= maxQty"
                     (decrement)="decrement()"
@@ -149,7 +132,6 @@
                   />
 
                   <button
-                    class="btn-pill-outline btn-pill-outline--accent btn-action"
                     (click)="addToCart()"
                     [disabled]="!inStock"
                   >
@@ -168,7 +150,7 @@
               <!-- CTA -->
               <div class="actions-wrapper">
                 @if (hasCurrentProductInCart()) {
-                  <p class="x-small text-muted">
+                  <small>
                     Producto agregado al carrito.
                     <a
                       routerLink="/carrito"
@@ -176,15 +158,13 @@
                     >
                       VER CARRITO &nbsp; <i class="bi bi-basket"></i>
                     </a>
-                  </p>
+                  </small>
                 }
               </div>
 
               <!-- Medios de pago -->
-              <div class="payment-methods-badge mb-3 pt-3 border-top">
-                <p class="x-small text-uppercase fw-bold text-muted mb-2">
-                  Medios de pago
-                </p>
+              <div class="payment-methods-badge">
+                <h4>Medios de pago</h4>
                 <div class="payment-methods-icons-row">
                   <img
                     src="/assets/icon/mercado-pago-horizontal.png"
@@ -194,25 +174,21 @@
                   <div class="payment-transfer-badge">
                     <i class="bi bi-bank payment-transfer-icon"></i>
                     <span class="payment-transfer-label">Transferencia</span>
-                    <span class="badge bg-success payment-discount-badge">-10%</span>
+                    <mark class="badge bg-success payment-discount-badge">-10%</mark>
                   </div>
                 </div>
-                <p class="x-small text-muted mt-2 mb-0">
+                <small>
                   Tarjeta cr&eacute;dito y d&eacute;bito, cuotas sin inter&eacute;s seg&uacute;n promoci&oacute;n vigente y dinero en cuenta.
-                </p>
+                </small>
               </div>
 
               <!-- DESCRIPTION -->
-              <div class="payment-methods-badge mb-3 pt-3 border-top">
-                <p class="x-small text-uppercase fw-bold text-muted mb-2">
-                  Descripci&oacute;n
-                </p>
+              <div class="payment-methods-badge">
+                <h4>Descripci&oacute;n</h4>
 
-                <p class="description text-secondary small">
+                <small>
 				  {{ product()?.description }}
-				</p>
-
-			
+				</small>
 			  </div>
           </div>
         </div>

@@ -1,9 +1,7 @@
-<section
-  class="order-detail section-padding min-vh-100 d-flex align-items-center"
->
+<section>
   <div class="container">
     @if (notFound()) {
-      <div class="max-w-600 mx-auto">
+      <div class="order-detail-empty">
         <app-empty-state
           icon="bi-box2-open"
           title="Orden no encontrada"
@@ -16,13 +14,7 @@
       </div>
     } @else {
       <!-- Future Order Detail Content -->
-      <h1 class="h3 fw-bold">Detalle de la Orden</h1>
+      <h2>Detalle de la Orden</h2>
     }
   </div>
 </section>
-
-<style>
-  .max-w-600 {
-    max-width: 600px;
-  }
-</style>

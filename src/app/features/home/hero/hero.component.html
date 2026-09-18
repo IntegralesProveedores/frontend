@@ -1,16 +1,16 @@
-<section id="home" class="brotalia-hero">
+<section id="home">
   <div class="hero-panel hero-panel--text">
     <img
       src="assets/images/brotalia.png"
       alt="Brotalia"
       style="max-width: 301px"
     />
-	<p class="hero-title">Cultiv&aacute; desde la ra&iacute;z</p>
+	<p>Cultiv&aacute; desde la ra&iacute;z</p>
 	
 	
     <a
       routerLink="/productos"
-      class="hero-cta btn-pill-outline btn-pill-outline--accent"
+      class="button"
       aria-label="Ver productos"
     >
       TIENDA &nbsp; <i class="bi bi-shop"></i>
@@ -30,28 +30,29 @@
 	  </div>
 	  <div class="hero-ml-badge__stats">
 	    <div class="hero-ml-badge__bar">
-	      <span></span><span></span><span></span><span></span><span></span>
+	      <meter class="visually-hidden" min="0" max="5" value="5" optimum="5">5 de 5</meter>
+	      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
 	    </div>
-	    <div class="hero-ml-badge__items">
-	      <div class="hero-ml-badge__item">
+	    <ul class="hero-ml-badge__items">
+	      <li class="hero-ml-badge__item">
 	        <span class="hero-ml-badge__value">+1000</span>
 	        <span class="hero-ml-badge__label">Ventas</span>
-	      </div>
-	      <div class="hero-ml-badge__item">
+	      </li>
+	      <li class="hero-ml-badge__item">
 	        <span class="hero-ml-badge__icon">
 	          <i class="bi bi-chat-left-text"></i>
 	          <i class="bi bi-check-circle-fill hero-ml-badge__check"></i>
 	        </span>
 	        <span class="hero-ml-badge__label">Buena atención</span>
-	      </div>
-	      <div class="hero-ml-badge__item">
+	      </li>
+	      <li class="hero-ml-badge__item">
 	        <span class="hero-ml-badge__icon">
 	          <i class="bi bi-alarm"></i>
 	          <i class="bi bi-check-circle-fill hero-ml-badge__check"></i>
 	        </span>
 	        <span class="hero-ml-badge__label">Entrega a tiempo</span>
-	      </div>
-	    </div>
+	      </li>
+	    </ul>
 	  </div>
 	</a>
 	

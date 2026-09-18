@@ -1,4 +1,4 @@
-.info-accordion {
+section {
   background: var(--color-bg);
 }
 
@@ -7,13 +7,10 @@
   padding: 5rem 6vw;
 }
 
-.accordion-title {
+h2 {
   text-align: center;
-  font-family: "Oswald", sans-serif;
   text-transform: uppercase;
-  font-weight: 700;
   letter-spacing: 0.05em;
-  color: var(--color-title);
   font-size: 2rem;
   margin-bottom: 2.5rem;
 }

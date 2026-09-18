@@ -1,343 +1,259 @@
-<section class="checkout-page section-spacing">
+<section>
   <div class="container">
     @if (!ready()) {
-      <app-checkout-skeleton />
+    <app-checkout-skeleton />
     } @else {
     <div class="row">
       <!-- Formulario -->
       <div class="offset-md-1 col-lg-5">
           <form
             #checkoutForm="ngForm"
-            (ngSubmit)="pagarAhora(checkoutForm.valid)"
-			class="checkout-form-container"
-			>
-            <!-- BLOQUE 1: Datos personales -->
-            <h5>1. DATOS PERSONALES</h5>
-            <div class="mb-1">
-              <input
-                type="text"
-                name="nombre"
-                [(ngModel)]="customer.nombre"
-                class="form-control-minimal"
-                required
-                minlength="3"
-                #nombre="ngModel"
-                [disabled]="session.isAuthenticated()"
-                [class.is-invalid]="
-                  nombre.invalid && (nombre.touched || formSubmitted)
-                "
-                placeholder="Nombre y Apellido (*)"
-                aria-label="Nombre y Apellido"
-              />
-              <div class="validation-container">
-                @if (nombre.invalid && (nombre.touched || formSubmitted)) {
-                  <div class="text-danger x-small">
-                    @if (nombre.errors?.["required"]) {
-                      <span>El nombre es obligatorio.</span>
-                    }
-                    @if (nombre.errors?.["minlength"]) {
-                      <span>M&iacute;­­nimo 3 caracteres.</span>
-                    }
-                  </div>
-                }
-              </div>
-            </div>
+            id="checkoutForm"
+            (ngSubmit)="pagarAhora(checkoutForm.valid)">
 
-            <div class="mb-1">
-              <input
-                type="email"
-                name="email"
-                [(ngModel)]="customer.email"
-                class="form-control-minimal"
-                required
-                email
-                #email="ngModel"
-                [disabled]="session.isAuthenticated()"
-                [class.is-invalid]="
-                  email.invalid && (email.touched || formSubmitted)
-                "
-                placeholder="Email (*)"
-                aria-label="Email"
-              />
-              <div class="validation-container">
-                @if (email.invalid && (email.touched || formSubmitted)) {
-                  <div class="text-danger x-small">
-                    @if (email.errors?.["required"]) {
-                      <span>El email es obligatorio.</span>
-                    }
-                    @if (email.errors?.["email"]) {
-                      <span>Formato de email inv&aacute;­lido.</span>
-                    }
-                  </div>
-                }
-              </div>
-            </div>
+            <fieldset>
+				<legend>1. DATOS PERSONALES</legend>
 
-            <div class="row">
-              <div class="col-4 col-md-4">
-                <input
-                  type="text"
-                  name="codigoArea"
-                  [(ngModel)]="customer.codigoArea"
-                  (input)="filterNumericInput($event, 'codigoArea')"
-                  class="form-control-minimal"
-                  required
-                  minlength="2"
-                  maxlength="4"
-                  inputmode="numeric"
-                  pattern="[0-9]*"
-                  #codigoArea="ngModel"
-                  [disabled]="session.isAuthenticated()"
-                  [class.is-invalid]="
-                    codigoArea.invalid && (codigoArea.touched || formSubmitted)
-                  "
-                  placeholder="Area (*)"
-                  aria-label="Código de área"
-                />
-                <div class="validation-container">
-                  @if (
-                    codigoArea.invalid && (codigoArea.touched || formSubmitted)
-                  ) {
-                    <div class="text-danger x-small">
-                      @if (codigoArea.errors?.["required"]) {
-                        <span>Requerido.</span>
-                      }
-                      @if (codigoArea.errors?.["minlength"]) {
-                        <span>2 a 4 d&iacute;­gitos.</span>
-                      }
-                      @if (codigoArea.errors?.["pattern"]) {
-                        <span>Solo n&uacute;­meros.</span>
-                      }
-                    </div>
-                  }
-                </div>
-              </div>
-              <div class="col-8 col-md-8">
-                <input
-                  type="text"
-                  name="celular"
-                  [(ngModel)]="customer.celular"
-                  (input)="filterNumericInput($event, 'celular')"
-                  class="form-control-minimal"
-                  required
-                  minlength="6"
-                  maxlength="8"
-                  inputmode="numeric"
-                  pattern="[0-9]*"
-                  #celular="ngModel"
-                  [disabled]="session.isAuthenticated()"
-                  [class.is-invalid]="
-                    celular.invalid && (celular.touched || formSubmitted)
-                  "
-                  placeholder="Celular (*)"
-                  aria-label="Celular"
-                />
-                <div class="validation-container">
-                  @if (celular.invalid && (celular.touched || formSubmitted)) {
-                    <div class="text-danger x-small">
-                      @if (celular.errors?.["required"]) {
-                        <span>Requerido. </span>
-                      }
-                      @if (celular.errors?.["minlength"]) {
-                        <span>Debe tener 6 a 8 d&iacute;­­gitos. </span>
-                      }
-                      @if (celular.errors?.["pattern"]) {
-                        <span>Solo n&uacute;­meros.</span>
-                      }
-                    </div>
-                  }
-                </div>
-              </div>
-            </div>
+				<div>
+				  <input
+					type="text"
+					name="nombre"
+					[(ngModel)]="customer.nombre"
+					required
+					minlength="3"
+					#nombre="ngModel"
+					[disabled]="session.isAuthenticated()"
+					[class.is-invalid]="
+					  nombre.invalid && (nombre.touched || formSubmitted)
+					"
+					placeholder="Nombre y Apellido (*)"
+					aria-label="Nombre y Apellido"
+				  />
+				</div>
 
-            <!-- BLOQUE 2: Envio -->
-            <h5>2. M&Eacute;TODO DE ENTREGA</h5>
+				<div>
+				  <input
+					type="email"
+					name="email"
+					[(ngModel)]="customer.email"
+					required
+					email
+					#email="ngModel"
+					[disabled]="session.isAuthenticated()"
+					[class.is-invalid]="
+					  email.invalid && (email.touched || formSubmitted)
+					"
+					placeholder="Email (*)"
+					aria-label="Email"
+				  />
+				</div>
 
-            <app-shipping-selector
-              mode="full"
-              [formSubmitted]="shippingFormSubmitted"
-            ></app-shipping-selector>
+				<div class="row">
+				  <div class="col-4 col-md-4">
+					<input
+					  type="text"
+					  name="codigoArea"
+					  [(ngModel)]="customer.codigoArea"
+					  (input)="filterNumericInput($event, 'codigoArea')"
+					  required
+					  minlength="2"
+					  maxlength="4"
+					  inputmode="numeric"
+					  pattern="[0-9]*"
+					  #codigoArea="ngModel"
+					  [disabled]="session.isAuthenticated()"
+					  [class.is-invalid]="
+						codigoArea.invalid && (codigoArea.touched || formSubmitted)
+					  "
+					  placeholder="Area (*)"
+					  aria-label="Código de área"
+					/>
+				  </div>
+				  <div class="col-8 col-md-8">
+					<input
+					  type="text"
+					  name="celular"
+					  [(ngModel)]="customer.celular"
+					  (input)="filterNumericInput($event, 'celular')"
+					  required
+					  minlength="6"
+					  maxlength="8"
+					  inputmode="numeric"
+					  pattern="[0-9]*"
+					  #celular="ngModel"
+					  [disabled]="session.isAuthenticated()"
+					  [class.is-invalid]="
+						celular.invalid && (celular.touched || formSubmitted)
+					  "
+					  placeholder="Celular (*)"
+					  aria-label="Celular"
+					/>
+				  </div>
+				</div>
 
-            @if (shippingFormSubmitted && !shippingMethod()) {
-              <div class="text-danger x-small mt-2">
-                Seleccion&aacute;­ una opci&oacute;­n de env&iacute;­­o.
-              </div>
-            }
+			</fieldset>
 
-            @if (
-              shippingFormSubmitted &&
-              shippingMethod() === "delivery" &&
-              !shippingValid
-            ) {
-              <div class="validation-container text-danger x-small mt-2">
-                Complet&aacute; datos obligatorios.
-              </div>
-            }
+            <fieldset>
+				<legend>2. M&Eacute;TODO DE ENTREGA</legend>
 
-            @if (formSubmitted && !paymentMethodService.current()) {
-              <div class="validation-container text-danger x-small mt-2">
-                Seleccion&aacute;­ un m&eacute;­todo de pago para continuar.
-              </div>
-            }
+				<app-shipping-selector
+				  mode="full"
+				  [formSubmitted]="shippingFormSubmitted"
+				></app-shipping-selector>
 
-            <!-- BLOQUE 3: Pago -->
-            <h5 class="mt-4">3. M&Eacute;TODO DE PAGO</h5>
-            <div class="checkout-actions">
-              <div class="payment-options-row">
-                <button
-                  type="button"
-                  class="btn btn-pill-outline btn-mercado-libre btn-lg py-3 payment-option active"
-                  [class.active]="
-                    paymentMethodService.current() === 'mercadopago'
-                  "
-                  (click)="selectPaymentMethod('mercadopago')"
-                >
-                  <span
-                    class="radio-dot"
-                    [class.checked]="
-                      paymentMethodService.current() === 'mercadopago'
-                    "
-                  ></span>
-                  <img
-                    src="/assets/icon/mercado-pago-horizontal.png"
-                    alt="MERCADO PAGO"
-                  />
-                </button>
+            </fieldset>
 
-                <button
-                  type="button"
-                  class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 payment-option"
-                  [class.active]="
-                    paymentMethodService.current() === 'transferencia'
-                  "
-                  (click)="selectPaymentMethod('transferencia')"
-                >
-                  <span
-                    class="radio-dot"
-                    [class.checked]="
-                      paymentMethodService.current() === 'transferencia'
-                    "
-                  ></span>
-                  <span>
-                    TRANSFERENCIA
-                    @if (
-                      pricingConfigService.paymentCommissionPercentage() > 0
-                    ) {
-                      <span class="badge-off"
-                        ><strong
-                          style="
-                            font-family:
-                              &quot;Arial Black&quot;, Gadget, sans-serif;
-                          "
-                          >&minus;</strong
-                        >
-                        {{
-                          pricingConfigService.paymentCommissionPercentage()
-                        }}%</span
-                      >
-                    }
-                  </span>
-                </button>
-              </div>
+            <fieldset>
+				<legend>3. M&Eacute;TODO DE PAGO</legend>
+				<div class="payment-options-row">
+					<button
+					  type="button"
+					  class="payment-option active"
+					  [class.active]="paymentMethodService.current() === 'mercadopago'"
+					  (click)="selectPaymentMethod('mercadopago')"
+					>
+					  <span
+						class="radio-dot"
+						[class.checked]="paymentMethodService.current() === 'mercadopago'"
+					  >
+					  </span>
+					  <img
+						src="/assets/icon/mercado-pago-horizontal.png"
+						alt="MERCADO PAGO"
+					  />
+					</button>
 
-              @if (
-                paymentMethodService.current() === 'transferencia' &&
-                mercadoPagoTransferInfo()
-              ) {
-                <div class="info-box mt-3 x-small">
-                  <p class="mb-1 d-flex align-items-center gap-2">
-                    <span>
-                      <strong>Alias:</strong>
-                      {{ mercadoPagoTransferInfo()!.alias }}
-                    </span>
-                    <button
-                      type="button"
-                      class="btn-copy"
-                      (click)="
-                        copyToClipboard(
-                          mercadoPagoTransferInfo()!.alias,
-                          'alias'
-                        )
-                      "
-                      aria-label="Copiar alias"
-                    >
-                      <i
-                        class="bi"
-                        [class.bi-clipboard]="copiedField() !== 'alias'"
-                        [class.bi-clipboard-check]="
-                          copiedField() === 'alias'
-                        "
-                      ></i>
-                    </button>
-                  </p>
-                  @if (mercadoPagoTransferInfo()!.cvu) {
-                    <p class="mb-1 d-flex align-items-center gap-2">
-                      <span>
-                        <strong>CVU:</strong>
-                        {{ mercadoPagoTransferInfo()!.cvu }}
-                      </span>
-                      <button
-                        type="button"
-                        class="btn-copy"
-                        (click)="
-                          copyToClipboard(
-                            mercadoPagoTransferInfo()!.cvu!,
-                            'cvu'
-                          )
-                        "
-                        aria-label="Copiar CVU"
-                      >
-                        <i
-                          class="bi"
-                          [class.bi-clipboard]="copiedField() !== 'cvu'"
-                          [class.bi-clipboard-check]="
-                            copiedField() === 'cvu'
-                          "
-                        ></i>
-                      </button>
-                    </p>
-                  }
-                  @if (mercadoPagoTransferInfo()!.cbu) {
-                    <p class="mb-1">
-                      <strong>CBU:</strong>
-                      {{ mercadoPagoTransferInfo()!.cbu }}
-                    </p>
-                  }
-                  <p class="mb-0">
-                    <strong>Titular:</strong>
-                    {{ mercadoPagoTransferInfo()!.account_holder_name }}
-                  </p>
-                </div>
-              }
-            </div>
+					<button
+					  type="button"
+					  class="payment-option"
+					  [class.active]="paymentMethodService.current() === 'transferencia'"
+					  (click)="selectPaymentMethod('transferencia')"
+					>
+					  <span
+						class="radio-dot"
+						[class.checked]="
+						  paymentMethodService.current() === 'transferencia'
+						"
+					  ></span>
+					  <span>
+						TRANSFERENCIA
+						@if (
+						  pricingConfigService.paymentCommissionPercentage() > 0
+						) {
+						  <mark class="badge-off"
+							><strong
+							  style="
+								font-family:
+								  &quot;Arial Black&quot;, Gadget, sans-serif;
+							  "
+							  >&minus;</strong
+							>
+							{{
+							  pricingConfigService.paymentCommissionPercentage()
+							}}%</mark
+						  >
+						}
+					  </span>
+					</button>
+				</div>
 
-            <h5 class="mt-4">4. TERMINAR COMPRA</h5>
 
-            <button
-              type="submit"
-              class="btn btn-app-primary btn-lg py-3 w-100 payment-submit"
-              [disabled]="loading || paymentLoading"
-            >
-              @if (loading || paymentLoading) {
-                <span class="spinner-border spinner-border-sm me-2"></span>
-                <span>PROCESANDO...</span>
-              } @else {
-                <span>PAGAR {{ totalConEnvio() | currencyArs }}</span>
-              }
-            </button>
+				@if (
+				  paymentMethodService.current() === 'transferencia' &&
+				  mercadoPagoTransferInfo()
+				) {
+					<dialog open>
+						<dl>
+						  <div>
+							<dt>Alias:</dt>
+							<dd>
+							  {{ mercadoPagoTransferInfo()!.alias }}
+							  <button
+								type="button"
+								class="btn-copy"
+								(click)="
+								  copyToClipboard(
+									mercadoPagoTransferInfo()!.alias,
+									'alias'
+								  )
+								"
+								aria-label="Copiar alias">
+								<i
+								  class="bi"
+								  [class.bi-clipboard]="copiedField() !== 'alias'"
+								  [class.bi-clipboard-check]="
+									copiedField() === 'alias'
+								  "
+								></i>
+							  </button>
+							</dd>
+						  </div>
+
+						  @if (mercadoPagoTransferInfo()!.cvu) {
+							  <div>
+								<dt><abbr title="Clave Virtual Uniforme">CVU</abbr>:</dt>
+								<dd>
+								  {{ mercadoPagoTransferInfo()!.cvu }}
+								  <button
+									type="button"
+									class="btn-copy"
+									(click)="
+									  copyToClipboard(
+										mercadoPagoTransferInfo()!.cvu!,
+										'cvu'
+									  )
+									"
+									aria-label="Copiar CVU"
+								  >
+									<i
+									  class="bi"
+									  [class.bi-clipboard]="copiedField() !== 'cvu'"
+									  [class.bi-clipboard-check]="
+										copiedField() === 'cvu'
+									  "
+									></i>
+								  </button>
+								</dd>
+							  </div>
+
+						  }
+						  @if (mercadoPagoTransferInfo()!.cbu) {
+							<div>
+							  <dt><abbr title="Clave Bancaria Uniforme">CBU</abbr>:</dt>
+							  <dd>{{ mercadoPagoTransferInfo()!.cbu }}</dd>
+							</div>
+						  }
+						  <div>
+							<dt>Titular:</dt>
+							<dd>{{ mercadoPagoTransferInfo()!.account_holder_name }}</dd>
+						  </div>
+						</dl>
+					</dialog>
+				}
+            </fieldset>
+
           </form>
-        
+
+    	  <footer>
+    	    <a routerLink="/carrito">
+			  <span>
+				&larr; VOLVER AL CARRITO &nbsp;
+				<i class="bi bi-basket"></i>
+			  </span>
+			</a>
+		  </footer>
+
       </div>
 
       <!-- Resumen Derecho -->
       <div class="offset-md-1 col-lg-4">
         <app-order-summary
-          footerLinkLabel="VOLVER AL CARRITO"
-          footerLinkRoute="/carrito"
-          footerLinkIcon="bi-basket"
+          actionMode="checkout"
+          [submitting]="loading || paymentLoading"
         ></app-order-summary>
       </div>
-    </div>
+
+	</div>
     }
   </div>
 </section>

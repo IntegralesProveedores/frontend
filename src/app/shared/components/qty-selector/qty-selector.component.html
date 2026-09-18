@@ -1,18 +1,18 @@
-<div [class]="variant === 'cart' ? 'qty-selector-minimal' : 'qty-selector'">
+<div class="qty-selector">
   <button
-    class="btn-app-qty"
-    [class.btn-app-qty--sm]="variant === 'cart'"
+    type="button"
     (click)="decrement.emit()"
     [disabled]="decrementDisabled"
+    aria-label="Restar"
   >
-    -
+    &minus;
   </button>
-  <span class="qty-value">{{ quantity }}</span>
+  <span>{{ quantity }}</span>
   <button
-    class="btn-app-qty"
-    [class.btn-app-qty--sm]="variant === 'cart'"
+    type="button"
     (click)="increment.emit()"
     [disabled]="incrementDisabled"
+    aria-label="Sumar"
   >
     +
   </button>

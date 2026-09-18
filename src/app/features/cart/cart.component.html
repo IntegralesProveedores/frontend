@@ -1,4 +1,4 @@
-<section class="cart-page section-spacing">
+<section>
   <div class="container">
     <!-- Skeleton -->
     @if (!ready()) {
@@ -8,11 +8,8 @@
     <!-- Empty State -->
     @if (ready() && isEmpty()) {
       <div class="empty-cart text-center py-5">
-        <p class="lead text-muted mb-4">No hay productos en tu carrito.</p>
-        <a
-          routerLink="/productos"
-          class="btn-pill-outline btn-pill-outline--accent btn-action btn-lg px-5 py-3 shadow-sm"
-        >
+        <p>No hay productos en tu carrito.</p>
+        <a routerLink="/productos" class="button">
           TIENDA &nbsp; <i class="bi bi-shop"></i>
         </a>
       </div>
@@ -23,117 +20,98 @@
       <div class="row">
         <!-- Items List -->
         <div class="offset-lg-1 col-lg-5">
-          <div class="cart-items-list">
-            @for (item of items(); track item.variantId) {
-              <div class="cart-item-row py-2 border-bottom">
-                <div class="row align-items-center g-1">
-                  <!-- Image -->
-                  <div class="col-2 col-md-2">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col" width="15%">Imagen</th>
+                <th scope="col" width="25%">Producto</th>
+                <th scope="col" width="30%">Cantidad</th>
+                <th scope="col" width="25%">Precio</th>
+                <th scope="col" width="5%">Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of items(); track item.variantId) {
+                <tr>
+                  <td>
                     <a
                       [routerLink]="[
                         '/productos',
                         item.slug,
                         item.units_per_pack,
-                      ]"
-                    >
-                      <img
-                        [src]="item.imageUrl"
-                        [alt]="item.productName"
-                        class="img-fluid"
-                      />
+                      ]">
+                      <img [src]="item.imageUrl" [alt]="item.productName" />
                     </a>
-                  </div>
+                  </td>
 
-                  <!-- Info -->
-                  <div class="col-3 col-md-3">
+                  <td>
                     <a
                       [routerLink]="[
                         '/productos',
                         item.slug,
                         item.units_per_pack,
-                      ]"
-                      class="text-decoration-none"
-                    >
-                      <h4 class="h6 mb-1 fw-bold item-name text-uppercase">
+                      ]">
+                      <h2>
                         {{ item.productName }}
-                      </h4>
+                      </h2>
                     </a>
-                    <p class="x-small text-muted mb-0">
-                      Pack {{ item.units_per_pack }}u.
-                    </p>
-                  
-					<p class="x-small text-success mb-0 fw-semibold">
-                      {{ item.price_ars | currencyArs }}
-                    </p>
-                  </div>
+                    <small>Pack {{ item.units_per_pack }}u.</small>
+                    <strong>{{ item.price_ars | currencyArs }}</strong>
+                  </td>
 
-                  <!-- Quantity -->
-                  <div class="col-4 col-md-3">
-                    <div
-                      class="d-flex justify-content-between align-items-center"
-                    >
-                      <app-qty-selector
-                        [quantity]="item.quantity"
-                        variant="cart"
-                        (decrement)="decrement(item)"
-                        (increment)="increment(item)"
-                      />
-                    </div>
-                  </div>
+                  <td>
+                    <app-qty-selector
+                      [quantity]="item.quantity"
+                      (decrement)="decrement(item)"
+                      (increment)="increment(item)"
+                    />
+                  </td>
 
-                  <!-- Price -->
-                  <div class="col-2 col-md-3 text-end">
-                    <div class="item-total text-end">
-                      <div class="h6 fw-bold item-name">
-                        {{ item.price_ars * item.quantity | currencyArs }}
-                      </div>
-                      <div class="x-small text-muted">
-                        {{
-                          (item.units_per_pack || 0) * item.quantity
-                            | number: "1.0-0"
-                        }}
-                        u.
-                      </div>
-                    </div>
-                  </div>
+                  <td>
+                    <h3>
+                      {{ item.price_ars * item.quantity | currencyArs }}
+                    </h3>
+                    <small>
+                      {{
+                        (item.units_per_pack || 0) * item.quantity
+                          | number: "1.0-0"
+                      }}
+                      u.
+                    </small>
+                  </td>
 
-                  <!-- Actions -->
-                  <div class="col-1 col-md-1 text-end">
+                  <td>
                     <button
                       (click)="remove(item.variantId)"
-                      class="btn-app-icon-remove"
-                      title="Eliminar"
-                    >
+                      title="Eliminar">
                       <i class="bi bi-trash3"></i>
                     </button>
-                  </div>
-                </div>
-              </div>
-            }
-          </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+
+          <footer>
+            <a routerLink="/productos">
+              &larr; VER MAS PRODUCTOS &nbsp;
+              <i class="bi bi-shop"></i>
+            </a>
+          </footer>
         </div>
 
         <!-- Order Summary -->
         <div class="offset-lg-1 col-lg-4">
           <app-order-summary
-            footerLinkLabel="VER MAS PRODUCTOS"
-            footerLinkRoute="/productos"
-            footerLinkIcon="bi-shop"
             [showItemsList]="false"
             [showPaymentMethod]="false"
             [showBoxesDetail]="false"
+            actionMode="cart"
           >
             <app-shipping-selector
               mode="compact"
               shippingSelectorSlot
             ></app-shipping-selector>
-            <a
-              routerLink="/finalizar-compra"
-              class="btn btn-pill-outline btn-pill-outline--secondary btn-lg py-3 w-100 mt-3 mb-2"
-            >
-              INICIAR COMPRA &nbsp;
-              <i class="bi bi-credit-card-2-back"></i>
-            </a>
           </app-order-summary>
         </div>
       </div>

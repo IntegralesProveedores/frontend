@@ -11,13 +11,47 @@
    Refactor: Semantic variables for theme support
    ───────────────────────────────────────────────────────────── */
 
-.ventajas {
+section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
   background-color: var(--color-bg-brand-soft);
   font-family: "Caveat", cursive;
   font-size: 1.5em;
   font-weight: 600;
   line-height: 0.8;
   color: var(--color-text);
+}
+
+.ventaja-slot-end-end {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.ventaja-slot-start-center {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.ventaja-slot-end-center {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.ventaja-slot-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ventaja-slot-start-start {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .numero-circulo {
@@ -73,6 +107,7 @@
 }
 
 .ventaja-5 {
+  text-align: left;
   background:
     url("/assets/images/banner/ventajas/flecha-05.webp") top left no-repeat,
     url("/assets/images/banner/ventajas/hoja-00.webp") top center no-repeat;
@@ -80,6 +115,8 @@
 }
 
 .ventaja-6 {
+  display: flex;
+  text-align: center;
   background:
     url("/assets/images/banner/ventajas/flecha-06.webp") top center no-repeat,
     url("/assets/images/banner/ventajas/hoja-06.webp") top left no-repeat;

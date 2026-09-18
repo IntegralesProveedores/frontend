@@ -1,15 +1,10 @@
-<div
-  class="shipping-selector"
-  [class.shipping-selector--compact]="mode === 'compact'"
->
-  <div class="shipping-options-row mb-1">
+<div>
+  <aside>
     <button
       type="button"
-      class="shipping-option shipping-option-correo"
-      [class.compact]="mode === 'compact'"
+      class="shipping-option-correo"
       [class.active]="method() === 'delivery'"
-      (click)="selectMethod('delivery')"
-    >
+      (click)="selectMethod('delivery')">
       <img
         src="/assets/icon/correo-argentino.png"
         alt="CORREO ARGENTINO"
@@ -18,58 +13,55 @@
     </button>
     <button
       type="button"
-      class="shipping-option"
-      [class.compact]="mode === 'compact'"
       [class.active]="method() === 'coordinar'"
-      (click)="selectMethod('coordinar')"
-    >
+      (click)="selectMethod('coordinar')">
       <i class="bi bi-truck"></i>
-      <div><h3>Coordinar</h3></div>
+      Coordinar
     </button>
     <button
       type="button"
-      class="shipping-option"
-      [class.compact]="mode === 'compact'"
       [class.active]="method() === 'pickup'"
-      (click)="selectMethod('pickup')"
-    >
+      (click)="selectMethod('pickup')">
       <i class="bi bi-shop"></i>
-      <div><h3>Retiro</h3></div>
+      Retiro
     </button>
-  </div>
+  </aside>
 
   @if (method() === "coordinar") {
-    <div class="info-box">
-      <p class="mb-0 fw-bold">
-        <i class="bi bi-whatsapp text-success"></i>
-        {{ phoneDisplay }}
+    <dialog open>
+      <p>
+        <strong>
+          <i class="bi bi-whatsapp text-success"></i>
+          {{ phoneDisplay }}
+        </strong>
       </p>
-      <p class="x-small mb-0">
+      <small>
         {{ mode === "compact" ? texts.coordinar.short : texts.coordinar.long }}
-      </p>
-    </div>
+      </small>
+    </dialog>
   }
   @if (method() === "pickup") {
-    <div class="info-box">
-      <p class="mb-0 fw-bold">
-        <i class="bi bi-whatsapp text-success"></i>
-        {{ phoneDisplay }}
+    <dialog open>
+      <p>
+        <strong>
+          <i class="bi bi-whatsapp text-success"></i>
+          {{ phoneDisplay }}
+        </strong>
       </p>
-      <p class="x-small mb-0">
+      <small>
         {{ mode === "compact" ? texts.pickup.short : texts.pickup.long }}
-      </p>
-    </div>
+      </small>
+    </dialog>
   }
 
   @if (method() === "delivery") {
-    <div class="row g-2">
+    <div class="row">
       <div class="col-4 col-md-4">
         <input
           name="shipping_postal_code"
           [ngModel]="address.postal_code"
           (ngModelChange)="updatePostalCode($event)"
           [ngModelOptions]="{ standalone: true }"
-          class="form-control-minimal"
           [class.is-invalid]="!address.postal_code && formSubmitted"
           required
           maxlength="4"
@@ -78,26 +70,27 @@
           placeholder="CP (*)"
         />
         @if (postalCodeNotFound()) {
-          <div class="text-danger x-small">No encontrado.</div>
+          <div class="validation-container">
+            <small>No encontrado.</small>
+          </div>
         }
       </div>
-      <div class="col-8 col-md-8 province-field">
-        <input
-          name="shipping_province"
-          [ngModel]="address.province"
-          [ngModelOptions]="{ standalone: true }"
-          class="form-control-minimal"
-          [class.is-invalid]="!address.province && formSubmitted"
-          required
-          readonly
-          autocomplete="off"
-          placeholder="Provincia (*)"
-        />
-        @if (loadingPostalCode()) {
-          <span
-            class="province-loading-spinner spinner-border spinner-border-sm me-2"
-          ></span>
-        }
+      <div class="col-8 col-md-8">
+        <output>
+          <input
+            name="shipping_province"
+            [ngModel]="address.province"
+            [ngModelOptions]="{ standalone: true }"
+            [class.is-invalid]="!address.province && formSubmitted"
+            required
+            readonly
+            autocomplete="off"
+            placeholder="Provincia (*)"
+          />
+          @if (loadingPostalCode()) {
+            <span class="spinner-border spinner-border-sm" role="status"></span>
+          }
+        </output>
       </div>
       @if (mode === "full" && showLocalityField) {
         <div
@@ -111,7 +104,6 @@
             [ngModel]="address.locality"
             (ngModelChange)="updateAddress('locality', $event)"
             [ngModelOptions]="{ standalone: true }"
-            class="form-control-minimal"
             [class.is-invalid]="!address.locality && formSubmitted"
             required
             autocomplete="off"
@@ -126,7 +118,6 @@
             [ngModel]="address.county"
             (ngModelChange)="updateAddress('county', $event)"
             [ngModelOptions]="{ standalone: true }"
-            class="form-control-minimal"
             [class.is-invalid]="!address.county && formSubmitted"
             required
             autocomplete="off"
@@ -141,7 +132,6 @@
             [ngModel]="address.street"
             (ngModelChange)="updateAddress('street', $event)"
             [ngModelOptions]="{ standalone: true }"
-            class="form-control-minimal"
             [class.is-invalid]="!address.street && formSubmitted"
             required
             autocomplete="off"
@@ -149,14 +139,13 @@
           />
         </div>
         <div class="col-4 col-md-4">
-          <div class="street-number-wrapper">
+          <fieldset>
             <input
               name="shipping_street_number"
               [ngModel]="address.street_number"
               (ngModelChange)="updateAddress('street_number', $event)"
               (input)="onStreetNumberInput($event)"
               [ngModelOptions]="{ standalone: true }"
-              class="form-control-minimal"
               required
               inputmode="numeric"
               pattern="[0-9]*"
@@ -165,7 +154,7 @@
               [class.is-invalid]="!address.street_number && formSubmitted"
               placeholder="Nro. (*)"
             />
-            <label class="street-number-sn-check">
+            <label>
               <input
                 type="checkbox"
                 [ngModel]="streetNumberIsSN()"
@@ -174,7 +163,7 @@
               />
               <span>S/N</span>
             </label>
-          </div>
+          </fieldset>
         </div>
         <div class="col-6 col-md-6">
           <input
@@ -182,7 +171,6 @@
             [ngModel]="address.floor"
             (ngModelChange)="updateAddress('floor', $event)"
             [ngModelOptions]="{ standalone: true }"
-            class="form-control-minimal"
             autocomplete="off"
             placeholder="Piso"
           />
@@ -193,7 +181,6 @@
             [ngModel]="address.apartment"
             (ngModelChange)="updateAddress('apartment', $event)"
             [ngModelOptions]="{ standalone: true }"
-            class="form-control-minimal"
             autocomplete="off"
             placeholder="Dpto."
           />

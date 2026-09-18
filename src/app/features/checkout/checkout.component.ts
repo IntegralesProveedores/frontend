@@ -23,7 +23,6 @@ import { CustomerDraftService } from '../../core/services/customer-draft.service
 import { PaymentMethodService } from '../../core/services/payment-method.service';
 import { logError } from '../../shared/utils/log.util';
 
-import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { RelatedProductsComponent } from '../../shared/components/related-products/related-products.component';
 import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
 import { ShippingSelectorComponent } from '../../shared/components/shipping-selector/shipping-selector.component';
@@ -57,7 +56,6 @@ type ValidatedOrder = {
     CommonModule,
     FormsModule,
     RouterModule,
-    CurrencyArsPipe,
     RelatedProductsComponent,
     OrderSummaryComponent,
     ShippingSelectorComponent,
@@ -97,9 +95,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       ? (this.shippingService.quote()?.price_ars ?? null)
       : 0,
   );
-
-  // TODO: sumar shipping_amount al total real de la orden en el backend (fase pendiente).
-  readonly totalConEnvio = this.cartService.totalConComision;
 
   customer = {
     nombre: '',

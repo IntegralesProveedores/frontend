@@ -20,8 +20,8 @@ import { RouterModule } from '@angular/router';
         </div>
       </div>
 
-      <h3 class="text-editorial-md mb-4 empty-title">{{ title }}</h3>
-      <p class="empty-message mb-10 mx-auto max-w-400">
+      <h3>{{ title }}</h3>
+      <p>
         {{ message }}
       </p>
 
@@ -31,7 +31,7 @@ import { RouterModule } from '@angular/router';
             {{ actionText }}
           </a>
         } @else if (showAction) {
-          <button (click)="actionClick.emit()" class="button-primary">
+          <button (click)="actionClick.emit()">
             {{ actionText }}
           </button>
         }
@@ -79,16 +79,15 @@ import { RouterModule } from '@angular/router';
         gap: var(--space-2);
       }
 
-      .empty-title {
+      h3 {
+        margin-bottom: 1.5rem;
         color: var(--color-text-primary);
       }
 
-      .empty-message {
-        color: var(--color-text-secondary);
-      }
-
-      .max-w-400 {
+      p {
         max-width: 400px;
+        margin-inline: auto;
+        color: var(--color-text-secondary);
       }
     `,
   ],

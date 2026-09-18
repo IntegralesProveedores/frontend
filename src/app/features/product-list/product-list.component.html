@@ -1,7 +1,7 @@
-<section class="product-list section-spacing">
+<section>
   <div class="container">
     <!-- Grid -->
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 mt-1">
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5">
       @if (loading()) {
         @for (i of [1, 2, 3, 4, 5]; track i) {
           <div class="col">
@@ -18,9 +18,9 @@
     </div>
 
     @if (error()) {
-      <div class="alert alert-soft text-center py-4">
+      <p>
         {{ error() }}
-      </div>
+      </p>
     }
   </div>
 </section>

@@ -1,8 +1,11 @@
-﻿.failure-page {
+﻿section {
   background-color: var(--color-bg-primary);
   display: flex;
   align-items: center;
+  min-height: 100vh;
   color: var(--color-text-secondary);
+  opacity: 0;
+  animation: fade-in 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .icon-circle {
@@ -17,17 +20,16 @@
   color: #ef4444;
 }
 
-.failure-title {
+h2 {
+  margin-bottom: 1.5rem;
   color: var(--color-text-primary);
+}
+
+p {
+  max-width: 600px;
+  margin: 0 auto 1rem;
 }
 
 .text-error {
   color: #ef4444;
-}
-
-.max-w-600 {
-  max-width: 600px;
-}
-.max-w-300 {
-  max-width: 300px;
 }

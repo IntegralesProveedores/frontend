@@ -18,20 +18,31 @@ const DATE_FORMATTER = new Intl.DateTimeFormat('es-AR', {
   month: 'long',
 });
 
+export interface EstimatedDeliveryRange {
+  start: Date;
+  end: Date;
+  startLabel: string;
+  endLabel: string;
+}
+
 /**
  * Rango estimado de entrega para el envío "clásico" (2 a 5 días hábiles por
- * defecto). Devuelve un texto tipo "Entre el 8 y el 12 de septiembre".
+ * defecto). startLabel/endLabel arman un texto tipo "Entre el 8 y el 12 de
+ * septiembre"; start/end quedan disponibles para el atributo datetime de <time>.
  */
-export function getEstimatedDeliveryRangeLabel(
+export function getEstimatedDeliveryRange(
   minDays = 2,
   maxDays = 5,
   from: Date = new Date(),
-): string {
+): EstimatedDeliveryRange {
   const start = addBusinessDays(from, minDays);
   const end = addBusinessDays(from, maxDays);
+  const sameMonth = start.getMonth() === end.getMonth();
 
-  if (start.getMonth() === end.getMonth()) {
-    return `Entre el ${start.getDate()} y el ${DATE_FORMATTER.format(end)}`;
-  }
-  return `Entre el ${DATE_FORMATTER.format(start)} y el ${DATE_FORMATTER.format(end)}`;
+  return {
+    start,
+    end,
+    startLabel: sameMonth ? String(start.getDate()) : DATE_FORMATTER.format(start),
+    endLabel: DATE_FORMATTER.format(end),
+  };
 }

@@ -1,26 +1,40 @@
-﻿.footer {
+.footer {
   background-color: var(--color-bg-tertiary);
   color: var(--color-text-secondary);
   border-top: 1px solid var(--color-border);
   padding-bottom: 150px !important;
 }
 
-.footer h4 {
+h4 {
   font-family: var(--font-heading);
   letter-spacing: 1px;
   color: var(--color-text-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
 }
 
-.footer a {
+p,
+ul {
+  font-size: 0.875rem;
+}
+
+.col-md-4 p:first-of-type {
+  margin-bottom: 0.25rem;
+}
+
+.text-center p {
+  margin-bottom: 0;
+  color: var(--color-text-muted);
+}
+
+a {
   color: var(--color-text-secondary);
   transition: color 0.2s ease;
 }
 
-.footer a:hover {
+a:hover {
   color: var(--color-primary) !important;
   text-decoration: underline !important;
-}
-
-.footer .text-muted {
-  color: var(--color-text-muted) !important;
 }

@@ -1,4 +1,4 @@
-.contacto-split {
+section {
   --c-secondary: rgba(255, 255, 255, 0.75);
   --g-deep: color-mix(in srgb, var(--color-accent) 65%, black 35%);
   --g-light: color-mix(in srgb, var(--color-accent) 55%, white 45%);
@@ -20,7 +20,7 @@
   background-size: cover, cover;
 }
 
-.contacto-split::before {
+section::before {
   content: "";
   position: absolute;
   inset: -60% -20%;
@@ -33,7 +33,7 @@
   pointer-events: none;
 }
 
-.contacto-card {
+article {
   position: relative;
   z-index: 2;
   background: var(--color-bg);
@@ -45,17 +45,16 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
 
-.contacto-card h3 {
-  font-family: "Oswald", sans-serif;
+article h3 {
   text-transform: uppercase;
-  font-weight: 700;
-  color: var(--color-title);
   margin-bottom: 1.5rem;
 }
 
+article p {
+  margin-bottom: 1rem;
+}
+
 .contacto-data {
-  list-style: none;
-  padding: 0;
   margin: 0 0 1.8rem;
   display: flex;
   flex-direction: column;
@@ -107,10 +106,10 @@
 }
 
 @media (max-width: 768px) {
-  .contacto-split {
+  section {
     min-height: auto;
   }
-  .contacto-card {
+  article {
     margin: 2rem auto;
     padding: 2rem 1.5rem;
   }

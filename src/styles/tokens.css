@@ -3,6 +3,7 @@
   --color-bg-primary: #fdf7e7;
   --color-bg-secondary: #fffaf0;
   --color-bg-tertiary: #f1eadb;
+  --color-bg-quaternary: #2e5a36;
   --color-bg-soft: #fff4dc;
   --color-surface: #ffffff;
 
@@ -74,7 +75,7 @@
   --bs-primary: var(--color-primary);
   --bs-primary-rgb: var(--color-primary-rgb);
   --bs-body-font-family: var(--font-sans);
-  --bs-border-radius: var(--radius-lg);
+  --bs-border-radius: var(--radius-sm);
   --bs-border-radius-lg: 1.25rem;
   --bs-box-shadow: var(--shadow-card);
 }
