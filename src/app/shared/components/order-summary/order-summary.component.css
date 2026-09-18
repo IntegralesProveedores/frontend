@@ -98,6 +98,17 @@ button, .button {
   padding: .5rem 1rem;
   width: 100%;
   margin: 0.3rem 0;
+  color: #fff;
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+	button:hover:not(:disabled), 
+	.button:hover:not(:disabled) {
+       border-color: var(--color-primary);
+	}
+
+footer {
+  text-align: center;
 }
 
 @media (min-width: 1200px) {

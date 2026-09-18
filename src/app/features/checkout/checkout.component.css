@@ -3,10 +3,6 @@ fieldset:first-of-type legend {
   margin-top: 0;
 }
 
-footer {
-  text-align: center;
-}
-
 dt {
   font-weight: 700;
 }
@@ -90,7 +86,7 @@ dl > div:last-child {
 }
 
 .payment-option img {
-  width: 100px;
+  width: 80px;
   height: auto;
   object-fit: contain;
   border-radius: 0;

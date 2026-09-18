@@ -198,6 +198,12 @@
       INICIAR COMPRA &nbsp;
       <i class="bi bi-credit-card-2-back"></i>
     </a>
+	<footer>
+	  <a routerLink="/productos">
+	    &larr; VER MAS PRODUCTOS &nbsp;
+	    <i class="bi bi-shop"></i>
+	  </a>
+	</footer>
   }
 
   @if (actionMode === "checkout") {
@@ -212,5 +218,11 @@
         <span>PAGAR {{ totalConEnvio | currencyArs }}</span>
       }
     </button>
+    <footer>
+	  <a routerLink="/carrito">
+	    &larr; VOLVER AL CARRITO &nbsp;
+	   <i class="bi bi-basket"></i>
+	  </a>
+	</footer>
   }
 </aside>
