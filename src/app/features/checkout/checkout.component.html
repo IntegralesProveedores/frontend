@@ -225,6 +225,11 @@
 				}
             </fieldset>
 
+            <app-turnstile (token)="onCaptchaToken($event)"></app-turnstile>
+            @if (captchaMissing()) {
+              <p role="alert">Estamos verificando que no seas un robot. Esperá unos segundos y volvé a intentar.</p>
+            }
+
           </form>
 
       </div>

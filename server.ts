@@ -7,6 +7,8 @@ import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
 import { environment } from './src/environments/environment';
 
+const TURNSTILE_ORIGIN = 'https://challenges.cloudflare.com';
+
 const MERCADOPAGO_ORIGINS = [
   'https://*.mercadopago.com',
   'https://*.mercadopago.com.ar',
@@ -28,14 +30,14 @@ export function app(): express.Express {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", 'https://static.cloudflareinsights.com'],
+          scriptSrc: ["'self'", 'https://static.cloudflareinsights.com', TURNSTILE_ORIGIN],
           scriptSrcAttr: ["'unsafe-inline'"],
           styleSrc: ["'self'", "'unsafe-inline'"],
           fontSrc: ["'self'"],
           imgSrc: ["'self'", 'data:'],
           connectSrc: ["'self'", environment.apiUrl, ...MERCADOPAGO_ORIGINS],
           formAction: ["'self'", ...MERCADOPAGO_ORIGINS],
-          frameSrc: ["'self'", ...MERCADOPAGO_ORIGINS],
+          frameSrc: ["'self'", TURNSTILE_ORIGIN, ...MERCADOPAGO_ORIGINS],
           objectSrc: ["'none'"],
           baseUri: ["'self'"],
         },

@@ -28,6 +28,7 @@ import { OrderSummaryComponent } from '../../shared/components/order-summary/ord
 import { ShippingSelectorComponent } from '../../shared/components/shipping-selector/shipping-selector.component';
 import { CheckoutSkeletonComponent } from '../../shared/components/checkout-skeleton/checkout-skeleton.component';
 import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
+import { TurnstileComponent } from '../../shared/components/turnstile/turnstile.component';
 
 type ValidatedOrder = {
   items: Array<{
@@ -62,6 +63,7 @@ type ValidatedOrder = {
     OrderSummaryComponent,
     ShippingSelectorComponent,
     CheckoutSkeletonComponent,
+    TurnstileComponent,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css',
@@ -91,6 +93,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     () => this.shippingService.current().method ?? 'delivery',
   );
   shippingFormSubmitted = false;
+  captchaToken = signal<string | null>(null);
+  captchaMissing = signal(false);
 
   readonly shippingCost = computed(() =>
     this.shippingMethod() === 'delivery'
@@ -278,6 +282,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         celular: c.celular,
       },
       payment_method: this.paymentMethodService.current() ?? 'mercadopago',
+      turnstile_token: this.captchaToken() ?? undefined,
       payment_commission_percentage:
         this.cartService.paymentCommissionPercentage(),
       payment_commission_amount: this.cartService.paymentCommissionArs(),
@@ -300,6 +305,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       });
   }
 
+  onCaptchaToken(token: string | null): void {
+    this.captchaToken.set(token);
+    if (token) this.captchaMissing.set(false);
+  }
+
   async pagarAhora(isValid: boolean | null): Promise<void> {
     this.formSubmitted = true;
     this.shippingFormSubmitted = true;
@@ -311,6 +321,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.cartService.isEmpty()
     )
       return;
+
+    if (!this.captchaToken()) {
+      this.captchaMissing.set(true);
+      return;
+    }
 
     if (method === 'mercadopago') {
       await this.iniciarPagoMercadoPago(isValid);
