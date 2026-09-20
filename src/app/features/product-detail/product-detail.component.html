@@ -3,71 +3,21 @@
     @if (loading()) {
       <app-product-detail-skeleton />
     } @else {
-      <div class="product-grid row align-items-start">
-        <!-- Col: Images -->
-        <div class="product-image col-md-6">
-          <figure>
-            @if ((product()?.images?.length ?? 0) > 1) {
-              <ul class="product-thumbnails">
-                @for (img of product()!.images; track img.id; let i = $index) {
-                  <li>
-                    <button
-                      type="button"
-                      class="product-thumbnail"
-                      [class.active]="selectedImageIndex() === i"
-                      (click)="selectedImageIndex.set(i)"
-                      [attr.aria-label]="'Ver imagen ' + (i + 1) + ' de ' + product()?.name"
-                    >
-                      <img
-                        [src]="img.url"
-                        [alt]="'Miniatura ' + (i + 1) + ' de ' + (product()?.name || '')"
-                        loading="lazy"
-                      />
-                    </button>
-                  </li>
-                }
-              </ul>
-            }
-            <div class="main-image-box">
-              <app-progressive-img
-                [src]="mainImage"
-                [alt]="'Maceta biodegradable ' + (product()?.name || '')"
-                radius="var(--radius-md)"
-                imgClass="img-fluid w-100 h-100 object-fit-cover"
-              />
-            </div>
-          </figure>
-        </div>
+      <article class="row align-items-start">
+        <app-image-gallery
+          class="col-md-6"
+          [images]="product()?.images"
+          [alt]="'Maceta biodegradable ' + (product()?.name || '')"
+          [label]="product()?.name || ''"
+        />
 
-        <!-- Col: Info -->
-        <div class="product-info offset-md-1 col-md-4">
-          <nav aria-label="breadcrumb" class="product-breadcrumb">
-            <ol class="breadcrumb">
-              @if (product()?.category?.parent) {
-                <li class="breadcrumb-item">
-                  <a [routerLink]="['/productos']">{{
-                    product()?.category?.parent?.name
-                  }}</a>
-                </li>
-              }
-              @if (product()?.category) {
-                <li class="breadcrumb-item">
-                  <a [routerLink]="['/productos']">{{
-                    product()?.category?.name
-                  }}</a>
-                </li>
-              }
-              <li class="breadcrumb-item active">
-                {{ product()?.name }}
-              </li>
-            </ol>
-          </nav>
+        <div class="offset-md-1 col-md-4">
+          <app-breadcrumb [items]="breadcrumbItems()" [clearLogo]="false" />
 
-          <div class="row">
-            <!-- Información -->
-            <div class="col">
-              <h2>{{ product()?.name }}</h2>
-              <small>
+          <header class="row">
+            <hgroup class="col">
+              <h1>{{ product()?.name }}</h1>
+              <p>
                 @if (product()?.diameter_cm) {
                   {{ product()?.diameter_cm }} ×
                 }
@@ -77,129 +27,102 @@
                 @if (product()?.volume_cc) {
                   · {{ product()?.volume_cc }} cm³
                 }
-              </small>
-            </div>
-
-            <!-- Precio -->
-            <div class="col text-end">
-              <h3>
-                {{ currentPricing().finalPriceArs | currencyArs }}
-              </h3>
-              <p>
-                {{ pricingConfigService.vatLabel() }}
               </p>
+            </hgroup>
+
+            <div class="col">
+              <data [attr.value]="currentPricing().finalPriceArs">{{ currentPricing().finalPriceArs | currencyArs }}</data>
+              <p>{{ pricingConfigService.vatLabel() }}</p>
             </div>
-            
-			<!-- Detalle -->
-			<div class="col-12 m-0">
-			  <p>{{ product()?.detail }}</p>
-		    </div>
-		  </div>
 
-          <!-- Presentación. Cantidad -->
-          <div>
-              <!-- Variants Selection -->
-              @if (product()?.variants && product()!.variants.length > 0) {
-                <div class="product-variants">
-                  <h4>Presentación</h4>
-                  <div>
-                    @for (v of product()?.variants; track v.id) {
-                      <button
-                        [class.active]="selectedVariant()?.id === v.id"
-                        (click)="selectVariant(v)"
-                      >
-                        {{ v.units_per_pack }}u.
-                      </button>
-                    }
-                  </div>
-                </div>
+            @if (product()?.detail) {
+              <p class="col-12">{{ product()?.detail }}</p>
+            }
+          </header>
+
+          @if (product()?.variants && product()!.variants.length > 0) {
+            <fieldset>
+              <legend>Presentación</legend>
+              @for (v of product()?.variants; track v.id) {
+                <label>
+                  <input
+                    type="radio"
+                    name="variant"
+                    [value]="v.id"
+                    [checked]="selectedVariant()?.id === v.id"
+                    (change)="selectVariant(v)"
+                  />
+                  {{ v.units_per_pack }}u.
+                </label>
               }
-              <!-- Quantity & Stock -->
-              <div class="product-quantity">
-                <div class="product-quantity-header">
-                  <h4>Cantidad</h4>
-                  @if (selectedVariant()) {
-                    <span>Stock: {{ selectedVariant()?.stock }}</span>
-                  }
-                </div>
-                <div class="qty-control-wrapper">
-                  <app-qty-selector
-                    [quantity]="quantity()"
-                    [decrementDisabled]="quantity() <= 1"
-                    [incrementDisabled]="quantity() >= maxQty"
-                    (decrement)="decrement()"
-                    (increment)="increment()"
-                  />
+            </fieldset>
+          }
 
-                  <button
-                    (click)="addToCart()"
-                    [disabled]="!inStock"
-                  >
-                    {{
-                      added()
-                        ? "Agregado"
-                        : inStock
-                          ? "AGREGAR"
-                          : "Sin Stock"
-                    }}
-                    &nbsp; <i class="bi bi-basket"></i>
-                  </button>
-                </div>
-              </div>
+          <section>
+            <header>
+              <h4>Cantidad</h4>
+              @if (selectedVariant()) {
+                <small>Stock: {{ selectedVariant()?.stock }}</small>
+              }
+            </header>
+            <app-qty-selector
+              [quantity]="quantity()"
+              [decrementDisabled]="quantity() <= 1"
+              [incrementDisabled]="quantity() >= maxQty"
+              (decrement)="decrement()"
+              (increment)="increment()"
+            />
+            <button (click)="addToCart()" [disabled]="!inStock">
+              {{ added() ? "Agregado" : inStock ? "AGREGAR" : "Sin Stock" }}
+              &nbsp; <i aria-hidden="true" class="bi bi-basket"></i>
+            </button>
+          </section>
 
-              <!-- CTA -->
-              <div class="actions-wrapper">
-                @if (hasCurrentProductInCart()) {
-                  <small>
-                    Producto agregado al carrito.
-                    <a
-                      routerLink="/carrito"
-                      class="link-danger text-decoration-none"
-                    >
-                      VER CARRITO &nbsp; <i class="bi bi-basket"></i>
-                    </a>
-                  </small>
-                }
-              </div>
+          <output>
+            @if (hasCurrentProductInCart()) {
+              <small>
+                Producto agregado al carrito.
+                <a routerLink="/carrito">
+                  VER CARRITO &nbsp; <i aria-hidden="true" class="bi bi-basket"></i>
+                </a>
+              </small>
+            }
+          </output>
 
-              <!-- Medios de pago -->
-              <div class="payment-methods-badge">
-                <h4>Medios de pago</h4>
-                <div class="payment-methods-icons-row">
-                  <img
-                    src="/assets/icon/mercado-pago-horizontal.png"
-                    alt="Mercado Pago"
-                    class="payment-badge-logo"
-                  />
-                  <div class="payment-transfer-badge">
-                    <i class="bi bi-bank payment-transfer-icon"></i>
-                    <span class="payment-transfer-label">Transferencia</span>
-                    <mark class="badge bg-success payment-discount-badge">-10%</mark>
-                  </div>
-                </div>
-                <small>
-                  Tarjeta cr&eacute;dito y d&eacute;bito, cuotas sin inter&eacute;s seg&uacute;n promoci&oacute;n vigente y dinero en cuenta.
-                </small>
-              </div>
+          <section>
+            <h4>Medios de pago</h4>
+            <ul>
+              <li>
+                <img
+                  src="/assets/icon/mercado-pago-horizontal.png"
+                  alt="Mercado Pago"
+                />
+              </li>
+              <li>
+                <i aria-hidden="true" class="bi bi-bank"></i>
+                <strong>Transferencia</strong>
+                <mark>-10%</mark>
+              </li>
+            </ul>
+            <small>
+              Tarjeta cr&eacute;dito y d&eacute;bito, cuotas sin inter&eacute;s
+              seg&uacute;n promoci&oacute;n vigente y dinero en cuenta.
+            </small>
+          </section>
 
-              <!-- DESCRIPTION -->
-              <div class="payment-methods-badge">
-                <h4>Descripci&oacute;n</h4>
-
-                <small>
-				  {{ product()?.description }}
-				</small>
-			  </div>
-          </div>
+          <section>
+            <h4>Descripci&oacute;n</h4>
+            <p>{{ product()?.description }}</p>
+          </section>
         </div>
-      </div>
+      </article>
     }
-    <!-- Related Products -->
+
     @if (!loading() && relatedProducts().length > 0) {
       <app-related-products
         [items]="relatedProducts()"
         [showSkeleton]="false"
-        wrapperClass="related-products mt-2 pt-2 border-top"
+        wrapperClass="related-products mt-2 pt-2"
       />
     }
   </div>

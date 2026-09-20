@@ -19,9 +19,13 @@ import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductDetailSkeletonComponent } from '../../shared/components/product-detail-skeleton/product-detail-skeleton.component';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
 import { logError } from '../../shared/utils/log.util';
-import { ProgressiveImageComponent } from '../../shared/components/progressive-image/progressive-image.component';
+import { ImageGalleryComponent } from '../../shared/components/image-gallery/image-gallery.component';
 import { QtySelectorComponent } from '../../shared/components/qty-selector/qty-selector.component';
 import { RelatedProductsComponent } from '../../shared/components/related-products/related-products.component';
+import {
+  BreadcrumbComponent,
+  BreadcrumbItem,
+} from '../../shared/components/breadcrumb/breadcrumb.component';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { calculateLocalPrice } from '../../core/lib/pricing.util';
 
@@ -62,9 +66,10 @@ interface ProductJsonLd {
     CurrencyArsPipe,
     ProductDetailSkeletonComponent,
     ErrorStateComponent,
-    ProgressiveImageComponent,
+    ImageGalleryComponent,
     QtySelectorComponent,
     RelatedProductsComponent,
+    BreadcrumbComponent,
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css',
@@ -76,7 +81,6 @@ export class ProductDetailComponent implements OnInit {
   error = signal<string | null>(null);
 
   selectedVariant = signal<ProductVariant | null>(null);
-  selectedImageIndex = signal(0);
   quantity = signal(1);
   added = signal(false);
   // Solo se completa al entrar desde una línea puntual del carrito mediante
@@ -105,6 +109,27 @@ export class ProductDetailComponent implements OnInit {
     finalPriceUsd: this.dynamicPriceUsd(),
   }));
 
+  breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    const p = this.product();
+    const items: BreadcrumbItem[] = [
+      { label: 'Productos', link: '/productos' },
+    ];
+    if (p?.category?.parent) {
+      items.push({
+        label: p.category.parent.name,
+        link: `/categorias/${p.category.parent.slug}`,
+      });
+    }
+    if (p?.category) {
+      items.push({
+        label: p.category.name,
+        link: `/categorias/${p.category.slug}`,
+      });
+    }
+    items.push({ label: p?.name ?? '' });
+    return items;
+  });
+
   relatedProducts = computed(() => {
     const current = this.product();
     if (!current) return [];
@@ -118,11 +143,6 @@ export class ProductDetailComponent implements OnInit {
     if (!v) return false;
     return this.cart.cartItems().some((item) => item.variantId === v.id);
   });
-
-  get mainImage(): string {
-    const imgs = this.product()?.images ?? [];
-    return imgs[this.selectedImageIndex()]?.url ?? '';
-  }
 
   get inStock(): boolean {
     return (this.selectedVariant()?.stock ?? 0) > 0;
@@ -416,7 +436,6 @@ export class ProductDetailComponent implements OnInit {
           this.dynamicPriceArs.set(selectedVariant.price_ars || 0);
           this.dynamicPriceUsd.set(selectedVariant.price_usd || 0);
         }
-        this.selectedImageIndex.set(0);
         this.quantity.set(1);
         this.loading.set(false);
         if (isPlatformBrowser(this.platformId)) {

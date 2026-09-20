@@ -37,6 +37,8 @@ button {
 
 button:hover:not(:disabled) {
   background-color: var(--color-bg-soft);
+  background-color: transparent;
+  color: #000;
 }
 
 button:disabled {

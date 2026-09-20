@@ -3,7 +3,7 @@
     <header class="bento-header">
       <h2>Nuestros Productos</h2>
       <a routerLink="/productos" class="bento-link btn-app-ghost"
-        >Ver catálogo completo <i class="bi bi-arrow-right"></i
+        >Ver catálogo completo <i aria-hidden="true" class="bi bi-arrow-right"></i
       ></a>
     </header>
     @if (loading()) {
@@ -26,7 +26,8 @@
               @if (p.images && p.images.length > 0) {
                 <div class="bento-img-wrap">
                   <app-progressive-img
-                    [src]="p.images[0].url"
+                    [src]="bentoSrc(p.images[0].url, i === 0)"
+                    [fallbackSrc]="p.images[0].url"
                     [alt]="p.name"
                     imgClass="bento-img"
                   />

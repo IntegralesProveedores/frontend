@@ -1,5 +1,6 @@
 <section>
   <div class="container">
+    <h1 class="visually-hidden">Carrito de compras</h1>
     <!-- Skeleton -->
     @if (!ready()) {
       <app-cart-skeleton />
@@ -7,10 +8,11 @@
 
     <!-- Empty State -->
     @if (ready() && isEmpty()) {
+      <app-breadcrumb [items]="breadcrumbItems()" />
       <div class="empty-cart text-center py-5">
         <p>No hay productos en tu carrito.</p>
         <a routerLink="/productos" class="button">
-          TIENDA &nbsp; <i class="bi bi-shop"></i>
+          TIENDA &nbsp; <i aria-hidden="true" class="bi bi-shop"></i>
         </a>
       </div>
     }
@@ -20,14 +22,22 @@
       <div class="row">
         <!-- Items List -->
         <div class="offset-lg-1 col-lg-5">
+          <app-breadcrumb [items]="breadcrumbItems()" [clearLogo]="false" />
           <table>
+            <colgroup>
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+            </colgroup>
             <thead>
               <tr>
-                <th scope="col" width="15%">Imagen</th>
-                <th scope="col" width="25%">Producto</th>
-                <th scope="col" width="30%">Cantidad</th>
-                <th scope="col" width="25%">Precio</th>
-                <th scope="col" width="5%">Eliminar</th>
+                <th scope="col">Imagen</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Eliminar</th>
               </tr>
             </thead>
             <tbody>
@@ -40,7 +50,11 @@
                         item.slug,
                         item.units_per_pack,
                       ]">
-                      <img [src]="item.imageUrl" [alt]="item.productName" />
+                      <img
+                        [src]="thumb(item.imageUrl)"
+                        [alt]="item.productName"
+                        (error)="useOriginal($event, item.imageUrl)"
+                      />
                     </a>
                   </td>
 
@@ -68,9 +82,9 @@
                   </td>
 
                   <td>
-                    <h3>
+                    <data [attr.value]="item.price_ars * item.quantity">
                       {{ item.price_ars * item.quantity | currencyArs }}
-                    </h3>
+                    </data>
                     <small>
                       {{
                         (item.units_per_pack || 0) * item.quantity
@@ -83,8 +97,9 @@
                   <td>
                     <button
                       (click)="remove(item.variantId)"
-                      title="Eliminar">
-                      <i class="bi bi-trash3"></i>
+                      title="Eliminar"
+                      [attr.aria-label]="'Eliminar ' + item.productName">
+                      <i aria-hidden="true" class="bi bi-trash3"></i>
                     </button>
                   </td>
                 </tr>

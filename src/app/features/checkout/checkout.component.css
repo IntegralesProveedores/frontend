@@ -79,7 +79,7 @@ dl > div:last-child {
   box-shadow: inset 0 0 0 3px transparent;
 }
 
-.radio-dot.checked {
+input:checked + .radio-dot {
   border-color: var(--color-primary);
   background-color: var(--color-primary);
   box-shadow: inset 0 0 0 3px #fff;
@@ -115,5 +115,11 @@ dl > div:last-child {
   .payment-option {
     font-size: 14px;
     padding: 5px !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .container > .row {
+    --bs-gutter-y: 1rem;
   }
 }

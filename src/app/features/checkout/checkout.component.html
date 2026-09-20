@@ -1,11 +1,16 @@
 <section>
   <div class="container">
+    <h1 class="visually-hidden">Finalizar compra</h1>
     @if (!ready()) {
     <app-checkout-skeleton />
     } @else {
     <div class="row">
       <!-- Formulario -->
       <div class="offset-md-1 col-lg-5">
+          <app-breadcrumb
+            [items]="[{ label: 'Productos', link: '/productos' }, { label: 'Carrito', link: '/carrito' }, { label: 'Finalizar compra' }]"
+            [clearLogo]="false"
+          />
           <form
             #checkoutForm="ngForm"
             id="checkoutForm"
@@ -14,8 +19,7 @@
             <fieldset>
 				<legend>1. DATOS PERSONALES</legend>
 
-				<div>
-				  <input
+				<input
 					type="text"
 					name="nombre"
 					[(ngModel)]="customer.nombre"
@@ -28,11 +32,10 @@
 					"
 					placeholder="Nombre y Apellido (*)"
 					aria-label="Nombre y Apellido"
+						autocomplete="name"
 				  />
-				</div>
 
-				<div>
-				  <input
+				<input
 					type="email"
 					name="email"
 					[(ngModel)]="customer.email"
@@ -45,8 +48,8 @@
 					"
 					placeholder="Email (*)"
 					aria-label="Email"
+						autocomplete="email"
 				  />
-				</div>
 
 				<div class="row">
 				  <div class="col-4 col-md-4">
@@ -67,6 +70,7 @@
 					  "
 					  placeholder="Area (*)"
 					  aria-label="Código de área"
+						  autocomplete="tel-area-code"
 					/>
 				  </div>
 				  <div class="col-8 col-md-8">
@@ -87,6 +91,7 @@
 					  "
 					  placeholder="Celular (*)"
 					  aria-label="Celular"
+						  autocomplete="tel-local"
 					/>
 				  </div>
 				</div>
@@ -106,55 +111,43 @@
             <fieldset>
 				<legend>3. M&Eacute;TODO DE PAGO</legend>
 				<div class="payment-options-row">
-					<button
-					  type="button"
-					  class="payment-option active"
-					  [class.active]="paymentMethodService.current() === 'mercadopago'"
-					  (click)="selectPaymentMethod('mercadopago')"
-					>
-					  <span
-						class="radio-dot"
-						[class.checked]="paymentMethodService.current() === 'mercadopago'"
-					  >
-					  </span>
-					  <img
-						src="/assets/icon/mercado-pago-horizontal.png"
-						alt="MERCADO PAGO"
-					  />
-					</button>
+						<label class="payment-option">
+						  <input
+							type="radio"
+							name="payment_method"
+							value="mercadopago"
+							[checked]="paymentMethodService.current() === 'mercadopago'"
+							(change)="selectPaymentMethod('mercadopago')"
+						  />
+						  <span class="radio-dot"></span>
+						  <img
+							src="/assets/icon/mercado-pago-horizontal.png"
+							alt="MERCADO PAGO"
+						  />
+						</label>
 
-					<button
-					  type="button"
-					  class="payment-option"
-					  [class.active]="paymentMethodService.current() === 'transferencia'"
-					  (click)="selectPaymentMethod('transferencia')"
-					>
-					  <span
-						class="radio-dot"
-						[class.checked]="
-						  paymentMethodService.current() === 'transferencia'
-						"
-					  ></span>
-					  <span>
-						TRANSFERENCIA
-						@if (
-						  pricingConfigService.paymentCommissionPercentage() > 0
-						) {
-						  <mark class="badge-off"
-							><strong
-							  style="
-								font-family:
-								  &quot;Arial Black&quot;, Gadget, sans-serif;
-							  "
-							  >&minus;</strong
-							>
-							{{
-							  pricingConfigService.paymentCommissionPercentage()
-							}}%</mark
-						  >
-						}
-					  </span>
-					</button>
+						<label class="payment-option">
+						  <input
+							type="radio"
+							name="payment_method"
+							value="transferencia"
+							[checked]="paymentMethodService.current() === 'transferencia'"
+							(change)="selectPaymentMethod('transferencia')"
+						  />
+						  <span class="radio-dot"></span>
+						  <span>
+							TRANSFERENCIA
+							@if (pricingConfigService.paymentCommissionPercentage() > 0) {
+							  <mark class="badge-off"
+								><strong
+								  style="font-family: &quot;Arial Black&quot;, Gadget, sans-serif"
+								  >&minus;</strong
+								>
+								{{ pricingConfigService.paymentCommissionPercentage() }}%</mark
+							  >
+							}
+						  </span>
+						</label>
 				</div>
 
 
@@ -162,7 +155,7 @@
 				  paymentMethodService.current() === 'transferencia' &&
 				  mercadoPagoTransferInfo()
 				) {
-					<dialog open>
+					<aside>
 						<dl>
 						  <div>
 							<dt>Alias:</dt>
@@ -178,7 +171,7 @@
 								  )
 								"
 								aria-label="Copiar alias">
-								<i
+								<i aria-hidden="true"
 								  class="bi"
 								  [class.bi-clipboard]="copiedField() !== 'alias'"
 								  [class.bi-clipboard-check]="
@@ -205,7 +198,7 @@
 									"
 									aria-label="Copiar CVU"
 								  >
-									<i
+									<i aria-hidden="true"
 									  class="bi"
 									  [class.bi-clipboard]="copiedField() !== 'cvu'"
 									  [class.bi-clipboard-check]="
@@ -228,7 +221,7 @@
 							<dd>{{ mercadoPagoTransferInfo()!.account_holder_name }}</dd>
 						  </div>
 						</dl>
-					</dialog>
+					</aside>
 				}
             </fieldset>
 

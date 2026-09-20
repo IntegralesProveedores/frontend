@@ -5,12 +5,12 @@ section {
   align-items: center;
 }
 
-h2 {
+h1 {
   font-size: calc(1.3rem + 0.6vw);
 }
 
 @media (min-width: 1200px) {
-  h2 {
+  h1 {
     font-size: 1.75rem;
   }
 }

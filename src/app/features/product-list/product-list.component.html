@@ -1,24 +1,29 @@
 <section>
   <div class="container">
+    <h1 class="visually-hidden">
+      {{ category()?.name ?? "Macetas biodegradables" }}
+    </h1>
+    <app-breadcrumb [items]="breadcrumbItems()" />
+
     <!-- Grid -->
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5">
+    <ul class="row row-cols-2 row-cols-md-3 row-cols-lg-5">
       @if (loading()) {
         @for (i of [1, 2, 3, 4, 5]; track i) {
-          <div class="col">
+          <li class="col">
             <app-product-card-skeleton />
-          </div>
+          </li>
         }
       } @else {
         @for (product of products(); track product.id) {
-          <div class="col">
+          <li class="col">
             <app-product-card [product]="product" />
-          </div>
+          </li>
         }
       }
-    </div>
+    </ul>
 
     @if (error()) {
-      <p>
+      <p role="alert">
         {{ error() }}
       </p>
     }

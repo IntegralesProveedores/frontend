@@ -1,6 +1,7 @@
 import { Component, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../skeleton/skeleton.component';
+import { fallbackToOriginal } from '../../utils/image-variant.util';
 
 /**
  * Componente para carga progresiva de imágenes con Skeleton Loading independiente.
@@ -29,6 +30,7 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
         [class]="imgClass"
         [class.loaded]="isLoaded()"
         (load)="onLoad()"
+        (error)="onError($event)"
         loading="lazy"
       />
     </div>
@@ -75,6 +77,7 @@ export class ProgressiveImageComponent {
   @Input() imgClass: string = '';
   @Input() aspectRatio: string = '1 / 1';
   @Input() radius: string = '0';
+  @Input() fallbackSrc: string = '';
 
 
   // Estado independiente de carga
@@ -86,5 +89,9 @@ export class ProgressiveImageComponent {
    */
   onLoad() {
     this.isLoaded.set(true);
+  }
+
+  onError(event: Event) {
+    fallbackToOriginal(event, this.fallbackSrc);
   }
 }

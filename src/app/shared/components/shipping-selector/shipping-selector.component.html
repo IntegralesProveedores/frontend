@@ -1,62 +1,73 @@
 <div>
-  <aside>
-    <button
-      type="button"
-      class="shipping-option-correo"
-      [class.active]="method() === 'delivery'"
-      (click)="selectMethod('delivery')">
+  <div role="radiogroup" aria-label="Método de entrega">
+    <label>
+      <input
+        type="radio"
+        name="shipping_method"
+        value="delivery"
+        [checked]="method() === 'delivery'"
+        (change)="selectMethod('delivery')"
+      />
       <img
         src="/assets/icon/correo-argentino.png"
         alt="CORREO ARGENTINO"
         class="img-fluid d-block mx-auto"
       />
-    </button>
-    <button
-      type="button"
-      [class.active]="method() === 'coordinar'"
-      (click)="selectMethod('coordinar')">
-      <i class="bi bi-truck"></i>
+    </label>
+    <label>
+      <input
+        type="radio"
+        name="shipping_method"
+        value="coordinar"
+        [checked]="method() === 'coordinar'"
+        (change)="selectMethod('coordinar')"
+      />
+      <i aria-hidden="true" class="bi bi-truck"></i>
       Coordinar
-    </button>
-    <button
-      type="button"
-      [class.active]="method() === 'pickup'"
-      (click)="selectMethod('pickup')">
-      <i class="bi bi-shop"></i>
+    </label>
+    <label>
+      <input
+        type="radio"
+        name="shipping_method"
+        value="pickup"
+        [checked]="method() === 'pickup'"
+        (change)="selectMethod('pickup')"
+      />
+      <i aria-hidden="true" class="bi bi-shop"></i>
       Retiro
-    </button>
-  </aside>
+    </label>
+  </div>
 
   @if (method() === "coordinar") {
-    <dialog open>
+    <aside>
       <p>
         <strong>
-          <i class="bi bi-whatsapp text-success"></i>
+          <i aria-hidden="true" class="bi bi-whatsapp text-success"></i>
           {{ phoneDisplay }}
         </strong>
       </p>
       <small>
         {{ mode === "compact" ? texts.coordinar.short : texts.coordinar.long }}
       </small>
-    </dialog>
+    </aside>
   }
   @if (method() === "pickup") {
-    <dialog open>
+    <aside>
       <p>
         <strong>
-          <i class="bi bi-whatsapp text-success"></i>
+          <i aria-hidden="true" class="bi bi-whatsapp text-success"></i>
           {{ phoneDisplay }}
         </strong>
       </p>
       <small>
         {{ mode === "compact" ? texts.pickup.short : texts.pickup.long }}
       </small>
-    </dialog>
+    </aside>
   }
 
   @if (method() === "delivery") {
     <div class="row">
-      <div class="col-4 col-md-4">
+      <div class="col-4">
         <input
           name="shipping_postal_code"
           [ngModel]="address.postal_code"
@@ -66,7 +77,8 @@
           required
           maxlength="4"
           inputmode="numeric"
-          autocomplete="off"
+          autocomplete="postal-code"
+          aria-label="Código postal"
           placeholder="CP (*)"
         />
         @if (postalCodeNotFound()) {
@@ -75,7 +87,7 @@
           </div>
         }
       </div>
-      <div class="col-8 col-md-8">
+      <div class="col-8">
         <output>
           <input
             name="shipping_province"
@@ -85,6 +97,7 @@
             required
             readonly
             autocomplete="off"
+            aria-label="Provincia"
             placeholder="Provincia (*)"
           />
           @if (loadingPostalCode()) {
@@ -95,10 +108,7 @@
       @if (mode === "full" && showLocalityField) {
         <div
           [class.col-12]="!showCountyField"
-          [class.col-md-12]="!showCountyField"
-          [class.col-6]="showCountyField"
-          [class.col-md-6]="showCountyField"
-        >
+          [class.col-6]="showCountyField">
           <input
             name="shipping_locality"
             [ngModel]="address.locality"
@@ -106,13 +116,14 @@
             [ngModelOptions]="{ standalone: true }"
             [class.is-invalid]="!address.locality && formSubmitted"
             required
-            autocomplete="off"
+            autocomplete="address-level2"
+            aria-label="Localidad"
             placeholder="Localidad (*)"
           />
         </div>
       }
       @if (mode === "full" && showCountyField) {
-        <div class="col-6 col-md-6">
+        <div class="col-6">
           <input
             name="shipping_county"
             [ngModel]="address.county"
@@ -121,12 +132,13 @@
             [class.is-invalid]="!address.county && formSubmitted"
             required
             autocomplete="off"
+            aria-label="Partido"
             placeholder="Partido (*)"
           />
         </div>
       }
       @if (mode === "full" && addressFieldsVisible) {
-        <div class="col-8 col-md-8">
+        <div class="col-8">
           <input
             name="shipping_street"
             [ngModel]="address.street"
@@ -135,10 +147,11 @@
             [class.is-invalid]="!address.street && formSubmitted"
             required
             autocomplete="off"
+            aria-label="Calle"
             placeholder="Calle (*)"
           />
         </div>
-        <div class="col-4 col-md-4">
+        <div class="col-4">
           <fieldset>
             <input
               name="shipping_street_number"
@@ -152,11 +165,13 @@
               autocomplete="off"
               [readonly]="streetNumberIsSN()"
               [class.is-invalid]="!address.street_number && formSubmitted"
+              aria-label="Número"
               placeholder="Nro. (*)"
             />
             <label>
               <input
                 type="checkbox"
+                aria-label="Sin número"
                 [ngModel]="streetNumberIsSN()"
                 (ngModelChange)="toggleStreetNumberSN($event)"
                 [ngModelOptions]="{ standalone: true }"
@@ -165,23 +180,25 @@
             </label>
           </fieldset>
         </div>
-        <div class="col-6 col-md-6">
+        <div class="col-6">
           <input
             name="shipping_floor"
             [ngModel]="address.floor"
             (ngModelChange)="updateAddress('floor', $event)"
             [ngModelOptions]="{ standalone: true }"
             autocomplete="off"
+            aria-label="Piso"
             placeholder="Piso"
           />
         </div>
-        <div class="col-6 col-md-6">
+        <div class="col-6">
           <input
             name="shipping_apartment"
             [ngModel]="address.apartment"
             (ngModelChange)="updateAddress('apartment', $event)"
             [ngModelOptions]="{ standalone: true }"
             autocomplete="off"
+            aria-label="Departamento"
             placeholder="Dpto."
           />
         </div>

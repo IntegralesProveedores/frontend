@@ -1,0 +1,55 @@
+ol {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+li {
+  display: flex;
+}
+
+li + li::before {
+  content: " / ";
+  white-space: pre;
+  color: var(--color-text-muted);
+}
+
+a {
+  font-size: inherit;
+  color: var(--color-text-secondary);
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+li[aria-current="page"] {
+  color: var(--color-primary);
+}
+
+/* El logo fijo (100px, arriba a la izquierda) tapa el inicio del breadcrumb
+   cuando el container queda más cerca del borde que el ancho del logo. */
+@media (min-width: 1001px) {
+  .clear-logo ol {
+    padding-left: max(0px, calc(88px - (100vw - 960px) / 2));
+  }
+}
+
+@media (min-width: 1200px) {
+  .clear-logo ol {
+    padding-left: max(0px, calc(88px - (100vw - 1140px) / 2));
+  }
+}
+
+@media (min-width: 1400px) {
+  .clear-logo ol {
+    padding-left: max(0px, calc(88px - (100vw - 1320px) / 2));
+  }
+}

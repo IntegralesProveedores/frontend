@@ -1,0 +1,32 @@
+// Bootstrap reducido: solo lo que usa la app. Para sumar una utilidad o
+// componente nuevo, agregarlo a $keep o a la lista de @import de abajo.
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+$keep: (
+  "display", "flex-direction", "align-items", "justify-content", "gap",
+  "margin", "margin-x", "margin-y", "margin-top", "margin-end", "margin-bottom", "margin-start",
+  "padding-x", "padding-y", "padding-top", "padding-bottom",
+  "width", "height", "object-fit", "font-size", "font-weight",
+  "text-align", "text-decoration", "color", "border", "border-top"
+);
+$utilities: map-get-multiple($utilities, $keep);
+@each $key, $utility in $utilities {
+  $utilities: map-merge($utilities, ($key: map-merge($utility, (responsive: false))));
+}
+
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/breadcrumb";
+@import "bootstrap/scss/spinners";
+@import "bootstrap/scss/helpers/colored-links";
+@import "bootstrap/scss/helpers/visually-hidden";
+@import "bootstrap/scss/utilities/api";

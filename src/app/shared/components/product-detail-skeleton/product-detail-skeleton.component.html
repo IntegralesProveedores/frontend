@@ -1,80 +1,48 @@
-<div class="product-grid row align-items-start">
-  <div class="product-image col-md-6">
-    <div class="product-gallery">
-      <div class="product-thumbnails">
-        @for (i of [1, 2, 3]; track i) {
-          <app-skeleton width="68px" height="68px" radius="var(--radius-md)" />
+<article class="row align-items-start">
+  <app-image-gallery class="col-md-6" [loading]="true" />
+
+  <div class="offset-md-1 col-md-4">
+    <app-skeleton width="60%" height="0.6rem" />
+
+    <header class="row">
+      <div class="col">
+        <app-skeleton width="80%" height="2rem" />
+        <app-skeleton width="60%" height="0.75rem" />
+      </div>
+      <div class="col">
+        <app-skeleton width="90px" height="1.75rem" />
+        <app-skeleton width="70px" height="0.8rem" />
+      </div>
+      <div class="col-12">
+        <app-skeleton width="100%" height="0.8rem" />
+      </div>
+    </header>
+
+    <section>
+      <app-skeleton width="30%" height="0.75rem" />
+      <div>
+        @for (i of [1, 2, 3, 4, 5]; track i) {
+          <app-skeleton width="54px" height="2.25rem" radius="var(--radius-sm)" />
         }
       </div>
-      <div class="main-image-box">
-        <app-skeleton width="100%" height="100%" radius="var(--radius-md)" />
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <div class="product-info offset-md-1 col-md-4">
-    <div class="product-breadcrumb">
+    <section>
+      <app-skeleton width="70px" height="0.75rem" />
+      <div>
+        <app-skeleton width="100%" height="35px" radius="var(--radius-full)" />
+        <app-skeleton width="100%" height="35px" radius="var(--border-radius-base)" />
+      </div>
+    </section>
+
+    <section>
       <app-skeleton width="40%" height="0.75rem" />
-    </div>
+      <app-skeleton width="100%" height="3rem" radius="var(--radius-md)" />
+    </section>
 
-    <div class="product-header">
-      <div class="product-data">
-        <app-skeleton width="80%" height="2rem" class="d-block mb-2" />
-        <app-skeleton width="100%" height="0.875rem" class="d-block mb-2" />
-        <app-skeleton width="90%" height="0.875rem" class="d-block mb-2" />
-        <app-skeleton width="55%" height="0.8rem" class="d-block" />
-      </div>
-
-      <div class="product-price">
-        <app-skeleton width="130px" height="2rem" class="d-block mb-2" />
-        <app-skeleton width="105px" height="1.125rem" class="d-block mb-2" />
-        <app-skeleton width="75px" height="0.8rem" class="d-block" />
-      </div>
-    </div>
-
-    <div class="product-buy">
-      <div class="buy-content">
-        <div class="variants-block">
-          <app-skeleton width="30%" height="0.75rem" class="d-block mb-3" />
-          <div class="d-flex flex-wrap gap-2">
-            @for (i of [1, 2, 3, 4, 5]; track i) {
-              <app-skeleton
-                width="54px"
-                height="2.25rem"
-                radius="var(--radius-sm)"
-              />
-            }
-          </div>
-        </div>
-
-        <div class="quantity-block">
-          <div class="quantity-heading">
-            <app-skeleton width="70px" height="0.75rem" />
-            <app-skeleton width="70px" height="0.75rem" />
-          </div>
-          <div class="buy-controls">
-            <app-skeleton
-              width="110px"
-              height="52px"
-              radius="var(--radius-full)"
-            />
-            <app-skeleton
-              width="100%"
-              height="52px"
-              radius="var(--radius-base)"
-            />
-            <app-skeleton
-              width="100%"
-              height="52px"
-              radius="var(--radius-base)"
-            />
-          </div>
-        </div>
-
-        <div class="actions-wrapper">
-          <app-skeleton width="70%" height="0.75rem" class="d-block mx-auto" />
-        </div>
-      </div>
-    </div>
+    <section>
+      <app-skeleton width="35%" height="0.75rem" />
+      <app-skeleton width="100%" height="4rem" radius="var(--radius-md)" />
+    </section>
   </div>
-</div>
+</article>

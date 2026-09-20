@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
 import { SkeletonComponent } from '../skeleton/skeleton.component';
 
 @Component({
   selector: 'app-product-detail-skeleton',
   standalone: true,
-  imports: [CommonModule, SkeletonComponent],
+  imports: [ImageGalleryComponent, SkeletonComponent],
   templateUrl: './product-detail-skeleton.component.html',
   styleUrl: './product-detail-skeleton.component.css',
 })

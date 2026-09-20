@@ -1,20 +1,71 @@
-.order-summary-box {
-  background-color: var(--color-bg-soft);
-  border-radius: var(--border-radius-base);
+app-skeleton {
+  display: block;
+  margin-bottom: 0.3rem;
 }
 
-.skeleton-item-row {
+legend app-skeleton {
+  margin: 0;
+}
+
+fieldset > div:not(.row) {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+fieldset > div:not(.row) app-skeleton {
+  flex: 1;
+  margin: 0;
+}
+
+aside {
+  background-color: var(--color-bg-soft);
+  border-radius: var(--border-radius-base);
+  position: sticky;
+  top: 20px;
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+}
+
+aside > section {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-base);
+  padding: 0.2rem 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+section > article {
   display: flex;
   gap: 1rem;
   padding-block: 0.25rem;
   margin-bottom: 0.5rem;
 }
 
-.summary-row {
+section > article > div {
+  flex-grow: 1;
+}
+
+section > div {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding-top: 0.5rem;
-  margin-top: 0.5rem;
-  border-top: 1px solid var(--bs-border-color, #dee2e6);
+}
+
+section > div > div {
+  text-align: right;
+}
+
+section > div > div app-skeleton {
+  margin-left: auto;
+}
+
+aside > app-skeleton {
+  margin-top: 0.3rem;
+}
+
+@media (max-width: 991.98px) {
+  :host > .row {
+    --bs-gutter-y: 1rem;
+  }
 }

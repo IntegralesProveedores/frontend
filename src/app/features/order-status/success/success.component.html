@@ -1,14 +1,14 @@
 <section>
   <div class="container text-center">
     <div class="animate-reveal">
-      <h2>¡Compra Confirmada!</h2>
+      <h1>¡Compra Confirmada!</h1>
       <p>
         Recibirás un correo electrónico con el detalle de tu compra.
       </p>
     </div>
 
     @if (showTransferInfo) {
-      <dialog open class="mx-auto max-w-600 text-start mb-2 animate-reveal">
+      <aside class="mx-auto max-w-600 text-start mb-2 animate-reveal">
         <dl class="order-data-list mb-0">
           <div class="mb-1">
             <dt><strong>N&uacute;mero de orden:</strong></dt>
@@ -20,7 +20,7 @@
                 (click)="copyToClipboard(orderRef()!, 'order')"
                 aria-label="Copiar n&uacute;mero de orden"
               >
-                <i
+                <i aria-hidden="true"
                   class="bi"
                   [class.bi-clipboard]="copiedField() !== 'order'"
                   [class.bi-clipboard-check]="copiedField() === 'order'"
@@ -43,7 +43,7 @@
                 (click)="copyToClipboard(transferInfo()!.alias, 'alias')"
                 aria-label="Copiar alias"
               >
-                <i
+                <i aria-hidden="true"
                   class="bi"
                   [class.bi-clipboard]="copiedField() !== 'alias'"
                   [class.bi-clipboard-check]="copiedField() === 'alias'"
@@ -62,7 +62,7 @@
                   (click)="copyToClipboard(transferInfo()!.cvu!, 'cvu')"
                   aria-label="Copiar CVU"
                 >
-                  <i
+                  <i aria-hidden="true"
                     class="bi"
                     [class.bi-clipboard]="copiedField() !== 'cvu'"
                     [class.bi-clipboard-check]="copiedField() === 'cvu'"
@@ -82,7 +82,7 @@
                   (click)="copyToClipboard(transferInfo()!.cbu!, 'cbu')"
                   aria-label="Copiar CBU"
                 >
-                  <i
+                  <i aria-hidden="true"
                     class="bi"
                     [class.bi-clipboard]="copiedField() !== 'cbu'"
                     [class.bi-clipboard-check]="copiedField() === 'cbu'"
@@ -109,14 +109,14 @@
           >
           o por mail indicando el n&uacute;mero de orden.
         </small>
-      </dialog>
+      </aside>
     }
 
     <a
       routerLink="/productos"
       class="btn-pill-outline btn-pill-outline--accent btn-cta-shop animate-reveal"
     >
-      &larr; TIENDA &nbsp; <i class="bi bi-shop"></i>
+      &larr; TIENDA &nbsp; <i aria-hidden="true" class="bi bi-shop"></i>
     </a>
   </div>
 </section>

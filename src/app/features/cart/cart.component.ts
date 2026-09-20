@@ -20,6 +20,11 @@ import { QtySelectorComponent } from '../../shared/components/qty-selector/qty-s
 import { RelatedProductsComponent } from '../../shared/components/related-products/related-products.component';
 import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
 import { ShippingSelectorComponent } from '../../shared/components/shipping-selector/shipping-selector.component';
+import {
+  BreadcrumbComponent,
+  BreadcrumbItem,
+} from '../../shared/components/breadcrumb/breadcrumb.component';
+import { imageVariant, fallbackToOriginal } from '../../shared/utils/image-variant.util';
 
 @Component({
   selector: 'app-cart',
@@ -27,6 +32,7 @@ import { ShippingSelectorComponent } from '../../shared/components/shipping-sele
   imports: [
     CommonModule,
     RouterModule,
+    BreadcrumbComponent,
     CurrencyArsPipe,
     CartSkeletonComponent,
     EmptyStateComponent,
@@ -39,6 +45,8 @@ import { ShippingSelectorComponent } from '../../shared/components/shipping-sele
   styleUrl: './cart.component.css',
 })
 export class CartComponent implements OnInit {
+  readonly thumb = (url: string) => imageVariant(url, 'thumb');
+  readonly useOriginal = fallbackToOriginal;
   public readonly cartService = inject(CartService);
   public readonly pricingConfigService = inject(PricingConfigService);
   private readonly productsService = inject(ProductsService);
@@ -58,6 +66,13 @@ export class CartComponent implements OnInit {
     ),
   );
   isEmpty = this.cartService.isEmpty;
+  breadcrumbItems = computed<BreadcrumbItem[]>(() => [
+    { label: 'Productos', link: '/productos' },
+    { label: 'Carrito', current: true },
+    ...(this.isEmpty()
+      ? []
+      : [{ label: 'Finalizar compra', link: '/finalizar-compra' }]),
+  ]);
   totalUsd = this.cartService.totalUsd;
   subtotalArs = this.cartService.subtotalArs;
   totalVolume = this.cartService.totalVolumeCc;

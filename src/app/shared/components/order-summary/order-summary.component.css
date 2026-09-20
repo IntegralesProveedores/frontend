@@ -2,6 +2,10 @@ aside {
   background-color: var(--color-bg-soft);
   border-radius: var(--border-radius-base);
   position: sticky;
+  top: 20px;
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
 }
 
 .payment-method-icon {
@@ -28,6 +32,10 @@ table {
   margin-bottom: 0.5rem;
 }
 
+col:first-child {
+  width: 12%;
+}
+
 td {
   padding-block: 0.15rem;
 }
@@ -51,7 +59,7 @@ td img {
   border-radius: 4px;
 }
 
-h3 {
+data {
   font-size: 1.1rem;
 }
 

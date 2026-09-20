@@ -8,6 +8,7 @@
     >
       <app-progressive-img
         [src]="mainImage"
+        [fallbackSrc]="originalImage"
         [alt]="'Maceta biodegradable ' + product.name"
         radius="var(--radius-md)"
         imgClass="img-fluid w-100 h-100 object-fit-cover"

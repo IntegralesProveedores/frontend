@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-faq-brotalia',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './faq-brotalia.component.html',
   styleUrl: '../envios-pagos/envios-pagos.component.css',
 })

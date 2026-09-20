@@ -27,6 +27,7 @@ import { RelatedProductsComponent } from '../../shared/components/related-produc
 import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
 import { ShippingSelectorComponent } from '../../shared/components/shipping-selector/shipping-selector.component';
 import { CheckoutSkeletonComponent } from '../../shared/components/checkout-skeleton/checkout-skeleton.component';
+import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
 
 type ValidatedOrder = {
   items: Array<{
@@ -56,6 +57,7 @@ type ValidatedOrder = {
     CommonModule,
     FormsModule,
     RouterModule,
+    BreadcrumbComponent,
     RelatedProductsComponent,
     OrderSummaryComponent,
     ShippingSelectorComponent,

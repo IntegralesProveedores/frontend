@@ -71,6 +71,11 @@ h2 {
   line-height: 1.5;
 }
 
+.accordion-item p a {
+  font-size: inherit;
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .accordion-inner {
     padding: 0 1.1rem 3rem;

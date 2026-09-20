@@ -18,7 +18,7 @@ import { SkeletonComponent } from '../skeleton/skeleton.component';
         <app-skeleton
           width="130px"
           height="2.25rem"
-          radius="var(--radius-full)"
+          radius="var(--radius-sm)"
           class="d-block mx-auto"
         />
       </div>

@@ -1,0 +1,43 @@
+<figure>
+  <div class="main-image-box">
+    @if (loading) {
+      <app-skeleton width="100%" height="100%" radius="var(--radius-md)" />
+    } @else {
+      <app-progressive-img
+        [src]="mainUrl"
+        [alt]="alt"
+        radius="var(--radius-md)"
+        imgClass="img-fluid w-100 h-100 object-fit-cover"
+      />
+    }
+  </div>
+  @if (loading) {
+    <ul class="thumbnails">
+      @for (i of [1, 2, 3, 4, 5]; track i) {
+        <li>
+          <app-skeleton width="100%" height="100%" radius="var(--radius-md)" />
+        </li>
+      }
+    </ul>
+  } @else if (images.length > 1) {
+    <ul class="thumbnails">
+      @for (img of images; track img.id; let i = $index) {
+        <li>
+          <button
+            type="button"
+            [class.active]="selectedIndex() === i"
+            (click)="selectedIndex.set(i)"
+            [attr.aria-label]="'Ver imagen ' + (i + 1) + ' de ' + label"
+          >
+            <img
+              [src]="thumbUrl(img.url)"
+              [alt]="'Miniatura ' + (i + 1) + ' de ' + label"
+              loading="lazy"
+              (error)="onThumbError($event, img.url)"
+            />
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</figure>

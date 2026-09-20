@@ -16,9 +16,16 @@ section {
   font-size: 40px;
 }
 
-h2 {
+h1 {
+  font-size: calc(1.325rem + 0.9vw);
   margin-bottom: 1.5rem;
   color: var(--color-text-primary);
+}
+
+@media (min-width: 1200px) {
+  h1 {
+    font-size: 2rem;
+  }
 }
 
 p {

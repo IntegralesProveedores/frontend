@@ -1,16 +1,22 @@
 <section id="contacto">
-  <article>
-    <h3>Contactanos</h3>
+  <div>
+    <h2>Contactanos</h2>
     <p>
       Consultanos por macetas biodegradables al por mayor para tu vivero o
       distribuidora.
     </p>
     <address>
       <ul class="contacto-data">
-        <li><i class="bi bi-geo-alt"></i> Portela 875, CABA</li>
-        <li><i class="bi bi-telephone"></i> {{ phoneDisplay }}</li>
-        <li><i class="bi bi-envelope"></i> info&#64;brotalia.com.ar</li>
-        <li><i class="bi bi-clock"></i> Lunes a viernes: 9 a 17 hs.</li>
+        <li><i aria-hidden="true" class="bi bi-geo-alt"></i> Portela 875, CABA</li>
+        <li>
+          <i aria-hidden="true" class="bi bi-telephone"></i>
+          <a [href]="phoneHref">{{ phoneDisplay }}</a>
+        </li>
+        <li>
+          <i aria-hidden="true" class="bi bi-envelope"></i>
+          <a href="mailto:info&#64;brotalia.com.ar">info&#64;brotalia.com.ar</a>
+        </li>
+        <li><i aria-hidden="true" class="bi bi-clock"></i> Lunes a viernes: 9 a 17 hs.</li>
       </ul>
     </address>
     <a
@@ -19,7 +25,7 @@
       rel="noopener noreferrer"
       class="contacto-whatsapp"
     >
-      <i class="bi bi-whatsapp"></i> Enviar Mensaje
+      <i aria-hidden="true" class="bi bi-whatsapp"></i> Enviar Mensaje
     </a>
     <a
       target="_blank"
@@ -27,7 +33,7 @@
       class="contacto-direccion"
       href="https://www.google.com/maps/dir//Parque+Avellaneda+Portela+875+C1406FDQ+Cdad.+Aut%C3%B3noma+de+Buenos+Aires/@-34.6422199,-58.4684748,15z"
     >
-      <i class="bi bi-signpost-2"></i> Cómo llegar
+      <i aria-hidden="true" class="bi bi-signpost-2"></i> Cómo llegar
     </a>
-  </article>
+  </div>
 </section>

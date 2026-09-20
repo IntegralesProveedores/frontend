@@ -28,7 +28,7 @@ section {
 
 .hero-panel--image {
   flex: 1;
-  background-image: url("/assets/images/background-01.jpg");
+  background-image: url("/assets/images/background-01.webp");
   background-size: cover;
   background-position: center;
   margin-left: -8%;
@@ -40,6 +40,62 @@ section {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.35));
+}
+
+/* Misma posición que el breadcrumb del listado: borde del .container de
+   Bootstrap + 12px de padding, y corrido para no quedar bajo el logo fijo. */
+app-breadcrumb {
+  position: absolute;
+  z-index: 3;
+  top: 0.5rem;
+  left: 12px;
+}
+
+@media (min-width: 576px) {
+  app-breadcrumb {
+    --cw: 540px;
+    left: calc((100% - var(--cw)) / 2 + 12px);
+  }
+}
+
+@media (min-width: 768px) {
+  app-breadcrumb {
+    --cw: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  app-breadcrumb {
+    --cw: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  app-breadcrumb {
+    --cw: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  app-breadcrumb {
+    --cw: 1320px;
+  }
+}
+
+@media (min-width: 1001px) {
+  app-breadcrumb {
+    left: calc(
+      (100% - var(--cw)) / 2 + 12px + max(0px, 88px - (100vw - var(--cw)) / 2)
+    );
+  }
+}
+
+h1 {
+  display: flex;
+}
+
+h1 img {
+  max-width: 301px;
 }
 
 p {

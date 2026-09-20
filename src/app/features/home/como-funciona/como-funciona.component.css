@@ -81,6 +81,18 @@ h2 {
   align-self: center;
 }
 
+a.timeline-content {
+  display: block;
+  color: inherit;
+  font-size: inherit;
+  transition: border-color 0.2s ease;
+}
+
+a.timeline-content:hover,
+a.timeline-content:focus-visible {
+  border-color: var(--color-accent);
+}
+
 .timeline-content h3 {
   font-weight: 800;
   margin-bottom: 0.4rem;

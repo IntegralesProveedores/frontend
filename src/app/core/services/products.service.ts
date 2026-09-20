@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, map, shareReplay, tap } from 'rxjs/operators';
 import { ApiService } from './api.service';
-import { Product } from '../models/product.model';
+import { CategoryProductsResponse, Product } from '../models/product.model';
 import { PaginatedResponse } from '../models/api-response.model';
 
 @Injectable({ providedIn: 'root' })
@@ -50,5 +50,11 @@ export class ProductsService {
     );
 
     return this.request$;
+  }
+
+  getCategoryProducts(slug: string): Observable<CategoryProductsResponse> {
+    return this.api.get<CategoryProductsResponse>(
+      `/categories/${encodeURIComponent(slug)}/products`,
+    );
   }
 }

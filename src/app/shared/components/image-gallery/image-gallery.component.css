@@ -1,0 +1,83 @@
+:host {
+  display: block;
+}
+
+figure {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+}
+
+.main-image-box {
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 1/1;
+  background-color: var(--color-bg-soft);
+  border-radius: var(--border-radius-base);
+  overflow: hidden;
+}
+
+.thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.thumbnails > li {
+  display: contents;
+}
+
+.thumbnails app-skeleton {
+  display: block;
+  width: 68px;
+  aspect-ratio: 1/1;
+}
+
+button {
+  width: 68px;
+  aspect-ratio: 1/1;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-soft);
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: var(--transition-base);
+  flex-shrink: 0;
+}
+
+button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+button.active {
+  border-color: var(--color-accent);
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  figure {
+    flex-direction: column;
+  }
+
+  .main-image-box {
+    flex: none;
+  }
+
+  .thumbnails {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.4rem;
+  }
+
+  .thumbnails app-skeleton,
+  button {
+    width: 100%;
+    min-width: 0;
+  }
+}

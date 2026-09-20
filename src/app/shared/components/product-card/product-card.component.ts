@@ -5,6 +5,7 @@ import { Product, ProductVariant } from '../../../core/models/product.model';
 import { PricingConfigService } from '../../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
 import { ProgressiveImageComponent } from '../progressive-image/progressive-image.component';
+import { imageVariant } from '../../utils/image-variant.util';
 
 const HOVER_CAROUSEL_INTERVAL_MS = 1300;
 
@@ -28,10 +29,14 @@ export class ProductCardComponent implements OnDestroy {
   private readonly hoverImageIndex = signal(0);
   private carouselTimer: ReturnType<typeof setInterval> | null = null;
 
-  get mainImage(): string {
+  get originalImage(): string {
     const images = this.product.images ?? [];
     const img = images[this.hoverImageIndex()]?.url ?? images[0]?.url;
     return img || 'assets/images/placeholder.webp';
+  }
+
+  get mainImage(): string {
+    return imageVariant(this.originalImage, 'md');
   }
 
   get variant(): ProductVariant | null {

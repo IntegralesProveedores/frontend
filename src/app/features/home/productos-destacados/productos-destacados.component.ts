@@ -5,6 +5,7 @@ import { ProductsService } from '../../../core/services/products.service';
 import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 import { ProgressiveImageComponent } from '../../../shared/components/progressive-image/progressive-image.component';
 import { logError } from '../../../shared/utils/log.util';
+import { imageVariant } from '../../../shared/utils/image-variant.util';
 
 @Component({
   selector: 'app-productos-destacados',
@@ -22,6 +23,10 @@ export class ProductosDestacadosComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
 
   productos = this.productsService.products;
+
+  bentoSrc(url: string, featured: boolean): string {
+    return featured ? url : imageVariant(url, 'md');
+  }
   loading = this.productsService.loading;
 
   ngOnInit(): void {

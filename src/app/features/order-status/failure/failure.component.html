@@ -2,10 +2,10 @@
   <div class="container text-center">
     <div class="failure-header animate-reveal">
       <div class="icon-circle surface-secondary mx-auto">
-        <i class="bi bi-exclamation-triangle-fill text-error"></i>
+        <i aria-hidden="true" class="bi bi-exclamation-triangle-fill text-error"></i>
       </div>
-      <h2>Hubo un problema.</h2>
-      <p>
+      <h1>Hubo un problema.</h1>
+      <p role="alert">
         No pudimos procesar tu pedido en este momento. Por favor, reintentá o
         contactanos directamente por WhatsApp para asistencia inmediata.
       </p>
@@ -15,6 +15,7 @@
       <a routerLink="/finalizar-compra" class="btn-app-primary px-4 py-3"
         >Reintentar Pedido</a
       >
+      <a routerLink="/productos" class="btn-app-ghost">Ver productos</a>
       <a routerLink="/" class="btn-app-ghost">Volver al Inicio</a>
     </div>
   </div>

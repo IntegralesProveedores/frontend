@@ -33,7 +33,7 @@ section::before {
   pointer-events: none;
 }
 
-article {
+section > div {
   position: relative;
   z-index: 2;
   background: var(--color-bg);
@@ -45,13 +45,20 @@ article {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
 
-article h3 {
+h2 {
+  font-size: calc(1.3rem + 0.6vw);
   text-transform: uppercase;
   margin-bottom: 1.5rem;
 }
 
-article p {
+p {
   margin-bottom: 1rem;
+}
+
+@media (min-width: 1200px) {
+  h2 {
+    font-size: 1.75rem;
+  }
 }
 
 .contacto-data {
@@ -67,6 +74,10 @@ article p {
   gap: 0.7rem;
   color: var(--color-text);
   font-size: 0.95rem;
+}
+
+.contacto-data a {
+  color: inherit;
 }
 
 .contacto-data i {
@@ -109,7 +120,7 @@ article p {
   section {
     min-height: auto;
   }
-  article {
+  section > div {
     margin: 2rem auto;
     padding: 2rem 1.5rem;
   }

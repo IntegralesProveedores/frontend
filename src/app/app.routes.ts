@@ -15,6 +15,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'categorias/:slug',
+    loadComponent: () =>
+      import('./features/product-list/product-list.component').then(
+        (m) => m.ProductListComponent,
+      ),
+  },
+  {
     path: 'productos/:slug',
     loadComponent: () =>
       import('./features/product-detail/product-detail.component').then(

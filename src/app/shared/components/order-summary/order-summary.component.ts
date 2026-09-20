@@ -7,6 +7,7 @@ import { PaymentMethodService } from '../../../core/services/payment-method.serv
 import { PricingConfigService } from '../../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
 import { getEstimatedDeliveryRange } from '../../utils/business-days.util';
+import { imageVariant, fallbackToOriginal } from '../../../shared/utils/image-variant.util';
 
 @Component({
   selector: 'app-order-summary',
@@ -16,6 +17,8 @@ import { getEstimatedDeliveryRange } from '../../utils/business-days.util';
   styleUrl: './order-summary.component.css',
 })
 export class OrderSummaryComponent {
+  readonly thumb = (url: string) => imageVariant(url, 'thumb');
+  readonly useOriginal = fallbackToOriginal;
   public readonly cartService = inject(CartService);
   public readonly shippingService = inject(ShippingService);
   public readonly paymentMethodService = inject(PaymentMethodService);

@@ -5,6 +5,7 @@
 
 ::placeholder {
   color: var(--color-text-muted) !important;
+  font-size: 0.8rem;
   opacity: 1;
 }
 

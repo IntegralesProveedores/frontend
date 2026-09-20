@@ -1,3 +1,23 @@
+col:nth-child(1) {
+  width: 15%;
+}
+
+col:nth-child(2) {
+  width: 25%;
+}
+
+col:nth-child(3) {
+  width: 20%;
+}
+
+col:nth-child(4) {
+  width: 30%;
+}
+
+col:nth-child(5) {
+  width: 10%;
+}
+
 td {
   padding: .4rem .2rem;
   border-bottom: 1px solid var(--color-border);
@@ -16,7 +36,7 @@ h2 {
   font-size: 1rem;
 }
 
-h3 {
+data {
   font-size: 1rem;
 }
 
@@ -46,7 +66,7 @@ button, button:hover:not(:disabled) {
     font-size: 0.75rem;
   }
 
-  h3 {
+  data {
     font-size: 0.7rem;
   }
 
@@ -57,5 +77,11 @@ button, button:hover:not(:disabled) {
 
   button i {
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .container > .row {
+    --bs-gutter-y: 1rem;
   }
 }

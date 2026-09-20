@@ -58,6 +58,11 @@ export interface ProductCategory {
   parent?: ProductCategory | null;
 }
 
+export interface CategoryProductsResponse {
+  category: ProductCategory;
+  items: Product[];
+}
+
 /** Representa la entidad de Producto comercial global */
 export interface Product {
   id: string;

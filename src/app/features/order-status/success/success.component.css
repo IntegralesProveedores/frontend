@@ -6,9 +6,16 @@
   animation: fade-in 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-h2 {
+h1 {
+  font-size: calc(1.325rem + 0.9vw);
   margin-bottom: 0.5rem;
   color: var(--color-text-primary);
+}
+
+@media (min-width: 1200px) {
+  h1 {
+    font-size: 2rem;
+  }
 }
 
 p {
@@ -16,7 +23,7 @@ p {
   margin: 0 auto 1rem;
 }
 
-dialog > small {
+aside > small {
   margin-top: 1rem;
   letter-spacing: 0.02em;
 }

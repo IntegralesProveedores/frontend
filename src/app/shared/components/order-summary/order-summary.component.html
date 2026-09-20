@@ -2,11 +2,16 @@
   <section>
     @if (showItemsList) {
 	  <table>
+        <colgroup>
+          <col />
+          <col />
+          <col />
+        </colgroup>
         <thead>
           <tr>
-            <th scope="col" width="12%">Imagen</th>
-            <th scope="col" width="">Producto</th>
-            <th scope="col" width="">Subtotal</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Subtotal</th>
           </tr>
         </thead>
         <tbody>
@@ -20,7 +25,8 @@
                     item.representativeUnitsPerPack,
                   ]">
                   <img
-                    [src]="item.imageUrl"
+                    [src]="thumb(item.imageUrl)"
+                    (error)="useOriginal($event, item.imageUrl)"
                     [alt]="item.productName"
                   />
                 </a>
@@ -52,11 +58,11 @@
     @if (cartService.volumeDiscountPercentage() > 0) {
       <dl>
         <dt><h6>Subtotal</h6></dt>
-        <dd><h3>{{ subtotalSinDescuentoArs | currencyArs }}</h3></dd>
+        <dd><data [attr.value]="subtotalSinDescuentoArs">{{ subtotalSinDescuentoArs | currencyArs }}</data></dd>
       </dl>
       <dl>
         <dt><h6>Descuento</h6></dt>
-        <dd><h3>&minus;{{ cartService.volumeDiscountPercentage() }}%</h3></dd>
+        <dd><data [attr.value]="cartService.volumeDiscountPercentage()">&minus;{{ cartService.volumeDiscountPercentage() }}%</data></dd>
       </dl>
     }
 
@@ -68,9 +74,9 @@
     >
       <h6>Productos</h6>
       <div class="text-end">
-        <h3>
+        <data [attr.value]="cartService.subtotalArs()">
           {{ cartService.subtotalArs() | currencyArs }}
-        </h3>
+        </data>
         <small>
           {{ pricingConfigService.vatLabel() }}
         </small>
@@ -118,7 +124,7 @@
             </small>
           }
         </div>
-        <h3 class="text-end">
+        <data class="text-end" [attr.value]="shippingCost ?? ''">
           @if (shippingQuoting) {
             <output aria-label="Recalculando env&iacute;o">
               <span
@@ -135,7 +141,7 @@
           } @else {
             ...
           }
-        </h3>
+        </data>
       </div>
     </section>
   }
@@ -164,9 +170,9 @@
             paymentMethodService.current() === "transferencia" &&
             pricingConfigService.paymentCommissionPercentage() > 0
           ) {
-            <h3>
+            <data [attr.value]="pricingConfigService.paymentCommissionPercentage()">
 			  &minus;{{ pricingConfigService.paymentCommissionPercentage() }}%
-			</h3>
+			</data>
           } @else {
             <span class="summary-value">{{ paymentMethodLabel() }}</span>
           }
@@ -179,9 +185,9 @@
     <div class="summary-row">
       <h6>TOTAL</h6>
       <div class="text-end">
-        <h3>
+        <data [attr.value]="cartService.totalConComision()">
           {{ cartService.totalConComision() | currencyArs }}
-        </h3>
+        </data>
         <small>
           {{ pricingConfigService.vatLabel() }}
         </small>
@@ -195,13 +201,14 @@
     <a
       routerLink="/finalizar-compra"
       class="button">
-      INICIAR COMPRA &nbsp;
-      <i class="bi bi-credit-card-2-back"></i>
+      FINALIZAR COMPRA &nbsp;
+      <i aria-hidden="true" class="bi bi-credit-card-2-back"></i>
     </a>
+	
 	<footer>
 	  <a routerLink="/productos">
 	    &larr; VER MAS PRODUCTOS &nbsp;
-	    <i class="bi bi-shop"></i>
+	    <i aria-hidden="true" class="bi bi-shop"></i>
 	  </a>
 	</footer>
   }
@@ -218,10 +225,11 @@
         <span>PAGAR {{ totalConEnvio | currencyArs }}</span>
       }
     </button>
-    <footer>
+    
+	<footer>
 	  <a routerLink="/carrito">
 	    &larr; VOLVER AL CARRITO &nbsp;
-	   <i class="bi bi-basket"></i>
+	   <i aria-hidden="true" class="bi bi-basket"></i>
 	  </a>
 	</footer>
   }

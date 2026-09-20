@@ -1,10 +1,13 @@
 <section id="home">
+  <app-breadcrumb
+    [items]="[{ label: 'Productos', link: '/productos' }]"
+    [clearLogo]="false"
+  />
   <div class="hero-panel hero-panel--text">
-    <img
-      src="assets/images/brotalia.png"
-      alt="Brotalia"
-      style="max-width: 301px"
-    />
+    <h1>
+      <img src="assets/images/brotalia.png" alt="Brotalia" />
+      <span class="visually-hidden">Macetas biodegradables compostables</span>
+    </h1>
 	<p>Cultiv&aacute; desde la ra&iacute;z</p>
 	
 	
@@ -13,7 +16,7 @@
       class="button"
       aria-label="Ver productos"
     >
-      TIENDA &nbsp; <i class="bi bi-shop"></i>
+      TIENDA &nbsp; <i aria-hidden="true" class="bi bi-shop"></i>
     </a>
 	
 	
@@ -40,15 +43,15 @@
 	      </li>
 	      <li class="hero-ml-badge__item">
 	        <span class="hero-ml-badge__icon">
-	          <i class="bi bi-chat-left-text"></i>
-	          <i class="bi bi-check-circle-fill hero-ml-badge__check"></i>
+	          <i aria-hidden="true" class="bi bi-chat-left-text"></i>
+	          <i aria-hidden="true" class="bi bi-check-circle-fill hero-ml-badge__check"></i>
 	        </span>
 	        <span class="hero-ml-badge__label">Buena atención</span>
 	      </li>
 	      <li class="hero-ml-badge__item">
 	        <span class="hero-ml-badge__icon">
-	          <i class="bi bi-alarm"></i>
-	          <i class="bi bi-check-circle-fill hero-ml-badge__check"></i>
+	          <i aria-hidden="true" class="bi bi-alarm"></i>
+	          <i aria-hidden="true" class="bi bi-check-circle-fill hero-ml-badge__check"></i>
 	        </span>
 	        <span class="hero-ml-badge__label">Entrega a tiempo</span>
 	      </li>
