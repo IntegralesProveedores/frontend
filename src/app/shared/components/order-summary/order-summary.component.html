@@ -173,12 +173,23 @@
     </section>
   }
 
+  @if (commissionArs > 0) {
+    <section>
+      <div class="summary-row">
+        <h6>Comisión Mercado Pago ({{ cartService.paymentCommissionPercentage() }}%)</h6>
+        <div class="text-end">
+          <data [attr.value]="commissionArs">{{ commissionArs | currencyArs }}</data>
+        </div>
+      </div>
+    </section>
+  }
+
   <section>
     <div class="summary-row">
       <h6>TOTAL</h6>
       <div class="text-end">
-        <data [attr.value]="cartService.totalConComision()">
-          {{ cartService.totalConComision() | currencyArs }}
+        <data [attr.value]="totalConEnvio">
+          {{ totalConEnvio | currencyArs }}
         </data>
         <small>
           {{ pricingConfigService.vatLabel() }}

@@ -40,8 +40,10 @@ export function calculateLocalPrice(
   const effectiveRate = costCurrency === 'ARS' ? 1 : exchangeRate;
   const precioBultoArs = costUsdMasterWithDiscount * effectiveRate;
   const precioUnitarioBase = precioBultoArs / (unitsPerPackMaster || 1);
+  // Precio final descontando solo los impuestos computables: incluye embalaje y packaging.
   const precioSinImpuestosArs = round2(
-    precioUnitarioBase * presentationQuantity * (1 + markup / 100),
+    (precioUnitarioBase * presentationQuantity + embalageCost + packagingCost) *
+      (1 + markup / 100),
   );
 
   let costoUnitarioComputable = precioUnitarioBase;

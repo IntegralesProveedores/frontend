@@ -51,8 +51,19 @@ export class OrderSummaryComponent {
 
   readonly estimatedDelivery = getEstimatedDeliveryRange();
 
+  /** La comisión de Mercado Pago solo se suma en el checkout: en el carrito todavía no se eligió el medio de pago. */
+  get commissionArs(): number {
+    return this.actionMode === 'checkout'
+      ? this.cartService.paymentCommissionArs()
+      : 0;
+  }
+
   get totalConEnvio(): number {
-    return this.cartService.totalConComision();
+    return (
+      this.cartService.subtotalArs() +
+      this.cartService.shippingArs() +
+      this.commissionArs
+    );
   }
 
   /**
