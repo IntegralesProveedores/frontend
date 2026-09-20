@@ -1,21 +1,26 @@
-﻿section {
-  display: flex;
-  align-items: center;
+:host {
+  display: block;
+}
+
+section {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  width: min(100% - 2rem, 1140px);
   min-height: 100vh;
-  opacity: 0;
-  animation: fade-in 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  margin: 0 auto;
+  padding: 3rem 0;
+  text-align: center;
 }
 
 h1 {
   font-size: calc(1.325rem + 0.9vw);
   margin-bottom: 0.5rem;
-  color: var(--color-text-primary);
 }
 
-@media (min-width: 1200px) {
-  h1 {
-    font-size: 2rem;
-  }
+section > * {
+  opacity: 0;
+  animation: reveal-up 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 p {
@@ -23,41 +28,47 @@ p {
   margin: 0 auto 1rem;
 }
 
-aside > small {
+aside {
+  width: 50%;
+  min-width: min(100%, 440px);
+  margin: 0 auto 1rem;
+  text-align: left;
+}
+
+dl > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+dl > div:first-child {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+dt {
+  font-weight: 700;
+}
+
+dd {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+aside small {
   margin-top: 1rem;
   letter-spacing: 0.02em;
 }
 
-.order-data-list dt,
-.order-data-list dd {
-  display: inline;
+aside small a {
+  font-weight: 700;
 }
 
-.order-data-list dt::after {
-  content: " ";
-}
-
-.order-data-list dd {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  vertical-align: middle;
-}
-
-.btn-copy {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  padding: 0;
-  font-size: 1rem;
-  line-height: 1;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: var(--transition-base);
-}
-
-.btn-copy:hover {
-  color: var(--color-primary);
+dd .button {
+  padding: 0.35rem 0.5rem;
 }

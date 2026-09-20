@@ -1,7 +1,6 @@
 @import 'styles/fonts.css';
 @import 'styles/icons.css';
 @import 'styles/tokens.css';
-@import 'styles/components.css';
 @import 'styles/animations.css';
 
 *,
@@ -178,6 +177,12 @@ form {
 		  outline: none;
 		  background-color: var(--color-surface);
 		  border-color: var(--color-primary);
+		}
+
+		::placeholder {
+		  color: var(--color-text-muted) !important;
+		  font-size: 0.7rem;
+		  opacity: 1;
 		}
 
 		input.is-invalid {

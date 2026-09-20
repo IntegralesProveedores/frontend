@@ -158,32 +158,16 @@ export class CartService {
     });
   });
 
+  /** Descuento real sobre los productos: se deriva de los dos importes que se
+   *  muestran (subtotal de lista vs. subtotal con descuento), así el % siempre
+   *  coincide con los números en pantalla. */
   readonly volumeDiscountPercentage = computed(() => {
-    const config = this.pricingConfigService.pricingConfig();
-    const discounts = [...(config?.volume_discounts ?? [])].sort(
-      (a, b) => b.min - a.min,
+    const listSubtotal = this.subtotalSinDescuentoArs();
+    if (listSubtotal <= 0) return 0;
+    return Math.max(
+      0,
+      Math.round((1 - this.subtotalArs() / listSubtotal) * 100),
     );
-    if (discounts.length === 0) return 0;
-
-    let weightedSum = 0;
-    let totalWeight = 0;
-
-    for (const i of this.items()) {
-      if (!i.units_per_pack || !i.units_per_pack_master) continue;
-
-      const equivalentPacks =
-        (i.units_per_pack * i.quantity) / i.units_per_pack_master;
-      const discountEntry = discounts.find((d) => equivalentPacks >= d.min);
-      const factor = discountEntry ? discountEntry.factor : 1;
-      if (factor <= 1) continue;
-
-      const weight = (i.price_ars || 0) * i.quantity;
-      weightedSum += (factor - 1) * 100 * weight;
-      totalWeight += weight;
-    }
-
-    if (totalWeight === 0) return 0;
-    return Math.round(weightedSum / totalWeight);
   });
 
   readonly totalVolumeCc = computed(() =>

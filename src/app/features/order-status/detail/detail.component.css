@@ -1,21 +1,24 @@
+:host {
+  display: block;
+}
+
 section {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  width: min(100% - 2rem, 1140px);
   min-height: 100vh;
+  margin: 0 auto;
   padding: 3rem 0;
-  display: flex;
-  align-items: center;
+  text-align: center;
 }
 
 h1 {
-  font-size: calc(1.3rem + 0.6vw);
+  font-size: calc(1.325rem + 0.9vw);
+  margin-bottom: 0.5rem;
 }
 
-@media (min-width: 1200px) {
-  h1 {
-    font-size: 1.75rem;
-  }
-}
-
-.order-detail-empty {
+app-empty-state {
+  display: block;
   max-width: 600px;
-  margin: 0 auto;
 }

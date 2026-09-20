@@ -14,6 +14,7 @@ import { ApiService } from '../../core/services/api.service';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { Product, ProductVariant } from '../../core/models/product.model';
 import { logError } from '../../shared/utils/log.util';
+import { discountPercentageOf } from '../../core/lib/pricing.util';
 import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
 import { BuyBoxComponent } from '../../shared/components/buy-box/buy-box.component';
 import { ImageGalleryComponent } from '../../shared/components/image-gallery/image-gallery.component';
@@ -91,7 +92,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   readonly volumeTiers = computed(() => {
     const master = this.product()?.units_per_pack_master ?? 1;
     return [...(this.pricingConfigService.pricingConfig()?.volume_discounts ?? [])]
-      .filter((d) => d.factor > 1)
+      .filter((d) => discountPercentageOf(d) > 0)
       .sort((a, b) => a.min - b.min)
       .map((d) => d.min * master);
   });

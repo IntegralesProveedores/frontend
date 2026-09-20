@@ -24,15 +24,6 @@ section {
   margin: 0;
 }
 
-.bento-link {
-  color: var(--color-accent);
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

@@ -34,7 +34,10 @@ export interface PricingTax {
 
 export interface VolumeDiscount {
   min: number;
-  factor: number;
+  /** Descuento sobre el costo del producto, en % (0-100). */
+  discount_percentage?: number;
+  /** Formato viejo (costo ÷ factor). Solo por configs guardadas antes del cambio. */
+  factor?: number;
 }
 
 export interface PricingConfig {

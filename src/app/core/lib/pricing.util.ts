@@ -1,7 +1,14 @@
-import { PricingConfig } from '../models/product.model';
+import { PricingConfig, VolumeDiscount } from '../models/product.model';
 
 function round2(val: number): number {
   return Math.round((val + Number.EPSILON) * 100) / 100;
+}
+
+/** Descuento (%) de un tramo. Acepta el formato viejo `factor` por si el navegador
+ *  tiene guardada una configuración anterior. */
+export function discountPercentageOf(discount: VolumeDiscount): number {
+  if (discount.discount_percentage !== undefined) return discount.discount_percentage;
+  return discount.factor && discount.factor > 1 ? (1 - 1 / discount.factor) * 100 : 0;
 }
 
 export function calculateLocalPrice(
@@ -25,10 +32,10 @@ export function calculateLocalPrice(
   const equivalentPacks =
     (presentationQuantity * quantity) / (unitsPerPackMaster || 1);
   const discountEntry = discounts.find((d) => equivalentPacks >= d.min);
-  const discountFactor = discountEntry ? discountEntry.factor : 1;
+  const discountPercentage = discountEntry ? discountPercentageOf(discountEntry) : 0;
 
   const costUsdMasterWithDiscount = round2(
-    (costUsdMaster || 0) / discountFactor,
+    (costUsdMaster || 0) * (1 - discountPercentage / 100),
   );
   const effectiveRate = costCurrency === 'ARS' ? 1 : exchangeRate;
   const precioBultoArs = costUsdMasterWithDiscount * effectiveRate;
@@ -50,7 +57,7 @@ export function calculateLocalPrice(
   const precioFinalArs = costoTotalOperativo * (1 + markup / 100);
 
   const price_ars = Math.round(precioFinalArs);
-  const price_usd = round2(price_ars / effectiveRate);
+  const price_usd = round2(price_ars / exchangeRate);
 
   return {
     price_ars,

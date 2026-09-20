@@ -7,10 +7,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div
-      class="empty-state-canvas animate-fade"
-      [class.surface-secondary]="withBackground"
-    >
+    <div class="empty-state-canvas animate-fade">
       <div class="empty-icon-box mb-8">
         <div
           class="icon-circle mx-auto"
@@ -48,6 +45,7 @@ import { RouterModule } from '@angular/router';
     `
       .empty-state-canvas {
         width: 100%;
+        background-color: var(--color-bg-secondary);
         padding: var(--space-20) var(--space-6);
         border-radius: var(--radius-2xl);
         text-align: center;
@@ -98,7 +96,6 @@ export class EmptyStateComponent {
   @Input() message: string =
     'Parece que no hay información disponible en este momento.';
   @Input() variant: 'default' | 'error' = 'default';
-  @Input() withBackground: boolean = true;
 
   @Input() showAction: boolean = false;
   @Input() actionText: string = 'Volver al Inicio';
