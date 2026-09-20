@@ -45,11 +45,7 @@
                 <tr>
                   <td>
                     <a
-                      [routerLink]="[
-                        '/productos',
-                        item.slug,
-                        item.units_per_pack,
-                      ]">
+                      [routerLink]="productLink(item.slug, item.units_per_pack)">
                       <img
                         [src]="thumb(item.imageUrl)"
                         [alt]="item.productName"
@@ -60,11 +56,7 @@
 
                   <td>
                     <a
-                      [routerLink]="[
-                        '/productos',
-                        item.slug,
-                        item.units_per_pack,
-                      ]">
+                      [routerLink]="productLink(item.slug, item.units_per_pack)">
                       <h2>
                         {{ item.productName }}
                       </h2>

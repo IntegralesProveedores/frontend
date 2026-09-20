@@ -21,6 +21,8 @@ export interface ProductVariant {
   dimensions: ProductDimensions;
   vat_included?: boolean;
   vat_label?: string;
+  /** Si es true, al costo se suma el packaging diferenciado (pricing_config.packaging_cost). */
+  has_packaging?: boolean;
 }
 
 export interface PricingTax {
@@ -38,6 +40,7 @@ export interface VolumeDiscount {
 export interface PricingConfig {
   exchange_rate: number;
   embalaje_cost: number;
+  packaging_cost?: number;
   taxes: PricingTax[];
   volume_discounts: VolumeDiscount[];
   markup: number;

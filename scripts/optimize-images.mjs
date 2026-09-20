@@ -1,7 +1,8 @@
 // Optimiza las imágenes que la app realmente sirve (lista TARGETS) y genera las
 // miniaturas -thumb.webp de la galería. Idempotente: guarda el hash de cada
 // salida en scripts/.image-manifest.json y no re-comprime lo ya optimizado.
-// Uso: npm run images        (para una imagen nueva, agregarla a TARGETS)
+// Uso: npm run images        (para una imagen nueva: copiarla a src/assets/images, agregarla a TARGETS
+// y correrlo; la optimiza en el mismo archivo, así que el original no se conserva)
 import sharp from 'sharp';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile, stat } from 'node:fs/promises';
@@ -16,19 +17,15 @@ const manifestPath = path.join(root, 'scripts/.image-manifest.json');
 const manifest = existsSync(manifestPath) ? JSON.parse(await readFile(manifestPath, 'utf8')) : {};
 
 const productWebp = (name, max = 1280) => ({ file: `${name}.webp`, max, webp: 70, thumb: true, md: true });
-// La base de datos apuntaba a estos .jpg; se convierten a .webp (el .jpg original se conserva hasta borrarlo a mano).
-const productFromJpg = (name) => ({ file: `${name}.jpg`, to: `${name}.webp`, max: 1280, webp: 70, thumb: true, md: true });
 
 const TARGETS = [
   // Productos (URLs guardadas en la base de datos: se mantiene nombre y formato)
   ...['semillera-00', 'semillera-01', 'semillera-02', 'semillera-03', 'amaciguera-00', 'amaciguera-04',
-    'olivo-00', 'olivo-01', 'olivo-02', 'olivo-03', 'olivo-04', 'floral-00', 'floral11-00']
+    'olivo-00', 'olivo-01', 'olivo-02', 'olivo-03', 'olivo-04', 'floral-00', 'floral-01', 'floral11-00', 'floral11-01', 'olivo-pack-00', 'olivo-pack-01']
     .map((n) => productWebp(`producto-maceta-biodegradable-${n}`)),
   productWebp('producto-maceta-biodegradable-amaciguera-03', 1600),
-  productFromJpg('producto-maceta-biodegradable-floral-01'),
-  productFromJpg('producto-maceta-biodegradable-floral11-01'),
   // Fondos y otras imágenes de la home
-  { file: 'background-01.jpg', to: 'background-01.webp', max: 1920, webp: 72 },
+  { file: 'background-01.webp', max: 1920, webp: 72 },
   { file: 'producto-maceta-biodegradable-todos-06.webp', max: 1600, webp: 62 },
   { file: 'maceta-olivo.webp', max: 600, webp: 78 },
   { file: 'preview.webp', max: 1200, webp: 80 },

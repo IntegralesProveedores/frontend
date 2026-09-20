@@ -25,6 +25,7 @@ import {
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
 import { imageVariant, fallbackToOriginal } from '../../shared/utils/image-variant.util';
+import { productLink } from '../../core/lib/landing-variants';
 
 @Component({
   selector: 'app-cart',
@@ -45,6 +46,7 @@ import { imageVariant, fallbackToOriginal } from '../../shared/utils/image-varia
   styleUrl: './cart.component.css',
 })
 export class CartComponent implements OnInit {
+  readonly productLink = productLink;
   readonly thumb = (url: string) => imageVariant(url, 'thumb');
   readonly useOriginal = fallbackToOriginal;
   public readonly cartService = inject(CartService);

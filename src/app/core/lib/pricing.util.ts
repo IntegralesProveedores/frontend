@@ -11,9 +11,11 @@ export function calculateLocalPrice(
   quantity: number,
   costCurrency: 'ARS' | 'USD' = 'USD',
   config: PricingConfig | null | undefined = undefined,
+  hasPackaging = false,
 ): { price_ars: number; price_usd: number; price_sin_impuestos_ars: number } {
   const exchangeRate = config?.exchange_rate || 1;
   const embalageCost = config?.embalaje_cost ?? 0;
+  const packagingCost = hasPackaging ? (config?.packaging_cost ?? 0) : 0;
   const taxes = (config?.taxes ?? []).filter((t) => t.is_active);
   const discounts = [...(config?.volume_discounts ?? [])].sort(
     (a, b) => b.min - a.min,
@@ -44,7 +46,7 @@ export function calculateLocalPrice(
   }
 
   const costoPresentacion = costoUnitarioComputable * presentationQuantity;
-  const costoTotalOperativo = costoPresentacion + embalageCost;
+  const costoTotalOperativo = costoPresentacion + embalageCost + packagingCost;
   const precioFinalArs = costoTotalOperativo * (1 + markup / 100);
 
   const price_ars = Math.round(precioFinalArs);
@@ -64,6 +66,7 @@ export function calculateLocalPriceNoDiscount(
   quantity: number,
   costCurrency: 'ARS' | 'USD' = 'USD',
   config: PricingConfig | null | undefined = undefined,
+  hasPackaging = false,
 ) {
   return calculateLocalPrice(
     costUsdMaster,
@@ -72,5 +75,6 @@ export function calculateLocalPriceNoDiscount(
     quantity,
     costCurrency,
     config ? { ...config, volume_discounts: [] } : config,
+    hasPackaging,
   );
 }

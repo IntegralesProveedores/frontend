@@ -1,0 +1,82 @@
+:host {
+  display: block;
+}
+
+header > data {
+  font-size: calc(1.325rem + 0.9vw);
+}
+
+header > p {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+section {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0;
+}
+
+section > header {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section > header small {
+  color: var(--color-text-muted);
+}
+
+section > button {
+  width: 100%;
+}
+
+h4 {
+  padding: 1.5rem 0 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: var(--color-text-muted);
+}
+
+p data {
+  display: inline;
+  font-size: 1.1rem;
+}
+
+p {
+  margin: 0.75rem 0;
+}
+
+.buy-now {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-size: 1.1rem;
+  color: #fff;
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.buy-now:hover:not(:disabled) {
+  border-color: var(--color-primary);
+}
+
+output {
+  display: block;
+  padding-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  section {
+    grid-template-columns: 90px 1fr;
+    gap: 0.4rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  header > data {
+    font-size: 2rem;
+  }
+}

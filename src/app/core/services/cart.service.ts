@@ -110,6 +110,7 @@ export class CartService {
               item.quantity,
               item.cost_currency,
               config,
+              item.has_packaging,
             )
           : { price_ars: item.price_ars || 0 };
       const subtotalNoDiscount = noDiscount.price_ars * item.quantity;
@@ -232,6 +233,7 @@ export class CartService {
           newQuantity,
           item.cost_currency,
           config,
+          item.has_packaging,
         )
       : {
           price_ars: item.price_ars,
@@ -306,6 +308,7 @@ export class CartService {
         quantity,
         item.cost_currency,
         config,
+        item.has_packaging,
       );
 
       this.items.set(
@@ -327,6 +330,7 @@ export class CartService {
       stock: number;
       units_per_pack: number;
       cost_usd?: number;
+      has_packaging?: boolean;
     },
   ): Promise<void> {
     if (fromVariantId === toVariant.variantId) return;
@@ -365,6 +369,7 @@ export class CartService {
             quantity,
             pricingBase.cost_currency,
             config,
+            toVariant.has_packaging,
           )
         : {
             price_ars: pricingBase.price_ars,
@@ -393,6 +398,7 @@ export class CartService {
                 stock: toVariant.stock,
                 units_per_pack: toVariant.units_per_pack,
                 cost_usd: toVariant.cost_usd ?? item.cost_usd,
+                has_packaging: toVariant.has_packaging,
                 quantity,
                 ...updatedPricing,
               }
@@ -431,6 +437,7 @@ export class CartService {
         item.quantity,
         item.cost_currency,
         config,
+        item.has_packaging,
       );
       return { ...item, ...pricing };
     });

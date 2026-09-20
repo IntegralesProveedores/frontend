@@ -7,6 +7,7 @@ const FETCH_TIMEOUT_MS = 10_000;
 const STATIC_ROUTES = [
   '/',
   '/productos',
+  '/olivo/pack',
   '/carrito',
   '/finalizar-compra',
   '/orden/exito',

@@ -8,6 +8,7 @@ import { PricingConfigService } from '../../../core/services/pricing-config.serv
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
 import { getEstimatedDeliveryRange } from '../../utils/business-days.util';
 import { imageVariant, fallbackToOriginal } from '../../../shared/utils/image-variant.util';
+import { productLink } from '../../../core/lib/landing-variants';
 
 @Component({
   selector: 'app-order-summary',
@@ -17,6 +18,7 @@ import { imageVariant, fallbackToOriginal } from '../../../shared/utils/image-va
   styleUrl: './order-summary.component.css',
 })
 export class OrderSummaryComponent {
+  readonly productLink = productLink;
   readonly thumb = (url: string) => imageVariant(url, 'thumb');
   readonly useOriginal = fallbackToOriginal;
   public readonly cartService = inject(CartService);

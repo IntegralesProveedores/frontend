@@ -1,0 +1,44 @@
+@if (loading()) {
+  <section>
+    <div class="container">
+      <app-product-detail-skeleton />
+    </div>
+  </section>
+} @else if (product() && variant()) {
+  <section>
+    <div class="container">
+      <article class="row align-items-start">
+        <app-image-gallery
+          class="col-md-6"
+          [images]="galleryImages()"
+          [alt]="'Macetas biodegradables Olivo, pack x' + packUnits"
+          [label]="'Olivo pack x' + packUnits"
+        />
+        <div class="offset-md-1 col-md-4">
+          <app-breadcrumb [items]="breadcrumb" [clearLogo]="false" />
+          <hgroup>
+            <h1>Olivo · Pack x{{ packUnits }}</h1>
+            <p>Macetas biodegradables 100% compostables</p>
+          </hgroup>
+          <app-buy-box
+            [product]="product()!"
+            [variant]="variant()!"
+            [imageUrl]="packImageUrl"
+          />
+        </div>
+      </article>
+    </div>
+  </section>
+
+
+} @else {
+  <section>
+    <div class="container">
+      <h1>Esta presentación todavía no está disponible</h1>
+      <p role="alert">
+        No encontramos el pack de {{ packUnits }} unidades de Olivo.
+        <a routerLink="/productos/olivo">Ver las presentaciones disponibles</a>
+      </p>
+    </div>
+  </section>
+}

@@ -9,7 +9,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { ApiService } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
@@ -28,6 +28,7 @@ import {
 } from '../../shared/components/breadcrumb/breadcrumb.component';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { calculateLocalPrice } from '../../core/lib/pricing.util';
+import { findLandingVariant } from '../../core/lib/landing-variants';
 
 interface ProductJsonLd {
   '@context': string;
@@ -96,6 +97,7 @@ export class ProductDetailComponent implements OnInit {
   private productsService = inject(ProductsService);
   public pricingConfigService = inject(PricingConfigService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private titleService = inject(Title);
   private metaService = inject(Meta);
   private document = inject(DOCUMENT);
@@ -172,6 +174,11 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const slug = params.get('slug') ?? '';
+      const landing = findLandingVariant(slug, Number(params.get('variant')));
+      if (landing) {
+        void this.router.navigateByUrl(landing.path, { replaceUrl: true });
+        return;
+      }
       this.loadProduct(slug, params.get('variant'));
     });
     this.loadAllProducts();
@@ -209,6 +216,7 @@ export class ProductDetailComponent implements OnInit {
       totalQty,
       v.cost_currency,
       config,
+      v.has_packaging,
     );
 
     this.dynamicPriceArs.set(result.price_ars);
@@ -324,7 +332,13 @@ export class ProductDetailComponent implements OnInit {
   loadProduct(slug: string, presentationParam: string | null = null): void {
     this.loading.set(true);
     this.api.get<Product>(`/products/${slug}`).subscribe({
-      next: (data) => {
+      next: (raw) => {
+        const data: Product = {
+          ...raw,
+          variants: (raw.variants ?? []).filter(
+            (v) => !findLandingVariant(raw.slug, v.units_per_pack),
+          ),
+        };
         this.product.set(data);
         const presentation = presentationParam?.trim()
           ? Number(presentationParam)
@@ -473,6 +487,7 @@ export class ProductDetailComponent implements OnInit {
         stock: v.stock,
         units_per_pack: v.units_per_pack,
         cost_usd: v.cost_usd,
+        has_packaging: v.has_packaging,
       });
       this.editSourceVariantId.set(v.id);
       this.quantity.set(1);
@@ -513,6 +528,7 @@ export class ProductDetailComponent implements OnInit {
       stock: v.stock,
       units_per_pack: v.units_per_pack,
       units_per_pack_master: p.units_per_pack_master,
+      has_packaging: v.has_packaging,
       volume_cc: v.dimensions?.volume_cc,
       product_volume_cc: p.volume_cc ?? null,
     });

@@ -1,0 +1,45 @@
+<header>
+  <data [attr.value]="pricing.price_ars">{{ pricing.price_ars | currencyArs }}</data>
+  <p>
+    por pack de {{ variant.units_per_pack }} unidades ·
+    {{ pricingConfigService.vatLabel() }}
+  </p>
+</header>
+
+<section>
+  <header>
+    <h4>Cantidad de packs</h4>
+    <small>Stock: {{ variant.stock }}</small>
+  </header>
+  <app-qty-selector
+    [quantity]="quantity()"
+    [decrementDisabled]="quantity() <= 1"
+    [incrementDisabled]="quantity() >= maxQty"
+    (decrement)="decrement()"
+    (increment)="increment()"
+  />
+  <button type="button" (click)="addToCart()" [disabled]="!inStock">
+    {{ added() ? "Agregado" : inStock ? "AGREGAR" : "Sin Stock" }}
+    &nbsp; <i aria-hidden="true" class="bi bi-basket"></i>
+  </button>
+</section>
+
+<p>
+  {{ totalUnits }} unidades ·
+  Total <data [attr.value]="totalArs">{{ totalArs | currencyArs }}</data>
+</p>
+
+<button type="button" class="buy-now" (click)="buyNow()" [disabled]="!inStock">
+  COMPRAR AHORA
+</button>
+
+<output>
+  @if (inCart) {
+    <small>
+      Producto en tu carrito.
+      <a routerLink="/carrito">
+        VER CARRITO &nbsp; <i aria-hidden="true" class="bi bi-basket"></i>
+      </a>
+    </small>
+  }
+</output>

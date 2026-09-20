@@ -19,11 +19,7 @@
             <tr>
               <td>
                 <a
-                  [routerLink]="[
-                    '/productos',
-                    item.slug,
-                    item.representativeUnitsPerPack,
-                  ]">
+                  [routerLink]="productLink(item.slug, item.representativeUnitsPerPack)">
                   <img
                     [src]="thumb(item.imageUrl)"
                     (error)="useOriginal($event, item.imageUrl)"
@@ -33,11 +29,7 @@
               </td>
               <td>
                 <a
-                  [routerLink]="[
-                    '/productos',
-                    item.slug,
-                    item.representativeUnitsPerPack,
-                  ]">
+                  [routerLink]="productLink(item.slug, item.representativeUnitsPerPack)">
                   <h4>
                     {{ item.productName }}
                   </h4>

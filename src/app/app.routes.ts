@@ -36,6 +36,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'olivo/pack',
+    loadComponent: () =>
+      import('./features/landing/landing.component').then(
+        (m) => m.LandingComponent,
+      ),
+  },
+  {
     path: 'carrito',
     loadComponent: () =>
       import('./features/cart/cart.component').then((m) => m.CartComponent),

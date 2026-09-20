@@ -15,6 +15,7 @@ export interface CartItem {
   stock: number;
   units_per_pack?: number;
   units_per_pack_master?: number;
+  has_packaging?: boolean;
   volume_cc?: number | null;
   /** Volumen del PRODUCTO (Product.volume_cc), no de la caja/presentación. Se usa para ordenar la lista del carrito. */
   product_volume_cc?: number | null;
