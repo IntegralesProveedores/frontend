@@ -80,18 +80,21 @@
     </div>
   </section>
 
-  @if (
-    showBoxesDetail &&
-    shippingMethod === "delivery" &&
-    shippingQuote?.boxes?.length
-  ) {
+  @if (packagingService.boxes().length) {
     <section class="packaging">
-      <h6>Embalaje</h6>
-      @for (box of shippingQuote?.boxes ?? []; track box.boxModelName) {
-        <dl>
-          <dt>{{ box.count }} x {{ box.boxModelName }}</dt>
-          <dd>{{ box.widthCm }} x {{ box.lengthCm }} x {{ box.heightCm }} cm.</dd>
-        </dl>
+      <div class="summary-row summary-row-price">
+        <h6>Embalaje</h6>
+        <data class="text-end" [attr.value]="cartService.embalajeArs()">{{
+          cartService.embalajeArs() | currencyArs
+        }}</data>
+      </div>
+      @if (showBoxesDetail) {
+        @for (box of packagingService.boxes(); track box.boxModelId) {
+          <dl>
+            <dt>{{ box.count }} x {{ box.boxModelName }}</dt>
+            <dd>{{ box.widthCm }} x {{ box.lengthCm }} x {{ box.heightCm }} cm.</dd>
+          </dl>
+        }
       }
     </section>
   }
@@ -145,9 +148,9 @@
           Pago
           @if (
             paymentMethodService.current() === "transferencia" &&
-            pricingConfigService.paymentCommissionPercentage() > 0
+            discountArs > 0
           ) {
-            <span>Transferencia</span>
+            <span>Transferencia &minus;{{ cartService.paymentDiscountPercentage() }}%</span>
           }
         </h6>
 
@@ -160,26 +163,13 @@
         } @else {
           @if (
             paymentMethodService.current() === "transferencia" &&
-            pricingConfigService.paymentCommissionPercentage() > 0
+            discountArs > 0
           ) {
-            <data [attr.value]="pricingConfigService.paymentCommissionPercentage()">
-			  &minus;{{ pricingConfigService.paymentCommissionPercentage() }}%
-			</data>
+            <data [attr.value]="discountArs">&minus;{{ discountArs | currencyArs }}</data>
           } @else {
             <p>{{ paymentMethodLabel() }}</p>
           }
         }
-      </div>
-    </section>
-  }
-
-  @if (commissionArs > 0) {
-    <section>
-      <div class="summary-row">
-        <h6>Comisión Mercado Pago ({{ cartService.paymentCommissionPercentage() }}%)</h6>
-        <div class="text-end">
-          <data [attr.value]="commissionArs">{{ commissionArs | currencyArs }}</data>
-        </div>
       </div>
     </section>
   }

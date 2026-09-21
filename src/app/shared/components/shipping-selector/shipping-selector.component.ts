@@ -13,6 +13,7 @@ import {
   catchError,
   debounceTime,
   finalize,
+  map,
   switchMap,
 } from 'rxjs/operators';
 import {
@@ -107,6 +108,11 @@ export class ShippingSelectorComponent implements OnInit {
 
           this.loadingPostalCode.set(true);
           this.postalCodeNotFound.set(false);
+          // Clave del carrito con el que se pide la cotización (ver ShippingService.setQuote).
+          const requestKey = this.shippingService.quoteKeyForRequest(
+            cp,
+            this.address.province || undefined,
+          );
           return forkJoin({
             lookup: this.postalCodeService.lookup(cp, this.address.province || undefined).pipe(
               catchError((error) =>
@@ -127,7 +133,10 @@ export class ShippingSelectorComponent implements OnInit {
                 }),
               ),
             ),
-          }).pipe(finalize(() => this.loadingPostalCode.set(false)));
+          }).pipe(
+            finalize(() => this.loadingPostalCode.set(false)),
+            map((result) => ({ ...result, requestKey })),
+          );
         }),
       )
       .subscribe((result) => {
@@ -159,6 +168,7 @@ export class ShippingSelectorComponent implements OnInit {
             boxes: result.quote.boxes,
           },
           result.quote.postal_code,
+          result.requestKey,
         );
       });
 

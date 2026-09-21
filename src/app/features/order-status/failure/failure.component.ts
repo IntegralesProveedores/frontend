@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ApiService } from '../../../core/services/api.service';
+import { logError } from '../../../shared/utils/log.util';
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 @Component({
   selector: 'app-order-failure',
@@ -8,4 +13,20 @@ import { RouterLink } from '@angular/router';
   templateUrl: './failure.component.html',
   styleUrl: './failure.component.css',
 })
-export class FailureComponent {}
+export class FailureComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly api = inject(ApiService);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
+  /** Mercado Pago vuelve a esta página con `external_reference`: se cancela esa orden
+   *  y se devuelve el stock, para que el reintento no deje stock retenido dos veces. */
+  ngOnInit(): void {
+    if (!this.isBrowser) return;
+    const externalReference = this.route.snapshot.queryParamMap.get('external_reference');
+    if (!externalReference || !UUID.test(externalReference)) return;
+
+    this.api
+      .post('/orders/abandon', { external_reference: externalReference })
+      .subscribe({ error: (error) => logError('No se pudo liberar la orden:', error) });
+  }
+}

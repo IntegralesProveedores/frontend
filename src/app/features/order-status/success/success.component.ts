@@ -11,6 +11,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
 import { ShippingService } from '../../../core/services/shipping.service';
+import { CustomerDraftService } from '../../../core/services/customer-draft.service';
+import { PaymentMethodService } from '../../../core/services/payment-method.service';
 import { PaymentTransferInfo } from '../../../core/services/api.service';
 import { logError } from '../../../shared/utils/log.util';
 import { BUSINESS_WHATSAPP_URL } from '../../../shared/constants/contact.constants';
@@ -58,6 +60,8 @@ export class SuccessComponent implements OnInit, OnDestroy {
   constructor(
     private readonly cartService: CartService,
     private readonly shippingService: ShippingService,
+    private readonly customerDraftService: CustomerDraftService,
+    private readonly paymentMethodService: PaymentMethodService,
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +74,8 @@ export class SuccessComponent implements OnInit, OnDestroy {
 
     this.cartService.clear();
     this.shippingService.clear();
+    this.customerDraftService.clear();
+    this.paymentMethodService.clear();
   }
 
   ngOnDestroy(): void {

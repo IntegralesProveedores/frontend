@@ -13,8 +13,6 @@ export interface CreatePaymentRequest {
   customer: MercadoPagoCustomer;
   shipping: ShippingPayload;
   payment_method?: 'mercadopago' | 'transferencia';
-  payment_commission_percentage?: number;
-  payment_commission_amount?: number;
   /** Total que el cliente vio en pantalla; el backend rechaza (409) si cambió. */
   expected_total_ars?: number;
   turnstile_token?: string;

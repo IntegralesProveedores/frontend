@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
 import { ShippingService } from '../../../core/services/shipping.service';
+import { PackagingService } from '../../../core/services/packaging.service';
 import { PaymentMethodService } from '../../../core/services/payment-method.service';
 import { PricingConfigService } from '../../../core/services/pricing-config.service';
 import { CurrencyArsPipe } from '../../pipes/currency-ars.pipe';
@@ -23,6 +24,7 @@ export class OrderSummaryComponent {
   readonly useOriginal = fallbackToOriginal;
   public readonly cartService = inject(CartService);
   public readonly shippingService = inject(ShippingService);
+  public readonly packagingService = inject(PackagingService);
   public readonly paymentMethodService = inject(PaymentMethodService);
   public readonly pricingConfigService = inject(PricingConfigService);
 
@@ -51,18 +53,19 @@ export class OrderSummaryComponent {
 
   readonly estimatedDelivery = getEstimatedDeliveryRange();
 
-  /** La comisión de Mercado Pago solo se suma en el checkout: en el carrito todavía no se eligió el medio de pago. */
-  get commissionArs(): number {
+  /** El descuento por transferencia solo se aplica en el checkout: en el carrito todavía no se eligió el medio de pago. */
+  get discountArs(): number {
     return this.actionMode === 'checkout'
-      ? this.cartService.paymentCommissionArs()
+      ? this.cartService.paymentDiscountArs()
       : 0;
   }
 
   get totalConEnvio(): number {
     return (
       this.cartService.subtotalArs() +
-      this.cartService.shippingArs() +
-      this.commissionArs
+      this.cartService.embalajeArs() +
+      this.cartService.shippingArs() -
+      this.discountArs
     );
   }
 

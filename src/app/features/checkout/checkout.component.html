@@ -237,7 +237,7 @@
       <div class="offset-md-1 col-lg-4">
         <app-order-summary
           actionMode="checkout"
-          [submitting]="loading || paymentLoading"
+          [submitting]="loading || paymentLoading || !packagingService.ready()"
         ></app-order-summary>
       </div>
 

@@ -40,6 +40,18 @@ function isShippingSelection(value: unknown): value is ShippingSelection {
 
 type QuoteData = Pick<ShippingQuote, 'zone' | 'price_ars' | 'boxes'>;
 
+/** Clave de una cotización: código postal + provincia + unidades por producto del carrito. */
+function quoteKey(
+  cp: string,
+  province: string | undefined,
+  groups: Array<{ productId: string; units: number }>,
+): string {
+  return `${cp}|${province ?? ''}|${[...groups]
+    .sort((a, b) => a.productId.localeCompare(b.productId))
+    .map((g) => `${g.productId}:${g.units}`)
+    .join(',')}`;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ShippingService {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
@@ -146,6 +158,9 @@ export class ShippingService {
     groups: Array<{ productId: string; units: number }>,
     province?: string,
   ): void {
+    // La clave se toma ahora, con el carrito que se está cotizando: si al llegar la
+    // respuesta el carrito ya cambió, esa respuesta se descarta (ver setQuote).
+    const requestKey = quoteKey(cp, province, groups);
     this.quotingSignal.set(true);
     this.requestQuote(cp, groups, province)
       .pipe(finalize(() => this.quotingSignal.set(false)))
@@ -158,6 +173,7 @@ export class ShippingService {
               boxes: quote.boxes,
             },
             cp,
+            requestKey,
           ),
         error: () => this.setQuote(null),
       });
@@ -182,10 +198,7 @@ export class ShippingService {
     groups: Array<{ productId: string; units: number }>,
     province?: string,
   ): Observable<ShippingQuote> {
-    const key = `${cp}|${province ?? ''}|${[...groups]
-      .sort((a, b) => a.productId.localeCompare(b.productId))
-      .map((g) => `${g.productId}:${g.units}`)
-      .join(',')}`;
+    const key = quoteKey(cp, province, groups);
     let request = this.inflightQuotes.get(key);
     if (!request) {
       request = this.postalCodeService.quote(cp, groups, province).pipe(
@@ -210,17 +223,31 @@ export class ShippingService {
     this.saveToStorage();
   }
 
-  setQuote(quote: QuoteData | null, cp?: string): void {
+  /**
+   * Guarda la cotización. `requestKey` es la clave del carrito con el que se pidió
+   * (ver quoteKeyForRequest): si el carrito o la provincia cambiaron mientras la
+   * respuesta viajaba, la respuesta es vieja y se descarta. Antes se le ponía la
+   * clave del carrito "de ahora", y una cotización vieja quedaba como vigente.
+   */
+  setQuote(quote: QuoteData | null, cp?: string, requestKey?: string): void {
+    if (quote && cp && requestKey && requestKey !== this.quoteKeyFor(cp)) return;
     this.quoteSignal.set(quote);
-    this.quotedKey.set(quote && cp ? this.quoteKeyFor(cp) : null);
+    this.quotedKey.set(
+      quote && cp ? (requestKey ?? this.quoteKeyFor(cp)) : null,
+    );
+  }
+
+  /** Clave para una cotización que se va a pedir ahora, con el carrito actual. */
+  quoteKeyForRequest(cp: string, province?: string): string {
+    return quoteKey(cp, province, this.productGroups());
   }
 
   private quoteKeyFor(cp: string): string {
-    const province = this.selection().address?.province ?? '';
-    const groups = [...this.productGroups()].sort((a, b) =>
-      a.productId.localeCompare(b.productId),
+    return quoteKey(
+      cp,
+      this.selection().address?.province,
+      this.productGroups(),
     );
-    return `${cp}|${province}|${groups.map((g) => `${g.productId}:${g.units}`).join(',')}`;
   }
 
   hasValidQuote(cp: string): boolean {

@@ -15,8 +15,10 @@ import { PricingConfigService } from './pricing-config.service';
 import {
   calculateLocalPrice,
   calculateLocalPriceNoDiscount,
+  cartVolumeDiscount,
 } from '../lib/pricing.util';
 import { PaymentMethodService } from './payment-method.service';
+import { PackagingService } from './packaging.service';
 import { ShippingService } from './shipping.service';
 import { PricingConfig } from '../models/product.model';
 import { logError } from '../../shared/utils/log.util';
@@ -41,14 +43,10 @@ export class CartService {
   private readonly pricingConfigService = inject(PricingConfigService);
   private readonly paymentMethodService = inject(PaymentMethodService);
   private readonly shippingService = inject(ShippingService);
+  private readonly packagingService = inject(PackagingService);
 
   private readonly items = signal<CartItem[]>([]);
   private readonly dolarVenta = signal<number>(0);
-  private readonly priceRefreshTimers = new Map<
-    string,
-    ReturnType<typeof setTimeout>
-  >();
-  private readonly priceRefreshSeq = new Map<string, number>();
 
   readonly cartItems = this.items.asReadonly();
   readonly dolarOficial = this.dolarVenta.asReadonly();
@@ -70,20 +68,27 @@ export class CartService {
   readonly shippingArs = computed(
     () => this.shippingService.shippingCost() ?? 0,
   );
-  readonly paymentCommissionPercentage = computed(() =>
+  /** Embalaje: cajas del pedido × precio por caja (independiente del método de entrega). */
+  readonly embalajeArs = computed(() => this.packagingService.embalajeArs());
+  /** Los precios de lista ya incluyen el costo de Mercado Pago; la transferencia recibe este descuento. */
+  readonly paymentDiscountPercentage = computed(() =>
     this.paymentMethodService.current() === 'transferencia'
-      ? 0
-      : this.pricingConfigService.paymentCommissionPercentage(),
+      ? this.pricingConfigService.paymentCommissionPercentage()
+      : 0,
   );
-  readonly paymentCommissionArs = computed(() =>
+  readonly paymentDiscountArs = computed(() =>
     Math.round(
-      ((this.subtotalArs() + this.shippingArs()) *
-        this.paymentCommissionPercentage()) /
+      ((this.subtotalArs() + this.embalajeArs() + this.shippingArs()) *
+        this.paymentDiscountPercentage()) /
         100,
     ),
   );
-  readonly totalConComision = computed(
-    () => this.subtotalArs() + this.shippingArs() + this.paymentCommissionArs(),
+  readonly totalAPagar = computed(
+    () =>
+      this.subtotalArs() +
+      this.embalajeArs() +
+      this.shippingArs() -
+      this.paymentDiscountArs(),
   );
   readonly subtotalSinDescuentoArs = computed(() =>
     this.groupedCartItems().reduce(
@@ -242,11 +247,13 @@ export class CartService {
     }
 
     this.saveToStorage();
+    await this.recalculateAllPrices();
   }
 
   remove(variantId: string): void {
     this.items.set(this.items().filter((i) => i.variantId !== variantId));
     this.saveToStorage();
+    void this.recalculateAllPrices();
   }
 
   async updateQuantity(variantId: string, quantity: number): Promise<void> {
@@ -265,46 +272,7 @@ export class CartService {
     );
     this.saveToStorage();
 
-    const requestSeq = (this.priceRefreshSeq.get(variantId) ?? 0) + 1;
-    this.priceRefreshSeq.set(variantId, requestSeq);
-
-    const previousTimer = this.priceRefreshTimers.get(variantId);
-    if (previousTimer) clearTimeout(previousTimer);
-
-    const timer = setTimeout(() => {
-      if (this.priceRefreshSeq.get(variantId) !== requestSeq) {
-        return;
-      }
-
-      const config = this.pricingConfigService.pricingConfig();
-      if (
-        !config ||
-        !item.cost_usd_master ||
-        !item.units_per_pack_master ||
-        !item.units_per_pack
-      ) {
-        return;
-      }
-
-      const updatedPricing = calculateLocalPrice(
-        Number(item.cost_usd_master) || 0,
-        Number(item.units_per_pack_master) || 1,
-        Number(item.units_per_pack) || 1,
-        quantity,
-        item.cost_currency,
-        config,
-        item.has_packaging,
-      );
-
-      this.items.set(
-        this.items().map((i) =>
-          i.variantId === variantId ? { ...i, ...updatedPricing, quantity } : i,
-        ),
-      );
-      this.saveToStorage();
-    }, 350);
-
-    this.priceRefreshTimers.set(variantId, timer);
+    await this.recalculateAllPrices();
   }
 
   async changeVariant(
@@ -319,16 +287,6 @@ export class CartService {
     },
   ): Promise<void> {
     if (fromVariantId === toVariant.variantId) return;
-
-    for (const variantId of [fromVariantId, toVariant.variantId]) {
-      const timer = this.priceRefreshTimers.get(variantId);
-      if (timer) clearTimeout(timer);
-      this.priceRefreshTimers.delete(variantId);
-      this.priceRefreshSeq.set(
-        variantId,
-        (this.priceRefreshSeq.get(variantId) ?? 0) + 1,
-      );
-    }
 
     const current = this.items();
     const source = current.find((item) => item.variantId === fromVariantId);
@@ -393,6 +351,7 @@ export class CartService {
     }
 
     this.saveToStorage();
+    await this.recalculateAllPrices();
   }
 
   clear(): void {
@@ -428,6 +387,15 @@ export class CartService {
     if (currentItems.length === 0) return;
 
     const config = this.pricingConfigService.pricingConfig();
+    // El mayor tramo de descuento alcanzado por algún producto se aplica a todos.
+    const cartDiscount = cartVolumeDiscount(
+      currentItems.map((item) => ({
+        unitsPerPack: Number(item.units_per_pack) || 1,
+        quantity: item.quantity,
+        unitsPerPackMaster: Number(item.units_per_pack_master) || 1,
+      })),
+      config,
+    );
     const updates = currentItems.map((item) => {
       if (
         !config ||
@@ -446,11 +414,13 @@ export class CartService {
         item.cost_currency,
         config,
         item.has_packaging,
+        cartDiscount,
       );
       return { ...item, ...pricing };
     });
 
     this.items.set(updates);
+    this.saveToStorage();
   }
 
   private async refreshExchangeRate() {

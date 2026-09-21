@@ -20,6 +20,7 @@ import { SessionContextService } from '../../core/services/session-context.servi
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { ShippingService } from '../../core/services/shipping.service';
+import { PackagingService } from '../../core/services/packaging.service';
 import { CustomerDraftService } from '../../core/services/customer-draft.service';
 import { PaymentMethodService } from '../../core/services/payment-method.service';
 import { logError } from '../../shared/utils/log.util';
@@ -48,8 +49,8 @@ type ValidatedOrder = {
   exchange_rate: number;
   order_ref: string;
   payment_method?: 'mercadopago' | 'transferencia';
-  payment_commission_percentage?: number;
-  payment_commission_amount?: number;
+  payment_discount_percentage?: number;
+  payment_discount_amount?: number;
 };
 
 @Component({
@@ -80,6 +81,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private readonly customerDraftService = inject(CustomerDraftService);
   public readonly paymentMethodService = inject(PaymentMethodService);
   public readonly shippingService = inject(ShippingService);
+  public readonly packagingService = inject(PackagingService);
   private skipDraftPersistence = false;
 
   products = this.productsService.products;
@@ -195,7 +197,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.setShippingRecipient();
 
-    if (!isValid || !this.shippingValid || this.cartService.isEmpty()) {
+    if (
+      !isValid ||
+      !this.shippingValid ||
+      !this.packagingService.ready() ||
+      this.cartService.isEmpty()
+    ) {
       return;
     }
 
@@ -239,19 +246,22 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.setShippingRecipient();
 
-    if (!isValid || !this.shippingValid || this.cartService.isEmpty()) {
+    if (
+      !isValid ||
+      !this.shippingValid ||
+      !this.packagingService.ready() ||
+      this.cartService.isEmpty()
+    ) {
       return;
     }
 
     this.paymentLoading = true;
 
     try {
+      // Los datos NO se borran al salir hacia Mercado Pago: si el cliente vuelve
+      // sin pagar, el formulario sigue completo. Se limpian recién en /orden/exito.
+      this.customerDraftService.setCustomer({ ...this.customer });
       await this.mercadoPagoService.startCheckout(this.buildOrderPayload());
-
-      this.skipDraftPersistence = true;
-      this.customerDraftService.clear();
-      this.shippingService.clear();
-      this.paymentMethodService.clear();
     } catch (error) {
       if (await this.handlePriceChanged(error)) return;
       logError('Error al iniciar Mercado Pago:', error);
@@ -309,11 +319,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         celular: c.celular,
       },
       payment_method: this.paymentMethodService.current() ?? 'mercadopago',
-      expected_total_ars: this.cartService.totalConComision(),
+      expected_total_ars: this.cartService.totalAPagar(),
       turnstile_token: this.captchaToken() ?? undefined,
-      payment_commission_percentage:
-        this.cartService.paymentCommissionPercentage(),
-      payment_commission_amount: this.cartService.paymentCommissionArs(),
       shipping: {
         method: this.shippingMethod()!,
         ...(this.shippingMethod() === 'delivery'
@@ -346,6 +353,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       !method ||
       !isValid ||
       !this.shippingValid ||
+      !this.packagingService.ready() ||
       this.cartService.isEmpty()
     )
       return;

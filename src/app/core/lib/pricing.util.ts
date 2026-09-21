@@ -11,6 +11,39 @@ export function discountPercentageOf(discount: VolumeDiscount): number {
   return discount.factor && discount.factor > 1 ? (1 - 1 / discount.factor) * 100 : 0;
 }
 
+/** Descuento (%) del tramo que corresponde a esa cantidad de packs equivalentes. */
+export function volumeDiscountFor(
+  equivalentPacks: number,
+  config: PricingConfig | null | undefined,
+): number {
+  const discounts = [...(config?.volume_discounts ?? [])].sort(
+    (a, b) => b.min - a.min,
+  );
+  const entry = discounts.find((d) => equivalentPacks >= d.min);
+  return entry ? discountPercentageOf(entry) : 0;
+}
+
+/**
+ * Descuento por volumen del carrito: el mayor tramo alcanzado por cualquiera de los
+ * productos se aplica a TODOS (así agregar otros productos nunca lo reduce).
+ */
+export function cartVolumeDiscount(
+  lines: Array<{ unitsPerPack: number; quantity: number; unitsPerPackMaster: number }>,
+  config: PricingConfig | null | undefined,
+): number {
+  return lines.reduce(
+    (max, line) =>
+      Math.max(
+        max,
+        volumeDiscountFor(
+          (line.unitsPerPack * line.quantity) / (line.unitsPerPackMaster || 1),
+          config,
+        ),
+      ),
+    0,
+  );
+}
+
 export function calculateLocalPrice(
   costUsdMaster: number,
   unitsPerPackMaster: number,
@@ -19,20 +52,27 @@ export function calculateLocalPrice(
   costCurrency: 'ARS' | 'USD' = 'USD',
   config: PricingConfig | null | undefined = undefined,
   hasPackaging = false,
+  /** Si se pasa, reemplaza al descuento calculado con la cantidad de este producto (descuento del carrito). */
+  discountPercentageOverride?: number,
 ): { price_ars: number; price_usd: number; price_sin_impuestos_ars: number } {
   const exchangeRate = config?.exchange_rate || 1;
-  const embalageCost = config?.embalaje_cost ?? 0;
   const packagingCost = hasPackaging ? (config?.packaging_cost ?? 0) : 0;
   const taxes = (config?.taxes ?? []).filter((t) => t.is_active);
   const discounts = [...(config?.volume_discounts ?? [])].sort(
     (a, b) => b.min - a.min,
   );
   const markup = config?.markup || 0;
+  // El costo del medio de pago (Mercado Pago) va dentro del precio: todo se divide por (1 − %).
+  const paymentFee = config?.payment_commission_percentage ?? 0;
+  const paymentGrossUp =
+    paymentFee > 0 && paymentFee < 100 ? 100 / (100 - paymentFee) : 1;
 
   const equivalentPacks =
     (presentationQuantity * quantity) / (unitsPerPackMaster || 1);
   const discountEntry = discounts.find((d) => equivalentPacks >= d.min);
-  const discountPercentage = discountEntry ? discountPercentageOf(discountEntry) : 0;
+  const discountPercentage =
+    discountPercentageOverride ??
+    (discountEntry ? discountPercentageOf(discountEntry) : 0);
 
   const costUsdMasterWithDiscount = round2(
     (costUsdMaster || 0) * (1 - discountPercentage / 100),
@@ -42,8 +82,9 @@ export function calculateLocalPrice(
   const precioUnitarioBase = precioBultoArs / (unitsPerPackMaster || 1);
   // Precio final descontando solo los impuestos computables: incluye embalaje y packaging.
   const precioSinImpuestosArs = round2(
-    (precioUnitarioBase * presentationQuantity + embalageCost + packagingCost) *
-      (1 + markup / 100),
+    (precioUnitarioBase * presentationQuantity + packagingCost) *
+      (1 + markup / 100) *
+      paymentGrossUp,
   );
 
   let costoUnitarioComputable = precioUnitarioBase;
@@ -55,8 +96,10 @@ export function calculateLocalPrice(
   }
 
   const costoPresentacion = costoUnitarioComputable * presentationQuantity;
-  const costoTotalOperativo = costoPresentacion + embalageCost + packagingCost;
-  const precioFinalArs = costoTotalOperativo * (1 + markup / 100);
+  // El embalaje ya no va en el precio del pack: se cobra por caja en el pedido (PackagingService).
+  const costoTotalOperativo = costoPresentacion + packagingCost;
+  const precioFinalArs =
+    costoTotalOperativo * (1 + markup / 100) * paymentGrossUp;
 
   // Igual que el backend (calculatePriceV2 redondea a 2 decimales y recién ahí a pesos
   // enteros): si se redondea una sola vez, algunos precios difieren en $1 de lo que se cobra.
