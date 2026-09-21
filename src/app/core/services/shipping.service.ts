@@ -8,7 +8,14 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, finalize, skip } from 'rxjs';
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  finalize,
+  shareReplay,
+  skip,
+} from 'rxjs';
 import {
   ShippingAddress,
   ShippingMethod,
@@ -42,6 +49,8 @@ export class ShippingService {
   private readonly quotedKey = signal<string | null>(null);
   private readonly injector = inject(Injector);
   private readonly postalCodeService = inject(PostalCodeService);
+  /** Cotizaciones en curso por clave: dos pedidos idénticos simultáneos comparten una sola consulta. */
+  private readonly inflightQuotes = new Map<string, Observable<ShippingQuote>>();
   private readonly productGroups = computed(() => {
     const cartService = this.injector.get(CartService);
     const groups = new Map<string, number>();
@@ -74,11 +83,31 @@ export class ShippingService {
       const a = s.address;
       if (!a?.postal_code || !a?.street || !a?.street_number || !a?.province)
         return false;
-      if (isCabaProvince(a.province)) return true;
-      if (isBuenosAiresProvince(a.province)) return !!(a.locality && a.county);
-      return !!a.locality;
+      const addressComplete = isCabaProvince(a.province)
+        ? true
+        : isBuenosAiresProvince(a.province)
+          ? !!(a.locality && a.county)
+          : !!a.locality;
+      // Sin cotización vigente el carrito suma envío 0 pero el backend cobra el
+      // envío real: no se puede pagar hasta tener el precio.
+      return (
+        addressComplete &&
+        this.hasValidQuote(a.postal_code) &&
+        this.quoteSignal()?.price_ars != null
+      );
     }
     return false;
+  });
+
+  /** Envío a domicilio sin precio cotizado para el carrito y la dirección actuales. */
+  readonly quoteMissing = computed(() => {
+    const s = this.selection();
+    const cp = s.address?.postal_code ?? '';
+    return (
+      s.method === 'delivery' &&
+      /^\d{4}$/.test(cp) &&
+      !(this.hasValidQuote(cp) && this.quoteSignal()?.price_ars != null)
+    );
   });
 
   constructor() {
@@ -104,32 +133,75 @@ export class ShippingService {
           groups.length === 0
         )
           return;
+        // Ya hay una cotización para este CP, provincia y carrito (ej. la que
+        // pidió el selector al abrir la página): no repetirla.
+        if (this.hasValidQuote(cp)) return;
 
-        this.quotingSignal.set(true);
-        this.postalCodeService
-          .quote(cp, groups)
-          .pipe(finalize(() => this.quotingSignal.set(false)))
-          .subscribe({
-            next: (quote) =>
-              this.setQuote(
-                {
-                  zone: quote.zone,
-                  price_ars: quote.price_ars,
-                  boxes: quote.boxes,
-                },
-                cp,
-              ),
-            error: () => this.setQuote(null),
-          });
+        this.fetchAndStoreQuote(cp, groups, s.address?.province || undefined);
       });
   }
 
-  setMethod(method: ShippingMethod): void {
-    this.selection.update((s) => ({ ...s, method }));
-    if (method !== 'delivery') {
-      this.quoteSignal.set(null);
-      this.quotedKey.set(null);
+  private fetchAndStoreQuote(
+    cp: string,
+    groups: Array<{ productId: string; units: number }>,
+    province?: string,
+  ): void {
+    this.quotingSignal.set(true);
+    this.requestQuote(cp, groups, province)
+      .pipe(finalize(() => this.quotingSignal.set(false)))
+      .subscribe({
+        next: (quote) =>
+          this.setQuote(
+            {
+              zone: quote.zone,
+              price_ars: quote.price_ars,
+              boxes: quote.boxes,
+            },
+            cp,
+          ),
+        error: () => this.setQuote(null),
+      });
+  }
+
+  /** Vuelve a cotizar el envío con los datos actuales (ej. cuando el backend avisa que los precios cambiaron). */
+  refreshQuote(): void {
+    const s = this.selection();
+    const cp = s.address?.postal_code ?? '';
+    const groups = this.productGroups();
+    if (s.method !== 'delivery' || !/^d{4}$/.test(cp) || groups.length === 0)
+      return;
+    this.fetchAndStoreQuote(cp, groups, s.address?.province || undefined);
+  }
+
+  /**
+   * Pide la cotización al backend. Si ya hay una idéntica en curso (mismo CP,
+   * provincia y carrito), se comparte en vez de repetir la consulta.
+   */
+  requestQuote(
+    cp: string,
+    groups: Array<{ productId: string; units: number }>,
+    province?: string,
+  ): Observable<ShippingQuote> {
+    const key = `${cp}|${province ?? ''}|${[...groups]
+      .sort((a, b) => a.productId.localeCompare(b.productId))
+      .map((g) => `${g.productId}:${g.units}`)
+      .join(',')}`;
+    let request = this.inflightQuotes.get(key);
+    if (!request) {
+      request = this.postalCodeService.quote(cp, groups, province).pipe(
+        finalize(() => this.inflightQuotes.delete(key)),
+        shareReplay({ bufferSize: 1, refCount: false }),
+      );
+      this.inflightQuotes.set(key, request);
     }
+    return request;
+  }
+
+  setMethod(method: ShippingMethod): void {
+    // La cotización se conserva al pasar a Retiro/Coordinar (el costo sale del
+    // método, no de la cotización): al volver se reutiliza si la clave sigue
+    // vigente (mismo CP, provincia y carrito) y se recotiza si no.
+    this.selection.update((s) => ({ ...s, method }));
     this.saveToStorage();
   }
 
@@ -144,10 +216,11 @@ export class ShippingService {
   }
 
   private quoteKeyFor(cp: string): string {
+    const province = this.selection().address?.province ?? '';
     const groups = [...this.productGroups()].sort((a, b) =>
       a.productId.localeCompare(b.productId),
     );
-    return `${cp}|${groups.map((g) => `${g.productId}:${g.units}`).join(',')}`;
+    return `${cp}|${province}|${groups.map((g) => `${g.productId}:${g.units}`).join(',')}`;
   }
 
   hasValidQuote(cp: string): boolean {

@@ -58,7 +58,9 @@ export function calculateLocalPrice(
   const costoTotalOperativo = costoPresentacion + embalageCost + packagingCost;
   const precioFinalArs = costoTotalOperativo * (1 + markup / 100);
 
-  const price_ars = Math.round(precioFinalArs);
+  // Igual que el backend (calculatePriceV2 redondea a 2 decimales y recién ahí a pesos
+  // enteros): si se redondea una sola vez, algunos precios difieren en $1 de lo que se cobra.
+  const price_ars = Math.round(round2(precioFinalArs));
   const price_usd = round2(price_ars / exchangeRate);
 
   return {

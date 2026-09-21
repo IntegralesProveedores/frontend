@@ -11,6 +11,11 @@
             [items]="[{ label: 'Productos', link: '/productos' }, { label: 'Carrito', link: '/carrito' }, { label: 'Finalizar compra' }]"
             [clearLogo]="false"
           />
+          @if (priceChanged()) {
+            <aside role="alert">
+              Los precios se actualizaron mientras completabas la compra. Revisá el nuevo total y confirmá de nuevo.
+            </aside>
+          }
           <form
             #checkoutForm="ngForm"
             id="checkoutForm"
@@ -27,12 +32,10 @@
 					minlength="3"
 					#nombre="ngModel"
 					[disabled]="session.isAuthenticated()"
-					[class.is-invalid]="
-					  nombre.invalid && (nombre.touched || formSubmitted)
-					"
+					[class.is-invalid]="nombre.invalid && (nombre.touched || formSubmitted)"
 					placeholder="Nombre y Apellido (*)"
 					aria-label="Nombre y Apellido"
-						autocomplete="name"
+					autocomplete="name"
 				  />
 
 				<input
@@ -43,12 +46,10 @@
 					email
 					#email="ngModel"
 					[disabled]="session.isAuthenticated()"
-					[class.is-invalid]="
-					  email.invalid && (email.touched || formSubmitted)
-					"
+					[class.is-invalid]="email.invalid && (email.touched || formSubmitted)"
 					placeholder="Email (*)"
 					aria-label="Email"
-						autocomplete="email"
+					autocomplete="email"
 				  />
 
 				<div class="row">
@@ -66,11 +67,10 @@
 					  #codigoArea="ngModel"
 					  [disabled]="session.isAuthenticated()"
 					  [class.is-invalid]="
-						codigoArea.invalid && (codigoArea.touched || formSubmitted)
-					  "
+						codigoArea.invalid && (codigoArea.touched || formSubmitted)  "
 					  placeholder="Area (*)"
 					  aria-label="Código de área"
-						  autocomplete="tel-area-code"
+					  autocomplete="tel-area-code"
 					/>
 				  </div>
 				  <div class="col-8 col-md-8">
@@ -87,11 +87,10 @@
 					  #celular="ngModel"
 					  [disabled]="session.isAuthenticated()"
 					  [class.is-invalid]="
-						celular.invalid && (celular.touched || formSubmitted)
-					  "
+						celular.invalid && (celular.touched || formSubmitted)  "
 					  placeholder="Celular (*)"
 					  aria-label="Celular"
-						  autocomplete="tel-local"
+					  autocomplete="tel-local"
 					/>
 				  </div>
 				</div>

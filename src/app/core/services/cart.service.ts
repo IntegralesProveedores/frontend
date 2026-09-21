@@ -18,6 +18,7 @@ import {
 } from '../lib/pricing.util';
 import { PaymentMethodService } from './payment-method.service';
 import { ShippingService } from './shipping.service';
+import { PricingConfig } from '../models/product.model';
 import { logError } from '../../shared/utils/log.util';
 
 const CART_KEY = 'cart_items';
@@ -397,6 +398,29 @@ export class CartService {
   clear(): void {
     this.items.set([]);
     this.saveToStorage();
+  }
+
+  /**
+   * Vuelve a pedir la configuración de precios al backend y recalcula el
+   * carrito. Los precios se calculan en el navegador con esa configuración, que
+   * solo se actualizaba al visitar una ficha de producto: si cambió el dólar, el
+   * markup o un descuento, el total mostrado podía diferir del cobrado.
+   * El parámetro _t evita el caché de 60 s de /products.
+   */
+  async refreshPricing(): Promise<void> {
+    try {
+      const response = await firstValueFrom(
+        this.apiService.get<{ pricing_config?: PricingConfig }>('/products', {
+          limit: '1',
+          _t: String(Date.now()),
+        }),
+      );
+      if (!response.pricing_config) return;
+      this.pricingConfigService.setPricingConfig(response.pricing_config);
+      await this.recalculateAllPrices();
+    } catch (e) {
+      logError('Error al actualizar los precios:', e);
+    }
   }
 
   private async recalculateAllPrices(): Promise<void> {

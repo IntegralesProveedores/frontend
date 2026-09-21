@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ApiService, PaymentTransferInfo } from '../../core/services/api.service';
@@ -95,6 +96,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   shippingFormSubmitted = false;
   captchaToken = signal<string | null>(null);
   captchaMissing = signal(false);
+  /** El backend rechazó la orden porque el total cambió desde que se mostró. */
+  priceChanged = signal(false);
 
   readonly shippingCost = computed(() =>
     this.shippingMethod() === 'delivery'
@@ -136,6 +139,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       const draft = this.customerDraftService.current();
       if (draft) Object.assign(this.customer, draft);
     }
+
+    // El total se calcula en el navegador: tomar la configuración de precios vigente antes de pagar.
+    void this.cartService.refreshPricing();
 
     this.productsService.getProducts().subscribe({
       error: (error) => logError('Error al cargar otros productos:', error),
@@ -183,6 +189,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   async confirmarPedido(isValid: boolean | null) {
+    this.priceChanged.set(false);
     this.formSubmitted = true;
     this.shippingFormSubmitted = true;
 
@@ -217,6 +224,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         },
       });
     } catch (error) {
+      if (await this.handlePriceChanged(error)) return;
       logError('Error en checkout:', error);
       this.router.navigate(['/orden/error']);
     } finally {
@@ -225,6 +233,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   async iniciarPagoMercadoPago(isValid: boolean | null): Promise<void> {
+    this.priceChanged.set(false);
     this.formSubmitted = true;
     this.shippingFormSubmitted = true;
 
@@ -244,11 +253,29 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.shippingService.clear();
       this.paymentMethodService.clear();
     } catch (error) {
+      if (await this.handlePriceChanged(error)) return;
       logError('Error al iniciar Mercado Pago:', error);
       this.router.navigate(['/orden/error']);
     } finally {
       this.paymentLoading = false;
     }
+  }
+
+  /**
+   * 409 price_changed: el total cambió. Se actualizan precios y envío, se avisa
+   * al cliente y NO se lo manda a la pantalla de error: puede confirmar de nuevo.
+   */
+  private async handlePriceChanged(error: unknown): Promise<boolean> {
+    if (
+      !(error instanceof HttpErrorResponse) ||
+      error.status !== 409 ||
+      error.error?.error !== 'price_changed'
+    )
+      return false;
+    await this.cartService.refreshPricing();
+    this.shippingService.refreshQuote();
+    this.priceChanged.set(true);
+    return true;
   }
 
   ngOnDestroy(): void {
@@ -282,6 +309,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         celular: c.celular,
       },
       payment_method: this.paymentMethodService.current() ?? 'mercadopago',
+      expected_total_ars: this.cartService.totalConComision(),
       turnstile_token: this.captchaToken() ?? undefined,
       payment_commission_percentage:
         this.cartService.paymentCommissionPercentage(),

@@ -89,6 +89,19 @@
       </div>
       <div class="col-8">
         <output>
+          @if (provinceOptions().length > 1) {
+            <select
+              name="shipping_province"
+              [ngModel]="address.province"
+              (ngModelChange)="selectProvince($event)"
+              [ngModelOptions]="{ standalone: true }"
+              aria-label="Provincia"
+            >
+              @for (province of provinceOptions(); track province) {
+                <option [value]="province">{{ province }}</option>
+              }
+            </select>
+          } @else {
           <input
             name="shipping_province"
             [ngModel]="address.province"
@@ -100,11 +113,17 @@
             aria-label="Provincia"
             placeholder="Provincia (*)"
           />
+          }
           @if (loadingPostalCode()) {
             <span class="spinner-border spinner-border-sm" role="status"></span>
           }
         </output>
       </div>
+      @if (formSubmitted && quoteMissing() && !loadingPostalCode() && !quoting() && addressFieldsVisible) {
+        <div class="col-12">
+          <small role="alert">No pudimos calcular el envío. Revisá el código postal o reintentá en unos segundos.</small>
+        </div>
+      }
       @if (mode === "full" && showLocalityField) {
         <div
           [class.col-12]="!showCountyField"
