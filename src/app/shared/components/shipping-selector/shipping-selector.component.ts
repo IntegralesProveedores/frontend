@@ -64,7 +64,6 @@ export class ShippingSelectorComponent implements OnInit {
   private readonly postalCodeService = inject(PostalCodeService);
   private readonly cartService = inject(CartService);
   private readonly postalCodeSubject = new Subject<string>();
-  private lastPostalCode = '';
   /** Código postal para el que ya se cargó `provinceOptions`. */
   private provinceOptionsCp = '';
 
@@ -92,7 +91,6 @@ export class ShippingSelectorComponent implements OnInit {
     this.address = { ...EMPTY_ADDRESS, ...(existing.address ?? {}) };
     this.streetNumberIsSN.set(this.address.street_number === 'S/N');
     this.showObservaciones.set(!!this.address.observations);
-    this.lastPostalCode = this.address.postal_code;
     this.postalCodeSubject
       .pipe(
         debounceTime(400),
@@ -108,11 +106,8 @@ export class ShippingSelectorComponent implements OnInit {
 
           this.loadingPostalCode.set(true);
           this.postalCodeNotFound.set(false);
-          // Clave del carrito con el que se pide la cotización (ver ShippingService.setQuote).
-          const requestKey = this.shippingService.quoteKeyForRequest(
-            cp,
-            this.address.province || undefined,
-          );
+          // Carrito con el que se pide la cotización (ver ShippingService.setQuote).
+          const requestCart = this.shippingService.cartKeyForRequest();
           return forkJoin({
             lookup: this.postalCodeService.lookup(cp, this.address.province || undefined).pipe(
               catchError((error) =>
@@ -129,13 +124,12 @@ export class ShippingSelectorComponent implements OnInit {
                   postal_code: cp,
                   zone: null,
                   price_ars: null,
-                  boxes: [],
                 }),
               ),
             ),
           }).pipe(
             finalize(() => this.loadingPostalCode.set(false)),
-            map((result) => ({ ...result, requestKey })),
+            map((result) => ({ ...result, requestCart })),
           );
         }),
       )
@@ -165,10 +159,9 @@ export class ShippingSelectorComponent implements OnInit {
           {
             zone: result.quote.zone,
             price_ars: result.quote.price_ars,
-            boxes: result.quote.boxes,
           },
           result.quote.postal_code,
-          result.requestKey,
+          result.requestCart,
         );
       });
 
@@ -245,7 +238,6 @@ export class ShippingSelectorComponent implements OnInit {
       this.address.postal_code = normalized;
       this.persistAddress();
     }
-    this.lastPostalCode = normalized;
     this.postalCodeSubject.next(normalized);
   }
 

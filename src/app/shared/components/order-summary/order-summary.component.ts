@@ -39,10 +39,6 @@ export class OrderSummaryComponent {
     return this.shippingService.current().method;
   }
 
-  get shippingQuote() {
-    return this.shippingService.quote();
-  }
-
   get shippingCost() {
     return this.shippingService.shippingCost();
   }

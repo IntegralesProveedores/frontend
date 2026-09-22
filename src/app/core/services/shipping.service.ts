@@ -38,7 +38,15 @@ function isShippingSelection(value: unknown): value is ShippingSelection {
   return v['method'] === null || VALID_METHODS.includes(v['method'] as string);
 }
 
-type QuoteData = Pick<ShippingQuote, 'zone' | 'price_ars' | 'boxes'>;
+type QuoteData = Pick<ShippingQuote, 'zone' | 'price_ars'>;
+
+/** Clave del carrito: unidades por producto, ordenadas. */
+function cartKey(groups: Array<{ productId: string; units: number }>): string {
+  return [...groups]
+    .sort((a, b) => a.productId.localeCompare(b.productId))
+    .map((g) => `${g.productId}:${g.units}`)
+    .join(',');
+}
 
 /** Clave de una cotización: código postal + provincia + unidades por producto del carrito. */
 function quoteKey(
@@ -158,9 +166,9 @@ export class ShippingService {
     groups: Array<{ productId: string; units: number }>,
     province?: string,
   ): void {
-    // La clave se toma ahora, con el carrito que se está cotizando: si al llegar la
-    // respuesta el carrito ya cambió, esa respuesta se descarta (ver setQuote).
-    const requestKey = quoteKey(cp, province, groups);
+    // Se toma ahora el carrito que se está cotizando: si al llegar la respuesta el carrito
+    // ya cambió, esa respuesta se descarta (ver setQuote).
+    const requestCart = cartKey(groups);
     this.quotingSignal.set(true);
     this.requestQuote(cp, groups, province)
       .pipe(finalize(() => this.quotingSignal.set(false)))
@@ -170,10 +178,9 @@ export class ShippingService {
             {
               zone: quote.zone,
               price_ars: quote.price_ars,
-              boxes: quote.boxes,
             },
             cp,
-            requestKey,
+            requestCart,
           ),
         error: () => this.setQuote(null),
       });
@@ -224,22 +231,22 @@ export class ShippingService {
   }
 
   /**
-   * Guarda la cotización. `requestKey` es la clave del carrito con el que se pidió
-   * (ver quoteKeyForRequest): si el carrito o la provincia cambiaron mientras la
-   * respuesta viajaba, la respuesta es vieja y se descarta. Antes se le ponía la
-   * clave del carrito "de ahora", y una cotización vieja quedaba como vigente.
+   * Guarda la cotización. `requestCart` es la clave del carrito con el que se pidió
+   * (ver cartKeyForRequest): si el carrito cambió mientras la respuesta viajaba, la
+   * respuesta es vieja y se descarta; si no, queda vigente para el carrito, código
+   * postal y provincia de ahora. La provincia no se compara: al cambiar el código postal
+   * la provincia se actualiza justo antes de guardar la cotización.
    */
-  setQuote(quote: QuoteData | null, cp?: string, requestKey?: string): void {
-    if (quote && cp && requestKey && requestKey !== this.quoteKeyFor(cp)) return;
+  setQuote(quote: QuoteData | null, cp?: string, requestCart?: string): void {
+    if (quote && cp && requestCart && requestCart !== cartKey(this.productGroups()))
+      return;
     this.quoteSignal.set(quote);
-    this.quotedKey.set(
-      quote && cp ? (requestKey ?? this.quoteKeyFor(cp)) : null,
-    );
+    this.quotedKey.set(quote && cp ? this.quoteKeyFor(cp) : null);
   }
 
-  /** Clave para una cotización que se va a pedir ahora, con el carrito actual. */
-  quoteKeyForRequest(cp: string, province?: string): string {
-    return quoteKey(cp, province, this.productGroups());
+  /** Clave del carrito actual, para tomarla al pedir una cotización. */
+  cartKeyForRequest(): string {
+    return cartKey(this.productGroups());
   }
 
   private quoteKeyFor(cp: string): string {

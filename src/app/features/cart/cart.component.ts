@@ -7,7 +7,7 @@ import {
   afterNextRender,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { ProductsService } from '../../core/services/products.service';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
@@ -52,7 +52,6 @@ export class CartComponent implements OnInit {
   public readonly cartService = inject(CartService);
   public readonly pricingConfigService = inject(PricingConfigService);
   private readonly productsService = inject(ProductsService);
-  private readonly router = inject(Router);
 
   products = this.productsService.products;
   productsLoading = this.productsService.loading;

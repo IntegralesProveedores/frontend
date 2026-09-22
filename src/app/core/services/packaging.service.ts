@@ -35,7 +35,6 @@ export interface PackagingBox {
 
 interface PackagingQuote {
   boxes: PackagingBox[];
-  box_count: number;
   embalaje_box_price_ars: number;
   embalaje_ars: number;
 }
@@ -74,7 +73,6 @@ export class PackagingService {
 
   /** Cajas del carrito (las últimas cotizadas, para no parpadear mientras se recalcula). */
   readonly boxes = computed(() => this.quote()?.boxes ?? []);
-  readonly boxCount = computed(() => this.quote()?.box_count ?? 0);
   readonly embalajeArs = computed(() => this.quote()?.embalaje_ars ?? 0);
 
   /** true cuando la cotización corresponde al carrito actual (o el carrito está vacío). */

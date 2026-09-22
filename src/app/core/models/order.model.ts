@@ -19,23 +19,9 @@ export interface ShippingPayload {
   address?: ShippingAddress;
 }
 
-export interface ShippingOption {
-  provider: string;
-  service: string;
-  price: number;
-  days_min: number;
-  days_max: number;
-}
-
 export interface OrderItem {
   variant_id: string;
   quantity: number;
-}
-
-export interface CreateOrderPayload {
-  email: string;
-  items: OrderItem[];
-  shipping: ShippingPayload;
 }
 
 export interface OrderStatus {
@@ -62,29 +48,4 @@ export interface OrderStatus {
 export interface ShippingSelection {
   method: ShippingMethod | null;
   address: ShippingAddress | null;
-}
-
-/** Orden completa preparada para el detalle de /orden/:id. */
-export interface OrderDetail {
-  order: OrderStatus;
-  items: Array<
-    OrderItem & {
-      id?: string;
-      product_name?: string;
-      sku?: string;
-      unit_price?: number;
-      subtotal?: number;
-    }
-  >;
-  customer: {
-    nombre: string;
-    email: string;
-    cuit: string | null;
-    codigoArea: string | null;
-    celular: string | null;
-  } | null;
-  shipping: {
-    method: ShippingMethod;
-    address: ShippingAddress | null;
-  };
 }
