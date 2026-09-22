@@ -59,7 +59,6 @@ export class OrderSummaryComponent {
   get totalConEnvio(): number {
     return (
       this.cartService.subtotalArs() +
-      this.cartService.embalajeArs() +
       this.cartService.shippingArs() -
       this.discountArs
     );

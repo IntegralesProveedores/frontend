@@ -37,6 +37,9 @@ interface PackagingQuote {
   boxes: PackagingBox[];
   embalaje_box_price_ars: number;
   embalaje_ars: number;
+  /** Embalaje por producto: el de cada producto son sus propias cajas, nunca compartidas
+   *  con otro producto. El carrito lo usa para sumarlo al precio de cada línea. */
+  by_product: { product_id: string; embalaje_ars: number }[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -74,6 +77,17 @@ export class PackagingService {
   /** Cajas del carrito (las últimas cotizadas, para no parpadear mientras se recalcula). */
   readonly boxes = computed(() => this.quote()?.boxes ?? []);
   readonly embalajeArs = computed(() => this.quote()?.embalaje_ars ?? 0);
+  /** product_id -> embalaje de ese producto (sus propias cajas). Lo usa CartService para
+   *  sumarlo al precio de cada línea (ver embalajePerPackArs en pricing.util.ts). */
+  readonly embalajeByProduct = computed(
+    () =>
+      new Map(
+        (this.quote()?.by_product ?? []).map((p) => [
+          p.product_id,
+          p.embalaje_ars,
+        ]),
+      ),
+  );
 
   /** true cuando la cotización corresponde al carrito actual (o el carrito está vacío). */
   readonly ready = computed(

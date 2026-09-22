@@ -80,21 +80,14 @@
     </div>
   </section>
 
-  @if (packagingService.boxes().length) {
+  @if (packagingService.boxes().length && showBoxesDetail) {
     <section class="packaging">
-      <div class="summary-row summary-row-price">
-        <h6>Embalaje</h6>
-        <data class="text-end" [attr.value]="cartService.embalajeArs()">{{
-          cartService.embalajeArs() | currencyArs
-        }}</data>
-      </div>
-      @if (showBoxesDetail) {
-        @for (box of packagingService.boxes(); track box.boxModelId) {
-          <dl>
-            <dt>{{ box.count }} x {{ box.boxModelName }}</dt>
-            <dd>{{ box.widthCm }} x {{ box.lengthCm }} x {{ box.heightCm }} cm.</dd>
-          </dl>
-        }
+      <h6>Embalaje</h6>
+      @for (box of packagingService.boxes(); track box.boxModelId) {
+        <dl>
+          <dt>{{ box.count }} x {{ box.boxModelName }}</dt>
+          <dd>{{ box.widthCm }} x {{ box.lengthCm }} x {{ box.heightCm }} cm.</dd>
+        </dl>
       }
     </section>
   }

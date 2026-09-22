@@ -113,6 +113,23 @@ export function calculateLocalPrice(
   };
 }
 
+/**
+ * Parte del embalaje de un producto que le corresponde a una presentación (pack): el embalaje
+ * del producto (sus propias cajas, nunca compartidas con otro producto) se reparte entre sus
+ * unidades totales en el carrito, proporcional a las unidades de cada pack. Misma fórmula que
+ * el backend (embalajeShareForPack), para que el precio de cada línea coincida en los dos lados.
+ */
+export function embalajePerPackArs(
+  productEmbalajeArs: number,
+  productTotalUnits: number,
+  presentationUnitsPerPack: number,
+): number {
+  if (productTotalUnits <= 0) return 0;
+  return Math.round(
+    (productEmbalajeArs / productTotalUnits) * presentationUnitsPerPack,
+  );
+}
+
 export function calculateLocalPriceNoDiscount(
   costUsdMaster: number,
   unitsPerPackMaster: number,

@@ -16,6 +16,7 @@ import {
   calculateLocalPrice,
   calculateLocalPriceNoDiscount,
   cartVolumeDiscount,
+  embalajePerPackArs,
 } from '../lib/pricing.util';
 import { PaymentMethodService } from './payment-method.service';
 import { PackagingService } from './packaging.service';
@@ -68,27 +69,23 @@ export class CartService {
   readonly shippingArs = computed(
     () => this.shippingService.shippingCost() ?? 0,
   );
-  /** Embalaje: cajas del pedido × precio por caja (independiente del método de entrega). */
-  readonly embalajeArs = computed(() => this.packagingService.embalajeArs());
   /** Los precios de lista ya incluyen el costo de Mercado Pago; la transferencia recibe este descuento. */
   readonly paymentDiscountPercentage = computed(() =>
     this.paymentMethodService.current() === 'transferencia'
       ? this.pricingConfigService.paymentCommissionPercentage()
       : 0,
   );
+  // El embalaje ya está adentro de subtotalArs (repartido en item.price_ars por
+  // recalculateAllPrices), no se suma aparte acá.
   readonly paymentDiscountArs = computed(() =>
     Math.round(
-      ((this.subtotalArs() + this.embalajeArs() + this.shippingArs()) *
+      ((this.subtotalArs() + this.shippingArs()) *
         this.paymentDiscountPercentage()) /
         100,
     ),
   );
   readonly totalAPagar = computed(
-    () =>
-      this.subtotalArs() +
-      this.embalajeArs() +
-      this.shippingArs() -
-      this.paymentDiscountArs(),
+    () => this.subtotalArs() + this.shippingArs() - this.paymentDiscountArs(),
   );
   readonly subtotalSinDescuentoArs = computed(() =>
     this.groupedCartItems().reduce(
@@ -99,11 +96,29 @@ export class CartService {
 
   readonly groupedCartItems = computed<GroupedCartItem[]>(() => {
     const map = new Map<string, GroupedCartItem>();
+    const config = this.pricingConfigService.pricingConfig();
+    // Mismo reparto de embalaje que recalculateAllPrices, para que el "Subtotal" (precio de
+    // lista, sin descuento) también lo incluya: si no, el % de descuento mostrado queda mal
+    // (el embalaje no se descuenta por volumen, pero tiene que estar en los dos lados).
+    const productUnits = new Map<string, number>();
+    for (const item of this.items()) {
+      const units = (item.units_per_pack || 1) * item.quantity;
+      productUnits.set(
+        item.productId,
+        (productUnits.get(item.productId) ?? 0) + units,
+      );
+    }
+    const embalajeByProduct = this.packagingService.embalajeByProduct();
+
     for (const item of this.items()) {
       const unitsPerPack = item.units_per_pack || 1;
       const totalUnits = unitsPerPack * item.quantity;
       const subtotal = (item.price_ars || 0) * item.quantity;
-      const config = this.pricingConfigService.pricingConfig();
+      const embalajeAdd = embalajePerPackArs(
+        embalajeByProduct.get(item.productId) ?? 0,
+        productUnits.get(item.productId) ?? 0,
+        unitsPerPack,
+      );
       const noDiscount =
         config &&
         item.cost_usd_master &&
@@ -119,7 +134,8 @@ export class CartService {
               item.has_packaging,
             )
           : { price_ars: item.price_ars || 0 };
-      const subtotalNoDiscount = noDiscount.price_ars * item.quantity;
+      const subtotalNoDiscount =
+        (noDiscount.price_ars + embalajeAdd) * item.quantity;
       const existing = map.get(item.productId);
       if (existing) {
         existing.totalUnits += totalUnits;
@@ -141,7 +157,7 @@ export class CartService {
           totalQuantity: item.quantity,
           totalUnits,
           subtotalArs: subtotal,
-          unitPriceNoDiscountArs: noDiscount.price_ars,
+          unitPriceNoDiscountArs: noDiscount.price_ars + embalajeAdd,
           subtotalArsNoDiscount: subtotalNoDiscount,
           presentations: [
             {
@@ -198,6 +214,19 @@ export class CartService {
             this.recalculateAllPrices();
           });
         }
+      },
+      { allowSignalWrites: true },
+    );
+
+    // El embalaje de cada producto (sus propias cajas) depende de todo el carrito, así que
+    // llega por red (PackagingService) y no al instante: cuando la cotización cambia, se
+    // reparte de nuevo en el precio de cada línea.
+    effect(
+      () => {
+        this.packagingService.embalajeByProduct();
+        untracked(() => {
+          this.recalculateAllPrices();
+        });
       },
       { allowSignalWrites: true },
     );
@@ -387,6 +416,7 @@ export class CartService {
     if (currentItems.length === 0) return;
 
     const config = this.pricingConfigService.pricingConfig();
+    const exchangeRate = config?.exchange_rate || 1;
     // El mayor tramo de descuento alcanzado por algún producto se aplica a todos.
     const cartDiscount = cartVolumeDiscount(
       currentItems.map((item) => ({
@@ -396,6 +426,18 @@ export class CartService {
       })),
       config,
     );
+    // Unidades totales por producto en el carrito (todas sus presentaciones), para repartir
+    // el embalaje de cada producto entre sus líneas (ver embalajePerPackArs).
+    const productUnits = new Map<string, number>();
+    for (const item of currentItems) {
+      const units = (Number(item.units_per_pack) || 1) * item.quantity;
+      productUnits.set(
+        item.productId,
+        (productUnits.get(item.productId) ?? 0) + units,
+      );
+    }
+    const embalajeByProduct = this.packagingService.embalajeByProduct();
+
     const updates = currentItems.map((item) => {
       if (
         !config ||
@@ -416,7 +458,19 @@ export class CartService {
         item.has_packaging,
         cartDiscount,
       );
-      return { ...item, ...pricing };
+      const embalajeAdd = embalajePerPackArs(
+        embalajeByProduct.get(item.productId) ?? 0,
+        productUnits.get(item.productId) ?? 0,
+        Number(item.units_per_pack) || 1,
+      );
+      const price_ars = pricing.price_ars + embalajeAdd;
+      return {
+        ...item,
+        price_ars,
+        price_usd: Math.round((price_ars / exchangeRate) * 100) / 100,
+        price_sin_impuestos_ars:
+          pricing.price_sin_impuestos_ars + embalajeAdd,
+      };
     });
 
     this.items.set(updates);
