@@ -191,7 +191,7 @@ export class ShippingService {
     const s = this.selection();
     const cp = s.address?.postal_code ?? '';
     const groups = this.productGroups();
-    if (s.method !== 'delivery' || !/^d{4}$/.test(cp) || groups.length === 0)
+    if (s.method !== 'delivery' || !/^\d{4}$/.test(cp) || groups.length === 0)
       return;
     this.fetchAndStoreQuote(cp, groups, s.address?.province || undefined);
   }

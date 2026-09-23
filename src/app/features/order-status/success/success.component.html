@@ -1,7 +1,49 @@
 <section>
   <header>
-    <h1>¡Compra Confirmada!</h1>
-    <p>Recibirás un correo electrónico con el detalle de tu compra.</p>
+    @if (checked()) {
+      @switch (paymentMethod()) {
+        @case ('transferencia') {
+          <h1>¡Pedido registrado!</h1>
+          <p role="status">
+            Tu pedido queda reservado hasta que recibamos la transferencia.
+            Recibirás un correo electrónico con el detalle y los datos para pagar.
+          </p>
+        }
+        @case ('mercadopago') {
+          @switch (mpState()) {
+            @case ('checking') {
+              <h1>Estamos confirmando tu pago…</h1>
+              <p role="status">Esto tarda unos segundos.</p>
+            }
+            @case ('approved') {
+              <h1>¡Pago aprobado!</h1>
+              <p role="status">Recibirás un correo electrónico con el detalle de tu compra.</p>
+            }
+            @case ('pending') {
+              <h1>Pedido registrado</h1>
+              <p role="status">
+                Mercado Pago todavía no nos confirmó el pago. Te avisamos por correo
+                electrónico cuando se acredite.
+              </p>
+            }
+            @case ('rejected') {
+              <h1>El pago no se aprobó</h1>
+              <p role="alert">
+                El pedido quedó cancelado. Podés volver a comprar desde la
+                tienda o escribirnos por
+                <a [href]="whatsappUrl" target="_blank" rel="noopener">WhatsApp</a>.
+              </p>
+            }
+          }
+        }
+        @default {
+          <h1>No encontramos una compra reciente</h1>
+          <p>
+            Si ya compraste, revisá tu correo electrónico: ahí está el detalle de tu pedido.
+          </p>
+        }
+      }
+    }
   </header>
 
   @if (showTransferInfo) {

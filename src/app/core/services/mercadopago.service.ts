@@ -1,10 +1,11 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom, map } from 'rxjs';
 import { ApiService } from './api.service';
 import {
   CreatePaymentRequest,
   CreatePaymentResponse,
+  OrderPaymentState,
 } from '../models/payment.model';
 
 @Injectable({ providedIn: 'root' })
@@ -33,5 +34,14 @@ export class MercadoPagoService {
     }
 
     window.location.assign(checkoutUrl.toString());
+  }
+
+  /** Estado real del pago según el backend (lo actualiza el webhook de Mercado Pago). */
+  getPaymentState(externalReference: string): Observable<OrderPaymentState> {
+    return this.api
+      .get<{ payment: OrderPaymentState }>(
+        `/orders/status/${encodeURIComponent(externalReference)}`,
+      )
+      .pipe(map((response) => response.payment));
   }
 }

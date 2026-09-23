@@ -77,13 +77,6 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'orden/:id',
-    loadComponent: () =>
-      import('./features/order-status/detail/detail.component').then(
-        (m) => m.DetailComponent,
-      ),
-  },
-  {
     path: '**',
     redirectTo: 'productos',
   },

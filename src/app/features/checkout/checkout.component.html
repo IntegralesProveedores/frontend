@@ -31,7 +31,6 @@
 					required
 					minlength="3"
 					#nombre="ngModel"
-					[disabled]="session.isAuthenticated()"
 					[class.is-invalid]="nombre.invalid && (nombre.touched || formSubmitted)"
 					placeholder="Nombre y Apellido (*)"
 					aria-label="Nombre y Apellido"
@@ -45,7 +44,6 @@
 					required
 					email
 					#email="ngModel"
-					[disabled]="session.isAuthenticated()"
 					[class.is-invalid]="email.invalid && (email.touched || formSubmitted)"
 					placeholder="Email (*)"
 					aria-label="Email"
@@ -65,7 +63,6 @@
 					  inputmode="numeric"
 					  pattern="[0-9]*"
 					  #codigoArea="ngModel"
-					  [disabled]="session.isAuthenticated()"
 					  [class.is-invalid]="
 						codigoArea.invalid && (codigoArea.touched || formSubmitted)  "
 					  placeholder="Area (*)"
@@ -85,7 +82,6 @@
 					  inputmode="numeric"
 					  pattern="[0-9]*"
 					  #celular="ngModel"
-					  [disabled]="session.isAuthenticated()"
 					  [class.is-invalid]="
 						celular.invalid && (celular.touched || formSubmitted)  "
 					  placeholder="Celular (*)"

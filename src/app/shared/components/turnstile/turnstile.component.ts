@@ -35,6 +35,7 @@ interface TurnstileApi {
       'error-callback': () => void;
     },
   ): string;
+  reset(widgetId: string): void;
   remove(widgetId: string): void;
 }
 
@@ -94,6 +95,13 @@ export class TurnstileComponent implements AfterViewInit, OnDestroy {
         });
       })
       .catch((error) => logError('Turnstile:', error));
+  }
+
+  /** El token sirve una sola vez: después de usarlo (ej. el backend respondió 409
+   *  price_changed) hay que pedir uno nuevo para poder reintentar. */
+  reset(): void {
+    this.token.emit(null);
+    if (this.widgetId) window.turnstile?.reset(this.widgetId);
   }
 
   ngOnDestroy(): void {

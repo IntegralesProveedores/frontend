@@ -9,7 +9,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { EMPTY, of, throwError, timer } from 'rxjs';
-import { catchError, debounceTime, map, retry, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, retry, switchMap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { CartService } from './cart.service';
 import { logError } from '../../shared/utils/log.util';
@@ -22,6 +22,15 @@ import { logError } from '../../shared/utils/log.util';
 // CUIDADO:  Cada cotización se guarda con la clave del carrito con el que se pidió, y switchMap
 //           cancela la anterior: una respuesta vieja nunca queda como vigente.
 // ─────────────────────────────────────────────────────────────
+
+const MAX_RETRY_MS = 15000;
+const RATE_LIMITED_RETRY_MS = 30000;
+
+/** 4xx salvo 408/429: el pedido en sí es inválido, reintentar no lo arregla. */
+function isPermanentError(error: unknown): boolean {
+  const status = (error as { status?: number } | null)?.status ?? 0;
+  return status >= 400 && status < 500 && status !== 408 && status !== 429;
+}
 
 export interface PackagingBox {
   boxModelId: string;
@@ -96,6 +105,11 @@ export class PackagingService {
     if (!this.isBrowser) return;
     toObservable(this.groups)
       .pipe(
+        // groups es un array nuevo cada vez que el carrito se reescribe (p. ej. al repartir el
+        // embalaje en los precios): sin esto, cada cotización dispara otra y se arma un bucle.
+        distinctUntilChanged(
+          (a, b) => a.length === b.length && a.every((g, i) => g.productId === b[i].productId && g.units === b[i].units),
+        ),
         debounceTime(250),
         switchMap((groups) => {
           if (groups.length === 0) {
@@ -114,26 +128,26 @@ export class PackagingService {
               })),
             })
             .pipe(
-              // Una falla (red, límite de pedidos, etc.) suele ser pasajera: se reintenta
-              // solo, sin mostrarle nada al cliente ni bloquear el botón de pagar más de
-              // lo necesario. Un 429 (límite de pedidos) NO se reintenta: insistir no
-              // ayuda a que se libere antes, solo suma pedidos al mismo límite.
+              // Una falla (red, backend caído, límite de pedidos) suele ser pasajera: se
+              // reintenta sin límite de veces y sin mostrarle nada al cliente, así el botón
+              // de pagar nunca queda trabado en "Procesando". Un 429 espera 30 s (el límite
+              // es de 30 pedidos por minuto): insistir antes solo suma pedidos al mismo
+              // límite. switchMap corta los reintentos si el carrito cambia.
               retry({
-                count: 5,
-                delay: (error, retryCount) =>
-                  error?.status === 429
-                    ? throwError(() => error)
-                    : timer(Math.min(1000 * 2 ** retryCount, 8000)),
+                delay: (error, retryCount) => {
+                  if (isPermanentError(error)) return throwError(() => error);
+                  return timer(
+                    error?.status === 429
+                      ? RATE_LIMITED_RETRY_MS
+                      : Math.min(1000 * 2 ** retryCount, MAX_RETRY_MS),
+                  );
+                },
               }),
               map((quote) => ({ quote, requestKey })),
               catchError((error) => {
-                // El carrito queda sin cotización vigente: ready() sigue en false y el
-                // botón de pagar espera (sin mostrar nada) a que el carrito cambie o a
-                // que una consulta futura tenga éxito.
-                logError(
-                  'No se pudo cotizar el embalaje tras varios intentos:',
-                  error,
-                );
+                // Error del pedido en sí (ej. un producto del carrito que ya no existe):
+                // reintentar no lo arregla. ready() sigue en false hasta que el carrito cambie.
+                logError('No se pudo cotizar el embalaje:', error);
                 return of(null);
               }),
             );

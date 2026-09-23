@@ -1,12 +1,12 @@
 import {
   Component,
   inject,
-  effect,
   OnInit,
   OnDestroy,
   signal,
   computed,
   afterNextRender,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,6 @@ import { firstValueFrom } from 'rxjs';
 import { ApiService, PaymentTransferInfo } from '../../core/services/api.service';
 import { CartService } from '../../core/services/cart.service';
 import { ProductsService } from '../../core/services/products.service';
-import { SessionContextService } from '../../core/services/session-context.service';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
 import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { ShippingService } from '../../core/services/shipping.service';
@@ -76,7 +75,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private readonly api = inject(ApiService);
   public readonly cartService = inject(CartService);
   private readonly productsService = inject(ProductsService);
-  public readonly session = inject(SessionContextService);
   public readonly pricingConfigService = inject(PricingConfigService);
   private readonly mercadoPagoService = inject(MercadoPagoService);
   private readonly customerDraftService = inject(CustomerDraftService);
@@ -85,6 +83,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   public readonly shippingService = inject(ShippingService);
   public readonly packagingService = inject(PackagingService);
   private skipDraftPersistence = false;
+  @ViewChild(TurnstileComponent) private turnstile?: TurnstileComponent;
 
   products = this.productsService.products;
   productsLoading = this.productsService.loading;
@@ -123,26 +122,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   constructor() {
     afterNextRender(() => this.ready.set(true));
-
-    effect(() => {
-      const user = this.session.currentUser();
-      if (user) {
-        this.customer = {
-          nombre: user.fullName,
-          email: user.email,
-          cuit: user.taxId,
-          codigoArea: user.phone.areaCode,
-          celular: user.phone.number,
-        };
-      }
-    });
   }
 
   ngOnInit(): void {
-    if (!this.session.isAuthenticated()) {
-      const draft = this.customerDraftService.current();
-      if (draft) Object.assign(this.customer, draft);
-    }
+    const draft = this.customerDraftService.current();
+    if (draft) Object.assign(this.customer, draft);
 
     // El total se calcula en el navegador: tomar la configuración de precios vigente antes de pagar.
     void this.cartService.refreshPricing();
@@ -285,6 +269,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       error.error?.error !== 'price_changed'
     )
       return false;
+    // El backend ya consumió el token de Turnstile: sin uno nuevo, el reintento falla.
+    this.turnstile?.reset();
     await this.cartService.refreshPricing();
     this.shippingService.refreshQuote();
     this.priceChanged.set(true);
@@ -296,9 +282,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     if (this.skipDraftPersistence) return;
 
-    if (!this.session.isAuthenticated()) {
-      this.customerDraftService.setCustomer({ ...this.customer });
-    }
+    this.customerDraftService.setCustomer({ ...this.customer });
 
     this.setShippingRecipient();
   }

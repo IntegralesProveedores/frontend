@@ -23,3 +23,6 @@ export interface CreatePaymentRequest {
 export interface CreatePaymentResponse {
   init_point: string;
 }
+
+/** GET /orders/status/:external_reference */
+export type OrderPaymentState = 'approved' | 'pending' | 'rejected';
