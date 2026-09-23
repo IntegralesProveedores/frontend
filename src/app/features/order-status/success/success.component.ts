@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
 import { ShippingService } from '../../../core/services/shipping.service';
 import { CustomerDraftService } from '../../../core/services/customer-draft.service';
+import { CheckoutAttemptService } from '../../../core/services/checkout-attempt.service';
 import { PaymentMethodService } from '../../../core/services/payment-method.service';
 import { PaymentTransferInfo } from '../../../core/services/api.service';
 import { logError } from '../../../shared/utils/log.util';
@@ -61,6 +62,7 @@ export class SuccessComponent implements OnInit, OnDestroy {
     private readonly cartService: CartService,
     private readonly shippingService: ShippingService,
     private readonly customerDraftService: CustomerDraftService,
+    private readonly checkoutAttemptService: CheckoutAttemptService,
     private readonly paymentMethodService: PaymentMethodService,
   ) {}
 
@@ -75,6 +77,7 @@ export class SuccessComponent implements OnInit, OnDestroy {
     this.cartService.clear();
     this.shippingService.clear();
     this.customerDraftService.clear();
+    this.checkoutAttemptService.clear();
     this.paymentMethodService.clear();
   }
 

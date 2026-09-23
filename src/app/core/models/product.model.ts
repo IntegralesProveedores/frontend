@@ -42,7 +42,6 @@ export interface VolumeDiscount {
 
 export interface PricingConfig {
   exchange_rate: number;
-  embalaje_cost: number;
   packaging_cost?: number;
   taxes: PricingTax[];
   volume_discounts: VolumeDiscount[];

@@ -63,6 +63,7 @@ dl > div:last-child {
   margin: 0;
   font-size: 15px;
   position: relative;
+  padding: .2rem 0;
 }
 
 .payment-option .radio-dot {

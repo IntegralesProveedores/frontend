@@ -22,6 +22,7 @@ import { MercadoPagoService } from '../../core/services/mercadopago.service';
 import { ShippingService } from '../../core/services/shipping.service';
 import { PackagingService } from '../../core/services/packaging.service';
 import { CustomerDraftService } from '../../core/services/customer-draft.service';
+import { CheckoutAttemptService } from '../../core/services/checkout-attempt.service';
 import { PaymentMethodService } from '../../core/services/payment-method.service';
 import { logError } from '../../shared/utils/log.util';
 
@@ -79,6 +80,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   public readonly pricingConfigService = inject(PricingConfigService);
   private readonly mercadoPagoService = inject(MercadoPagoService);
   private readonly customerDraftService = inject(CustomerDraftService);
+  private readonly checkoutAttemptService = inject(CheckoutAttemptService);
   public readonly paymentMethodService = inject(PaymentMethodService);
   public readonly shippingService = inject(ShippingService);
   public readonly packagingService = inject(PackagingService);
@@ -218,6 +220,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.skipDraftPersistence = true;
       this.cartService.clear();
       this.customerDraftService.clear();
+      this.checkoutAttemptService.clear();
       this.shippingService.clear();
       this.paymentMethodService.clear();
       this.router.navigate(['/orden/exito'], {
@@ -321,6 +324,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       payment_method: this.paymentMethodService.current() ?? 'mercadopago',
       expected_total_ars: this.cartService.totalAPagar(),
       turnstile_token: this.captchaToken() ?? undefined,
+      idempotency_key: this.checkoutAttemptService.getOrCreateKey(),
       shipping: {
         method: this.shippingMethod()!,
         ...(this.shippingMethod() === 'delivery'

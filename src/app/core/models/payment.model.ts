@@ -16,6 +16,8 @@ export interface CreatePaymentRequest {
   /** Total que el cliente vio en pantalla; el backend rechaza (409) si cambió. */
   expected_total_ars?: number;
   turnstile_token?: string;
+  /** Identifica un mismo intento de pago (doble click, recarga, reintento de red) para no duplicar la orden. */
+  idempotency_key?: string;
 }
 
 export interface CreatePaymentResponse {

@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { EMPTY, of } from 'rxjs';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { EMPTY, of, throwError, timer } from 'rxjs';
+import { catchError, debounceTime, map, retry, switchMap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { CartService } from './cart.service';
 import { logError } from '../../shared/utils/log.util';
@@ -35,10 +35,10 @@ export interface PackagingBox {
 
 interface PackagingQuote {
   boxes: PackagingBox[];
-  embalaje_box_price_ars: number;
-  embalaje_ars: number;
   /** Embalaje por producto: el de cada producto son sus propias cajas, nunca compartidas
-   *  con otro producto. El carrito lo usa para sumarlo al precio de cada línea. */
+   *  con otro producto. El carrito lo usa para sumarlo al precio de cada línea. La API
+   *  también manda un total agregado (embalaje_ars/embalaje_box_price_ars) que acá no
+   *  hace falta: el precio ya queda repartido dentro de cada producto. */
   by_product: { product_id: string; embalaje_ars: number }[];
 }
 
@@ -50,7 +50,6 @@ export class PackagingService {
 
   private readonly quote = signal<PackagingQuote | null>(null);
   private readonly quotedKey = signal<string | null>(null);
-  private readonly failed = signal(false);
 
   private readonly groups = computed(() => {
     const cartService = this.injector.get(CartService);
@@ -76,7 +75,6 @@ export class PackagingService {
 
   /** Cajas del carrito (las últimas cotizadas, para no parpadear mientras se recalcula). */
   readonly boxes = computed(() => this.quote()?.boxes ?? []);
-  readonly embalajeArs = computed(() => this.quote()?.embalaje_ars ?? 0);
   /** product_id -> embalaje de ese producto (sus propias cajas). Lo usa CartService para
    *  sumarlo al precio de cada línea (ver embalajePerPackArs en pricing.util.ts). */
   readonly embalajeByProduct = computed(
@@ -93,8 +91,6 @@ export class PackagingService {
   readonly ready = computed(
     () => this.groups().length === 0 || this.quotedKey() === this.key(),
   );
-  /** Falló la cotización del carrito actual: no se puede pagar. */
-  readonly error = computed(() => this.failed() && !this.ready());
 
   constructor() {
     if (!this.isBrowser) return;
@@ -105,7 +101,6 @@ export class PackagingService {
           if (groups.length === 0) {
             this.quote.set(null);
             this.quotedKey.set(null);
-            this.failed.set(false);
             return EMPTY;
           }
           const requestKey = groups
@@ -119,10 +114,26 @@ export class PackagingService {
               })),
             })
             .pipe(
+              // Una falla (red, límite de pedidos, etc.) suele ser pasajera: se reintenta
+              // solo, sin mostrarle nada al cliente ni bloquear el botón de pagar más de
+              // lo necesario. Un 429 (límite de pedidos) NO se reintenta: insistir no
+              // ayuda a que se libere antes, solo suma pedidos al mismo límite.
+              retry({
+                count: 5,
+                delay: (error, retryCount) =>
+                  error?.status === 429
+                    ? throwError(() => error)
+                    : timer(Math.min(1000 * 2 ** retryCount, 8000)),
+              }),
               map((quote) => ({ quote, requestKey })),
               catchError((error) => {
-                logError('No se pudo cotizar el embalaje:', error);
-                this.failed.set(true);
+                // El carrito queda sin cotización vigente: ready() sigue en false y el
+                // botón de pagar espera (sin mostrar nada) a que el carrito cambie o a
+                // que una consulta futura tenga éxito.
+                logError(
+                  'No se pudo cotizar el embalaje tras varios intentos:',
+                  error,
+                );
                 return of(null);
               }),
             );
@@ -130,7 +141,6 @@ export class PackagingService {
       )
       .subscribe((result) => {
         if (!result) return;
-        this.failed.set(false);
         this.quote.set(result.quote);
         this.quotedKey.set(result.requestKey);
       });
