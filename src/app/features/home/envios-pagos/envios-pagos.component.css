@@ -3,7 +3,6 @@ section {
 }
 
 .accordion-inner {
-  --c-secondary: color-mix(in srgb, var(--color-text) 70%, var(--color-bg) 30%);
   padding: 5rem 6vw;
 }
 
@@ -55,7 +54,7 @@ h2 {
 .accordion-caret {
   margin-left: auto;
   font-size: 1rem;
-  color: var(--c-secondary);
+  color: var(--color-text-soft);
   transition: transform 0.25s ease;
 }
 
@@ -64,7 +63,7 @@ h2 {
 }
 
 .accordion-item p {
-  color: var(--c-secondary);
+  color: var(--color-text-soft);
   padding: 0 0 1.3rem 2.3rem;
   margin: 0;
   font-size: 0.95rem;

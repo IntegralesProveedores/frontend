@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   signal,
   computed,
   inject,
@@ -12,12 +13,16 @@ import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { ApiService } from '../../core/services/api.service';
-import { CartService } from '../../core/services/cart.service';
+import {
+  CartService,
+  estimateStockUnits,
+} from '../../core/services/cart.service';
 import { ProductsService } from '../../core/services/products.service';
 import { Product, ProductVariant } from '../../core/models/product.model';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
 import { ProductDetailSkeletonComponent } from '../../shared/components/product-detail-skeleton/product-detail-skeleton.component';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { logError } from '../../shared/utils/log.util';
 import { ImageGalleryComponent } from '../../shared/components/image-gallery/image-gallery.component';
 import { QtySelectorComponent } from '../../shared/components/qty-selector/qty-selector.component';
@@ -67,6 +72,7 @@ interface ProductJsonLd {
     CurrencyArsPipe,
     ProductDetailSkeletonComponent,
     ErrorStateComponent,
+    EmptyStateComponent,
     ImageGalleryComponent,
     QtySelectorComponent,
     RelatedProductsComponent,
@@ -75,11 +81,13 @@ interface ProductJsonLd {
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css',
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit, OnDestroy {
   product = signal<Product | null>(null);
   allProducts = inject(ProductsService).products;
   loading = signal(true);
-  error = signal<string | null>(null);
+  /** 'not-found': el producto no existe (404). 'network': la API no respondió (se puede reintentar). */
+  error = signal<'not-found' | 'network' | null>(null);
+  private lastRequest: { slug: string; variant: string | null } | null = null;
 
   selectedVariant = signal<ProductVariant | null>(null);
   quantity = signal(1);
@@ -147,11 +155,20 @@ export class ProductDetailComponent implements OnInit {
   });
 
   get inStock(): boolean {
-    return (this.selectedVariant()?.stock ?? 0) > 0;
+    return this.maxQty > 0;
   }
 
+  /** Packs que todavía se pueden agregar: stock del producto menos lo que ya está en el carrito
+   *  (todas sus presentaciones). */
   get maxQty(): number {
-    return this.selectedVariant()?.stock ?? 1;
+    const p = this.product();
+    const v = this.selectedVariant();
+    if (!p || !v) return 0;
+    return this.cart.remainingPacks(
+      p.id,
+      Number(v.units_per_pack) || 1,
+      estimateStockUnits(p.variants ?? []),
+    );
   }
 
   constructor() {
@@ -228,8 +245,8 @@ export class ProductDetailComponent implements OnInit {
     metaDescription: string,
     absoluteImageUrl: string,
   ): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-
+    // También en el servidor: así el JSON-LD queda en el HTML prerenderizado (buscadores y
+    // asistentes que no ejecutan JS). En el navegador se reemplaza por id, sin duplicarse.
     const scriptId = 'product-jsonld';
     const existingScript = this.document.getElementById(scriptId);
     if (existingScript?.parentNode) {
@@ -329,7 +346,23 @@ export class ProductDetailComponent implements OnInit {
     this.renderer.appendChild(this.document.head, breadcrumbScript);
   }
 
+  /** Al salir de la ficha, sus datos estructurados no deben quedar en el <head> de otra página. */
+  ngOnDestroy(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.priceDebounceTimer) clearTimeout(this.priceDebounceTimer);
+    for (const id of ['product-jsonld', 'breadcrumb-jsonld'])
+      this.document.getElementById(id)?.remove();
+  }
+
+  retryLoad(): void {
+    if (this.lastRequest)
+      this.loadProduct(this.lastRequest.slug, this.lastRequest.variant);
+  }
+
   loadProduct(slug: string, presentationParam: string | null = null): void {
+    this.lastRequest = { slug, variant: presentationParam };
+    this.error.set(null);
+    this.product.set(null);
     this.loading.set(true);
     this.api.get<Product>(`/products/${slug}`).subscribe({
       next: (raw) => {
@@ -456,8 +489,13 @@ export class ProductDetailComponent implements OnInit {
           window.scrollTo(0, 0);
         }
       },
-      error: () => {
-        this.error.set('Producto no encontrado.');
+      error: (err: { status?: number }) => {
+        this.error.set(err?.status === 404 ? 'not-found' : 'network');
+        this.titleService.setTitle(
+          err?.status === 404
+            ? 'Producto no encontrado | Brotalia'
+            : 'Brotalia | Macetas Biodegradables',
+        );
         this.loading.set(false);
       },
     });
@@ -511,6 +549,7 @@ export class ProductDetailComponent implements OnInit {
     const p = this.product();
     const v = this.selectedVariant();
     if (!p || !v || !this.inStock) return;
+    if (this.quantity() > this.maxQty) this.quantity.set(this.maxQty);
 
     this.cart.add({
       variantId: v.id,

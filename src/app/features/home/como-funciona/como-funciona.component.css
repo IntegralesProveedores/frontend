@@ -3,7 +3,6 @@ section {
 }
 
 .timeline-inner {
-  --c-secondary: color-mix(in srgb, var(--color-text) 70%, var(--color-bg) 30%);
   padding: 5rem 6vw;
 }
 
@@ -56,7 +55,7 @@ h2 {
   width: 2.8rem;
   height: 2.8rem;
   border-radius: 50%;
-  background: var(--color-accent);
+  background: var(--color-primary-strong);
   color: #fff;
   display: flex;
   align-items: center;
@@ -100,7 +99,7 @@ a.timeline-content:focus-visible {
 }
 
 .timeline-content p {
-  color: var(--c-secondary);
+  color: var(--color-text-soft);
   margin: 0;
   font-size: 0.92rem;
   line-height: 1.4;

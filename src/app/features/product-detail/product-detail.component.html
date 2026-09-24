@@ -2,6 +2,18 @@
   <div class="container">
     @if (loading()) {
       <app-product-detail-skeleton />
+    } @else if (error() === 'not-found') {
+      <h1 class="visually-hidden">Producto no encontrado</h1>
+      <app-empty-state
+        icon="bi-box-seam"
+        title="Producto no encontrado"
+        message="El producto que buscás no existe o ya no está disponible."
+        actionText="Ver productos"
+        actionLink="/productos"
+      />
+    } @else if (error()) {
+      <h1 class="visually-hidden">No pudimos cargar el producto</h1>
+      <app-error-state (retry)="retryLoad()" />
     } @else {
       <article class="row align-items-start">
         <app-image-gallery
@@ -42,7 +54,7 @@
 
           @if (product()?.variants && product()!.variants.length > 0) {
             <fieldset>
-              <legend>Presentación</legend>
+              <legend class="panel-label">Presentación</legend>
               @for (v of product()?.variants; track v.id) {
                 <label>
                   <input
@@ -60,7 +72,7 @@
 
           <section>
             <header>
-              <h4>Cantidad</h4>
+              <h4 class="panel-label" aria-level="2">Cantidad</h4>
               @if (selectedVariant()) {
                 <small>Stock: {{ selectedVariant()?.stock }}</small>
               }
@@ -90,7 +102,7 @@
           </output>
 
           <section>
-            <h4>Medios de pago</h4>
+            <h4 class="panel-label" aria-level="2">Medios de pago</h4>
             <ul>
               <li>
                 <img
@@ -111,7 +123,7 @@
           </section>
 
           <section>
-            <h4>Descripci&oacute;n</h4>
+            <h4 class="panel-label" aria-level="2">Descripci&oacute;n</h4>
             <p>{{ product()?.description }}</p>
           </section>
         </div>

@@ -128,3 +128,15 @@ footer {
   margin: 0;
 }
 
+
+/* Etiquetas del desglose (Subtotal / Descuento): mismo aspecto que un h6, pero un título
+   no puede ir dentro de <dt>. */
+.summary-label {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: #000;
+}

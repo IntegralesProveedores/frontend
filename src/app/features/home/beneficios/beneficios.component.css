@@ -3,7 +3,6 @@ section {
 }
 
 .beneficios-inner {
-  --c-secondary: color-mix(in srgb, var(--color-text) 70%, var(--color-bg) 30%);
   padding: 5rem 6vw;
 }
 
@@ -21,7 +20,7 @@ section {
 }
 
 .deck-header p {
-  color: var(--c-secondary);
+  color: var(--color-text-soft);
   margin: 0;
 }
 
@@ -45,7 +44,8 @@ article {
 }
 
 article:nth-child(even) {
-  background: var(--color-accent);
+  /* Texto blanco encima: el naranja claro no llega al contraste mínimo. */
+  background: var(--color-primary-strong);
   border-color: transparent;
 }
 
@@ -90,7 +90,7 @@ article h3 {
 
 article p {
   font-size: 0.92rem;
-  color: var(--c-secondary);
+  color: var(--color-text-soft);
   margin: 0;
   line-height: 1.4;
 }

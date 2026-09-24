@@ -66,10 +66,6 @@ fieldset label {
   user-select: none;
 }
 
-@media (max-width: 1200px) {
-
-}
-
 select {
   display: block;
   width: 100%;

@@ -16,7 +16,9 @@ section {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: var(--color-bg-brand-soft);
+  /* Antes apuntaba a --color-bg-brand-soft, que no existe (fondo transparente = el crema
+     del body). Se deja explícito el mismo crema: no cambia cómo se ve. */
+  background-color: var(--color-bg);
   font-family: "Caveat", cursive;
   font-size: 1.5em;
   font-weight: 600;

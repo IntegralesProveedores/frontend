@@ -24,6 +24,7 @@ import { CustomerDraftService } from '../../core/services/customer-draft.service
 import { CheckoutAttemptService } from '../../core/services/checkout-attempt.service';
 import { PaymentMethodService } from '../../core/services/payment-method.service';
 import { logError } from '../../shared/utils/log.util';
+import { BUSINESS_WHATSAPP_URL } from '../../shared/constants/contact.constants';
 
 import { RelatedProductsComponent } from '../../shared/components/related-products/related-products.component';
 import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
@@ -101,6 +102,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   captchaMissing = signal(false);
   /** El backend rechazó la orden porque el total cambió desde que se mostró. */
   priceChanged = signal(false);
+  /** El backend rechazó el pedido porque no alcanza el stock. */
+  insufficientStock = signal(false);
+  /** El backend no reconoció el intento anterior (409 idempotency_conflict): hay que confirmar de nuevo. */
+  retryNeeded = signal(false);
+  readonly whatsappUrl = BUSINESS_WHATSAPP_URL;
 
   readonly shippingCost = computed(() =>
     this.shippingMethod() === 'delivery'
@@ -178,6 +184,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   async confirmarPedido(isValid: boolean | null) {
     this.priceChanged.set(false);
+    this.insufficientStock.set(false);
+    this.retryNeeded.set(false);
     this.formSubmitted = true;
     this.shippingFormSubmitted = true;
 
@@ -228,6 +236,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   async iniciarPagoMercadoPago(isValid: boolean | null): Promise<void> {
     this.priceChanged.set(false);
+    this.insufficientStock.set(false);
+    this.retryNeeded.set(false);
     this.formSubmitted = true;
     this.shippingFormSubmitted = true;
 
@@ -263,6 +273,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
    * al cliente y NO se lo manda a la pantalla de error: puede confirmar de nuevo.
    */
   private async handlePriceChanged(error: unknown): Promise<boolean> {
+    if (this.handleInsufficientStock(error)) return true;
+    if (this.handleIdempotencyConflict(error)) return true;
     if (
       !(error instanceof HttpErrorResponse) ||
       error.status !== 409 ||
@@ -274,6 +286,38 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     await this.cartService.refreshPricing();
     this.shippingService.refreshQuote();
     this.priceChanged.set(true);
+    return true;
+  }
+
+  /**
+   * 409 idempotency_conflict: la key de este intento ya se usó para otro pedido o para una
+   * orden cancelada. Se descarta la key (el próximo intento lleva una nueva) y el cliente
+   * confirma de nuevo; hace falta otro captcha porque el anterior ya se usó.
+   */
+  private handleIdempotencyConflict(error: unknown): boolean {
+    if (
+      !(error instanceof HttpErrorResponse) ||
+      error.status !== 409 ||
+      error.error?.error !== 'idempotency_conflict'
+    )
+      return false;
+    this.checkoutAttemptService.clear();
+    this.turnstile?.reset();
+    this.retryNeeded.set(true);
+    return true;
+  }
+
+  /**
+   * El backend rechaza el pedido si no alcanza el stock ("Insufficient stock…", 400/409).
+   * En vez de la pantalla de error genérica, se avisa acá: el cliente ajusta el carrito.
+   */
+  private handleInsufficientStock(error: unknown): boolean {
+    const message =
+      error instanceof HttpErrorResponse ? error.error?.error : undefined;
+    if (typeof message !== 'string' || !message.startsWith('Insufficient stock'))
+      return false;
+    this.turnstile?.reset();
+    this.insufficientStock.set(true);
     return true;
   }
 
@@ -293,7 +337,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
    *  nombre del destinatario actualizado. */
   private buildOrderPayload() {
     const c = this.customer;
-    return {
+    const order = {
       items: this.cartService.cartItems().map((i) => ({
         variant_id: i.variantId,
         quantity: i.quantity,
@@ -307,14 +351,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       },
       payment_method: this.paymentMethodService.current() ?? 'mercadopago',
       expected_total_ars: this.cartService.totalAPagar(),
-      turnstile_token: this.captchaToken() ?? undefined,
-      idempotency_key: this.checkoutAttemptService.getOrCreateKey(),
       shipping: {
         method: this.shippingMethod()!,
         ...(this.shippingMethod() === 'delivery'
           ? { address: { ...this.shippingService.current().address! } }
           : {}),
       },
+    };
+    return {
+      ...order,
+      turnstile_token: this.captchaToken() ?? undefined,
+      // Mismo pedido → misma key (doble click, recarga); pedido distinto → key nueva.
+      idempotency_key: this.checkoutAttemptService.getOrCreateKey(
+        JSON.stringify(order),
+      ),
     };
   }
 

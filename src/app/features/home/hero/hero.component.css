@@ -53,39 +53,15 @@ app-breadcrumb {
 
 @media (min-width: 576px) {
   app-breadcrumb {
-    --cw: 540px;
-    left: calc((100% - var(--cw)) / 2 + 12px);
-  }
-}
-
-@media (min-width: 768px) {
-  app-breadcrumb {
-    --cw: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  app-breadcrumb {
-    --cw: 960px;
-  }
-}
-
-@media (min-width: 1200px) {
-  app-breadcrumb {
-    --cw: 1140px;
-  }
-}
-
-@media (min-width: 1400px) {
-  app-breadcrumb {
-    --cw: 1320px;
+    left: calc((100% - var(--container-width)) / 2 + 12px);
   }
 }
 
 @media (min-width: 1001px) {
   app-breadcrumb {
     left: calc(
-      (100% - var(--cw)) / 2 + 12px + max(0px, 88px - (100vw - var(--cw)) / 2)
+      (100% - var(--container-width)) / 2 + 12px +
+        max(0px, 88px - (100vw - var(--container-width)) / 2)
     );
   }
 }
@@ -192,13 +168,6 @@ p {
   color: #6c757d;
   text-align: center;
   white-space: nowrap;
-}
-
-.hero-cta {
-  gap: 0.5rem;
-  width: fit-content;
-  padding: 0.85rem 1.6rem;
-  margin-top: 0.5rem;
 }
 
 @media (max-width: 768px) {

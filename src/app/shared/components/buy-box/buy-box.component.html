@@ -8,7 +8,7 @@
 
 <section>
   <header>
-    <h4>Cantidad de packs</h4>
+    <h4 class="panel-label" aria-level="2">Cantidad de packs</h4>
     <small>Stock: {{ variant.stock }}</small>
   </header>
   <app-qty-selector
@@ -29,7 +29,7 @@
   Total <data [attr.value]="totalArs">{{ totalArs | currencyArs }}</data>
 </p>
 
-<button type="button" class="buy-now" (click)="buyNow()" [disabled]="!inStock">
+<button type="button" class="buy-now" (click)="buyNow()" [disabled]="!inStock && !inCart">
   COMPRAR AHORA
 </button>
 

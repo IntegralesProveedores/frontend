@@ -30,7 +30,7 @@
               <td>
                 <a
                   [routerLink]="productLink(item.slug, item.representativeUnitsPerPack)">
-                  <h4>
+                  <h4 aria-level="2">
                     {{ item.productName }}
                   </h4>
                 </a>
@@ -49,11 +49,11 @@
 
     @if (cartService.volumeDiscountPercentage() > 0) {
       <dl>
-        <dt><h6>Subtotal</h6></dt>
+        <dt class="summary-label">Subtotal</dt>
         <dd><data [attr.value]="subtotalSinDescuentoArs">{{ subtotalSinDescuentoArs | currencyArs }}</data></dd>
       </dl>
       <dl>
-        <dt><h6>Descuento</h6></dt>
+        <dt class="summary-label">Descuento</dt>
         <dd><data [attr.value]="cartService.volumeDiscountPercentage()">&minus;{{ cartService.volumeDiscountPercentage() }}%</data></dd>
       </dl>
     }
@@ -64,7 +64,7 @@
       [class.pt-2]="showItemsList || cartService.volumeDiscountPercentage() > 0"
       [class.mt-2]="showItemsList || cartService.volumeDiscountPercentage() > 0"
     >
-      <h6>Productos</h6>
+      <h6 aria-level="2">Productos</h6>
       <div class="text-end">
         <data [attr.value]="cartService.subtotalArs()">
           {{ cartService.subtotalArs() | currencyArs }}
@@ -82,7 +82,7 @@
 
   @if (packagingService.boxes().length && showBoxesDetail) {
     <section class="packaging">
-      <h6>Embalaje</h6>
+      <h6 aria-level="2">Embalaje</h6>
       @for (box of packagingService.boxes(); track box.boxModelId) {
         <dl>
           <dt>{{ box.count }} x {{ box.boxModelName }}</dt>
@@ -98,7 +98,7 @@
 
       <div class="summary-row summary-row-price mt-1">
         <div class="text-start">
-          <h6>Entrega</h6>
+          <h6 aria-level="2">Entrega</h6>
           @if (shippingMethod === "delivery") {
             <small>
               Entre el
@@ -116,7 +116,7 @@
           @if (shippingQuoting) {
             <output aria-label="Recalculando env&iacute;o">
               <span
-                class="spinner-border spinner-border-sm text-success"
+                class="spinner-border spinner-border-sm color-success"
                 role="status"
               ></span>
             </output>
@@ -137,7 +137,7 @@
   @if (showPaymentMethod && paymentMethodService.current()) {
     <section class="payment">
       <div>
-        <h6>
+        <h6 aria-level="2">
           Pago
           @if (
             paymentMethodService.current() === "transferencia" &&
@@ -169,7 +169,7 @@
 
   <section>
     <div class="summary-row">
-      <h6>TOTAL</h6>
+      <h6 aria-level="2">TOTAL</h6>
       <div class="text-end">
         <data [attr.value]="totalConEnvio">
           {{ totalConEnvio | currencyArs }}

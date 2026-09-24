@@ -38,18 +38,6 @@ li[aria-current="page"] {
    cuando el container queda más cerca del borde que el ancho del logo. */
 @media (min-width: 1001px) {
   .clear-logo ol {
-    padding-left: max(0px, calc(88px - (100vw - 960px) / 2));
-  }
-}
-
-@media (min-width: 1200px) {
-  .clear-logo ol {
-    padding-left: max(0px, calc(88px - (100vw - 1140px) / 2));
-  }
-}
-
-@media (min-width: 1400px) {
-  .clear-logo ol {
-    padding-left: max(0px, calc(88px - (100vw - 1320px) / 2));
+    padding-left: max(0px, calc(88px - (100vw - var(--container-width)) / 2));
   }
 }

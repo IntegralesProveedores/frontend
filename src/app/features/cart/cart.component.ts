@@ -84,12 +84,15 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Precios vigentes, stock para el tope de cantidades y limpieza de productos borrados.
+    void this.cartService.refreshPricing();
     this.productsService.getProducts().subscribe({
       error: (error) => logError('Error al cargar otros productos:', error),
     });
   }
 
   increment(item: CartItem): void {
+    if (item.quantity >= this.cartService.maxQuantityFor(item)) return;
     this.cartService.updateQuantity(item.variantId, item.quantity + 1);
   }
 
@@ -105,7 +108,10 @@ export class CartComponent implements OnInit {
     const target = event.target as HTMLInputElement | null;
     const val = parseInt(target?.value ?? '', 10);
     if (!isNaN(val)) {
-      this.cartService.updateQuantity(item.variantId, Math.max(0, val));
+      this.cartService.updateQuantity(
+        item.variantId,
+        Math.min(Math.max(0, val), Math.max(1, this.cartService.maxQuantityFor(item))),
+      );
     }
   }
 

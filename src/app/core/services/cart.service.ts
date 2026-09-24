@@ -21,10 +21,28 @@ import {
 import { PaymentMethodService } from './payment-method.service';
 import { PackagingService } from './packaging.service';
 import { ShippingService } from './shipping.service';
-import { PricingConfig } from '../models/product.model';
+import { PricingConfig, Product } from '../models/product.model';
+import { PaginatedResponse } from '../models/api-response.model';
 import { logError } from '../../shared/utils/log.util';
 
 const CART_KEY = 'cart_items';
+
+/**
+ * Unidades en stock de un producto a partir de sus presentaciones: la API da el stock de
+ * cada una en packs (stock_units ÷ unidades del pack, redondeado para abajo), así que la
+ * presentación más chica es la que mejor aproxima el stock en unidades.
+ */
+export function estimateStockUnits(
+  variants: Array<{ stock?: number; units_per_pack?: number }>,
+): number {
+  return variants.reduce(
+    (max, v) =>
+      Math.max(max, (Number(v.stock) || 0) * (Number(v.units_per_pack) || 1)),
+    0,
+  );
+}
+/** Máximo que acepta GET /products por página. */
+const CATALOG_PAGE_LIMIT = 50;
 
 function isCartItem(value: unknown): value is CartItem {
   if (!value || typeof value !== 'object') return false;
@@ -51,6 +69,11 @@ export class CartService {
 
   readonly cartItems = this.items.asReadonly();
   readonly dolarOficial = this.dolarVenta.asReadonly();
+  /** Nombres de lo que se sacó del carrito porque ya no está en el catálogo (para avisarle al cliente). */
+  readonly removedItems = signal<string[]>([]);
+  /** Unidades en stock de cada producto según el último catálogo pedido (el stock es por
+   *  unidades del producto, no por presentación). */
+  private readonly productStockUnits = signal<Map<string, number>>(new Map());
 
   readonly itemCount = computed(() =>
     this.items().reduce((sum, i) => sum + i.quantity, 0),
@@ -204,6 +227,8 @@ export class CartService {
     if (this.isBrowser) {
       this.loadFromStorage();
       this.refreshExchangeRate();
+      // Un carrito guardado puede tener productos que se borraron del catálogo.
+      if (this.items().length > 0) void this.refreshPricing();
     }
 
     effect(
@@ -394,21 +419,78 @@ export class CartService {
    * solo se actualizaba al visitar una ficha de producto: si cambió el dólar, el
    * markup o un descuento, el total mostrado podía diferir del cobrado.
    * El parámetro _t evita el caché de 60 s de /products.
+   *
+   * Con el mismo pedido saca del carrito las presentaciones que ya no están en el
+   * catálogo (producto o presentación borrados/desactivados): con ellas el backend
+   * rechaza la cotización del embalaje y el botón de pagar quedaría esperando.
    */
   async refreshPricing(): Promise<void> {
     try {
       const response = await firstValueFrom(
-        this.apiService.get<{ pricing_config?: PricingConfig }>('/products', {
-          limit: '1',
-          _t: String(Date.now()),
-        }),
+        this.apiService.get<PaginatedResponse<Product> & { pricing_config?: PricingConfig }>(
+          '/products',
+          { limit: String(CATALOG_PAGE_LIMIT), _t: String(Date.now()) },
+        ),
       );
+      this.updateStockFromCatalog(response.items ?? []);
+      this.removeUnavailableItems(response);
       if (!response.pricing_config) return;
       this.pricingConfigService.setPricingConfig(response.pricing_config);
       await this.recalculateAllPrices();
     } catch (e) {
       logError('Error al actualizar los precios:', e);
     }
+  }
+
+  private updateStockFromCatalog(products: Product[]): void {
+    const next = new Map(this.productStockUnits());
+    for (const p of products) next.set(p.id, estimateStockUnits(p.variants ?? []));
+    this.productStockUnits.set(next);
+  }
+
+  /**
+   * Packs de esa presentación que todavía entran en el stock del producto, descontando lo
+   * que ya está en el carrito (todas sus presentaciones, salvo `excludeVariantId`).
+   * Sin dato de stock devuelve Infinity: el backend igual valida al pagar.
+   */
+  remainingPacks(
+    productId: string,
+    unitsPerPack: number,
+    stockUnits: number | undefined = this.productStockUnits().get(productId),
+    excludeVariantId?: string,
+  ): number {
+    if (stockUnits === undefined) return Infinity;
+    const inCart = this.items()
+      .filter((i) => i.productId === productId && i.variantId !== excludeVariantId)
+      .reduce((sum, i) => sum + i.quantity * (i.units_per_pack || 1), 0);
+    return Math.max(0, Math.floor((stockUnits - inCart) / (unitsPerPack || 1)));
+  }
+
+  /** Cantidad máxima de una línea del carrito según el stock del producto. */
+  maxQuantityFor(item: CartItem): number {
+    return this.remainingPacks(
+      item.productId,
+      item.units_per_pack || 1,
+      undefined,
+      item.variantId,
+    );
+  }
+
+  private removeUnavailableItems(catalog: PaginatedResponse<Product>): void {
+    // Solo con el catálogo completo en una página: si no, faltarían productos que sí existen.
+    if (catalog.pagination?.total_pages !== 1 || !Array.isArray(catalog.items)) return;
+    const available = new Set(
+      catalog.items.flatMap((p) => (p.variants ?? []).map((v) => v.id)),
+    );
+    const current = this.items();
+    const kept = current.filter((i) => available.has(i.variantId));
+    if (kept.length === current.length) return;
+
+    this.removedItems.set(
+      current.filter((i) => !available.has(i.variantId)).map((i) => i.productName),
+    );
+    this.items.set(kept);
+    this.saveToStorage();
   }
 
   private async recalculateAllPrices(): Promise<void> {

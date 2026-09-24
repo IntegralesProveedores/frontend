@@ -1,6 +1,9 @@
 import { Component, Input, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { CartService } from '../../../core/services/cart.service';
+import {
+  CartService,
+  estimateStockUnits,
+} from '../../../core/services/cart.service';
 import { PricingConfigService } from '../../../core/services/pricing-config.service';
 import { Product, ProductVariant } from '../../../core/models/product.model';
 import { calculateLocalPrice } from '../../../core/lib/pricing.util';
@@ -29,11 +32,16 @@ export class BuyBoxComponent {
   readonly added = signal(false);
 
   get inStock(): boolean {
-    return this.variant.stock > 0;
+    return this.maxQty > 0;
   }
 
+  /** Packs que todavía se pueden agregar: stock del producto menos lo que ya está en el carrito. */
   get maxQty(): number {
-    return Math.max(1, this.variant.stock);
+    return this.cart.remainingPacks(
+      this.product.id,
+      Number(this.variant.units_per_pack) || 1,
+      estimateStockUnits(this.product.variants ?? []),
+    );
   }
 
   get inCart(): boolean {
@@ -76,6 +84,7 @@ export class BuyBoxComponent {
 
   async addToCart(): Promise<boolean> {
     if (!this.inStock) return false;
+    if (this.quantity() > this.maxQty) this.quantity.set(this.maxQty);
     const p = this.product;
     const v = this.variant;
     const price = this.pricing;
@@ -104,7 +113,9 @@ export class BuyBoxComponent {
     return true;
   }
 
+  /** Si la presentación ya está en el carrito, va directo a pagar sin sumar otra vez la cantidad. */
   async buyNow(): Promise<void> {
-    if (await this.addToCart()) this.router.navigate(['/finalizar-compra']);
+    if (this.inCart || (await this.addToCart()))
+      this.router.navigate(['/finalizar-compra']);
   }
 }

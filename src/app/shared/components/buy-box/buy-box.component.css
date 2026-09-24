@@ -34,13 +34,6 @@ section > button {
   width: 100%;
 }
 
-h4 {
-  padding: 1.5rem 0 0.5rem;
-  font-size: 0.75rem;
-  line-height: 1.2;
-  color: var(--color-text-muted);
-}
-
 p data {
   display: inline;
   font-size: 1.1rem;

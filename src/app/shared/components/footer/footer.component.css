@@ -35,6 +35,7 @@ a {
 }
 
 a:hover {
-  color: var(--color-primary) !important;
+  color: var(--color-link);
+  /* !important: los links llevan la utilidad text-decoration-none de Bootstrap, que también lo usa. */
   text-decoration: underline !important;
 }

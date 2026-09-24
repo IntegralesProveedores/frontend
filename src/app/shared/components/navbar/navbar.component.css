@@ -1,7 +1,7 @@
 .logo-floating-block {
   position: fixed;
   top: 0;
-  left: 0; /* Brand a la derecha */
+  left: 0;
   z-index: 9999;
   width: 70px;
   height: 70px;
@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  text-decoration: none !important;
+  text-decoration: none;
   pointer-events: auto; /* Asegura el clic */
 }
 
@@ -83,6 +83,8 @@
   justify-content: center;
   width: 40px;
   height: 40px;
+  /* .nav-link de Bootstrap trae padding 0.5rem 1rem: dentro del círculo de 40px no va. */
+  padding: 0;
   border-radius: 50%;
   background: transparent;
   color: var(--color-text-secondary);
@@ -98,7 +100,7 @@
 
 .nav-link:hover,
 .nav-link:focus-visible {
-  background-color: var(--color-accent);
+  background-color: var(--color-primary-strong);
   color: #fff;
   transform: scale(1.1);
 }
@@ -151,11 +153,14 @@
   transform: translateY(-50%) translateX(10px);
 }
 
-.nav-bar-vertical-right .nav-item:hover .nav-text {
+/* También con teclado (:focus-within), no solo con el mouse. */
+.nav-bar-vertical-right .nav-item:hover .nav-text,
+.nav-bar-vertical-right .nav-item:focus-within .nav-text {
   transform: translateY(-50%) translateX(0);
 }
 
-.nav-item:hover .nav-text {
+.nav-item:hover .nav-text,
+.nav-item:focus-within .nav-text {
   opacity: 1;
   visibility: visible;
 }
@@ -177,7 +182,7 @@
   }
 
   .nav-bar-vertical-right .nav {
-    flex-direction: row !important;
+    flex-direction: row;
     gap: 12px;
     padding: 0;
   }
@@ -199,6 +204,6 @@
   }
 
   .nav-text {
-    display: none !important;
+    display: none;
   }
 }

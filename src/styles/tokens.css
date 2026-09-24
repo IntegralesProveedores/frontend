@@ -1,9 +1,7 @@
 :root {
   --color-bg: #fdf7e7;
-  --color-bg-primary: #fdf7e7;
   --color-bg-secondary: #fffaf0;
   --color-bg-tertiary: #f1eadb;
-  --color-bg-quaternary: #2e5a36;
   --color-bg-soft: #fff4dc;
   --color-surface: #ffffff;
 
@@ -12,42 +10,38 @@
   --color-text-primary: #2b3033;
   --color-text-secondary: #5c6468;
   --color-text-muted: #7a8178;
-  --color-text-disabled: #a7aaa4;
-  --color-text-dimmed: #7a8178;
+  /* Texto de apoyo de las secciones de la home (beneficios, cómo funciona, envíos). */
+  --color-text-soft: color-mix(in srgb, var(--color-text) 70%, var(--color-bg) 30%);
 
   --color-primary: #e07b39;
   --color-primary-rgb: 224, 123, 57;
   --color-accent: #e07b39;
   --color-accent-soft: rgba(224, 123, 57, 0.12);
+  /* Naranja de la marca oscurecido (terracota): 4,8:1 sobre el crema y 5,1:1 con texto
+     blanco encima. Para links y para fondos naranja con texto blanco (hover, activo,
+     opción elegida); el naranja claro no llega al contraste mínimo en esos casos. */
+  --color-primary-strong: #b4501c;
+  --color-link: var(--color-primary-strong);
 
   --color-secondary: #2e5a36;
 
-  --color-border: rgba(43, 48, 51, 0.14);
-  --color-border-soft: rgba(43, 48, 51, 0.08);
-  --color-border-primary: rgba(43, 48, 51, 0.14);
-  --color-border-secondary: rgba(43, 48, 51, 0.08);
+  /* Estados (contraste AA sobre el crema y sobre blanco). */
+  --color-error: #c62828;
+  --color-success: #2e7d32;
 
-  --gray-0: #ffffff;
+  --color-border: rgba(43, 48, 51, 0.14);
+  --color-border-primary: rgba(43, 48, 51, 0.14);
+
   --gray-0-rgb: 255, 255, 255;
-  --gray-100: #f5f5f5;
-  --gray-500: #737373;
   --gray-900: #171717;
 
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-heading: 'Oswald', sans-serif;
-  --font-display: var(--font-heading);
   --font-body: var(--font-sans);
-
-  --text-sm: 0.875rem;
-
-  --weight-bold: 700;
-  --weight-black: 900;
 
   --space-2: 0.5rem;
   --space-4: 1rem;
   --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-12: 3rem;
   --space-20: 5rem;
 
   --radius-sm: 4px;
@@ -57,21 +51,17 @@
   --radius-full: 9999px;
   --border-radius-base: var(--radius-lg);
 
-  --shadow-flat: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
   --shadow-luxe: 0 10px 30px rgba(0, 0, 0, 0.1);
-  --ui-shadow-hover: var(--shadow-luxe);
-  --inner-glow: inset 0 1px 0 rgba(255, 255, 255, 1);
 
   --t-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --t-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: var(--t-base);
 
-  --section-spacing: var(--space-4);
   --skeleton-bg: #e5e5e5;
   --skeleton-shimmer: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
 
+  /* Los lee el CSS de Bootstrap (reboot, utilidades). */
   --bs-primary: var(--color-primary);
   --bs-primary-rgb: var(--color-primary-rgb);
   --bs-body-font-family: var(--font-sans);
@@ -79,3 +69,11 @@
   --bs-border-radius-lg: 1.25rem;
   --bs-box-shadow: var(--shadow-card);
 }
+
+/* Ancho del .container de Bootstrap en cada breakpoint: para alinear elementos posicionados
+   (breadcrumb del hero, margen del logo fijo) con el borde del container. */
+@media (min-width: 576px) { :root { --container-width: 540px; } }
+@media (min-width: 768px) { :root { --container-width: 720px; } }
+@media (min-width: 992px) { :root { --container-width: 960px; } }
+@media (min-width: 1200px) { :root { --container-width: 1140px; } }
+@media (min-width: 1400px) { :root { --container-width: 1320px; } }

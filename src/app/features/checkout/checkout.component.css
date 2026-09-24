@@ -115,7 +115,7 @@ input:checked + .radio-dot {
 
   .payment-option {
     font-size: 14px;
-    padding: 5px !important;
+    padding: 5px;
   }
 }
 

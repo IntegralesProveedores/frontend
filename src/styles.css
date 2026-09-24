@@ -11,7 +11,7 @@
 
 a {
 	text-decoration: none;
-	color: #F00;
+	color: var(--color-link);
 	font-size: .8rem;
 }
 
@@ -60,7 +60,6 @@ data {
 	}
 	h6 {
 	  font-size: .8rem;
-	  color: var(--color-primary);
 	  color: #000;
 	}
 
@@ -93,7 +92,6 @@ button,
   border: 1px solid var(--color-primary);
   border-radius: 5px;
   background-color: #fff;
-  color: var(--color-primary);
   color: #000;
   font-size: 1rem;
   line-height: 1;
@@ -109,9 +107,10 @@ button,
 
 }
 
-	button:hover:not(:disabled), 
+	button:hover:not(:disabled),
 	.button:hover:not(:disabled) {
-	  background-color: var(--color-primary);
+	  background-color: var(--color-primary-strong);
+	  border-color: var(--color-primary-strong);
 	  color: #fff;
 	}
 
@@ -131,25 +130,14 @@ button,
 	button.active:hover:not(:disabled), 
 	.button.active:hover:not(:disabled)
 	{
-	  background-color: var(--color-primary);
+	  background-color: var(--color-primary-strong);
+	  border-color: var(--color-primary-strong);
 	  color: #fff;
 	}
 
-
-form {
-	
-}
-	
-	fieldset {
-		
-	}
-		
 		legend {
 		  float: none;
 		  width: 100%;
-		  padding: 0;
-		  font-size: inherit;
-		  line-height: inherit;
 		  font-family: var(--font-heading);
 		  font-size: 0.8rem;
 		  font-weight: 500;
@@ -180,13 +168,13 @@ form {
 		}
 
 		::placeholder {
-		  color: var(--color-text-muted) !important;
+		  color: var(--color-text-muted);
 		  font-size: 0.7rem;
 		  opacity: 1;
 		}
 
 		input.is-invalid {
-		  border-color: #dc3545 !important;
+		  border-color: var(--color-error) !important;
 		}
 
 		input[type="radio"] {
@@ -225,8 +213,8 @@ form {
 
 		label:has(> input[type="radio"]):hover,
 		label:has(> input[type="radio"]:checked) {
-			background-color: var(--color-primary);
-			border-color: var(--color-primary);
+			background-color: var(--color-primary-strong);
+			border-color: var(--color-primary-strong);
 			color: #fff;
 		}
 
@@ -248,6 +236,11 @@ address {
 mark {
   background-color: transparent;
   color: inherit;
+}
+
+/* Íconos de estado OK (WhatsApp, enviado, cargando). Reemplaza al text-success de Bootstrap. */
+.color-success {
+  color: var(--color-success);
 }
 
 aside {
@@ -276,7 +269,9 @@ table {
   table-layout: fixed;
   border-collapse: collapse;
 }
-	
+
+	/* Convención del sitio: las tablas (carrito, resumen) tienen encabezados solo para
+	   lectores de pantalla. Una tabla con encabezado visible tiene que anular esto. */
 	table thead {
 		position: absolute;
 		width: 1px;
@@ -298,6 +293,57 @@ table {
 section {
   padding: .5rem 0;
 }
+
+/* Rótulos chicos del panel de compra (Presentación, Cantidad, Medios de pago…): ficha de
+   producto y buy-box de la landing. */
+.panel-label {
+  padding: 1.5rem 0 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: var(--color-text-muted);
+}
+
+/* Páginas de resultado de la compra (/orden/exito, /orden/error, /orden/pendiente):
+   el mismo layout centrado en las tres. Lo propio de cada una queda en su componente. */
+.status-page {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  width: min(100% - 2rem, 1140px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+	.status-page > * {
+	  opacity: 0;
+	  animation: reveal-up 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	}
+
+	.status-page h1 {
+	  font-size: calc(1.325rem + 0.9vw);
+	  margin-bottom: 0.5rem;
+	}
+
+	.status-page p {
+	  max-width: 600px;
+	  margin: 0 auto 1rem;
+	}
+
+	/* Ícono circular sobre el título (error, pendiente). */
+	.status-page header > i {
+	  display: grid;
+	  place-items: center;
+	  width: 80px;
+	  aspect-ratio: 1;
+	  margin: 0 auto 1rem;
+	  border: 1px solid var(--color-border-primary);
+	  border-radius: 50%;
+	  background-color: var(--color-bg-secondary);
+	  color: var(--color-primary);
+	  font-size: 40px;
+	}
 
 	article {
 	  display: block;
@@ -349,5 +395,22 @@ footer {
   }
   h4 {
     font-size: 1.5rem;
+  }
+}
+
+/* Quien pidió reducir el movimiento en su sistema: sin animaciones de entrada, shimmer
+   ni scroll suave. El contenido que arranca con opacity 0 queda visible igual. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

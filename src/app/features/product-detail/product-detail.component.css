@@ -15,14 +15,6 @@ header > div p {
   margin-bottom: 0;
 }
 
-h4,
-legend {
-  padding: 1.5rem 0 0.5rem;
-  font-size: 0.75rem;
-  line-height: 1.2;
-  color: var(--color-text-muted);
-}
-
 legend {
   text-transform: uppercase;
 }
@@ -107,7 +99,7 @@ li strong {
 li mark {
   padding: 0.35em 0.65em;
   border-radius: 0.375rem;
-  background-color: rgb(var(--bs-success-rgb));
+  background-color: var(--color-success);
   color: #fff;
   font-size: 0.7rem;
   font-weight: 700;

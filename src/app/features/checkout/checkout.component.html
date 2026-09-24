@@ -6,11 +6,29 @@
     } @else {
     <div class="row">
       <!-- Formulario -->
-      <div class="offset-md-1 col-lg-5">
+      <div class="offset-lg-1 col-lg-5">
           <app-breadcrumb
             [items]="[{ label: 'Productos', link: '/productos' }, { label: 'Carrito', link: '/carrito' }, { label: 'Finalizar compra' }]"
             [clearLogo]="false"
           />
+          @if (cartService.removedItems().length) {
+            <aside role="status">
+              Quitamos de tu carrito lo que ya no está disponible:
+              {{ cartService.removedItems().join(', ') }}.
+            </aside>
+          }
+          @if (retryNeeded()) {
+            <aside role="alert">
+              Tu pedido cambió desde el intento anterior. Revisalo y apretá Pagar de nuevo.
+            </aside>
+          }
+          @if (insufficientStock()) {
+            <aside role="alert">
+              No hay stock suficiente para tu pedido. Reducí las cantidades en el
+              <a routerLink="/carrito">carrito</a> o escribinos por
+              <a [href]="whatsappUrl" target="_blank" rel="noopener">WhatsApp</a>.
+            </aside>
+          }
           @if (priceChanged()) {
             <aside role="alert">
               Los precios se actualizaron mientras completabas la compra. Revisá el nuevo total y confirmá de nuevo.
@@ -230,7 +248,7 @@
       </div>
 
       <!-- Resumen Derecho -->
-      <div class="offset-md-1 col-lg-4">
+      <div class="offset-lg-1 col-lg-4">
         <app-order-summary
           actionMode="checkout"
           [submitting]="loading || paymentLoading || !packagingService.ready()"

@@ -1,6 +1,12 @@
 <section>
   <div class="container">
     <h1 class="visually-hidden">Carrito de compras</h1>
+    @if (ready() && cartService.removedItems().length) {
+      <aside role="status">
+        Quitamos de tu carrito lo que ya no está disponible:
+        {{ cartService.removedItems().join(', ') }}.
+      </aside>
+    }
     <!-- Skeleton -->
     @if (!ready()) {
       <app-cart-skeleton />
@@ -68,6 +74,7 @@
                   <td>
                     <app-qty-selector
                       [quantity]="item.quantity"
+                      [incrementDisabled]="item.quantity >= cartService.maxQuantityFor(item)"
                       (decrement)="decrement(item)"
                       (increment)="increment(item)"
                     />
