@@ -7,16 +7,12 @@ import {
   inject,
   PLATFORM_ID,
   effect,
-  Renderer2,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Title, Meta } from '@angular/platform-browser';
 import { ApiService } from '../../core/services/api.service';
-import {
-  CartService,
-  estimateStockUnits,
-} from '../../core/services/cart.service';
+import { CartService } from '../../core/services/cart.service';
+import { ProductSeoService } from '../../core/services/product-seo.service';
 import { ProductsService } from '../../core/services/products.service';
 import { Product, ProductVariant } from '../../core/models/product.model';
 import { CurrencyArsPipe } from '../../shared/pipes/currency-ars.pipe';
@@ -32,36 +28,8 @@ import {
   BreadcrumbItem,
 } from '../../shared/components/breadcrumb/breadcrumb.component';
 import { PricingConfigService } from '../../core/services/pricing-config.service';
-import { calculateLocalPrice } from '../../core/lib/pricing.util';
+import { presentationPrice, toCartItem } from '../../core/lib/product-purchase';
 import { findLandingVariant } from '../../core/lib/landing-variants';
-
-interface ProductJsonLd {
-  '@context': string;
-  '@type': 'Product';
-  name: string;
-  description: string;
-  image?: string;
-  sku?: string;
-  brand: {
-    '@type': 'Brand';
-    name: string;
-  };
-  offers:
-    | {
-        '@type': 'Offer';
-        priceCurrency: 'ARS';
-        price: number;
-        availability: string;
-      }
-    | {
-        '@type': 'AggregateOffer';
-        priceCurrency: 'ARS';
-        lowPrice: number;
-        highPrice: number;
-        offerCount: number;
-        availability: string;
-      };
-}
 
 @Component({
   selector: 'app-product-detail',
@@ -106,10 +74,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   public pricingConfigService = inject(PricingConfigService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private titleService = inject(Title);
-  private metaService = inject(Meta);
-  private document = inject(DOCUMENT);
-  private renderer = inject(Renderer2);
+  private seo = inject(ProductSeoService);
   private platformId = inject(PLATFORM_ID);
   private priceDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -164,11 +129,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     const p = this.product();
     const v = this.selectedVariant();
     if (!p || !v) return 0;
-    return this.cart.remainingPacks(
-      p.id,
-      Number(v.units_per_pack) || 1,
-      estimateStockUnits(p.variants ?? []),
-    );
+    return this.cart.remainingPacksOf(p, v);
   }
 
   constructor() {
@@ -219,139 +180,22 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     const v = this.selectedVariant();
     if (!p || !v || v.id !== variantId) return;
 
-    const cartQty =
-      this.cart.cartItems().find((i) => i.variantId === variantId)?.quantity ||
-      0;
-    const totalQty = Math.max(1, qty + cartQty);
-    const config =
-      this.pricingConfigService.pricingConfig() ?? p.pricing_config;
-
-    const result = calculateLocalPrice(
-      Number(p.cost_usd) || 0,
-      Number(p.units_per_pack_master) || 1,
-      Number(v.units_per_pack) || 1,
-      totalQty,
-      v.cost_currency,
-      config,
-      v.has_packaging,
+    const result = presentationPrice(
+      p,
+      v,
+      qty + this.cart.quantityOf(variantId),
+      this.pricingConfigService.pricingConfig(),
     );
 
     this.dynamicPriceArs.set(result.price_ars);
     this.dynamicPriceUsd.set(result.price_usd);
   }
 
-  private updateProductStructuredData(
-    data: Product,
-    metaDescription: string,
-    absoluteImageUrl: string,
-  ): void {
-    // También en el servidor: así el JSON-LD queda en el HTML prerenderizado (buscadores y
-    // asistentes que no ejecutan JS). En el navegador se reemplaza por id, sin duplicarse.
-    const scriptId = 'product-jsonld';
-    const existingScript = this.document.getElementById(scriptId);
-    if (existingScript?.parentNode) {
-      existingScript.parentNode.removeChild(existingScript);
-    }
-    const existingBreadcrumb =
-      this.document.getElementById('breadcrumb-jsonld');
-    if (existingBreadcrumb?.parentNode) {
-      existingBreadcrumb.parentNode.removeChild(existingBreadcrumb);
-    }
-
-    const variants = data.variants ?? [];
-    const offerCount = variants.length;
-    if (offerCount === 0) return;
-
-    const stockAvailable = variants.some((v) => (Number(v.stock) || 0) > 0);
-    const availability = stockAvailable
-      ? 'https://schema.org/InStock'
-      : 'https://schema.org/OutOfStock';
-
-    const baseSchema: ProductJsonLd = {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: data.name,
-      description: metaDescription,
-      sku: variants[0]?.sku,
-      brand: {
-        '@type': 'Brand',
-        name: 'Brotalia',
-      },
-      offers:
-        offerCount === 1
-          ? {
-              '@type': 'Offer',
-              priceCurrency: 'ARS',
-              price: Number(variants[0]?.price_ars) || 0,
-              availability,
-            }
-          : {
-              '@type': 'AggregateOffer',
-              priceCurrency: 'ARS',
-              lowPrice: Math.min(
-                ...variants.map((v) => Number(v.price_ars) || 0),
-              ),
-              highPrice: Math.max(
-                ...variants.map((v) => Number(v.price_ars) || 0),
-              ),
-              offerCount,
-              availability,
-            },
-    };
-
-    if (absoluteImageUrl) {
-      baseSchema.image = absoluteImageUrl;
-    }
-
-    const script = this.renderer.createElement('script');
-    this.renderer.setAttribute(script, 'type', 'application/ld+json');
-    this.renderer.setAttribute(script, 'id', scriptId);
-    this.renderer.appendChild(
-      script,
-      this.renderer.createText(JSON.stringify(baseSchema)),
-    );
-    this.renderer.appendChild(this.document.head, script);
-
-    const breadcrumbSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Inicio',
-          item: 'https://brotalia.com.ar/',
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Productos',
-          item: 'https://brotalia.com.ar/productos',
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: data.name,
-          item: `https://brotalia.com.ar/productos/${data.slug}`,
-        },
-      ],
-    };
-    const breadcrumbScript = this.renderer.createElement('script');
-    this.renderer.setAttribute(breadcrumbScript, 'type', 'application/ld+json');
-    this.renderer.setAttribute(breadcrumbScript, 'id', 'breadcrumb-jsonld');
-    this.renderer.appendChild(
-      breadcrumbScript,
-      this.renderer.createText(JSON.stringify(breadcrumbSchema)),
-    );
-    this.renderer.appendChild(this.document.head, breadcrumbScript);
-  }
-
   /** Al salir de la ficha, sus datos estructurados no deben quedar en el <head> de otra página. */
   ngOnDestroy(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     if (this.priceDebounceTimer) clearTimeout(this.priceDebounceTimer);
-    for (const id of ['product-jsonld', 'breadcrumb-jsonld'])
-      this.document.getElementById(id)?.remove();
+    this.seo.clearStructuredData();
   }
 
   retryLoad(): void {
@@ -383,75 +227,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
               (variant) => variant.units_per_pack === presentation,
             ) ?? null)
           : null;
-        const pageTitle = `Maceta Biodegradable ${data.name}${matchedVariant ? ` ${matchedVariant.units_per_pack} u.` : ''} | Brotalia`;
-        const fallbackDescription = matchedVariant
-          ? `Maceta biodegradable ${data.name} ${matchedVariant.units_per_pack} unidades, 100% compostable (turba, papel y cartón). Sin stress de trasplante, mayor crecimiento de raíces. Venta mayorista y minorista con envío a toda Argentina.`
-          : `Maceta biodegradable ${data.name}, 100% compostable (turba, papel y cartón). Sin stress de trasplante, mayor crecimiento de raíces. Venta mayorista y minorista con envío a toda Argentina.`;
-        const rawDescription =
-          typeof data.description === 'string' ? data.description.trim() : '';
-        const metaDescription =
-          rawDescription.length > 0 ? rawDescription : fallbackDescription;
-        const imageUrl = data.images?.[0]?.url ?? '';
-        const absoluteImageUrl = imageUrl
-          ? imageUrl.startsWith('http://') || imageUrl.startsWith('https://')
-            ? imageUrl
-            : `https://brotalia.com.ar${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`
-          : '';
-
-        this.titleService.setTitle(pageTitle);
-        this.metaService.updateTag({
-          name: 'description',
-          content: metaDescription,
-        });
-        this.metaService.updateTag({
-          property: 'og:title',
-          content: pageTitle,
-        });
-        this.metaService.updateTag({
-          property: 'og:description',
-          content: metaDescription,
-        });
-        this.metaService.updateTag({
-          property: 'og:url',
-          content: `https://brotalia.com.ar/productos/${slug}`,
-        });
-        this.metaService.updateTag({
-          name: 'twitter:title',
-          content: pageTitle,
-        });
-        this.metaService.updateTag({
-          name: 'twitter:description',
-          content: metaDescription,
-        });
-        const existingCanonical = this.document.head.querySelector(
-          'link[rel="canonical"]',
-        );
-        if (existingCanonical?.parentNode) {
-          existingCanonical.parentNode.removeChild(existingCanonical);
-        }
-        const canonical = this.renderer.createElement('link');
-        this.renderer.setAttribute(canonical, 'rel', 'canonical');
-        this.renderer.setAttribute(
-          canonical,
-          'href',
-          `https://brotalia.com.ar/productos/${slug}`,
-        );
-        this.renderer.appendChild(this.document.head, canonical);
-        if (absoluteImageUrl) {
-          this.metaService.updateTag({
-            property: 'og:image',
-            content: absoluteImageUrl,
-          });
-          this.metaService.updateTag({
-            name: 'twitter:image',
-            content: absoluteImageUrl,
-          });
-        }
-        this.updateProductStructuredData(
-          data,
-          metaDescription,
-          absoluteImageUrl,
-        );
+        this.seo.setProductPage(data, slug, matchedVariant);
 
         this.pricingConfigService.setPricingConfig(data.pricing_config);
         const firstVariant = data.variants?.[0] ?? null;
@@ -491,11 +267,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       },
       error: (err: { status?: number }) => {
         this.error.set(err?.status === 404 ? 'not-found' : 'network');
-        this.titleService.setTitle(
-          err?.status === 404
-            ? 'Producto no encontrado | Brotalia'
-            : 'Brotalia | Macetas Biodegradables',
-        );
+        this.seo.setErrorTitle(err?.status === 404);
         this.loading.set(false);
       },
     });
@@ -551,26 +323,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     if (!p || !v || !this.inStock) return;
     if (this.quantity() > this.maxQty) this.quantity.set(this.maxQty);
 
-    this.cart.add({
-      variantId: v.id,
-      productId: p.id,
-      productName: p.name,
-      slug: p.slug,
-      sku: v.sku,
-      price_ars: this.dynamicPriceArs(),
-      price_usd: this.dynamicPriceUsd(),
-      cost_currency: v.cost_currency,
-      cost_usd: v.cost_usd,
-      cost_usd_master: p.cost_usd,
-      quantity: this.quantity(),
-      imageUrl: p.images?.[0]?.url ?? '',
-      stock: v.stock,
-      units_per_pack: v.units_per_pack,
-      units_per_pack_master: p.units_per_pack_master,
-      has_packaging: v.has_packaging,
-      volume_cc: v.dimensions?.volume_cc,
-      product_volume_cc: p.volume_cc ?? null,
-    });
+    this.cart.add(
+      toCartItem(p, v, {
+        quantity: this.quantity(),
+        price_ars: this.dynamicPriceArs(),
+        price_usd: this.dynamicPriceUsd(),
+      }),
+    );
 
     this.added.set(true);
     setTimeout(() => this.added.set(false), 2000);
